@@ -12,6 +12,7 @@ import AndList from './pages/AndList';
 import AndDetail from './pages/and/AndDetail';
 import AndQna from './pages/and/AndQna';
 import AndQnaDetail from './pages/and/AndQnaDetail';
+import AndCreate from './pages/and/AndCreate';
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
         <Route path="/and/:andId" element={<AndDetail />} />
         <Route path="/and/:andId/qna/list" element={<AndQna />} />
         <Route path="/and/:andId/qna/:andQnaId" element={<AndQnaDetail />} />
-        <Route path="/and/create" element={<Login />} />
+        <Route path="/and/create" element={<AndCreate />} />
         <Route path="/crowd/list" element={<Login />} />
         <Route path="/crowd/create" element={<Login />} />
         <Route path="/team" element={<Login />} />
