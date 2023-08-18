@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
+import axios from "axios";
 
 const AndList = () => {
   const [andList, setAndList] = useState([]);
@@ -24,6 +25,20 @@ const AndList = () => {
     }
   };
 
+  const editAnd = (andId) => {
+    
+  };
+
+  const deleteAnd = async (andId) => {
+    try {
+      await axios.delete(`/and/${andId}/delete`);
+      console.log("Deleted and with ID:", andId);
+      fetchData(); 
+    } catch (error) {
+      console.error("deleting and:", error);
+    }
+  };
+
   return (
     <div>
       <h1>And List</h1>
@@ -41,6 +56,10 @@ const AndList = () => {
               <td>{and.andId}</td>
               <td><Link to={`/and/${and.andId}`}>{and.andTitle}</Link></td>
               <td>{and.andContent}</td>
+              <td>
+                <button onClick={() => editAnd(and.andId)}>edit</button>
+                <button onClick={() => deleteAnd(and.andId)}>delete</button>
+              </td>
             </tr>
           ))}
         </tbody>
