@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './pages/Login';
 import Navigation from './components/Navigation';
+import AndList from './pages/AndList';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/and/list" element={<Login />} />
+        <Route path="/and/list" element={<AndList />} />
         <Route path="/and/create" element={<Login />} />
         <Route path="/crowd/list" element={<Login />} />
         <Route path="/crowd/create" element={<Login />} />
