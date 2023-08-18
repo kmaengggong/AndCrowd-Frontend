@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const AndList = () => {
   const [andList, setAndList] = useState([]);
@@ -26,24 +28,24 @@ const AndList = () => {
   return (
     <div>
       <h1>And List</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>내용</th>
-          </tr>
-        </thead>
-        <tbody>
-          {andList.map((and) => (
-            <tr key={and.andId}>
-              <td>{and.andId}</td>
-              <td>{and.andTitle}</td>
-              <td>{and.andContent}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        <table>
+            <thead>
+                <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>내용</th>
+                </tr>
+            </thead>
+            <tbody>
+                {andList.map((and) => (
+                <tr key={and.andId}>
+                    <td>{and.andId}</td>
+                    <td><Link to={`/and/${and.andId}`}>{and.andTitle}</Link></td>
+                    <td>{and.andContent}</td>
+                </tr>
+                ))}
+            </tbody>
+        </table>
     </div>
   );
 };

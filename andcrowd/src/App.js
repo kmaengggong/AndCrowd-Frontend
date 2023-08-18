@@ -9,6 +9,9 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Navigation from './components/Navigation';
 import AndList from './pages/AndList';
+import AndDetail from './pages/and/AndDetail';
+import AndQna from './pages/and/AndQna';
+import AndQnaDetail from './pages/and/AndQnaDetail';
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/and/list" element={<AndList />} />
+        <Route path="/and/:andId" element={<AndDetail />} />
+        <Route path="/and/:andId/qna/list" element={<AndQna />} />
+        <Route path="/and/:andId/qna/:andQnaId" element={<AndQnaDetail />} />
         <Route path="/and/create" element={<Login />} />
         <Route path="/crowd/list" element={<Login />} />
         <Route path="/crowd/create" element={<Login />} />
