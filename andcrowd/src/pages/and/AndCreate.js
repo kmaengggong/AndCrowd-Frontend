@@ -45,10 +45,7 @@ function AndCreate() {
     <>
         <form onSubmit={handleSubmit}>
             <div>
-            {/* 각 input 요소에 name 속성을 추가하고 handleInputChange 함수를 이용해 값을 업데이트 */}
-            <input type="text" name="userId" value={formData.userId} onChange={handleInputChange} placeholder="회원번호" />
-            {/* 나머지 input 요소도 같은 방식으로 수정 */}
-
+                <input type="text" name="userId" value={formData.userId} onChange={handleInputChange} placeholder="회원번호" />
                 <input type="text" name="andCategoryId" value={formData.andCategoryId} onChange={handleInputChange} placeholder="카테고리" />
                 <input type="text" name="andTitle" value={formData.andTitle} onChange={handleInputChange} placeholder="제목" />
                 <input type="text" name="andContent" value={formData.andContent} onChange={handleInputChange} placeholder="내용" />
@@ -59,7 +56,7 @@ function AndCreate() {
             </div>
             <div id="submit_btn">
                 <button type="submit">저장</button>
-                <button type="submit">다음</button>
+                <button type="">다음</button>
             </div>
             </form>
     </>
