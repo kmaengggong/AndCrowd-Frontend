@@ -35,8 +35,8 @@ const AndList = () => {
           </tr>
         </thead>
         <tbody>
-          {andList.map((and, index) => (
-            <tr key={index}>
+          {andList.map((and) => (
+            <tr key={and.andId}>
               <td>{and.andId}</td>
               <td>{and.andTitle}</td>
               <td>{and.andContent}</td>
