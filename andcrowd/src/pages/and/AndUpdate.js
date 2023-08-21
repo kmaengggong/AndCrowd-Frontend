@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 
 const AndUpdate = () => {
+  
   const params = useParams();
   const andId = params.andId;
 
@@ -14,6 +15,7 @@ const AndUpdate = () => {
     needNumMem: "",
     andHeaderImg: "",
   });
+  
 
   useEffect(() => {
     fetchData();
@@ -42,6 +44,7 @@ const AndUpdate = () => {
       [name]: value,
     });
   };
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -51,7 +54,7 @@ const AndUpdate = () => {
 
     try {
       const response = await fetch(`/and/${andId}/update`, {
-        method: "PUT",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -60,6 +63,7 @@ const AndUpdate = () => {
 
       if (response.ok) {
         // 성공적으로 데이터 전송 및 처리되었을 때의 코드
+        navigate(`/and/${andId}`);
       } else {
         throw new Error(`Request failed with status ${response.status}`);
       }
