@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
-function AndCreate() {
+const AndCreate = () => {
+
   const [formData, setFormData] = useState({
     userId: "",
     andCategoryId: "",
     andTitle: "",
     andContent: "",
     andEndDate: "",
-    neednummem: "",
+    needNumMem: "",
     andHeaderImg: "",
   });
 
@@ -50,7 +51,7 @@ function AndCreate() {
                 <input type="text" name="andTitle" value={formData.andTitle} onChange={handleInputChange} placeholder="제목" />
                 <input type="text" name="andContent" value={formData.andContent} onChange={handleInputChange} placeholder="내용" />
                 <input type="datetime-local" name="andEndDate" value={formData.andEndDate} onChange={handleInputChange} placeholder="마감일" />
-                <input type="text" name="neednummem" value={formData.neednummem} onChange={handleInputChange} placeholder="모집인원" />
+                <input type="text" name="needNumMem" value={formData.needNumMem} onChange={handleInputChange} placeholder="모집인원" />
                 <input type="text" name="andHeaderImg" value={formData.andHeaderImg} onChange={handleInputChange} placeholder="대표 이미지" />
 
             </div>

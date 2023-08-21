@@ -43,6 +43,8 @@ return (
                 <th>번호</th>
                 <th>제목</th>
                 <th>내용</th>
+                <th>작성일</th>
+                <th>수정일</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,10 +53,13 @@ return (
                     <td>{andQna.andQnaId}</td>
                     <td><Link to={`/and/${andId}/qna/${andQna.andQnaId}`}>{andQna.andQnaTitle}</Link></td>
                     <td>{andQna.andQnaContent}</td>
+                    <td>{andQna.publishedAt}</td>
+                    <td>{andQna.updatedAt}</td>
                 </tr>
                 ))}
             </tbody>
         </table>
+        <Link to={`/and/${andId}/qna/create`}>문의글 작성</Link>
     </div>
     );
 };

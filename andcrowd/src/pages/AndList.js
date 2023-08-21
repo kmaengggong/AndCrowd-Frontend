@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
-import axios from "axios";
+import { Link, useNavigate } from 'react-router-dom';
 
 const AndList = () => {
   const [andList, setAndList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -25,19 +25,6 @@ const AndList = () => {
     }
   };
 
-  const editAnd = (andId) => {
-    
-  };
-
-  const deleteAnd = async (andId) => {
-    try {
-      await axios.delete(`/and/${andId}/delete`);
-      console.log("Deleted and with ID:", andId);
-      fetchData(); 
-    } catch (error) {
-      console.error("deleting and:", error);
-    }
-  };
 
   return (
     <div>
@@ -57,8 +44,7 @@ const AndList = () => {
               <td><Link to={`/and/${and.andId}`}>{and.andTitle}</Link></td>
               <td>{and.andContent}</td>
               <td>
-                <button onClick={() => editAnd(and.andId)}>edit</button>
-                <button onClick={() => deleteAnd(and.andId)}>delete</button>
+
               </td>
             </tr>
           ))}

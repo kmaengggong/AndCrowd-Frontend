@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 
 const AndQnaDetail = () => {
   const params = useParams();
   const andId = params.andId;
   const andQnaId = params.andQnaId;
+
+  const navigate = useNavigate();
+
 
   const [andQna, setAndQna] = useState({});
 
@@ -30,6 +34,20 @@ const AndQnaDetail = () => {
     }
   };
 
+  const deleteAndQna = async (andId, andQnaId) => {
+    try {
+      await axios.delete(`/and/${andId}/qna/${andQnaId}/delete`);
+      console.log("Deleted and with ID:", andQnaId);
+      navigate(`/and/${andId}/qna/list`);
+    } catch (error) {
+      console.error("error in deleting and:", error);
+    }
+  };
+
+  const updateAndQna = (andId, andQnaId) => {
+    navigate(`/and/${andId}/qna/${andQnaId}/update`);
+  };
+
 
   return (
     <div>
@@ -37,6 +55,8 @@ const AndQnaDetail = () => {
         <h4>제목: {andQna.andQnaTitle}</h4>
         <p>본문: {andQna.andQnaContent}</p>
         <br />
+        <button onClick={() => deleteAndQna(andId, andQnaId)}>delete</button>
+        <button onClick={() => updateAndQna(andId, andQnaId)}>update</button>
       </div>
     </div>
   );
