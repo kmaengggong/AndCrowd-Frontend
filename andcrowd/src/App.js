@@ -17,6 +17,9 @@ import AndUpdate from './pages/and/AndUpdate';
 import AndQnaCreate from './pages/and/AndQnaCreate';
 import AndQnaUpdate from './pages/and/AndQnaUpdate';
 import AndScroll from './pages/and/AndScroll';
+import AndReplyUpdate from './pages/and/AndReplyUpdate';
+import AndReplyCreate from './pages/and/AndReplyCreate';
+
 
 function App() {
   return (
@@ -34,6 +37,8 @@ function App() {
         <Route path="/and/:andId/qna/create" element={<AndQnaCreate />} />
         <Route path="/and/:andId/qna/:andQnaId" element={<AndQnaDetail />} />
         <Route path="/and/:andId/qna/:andQnaId/update" element={<AndQnaUpdate />} />
+        <Route path="/and/:andId/qna/reply/:andQnaId/:andQnaReplyId/update" element={<AndReplyUpdate />} />
+        <Route path="/and/:andId/qna/reply/:andQnaId/create" element={<AndReplyCreate />} />
         <Route path="/and/create" element={<AndCreate />} />
         <Route path="/crowd/list" element={<Login />} />
         <Route path="/crowd/create" element={<Login />} />
