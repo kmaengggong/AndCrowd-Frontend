@@ -7,6 +7,7 @@ import NotFound from './components/NotFound';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './components/Login';
+import CrowdBoard from './components/CrowdBoard';
 
 function App() {
   // const [message, setMessage] = useState([]);
@@ -31,6 +32,7 @@ function App() {
       <BrowserRouter>
       <Header />
         <Routes>
+          <Route path="/crowd/:crowdId/board/all" element={<CrowdBoard />} />
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<NotFound />} />
