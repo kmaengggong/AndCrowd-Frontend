@@ -65,7 +65,9 @@ const AndDetail = () => {
       <Link to={`/and/${and.andId}/qna/list`}>
         <button>qna</button>
         </Link>
-        <button>게시판</button>
+        <Link to={`/and/${and.andId}/board/list`}>
+        <button>board</button>
+        </Link>
       </div>
     </div>
   );
