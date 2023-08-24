@@ -7,7 +7,8 @@ import NotFound from './components/NotFound';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './components/Login';
-import CrowdBoard from './components/CrowdBoard';
+import CrowdBoardFindAll from './crowd/CrowdBoardFindAll';
+import CrowdBoardFindById from "./crowd/CrowdBoardFindById";
 
 function App() {
   // const [message, setMessage] = useState([]);
@@ -32,7 +33,8 @@ function App() {
       <BrowserRouter>
       <Header />
         <Routes>
-          <Route path="/crowd/:crowdId/board/all" element={<CrowdBoard />} />
+          <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardFindAll />} />
+          <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardFindById />} />
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<NotFound />} />
