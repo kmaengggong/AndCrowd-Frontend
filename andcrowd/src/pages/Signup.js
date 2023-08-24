@@ -98,7 +98,7 @@ const Signup = () => {
       else{
         setIsPasswordEqual(false);
       }
-    })
+    }, [password, passwordCheck]);
 
     const onFormSubmit = (event) => {
         event.preventDefault();
