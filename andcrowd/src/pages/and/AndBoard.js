@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 const AndBoard = () => {
   const params = useParams();
   const andId = params.andId;
-
+  const andBoardId = params.andBoardId;
   const [andBoardList, setAndBoardList] = useState([]);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const AndBoard = () => {
         <tbody>
           {andBoardList.map((andBoard) => (
             <tr key={andBoard.andBoardId}>
-              <td>{andBoard.andBoardId}</td>
+              <td>{andBoard.andId}</td>
               <td>
                 <Link to={`/and/${andId}/board/${andBoard.andBoardId}`}>
                   {andBoard.andBoardTitle}
