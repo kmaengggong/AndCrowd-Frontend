@@ -15,6 +15,7 @@
 // export default Header;
 
 import * as React from 'react';
+// import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
@@ -44,6 +45,7 @@ const Header = (props) => {
           sx={{ flex: 1 }}
         >
           <Link
+            color="text.primary"
             href="/"
           >
             {title}
@@ -53,23 +55,29 @@ const Header = (props) => {
         <IconButton>
           <SearchIcon />
         </IconButton>
+        <Button href="/login" variant="outlined" size="small" sx={{ml:1, mr:1}}>
+          Log in
+        </Button>
         <Button href="/signup" variant="outlined" size="small">
           Sign up
         </Button>
       </Toolbar>
       <Toolbar
-        component="nav"
-        variant="dense"
-        sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
+        sx={{ borderBottom: 1, borderColor: 'divider' }}
+        // sx={{flexWrap:'wrap'}}
+        // component="nav"
+        // variant="regular"
+        // sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
       >
         {sections.map((section) => (
           <Link
-            color="inherit"
+            color="text.primary"
             noWrap
             key={section.title}
-            variant="body2"
+            variant="h6"
             href={section.url}
-            sx={{ p: 1, flexShrink: 0 }}
+            sx={{my:1, mx:1.5}}
+            // sx={{ p: 1, flexShrink: 0 }}
           >
             {section.title}
           </Link>
