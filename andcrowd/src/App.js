@@ -19,6 +19,10 @@ import AndQnaUpdate from './pages/and/AndQnaUpdate';
 import AndScroll from './pages/and/AndScroll';
 import AndReplyUpdate from './pages/and/AndReplyUpdate';
 import AndReplyCreate from './pages/and/AndReplyCreate';
+import AndApplicant from './pages/and/AndApplicant';
+import AndApplicantCreate from './pages/and/AndApplicantCreate';
+import AndApplicantUpdate from './pages/and/AndApplicantUpdate';
+import AndApplicantDetail from './pages/and/AndApplicantDetail';
 
 
 function App() {
@@ -33,13 +37,17 @@ function App() {
         <Route path="/and/scroll/:categoryId/:andStatus/:sortField/:sortOrder" element={<AndScroll />} />
         <Route path="/and/:andId" element={<AndDetail />} />
         <Route path="/and/:andId/update" element={<AndUpdate />} />
+        <Route path="/and/create" element={<AndCreate />} />
         <Route path="/and/:andId/qna/list" element={<AndQna />} />
         <Route path="/and/:andId/qna/create" element={<AndQnaCreate />} />
         <Route path="/and/:andId/qna/:andQnaId" element={<AndQnaDetail />} />
         <Route path="/and/:andId/qna/:andQnaId/update" element={<AndQnaUpdate />} />
         <Route path="/and/:andId/qna/reply/:andQnaId/:andQnaReplyId/update" element={<AndReplyUpdate />} />
         <Route path="/and/:andId/qna/reply/:andQnaId/create" element={<AndReplyCreate />} />
-        <Route path="/and/create" element={<AndCreate />} />
+        <Route path="/and/:andId/applicant/list" element={<AndApplicant />} />
+        <Route path="/and/:andId/applicant/create" element={<AndApplicantCreate />} />
+        <Route path="/and/:andId/applicant/:andApplyId/update" element={<AndApplicantUpdate />} />
+        <Route path="/and/:andId/applicant/:andApplyId" element={<AndApplicantDetail />} />
         <Route path="/crowd/list" element={<Login />} />
         <Route path="/crowd/create" element={<Login />} />
         <Route path="/team" element={<Login />} />

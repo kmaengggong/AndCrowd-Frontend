@@ -50,7 +50,7 @@ const AndQnaUpdate = () => {
         console.log("formdata:", formData); // 전달 값 확인
 
             const response = await fetch(`/and/${andId}/qna/${andQnaId}/update`, {
-                method: "PUT",
+                method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
                 },

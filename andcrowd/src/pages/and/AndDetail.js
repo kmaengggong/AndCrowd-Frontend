@@ -47,6 +47,13 @@ const AndDetail = () => {
     }
   };
 
+  const applyAnd = (andId) => {
+    navigate(`/and/${andId}/applicant/create`);
+  };
+
+  const applicantList = (andId) => {
+    navigate(`/and/${andId}/applicant/list`);
+  };
 
   return (
     <div>
@@ -57,7 +64,8 @@ const AndDetail = () => {
         <button onClick={() => updateAnd(and.andId)}>edit</button>
         <button onClick={() => deleteAnd(and.andId)}>delete</button>
         <br />
-        <br />
+        <button onClick={() => applyAnd(and.andId)}>apply</button>
+        <button onClick={() => applicantList(and.andId)}>apply List</button>
         <hr />
         <br />
       </div>
