@@ -49,6 +49,12 @@ const AndQnaDetail = () => {
   };
 
 
+    if (andQna.deleted === true) {
+      alert("이 글은 삭제되었습니다.");
+      window.location.href = `/and/${andId}/qna/list`;
+    };
+
+
   return (
     <div>
       <div> 

@@ -32,7 +32,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/and/list" element={<AndList />} />
-        <Route path="/and/scroll/:categoryId/:andStatus/:sortField/:sortOrder" element={<AndScroll />} />
+        <Route path="/and/scroll" element={<AndScroll />} />
         <Route path="/and/:andId" element={<AndDetail />} />
         <Route path="/and/:andId/update" element={<AndUpdate />} />
         <Route path="/and/:andId/qna/list" element={<AndQna />} />
