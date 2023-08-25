@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 
 const AndCreate = () => {
-  const params = useParams();
-  const andId = params.andId;
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 페이지 이동 함수를 가져옵니다.
 
   const [formData, setFormData] = useState({
@@ -46,10 +44,10 @@ const AndCreate = () => {
     }
   };
 
-  useEffect(() => {
-    // 필요한 데이터를 가져오는 로직을 추가하세요.
-    // fetchData();
-  }, [andId]);
+  // useEffect(() => {
+  //   // 필요한 데이터를 가져오는 로직을 추가하세요.
+  //   // fetchData();
+  // }, [andId]);
 
   // "다음" 버튼 클릭 시 실행될 함수
   const handleNextButtonClick = async () => {
@@ -65,6 +63,10 @@ const AndCreate = () => {
       if (response.ok) {
         // 성공적으로 데이터 전송 및 처리되었을 때의 코드
         // 데이터를 저장하고 이동할 경로를 지정합니다.
+        const responseData = await response.json();
+        const andId = responseData; // 응답 데이터에서 andId 값을 추출
+        console.log("Created andId:", andId);
+
         navigate(`/andRole/${andId}/create`);
       } else {
         throw new Error(`Request failed with status ${response.status}`);
