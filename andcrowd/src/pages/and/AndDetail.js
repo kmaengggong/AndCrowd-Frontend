@@ -47,12 +47,18 @@ const AndDetail = () => {
     }
   };
 
+
   const applyAnd = (andId) => {
     navigate(`/and/${andId}/applicant/create`);
   };
 
   const applicantList = (andId) => {
     navigate(`/and/${andId}/applicant/list`);
+
+  if (and.deleted === true) {
+    alert("이 글은 삭제되었습니다.");
+    window.location.href = `/and/list`;
+
   };
 
   return (
@@ -73,7 +79,12 @@ const AndDetail = () => {
       <Link to={`/and/${and.andId}/qna/list`}>
         <button>qna</button>
         </Link>
-        <button>게시판</button>
+        <Link to={`/and/${and.andId}/board/list`}>
+        <button>board</button>
+        </Link>
+        <Link to={`/and/${and.andId}/role/list`}>
+        <button>role</button>
+        </Link>
       </div>
     </div>
   );
