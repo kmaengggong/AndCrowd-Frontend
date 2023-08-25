@@ -34,7 +34,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/user/*" element={<MyPage />} />
+            <Route path="/user/:userId" element={<MyPage />} />
             <Route path="/and/list" element={<AndList />} />
             <Route path="/and/create" element={<Login />} />
             <Route path="/crowd/list" element={<CrowdList />} />

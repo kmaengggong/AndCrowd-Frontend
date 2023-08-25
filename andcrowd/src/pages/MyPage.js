@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useEffect, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,13 +18,33 @@ import Stack from '@mui/material/Stack';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import UserAndSimple from '../components/user/UserAndSimple';
+import { useParams } from 'react-router';
 
 const defaultTheme = createTheme();
 
 const MyPage = () => {
+    const params = useParams();
+    const userId = params.userId;
+    const [isUserExist, setUseExist] = useState(false);
     const andCards = [1, 2, 3];
     const crowdCards = [1, 2, 3];
     const likeCards = [1, 2, 3];
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try{
+            const res = await fetch(`/${userId}`);
+            if(!res.ok){
+                
+            }
+        } catch(error){
+            console.error("Error: User Fetching");
+        }
+    }
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -42,7 +62,6 @@ const MyPage = () => {
             >
                 <Avatar
                     alt="Tlqkf dho dksskdhk"
-                    src="./Tlqfk.jpg"
                     sx={{width:50, height:50}}
                 />
                 <Button
@@ -74,51 +93,21 @@ const MyPage = () => {
                     >
                     </Box>
                     <Container maxWidth="md">
-                    {/* End hero unit */}
                     <Box
                         sx={{
                             display: 'flex',
-                            alignItems: 'center'    
+                            alignItems: 'center'
                         }}
                     >
                         <Grid item sm={10}>
-                            <Typography variant='h5'>모임</Typography>
+                            <h2>모임</h2>
                         </Grid>
                         <Grid item sm={2}>
                             <Button href="#">자세히</Button>
                         </Grid>
                     </Box>
-                    <Grid container spacing={4}>
-                        {andCards.map((card) => (
-                        <Grid item key={card} xs={12} sm={6} md={4}>
-                            <Card
-                            sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                            >
-                            <CardMedia
-                                component="div"
-                                sx={{
-                                // 16:9
-                                pt: '56.25%',
-                                }}
-                                image="https://source.unsplash.com/random?wallpapers"
-                            />
-                            <CardContent sx={{ flexGrow: 1 }}>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                Heading
-                                </Typography>
-                                <Typography>
-                                This is a media card. You can use this section to describe the
-                                content.
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small">View</Button>
-                                <Button size="small">Edit</Button>
-                            </CardActions>
-                            </Card>
-                        </Grid>
-                        ))}
-                    </Grid>
+                    <UserAndSimple userId={userId} />
+
                     <Box
                         sx={{
                             mt: 5,
@@ -133,37 +122,7 @@ const MyPage = () => {
                             <Button href="#">자세히</Button>
                         </Grid>
                     </Box>
-                    <Grid container spacing={4}>
-                        {crowdCards.map((card) => (
-                        <Grid item key={card} xs={12} sm={6} md={4}>
-                            <Card
-                            sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                            >
-                            <CardMedia
-                                component="div"
-                                sx={{
-                                // 16:9
-                                pt: '56.25%',
-                                }}
-                                image="https://source.unsplash.com/random?wallpapers"
-                            />
-                            <CardContent sx={{ flexGrow: 1 }}>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                Heading
-                                </Typography>
-                                <Typography>
-                                This is a media card. You can use this section to describe the
-                                content.
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                <Button size="small">View</Button>
-                                <Button size="small">Edit</Button>
-                            </CardActions>
-                            </Card>
-                        </Grid>
-                        ))}
-                    </Grid>
+
                     <Box
                         sx={{
                             mt: 5,
