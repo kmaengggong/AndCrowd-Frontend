@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AndScroll = () => {
   const [data, setData] = useState([]);
@@ -136,7 +137,7 @@ const AndScroll = () => {
             <br/>
             <li>글번호: {item.andId}</li>
             <br/>
-            <li>제목: {item.andTitle}</li>
+            <li><Link to={`/and/${item.andId}`}>제목: {item.andTitle}</Link></li>
             <br/>
             <li>카테고리: {item.andCategoryId}</li>
             <br/>

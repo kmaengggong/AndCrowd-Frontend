@@ -33,16 +33,14 @@ const AndRole = () => {
         <thead>
           <tr>
             <th>역할 ID</th>
-            <th>And ID</th>
             <th>역할</th>
-            <th>역할 제한</th>
+            <th>필요인원</th>
           </tr>
         </thead>
         <tbody>
           {andRoleList.map((andRole) => (
             <tr key={andRole.andRoleId}>
               <td>{andRole.andRoleId}</td>
-              <td>{andRole.andId}</td>
               <td><Link to={`/and/${andId}/role/${andRole.andRoleId}`}>{andRole.andRole}</Link></td>
               <td>{andRole.andRoleLimit}</td>
             </tr>

@@ -18,7 +18,7 @@ const AndRoleDetail = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(`/and/${andId}/role/${andRoleId}`);
-
+      console.log("response:", response);
       if (response.ok) {
         const data = await response.json();
         setAndRole(data);
@@ -53,7 +53,7 @@ const AndRoleDetail = () => {
     <div>
       <div> 
         <h4>역할: {andRole.andRole}</h4>
-        <p>역할 제한: {andRole.andRoleLimit}</p>
+        <p>필요 인원: {andRole.andRoleLimit}</p>
         <br />
         <button onClick={() => deleteAndRole(andId, andRoleId)}>Delete</button>
         <button onClick={() => updateAndRole(andId, andRoleId)}>Update</button>

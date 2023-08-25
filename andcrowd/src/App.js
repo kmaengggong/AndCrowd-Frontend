@@ -49,8 +49,8 @@ function App() {
         <Route path="/and/:andId/board/:andBoardId/update" element={<AndBoardUpdate />} />
         <Route path="/and/:andId/role/list" element={<AndRole />} />
         <Route path="/and/:andId/role/create" element={<AndRoleCreate />} />
-        <Route path="/and/:andId/role/:andBoardId" element={<AndRoleDetail />} />
-        <Route path="/and/:andId/role/:andBoardId/update" element={<AndRoleUpdate />} />
+        <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
+        <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
         <Route path="/and/create" element={<AndCreate />} />
         <Route path="/crowd/list" element={<Login />} />
         <Route path="/crowd/create" element={<Login />} />
