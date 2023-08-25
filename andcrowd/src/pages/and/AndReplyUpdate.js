@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const AndQnaUpdate = () => {
+const AndReplyUpdate = () => {
   const params = useParams();
   const andId = params.andId;
   const andQnaId = params.andQnaId;
+  const andQnaReplyId = params.andQnaReplyId;
 
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     andId: andId,
     andQnaId: andQnaId,
+    andQnaReplyId: andQnaReplyId,
     userId: "",
-    andQnaTitle: "",
-    andQnaContent: "",
+    andReplyContent: "",
     });
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const AndQnaUpdate = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`/and/${andId}/qna/${andQnaId}`);
+      const response = await fetch(`/and/${andId}/qna/reply/${andQnaReplyId}`);
       
       if (response.ok) {
         const data = await response.json();
@@ -49,7 +50,7 @@ const AndQnaUpdate = () => {
 
         console.log("formdata:", formData); // 전달 값 확인
 
-            const response = await fetch(`/and/${andId}/qna/${andQnaId}/update`, {
+            const response = await fetch(`/and/${andId}/qna/reply/${andQnaId}/${andQnaReplyId}/update`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -57,16 +58,15 @@ const AndQnaUpdate = () => {
                 body: JSON.stringify(formData),
             });
 
-            navigate(`/and/${andId}/qna/list`);
+            navigate(`/and/${andId}/qna/${andQnaId}`);
     };
 
   return (
     <>
         <form onSubmit={handleSubmit}>
             <div>
-                <input type="text" name="userId" value={formData.userId} onChange={handleInputChange} placeholder="회원번호" />
-                <input type="text" name="andQnaTitle" value={formData.andQnaTitle} onChange={handleInputChange} placeholder="제목" />
-                <input type="text" name="andQnaContent" value={formData.andQnaContent} onChange={handleInputChange} placeholder="내용" />
+                <input type="text" name="userId" value={formData.userId} onChange={handleInputChange} placeholder="회원번호" readOnly/>
+                <input type="text" name="andReplyContent" value={formData.andReplyContent} onChange={handleInputChange} placeholder="답변내용" />
             </div>
             <div id="submit_btn">
                 <button type="submit">저장</button>
@@ -77,4 +77,4 @@ const AndQnaUpdate = () => {
 };
 
 
-export default AndQnaUpdate;
+export default AndReplyUpdate;

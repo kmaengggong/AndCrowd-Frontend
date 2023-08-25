@@ -47,9 +47,18 @@ const AndDetail = () => {
     }
   };
 
+
+  const applyAnd = (andId) => {
+    navigate(`/and/${andId}/applicant/create`);
+  };
+
+  const applicantList = (andId) => {
+    navigate(`/and/${andId}/applicant/list`);
+
   if (and.deleted === true) {
     alert("이 글은 삭제되었습니다.");
     window.location.href = `/and/list`;
+
   };
 
   return (
@@ -61,7 +70,8 @@ const AndDetail = () => {
         <button onClick={() => updateAnd(and.andId)}>edit</button>
         <button onClick={() => deleteAnd(and.andId)}>delete</button>
         <br />
-        <br />
+        <button onClick={() => applyAnd(and.andId)}>apply</button>
+        <button onClick={() => applicantList(and.andId)}>apply List</button>
         <hr />
         <br />
       </div>
