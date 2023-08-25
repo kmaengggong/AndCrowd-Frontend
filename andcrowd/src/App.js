@@ -3,6 +3,7 @@ import './App.css';
 import React, {useState, useEffect} from 'react';
 import {Routes, Route, Link} from 'react-router-dom';
 import Home from './pages/Home';
+import Test from './pages/Test';
 import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -25,14 +26,23 @@ import AndRole from './pages/and/AndRole';
 import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
+import Signup from './pages/Signup';
 
+const sections = [
+  {title: '홈', url: ''},
+  {title: '모임', url: 'and/list'},
+  {title: '펀딩', url: 'crowd/list'},
+  {title: '팀소개', url: 'team'},
+  {title: '도움말', url: 'help'},
+];
 
 function App() {
   return (
     <div className='App'>
-      <Header />
+      <Header title="&Crowd" sections={sections} />
       <Navigation />
       <Routes>
+        <Route path="/user/1/and" element={<Test />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/and/list" element={<AndList />} />
@@ -52,13 +62,17 @@ function App() {
         <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
         <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
         <Route path="/and/create" element={<AndCreate />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/crowd/list" element={<Login />} />
         <Route path="/crowd/create" element={<Login />} />
         <Route path="/team" element={<Login />} />
         <Route path="/help" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Footer />
+      <Footer
+        title="&Crowd"
+        description="you And me make a Crowd"
+      />
     </div>
   );
 }
