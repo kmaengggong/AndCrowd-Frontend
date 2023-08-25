@@ -54,6 +54,7 @@ const AndDetail = () => {
 
   const applicantList = (andId) => {
     navigate(`/and/${andId}/applicant/list`);
+  };
 
   if (and.deleted === true) {
     alert("이 글은 삭제되었습니다.");
