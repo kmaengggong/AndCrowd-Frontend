@@ -9,6 +9,7 @@ const AndScroll = () => {
   const [sortField, setSortField] = useState('');
   const [andStatus, setAndStatus] = useState('');
   const [sortOrder, setSortOrder] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -19,6 +20,7 @@ const AndScroll = () => {
   }, [pageNumber, categoryId, andStatus, sortField, sortOrder]);
   
   const fetchData = async () => {
+    setIsLoading(true);
     try {
       const params = new URLSearchParams({
         page: pageNumber,
@@ -34,17 +36,20 @@ const AndScroll = () => {
 
       console.log('jsonData:', jsonData);
 
-      // 다음 페이지가 있는지 여부를 업데이트
-      setIsLastPage(jsonData.last);
-
       // 검색 기준이 변경되었을 때, 기존 데이터 초기화
       if (pageNumber === 0) {
         setData(jsonData.content);
       } else {
         setData(prevData => [...prevData, ...jsonData.content]);
       }
+
+      //다음 페이지가 있는지 여부를 업데이트
+      setIsLastPage(jsonData.last);
+
     } catch (error) {
     console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -56,6 +61,7 @@ const AndScroll = () => {
 
   const handleCategoryChange = (newCategoryId) => {
     setCategoryId(newCategoryId);
+    setIsLastPage(false);
     setPageNumber(0); // 페이지 번호 초기화
     setData([]); // 기존 데이터 초기화
     fetchData(); // 새로운 정렬 기준으로 데이터 불러오기
@@ -63,6 +69,7 @@ const AndScroll = () => {
 
   const handleSortFieldChange = (newSortField) => {
     setSortField(newSortField);
+    setIsLastPage(false);
     setPageNumber(0);
     setData([]);
     fetchData();
@@ -70,6 +77,7 @@ const AndScroll = () => {
 
   const handleSortOrderChange = (newSortOrder) => {
     setSortOrder(newSortOrder);
+    setIsLastPage(false);
     setPageNumber(0);
     setData([]); 
     fetchData(); 
@@ -95,6 +103,7 @@ const AndScroll = () => {
           <option value="3">3번</option>
           <option value="4">4번</option>
           <option value="5">5번</option>
+          <option value="6">6번</option>
         </select>
       </div>
 
@@ -148,6 +157,13 @@ const AndScroll = () => {
         <div>데이터가 없습니다.</div>
       )}
     
+      {/* 로딩 중 메시지 표시 */}
+      {isLoading && (
+        <div style={{ textAlign: 'center', margin: '20px' }}>
+          <p>Loading...</p>
+        </div>
+      )}
+
       {isLastPage && (
         <div style={{ textAlign: 'center', margin: '20px' }}>
           <p>마지막 페이지입니다.</p>
