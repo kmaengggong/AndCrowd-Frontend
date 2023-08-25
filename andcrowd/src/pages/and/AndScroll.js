@@ -35,7 +35,7 @@ const AndScroll = () => {
       console.log('jsonData:', jsonData);
 
       // 다음 페이지가 있는지 여부를 업데이트
-      setIsLastPage(jsonData.last);
+      
 
       // 검색 기준이 변경되었을 때, 기존 데이터 초기화
       if (pageNumber === 0) {
@@ -43,9 +43,11 @@ const AndScroll = () => {
       } else {
         setData(prevData => [...prevData, ...jsonData.content]);
       }
+      setIsLastPage(jsonData.last);
     } catch (error) {
     console.error('Error fetching data:', error);
     }
+    
   };
 
   const handleLoadMore = () => {
@@ -56,6 +58,7 @@ const AndScroll = () => {
 
   const handleCategoryChange = (newCategoryId) => {
     setCategoryId(newCategoryId);
+    setIsLastPage(false);
     setPageNumber(0); // 페이지 번호 초기화
     setData([]); // 기존 데이터 초기화
     fetchData(); // 새로운 정렬 기준으로 데이터 불러오기
