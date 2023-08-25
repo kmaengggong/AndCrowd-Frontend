@@ -62,7 +62,7 @@ const AndScroll = () => {
 
   const handleCategoryChange = (newCategoryId) => {
     setCategoryId(newCategoryId);
-    setIsLastPage(false);
+    isLastPage=false;
     setPageNumber(0); // 페이지 번호 초기화
     setData([]); // 기존 데이터 초기화
     fetchData(); // 새로운 정렬 기준으로 데이터 불러오기

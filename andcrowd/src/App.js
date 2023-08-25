@@ -21,6 +21,10 @@ import AndBoard from './pages/and/AndBoard';
 import AndBoardDetail from './pages/and/AndBoardDetail';
 import AndBoardCreate from './pages/and/AndBoardCreate';
 import AndBoardUpdate from './pages/and/AndBoardUpdate';
+import AndRole from './pages/and/AndRole';
+import AndRoleDetail from './pages/and/AndRoleDetail';
+import AndRoleCreate from './pages/and/AndRoleCreate';
+import AndRoleUpdate from './pages/and/AndRoleUpdate';
 
 
 function App() {
@@ -43,6 +47,10 @@ function App() {
         <Route path="/and/:andId/board/create" element={<AndBoardCreate />} />
         <Route path="/and/:andId/board/:andBoardId" element={<AndBoardDetail />} />
         <Route path="/and/:andId/board/:andBoardId/update" element={<AndBoardUpdate />} />
+        <Route path="/and/:andId/role/list" element={<AndRole />} />
+        <Route path="/and/:andId/role/create" element={<AndRoleCreate />} />
+        <Route path="/and/:andId/role/:andBoardId" element={<AndRoleDetail />} />
+        <Route path="/and/:andId/role/:andBoardId/update" element={<AndRoleUpdate />} />
         <Route path="/and/create" element={<AndCreate />} />
         <Route path="/crowd/list" element={<Login />} />
         <Route path="/crowd/create" element={<Login />} />

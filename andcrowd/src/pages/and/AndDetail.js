@@ -72,6 +72,9 @@ const AndDetail = () => {
         <Link to={`/and/${and.andId}/board/list`}>
         <button>board</button>
         </Link>
+        <Link to={`/and/${and.andId}/role/list`}>
+        <button>role</button>
+        </Link>
       </div>
     </div>
   );

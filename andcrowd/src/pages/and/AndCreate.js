@@ -67,7 +67,7 @@ const AndCreate = () => {
         const andId = responseData; // 응답 데이터에서 andId 값을 추출
         console.log("Created andId:", andId);
 
-        navigate(`/andRole/${andId}/create`);
+        navigate(`/and/${andId}/role/create`);
       } else {
         throw new Error(`Request failed with status ${response.status}`);
       }
