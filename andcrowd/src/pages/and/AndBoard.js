@@ -42,7 +42,7 @@ const AndBoard = () => {
         <tbody>
           {andBoardList.map((andBoard) => (
             <tr key={andBoard.andBoardId}>
-              <td>{andBoard.andId}</td>
+              <td>{andBoard.andBoardId}</td>
               <td>
                 <Link to={`/and/${andId}/board/${andBoard.andBoardId}`}>
                   {andBoard.andBoardTitle}
