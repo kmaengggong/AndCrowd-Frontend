@@ -51,6 +51,7 @@ const AndScroll = () => {
     } finally {
       setIsLoading(false);
     }
+    
   };
 
   const handleLoadMore = () => {
