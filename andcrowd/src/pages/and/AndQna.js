@@ -77,15 +77,19 @@ return (
             </tbody>
         </table>
         <Link to={`/and/${andId}/qna/create`}>문의글 작성</Link>
-      {/* 페이지 링크를 출력하는 부분 */}
+
       <ReactPaginate
         pageCount={pageCount}
         onPageChange={({ selected }) => setCurrentPage(selected)}
         containerClassName={'pagination'}
         activeClassName={'active'}
-        previousLabel="<"
-        nextLabel=">"  
-      />
+        previousLabel="< prev"
+        nextLabel="next >"  
+        pageRangeDisplayed={5}
+        marginPagesDisplayed={0}
+        breakLabel="..."
+        renderOnZeroPageCount={null}
+        />
     </div>
     );
 };
