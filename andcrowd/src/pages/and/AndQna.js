@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import ReactPaginate from 'react-paginate';
+import './AndQna.css';
 
 const AndQna = () => {
 
@@ -10,15 +11,17 @@ const AndQna = () => {
     const andId = params.andId;
     const andQnaId = params.andQnaId;
   
+    const [pageCount, setPageCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
     const [andQnaList, setAndQnaList] = useState([]);
   
     useEffect(() => {
       fetchData();
-    }, []);
+    }, [currentPage]);
   
     const fetchData = async () => {
       try {
-        const response = await fetch(`/and/${andId}/qna/list`);
+        const response = await fetch(`/and/${andId}/qna/list?page=${currentPage}`);
         
         if (response.ok) {
           const data = await response.json();
@@ -32,7 +35,21 @@ const AndQna = () => {
       }
     };
   
-
+  // 전체 페이지 수를 가져오는 useEffect
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const response = await fetch(`/and/${andId}/qna/list/count`);
+        const data = await response.json();
+        console.log(data); // 데이터 확인
+        setPageCount(Math.ceil(data / 5)); // 페이지 당 10개씩 보여주기로 가정
+      } catch (error) {
+        console.error("Error fetching page count:", error);
+      }
+    };
+    
+    fetchCount();
+  }, [andId]);
 
 return (
     <div>
@@ -60,6 +77,15 @@ return (
             </tbody>
         </table>
         <Link to={`/and/${andId}/qna/create`}>문의글 작성</Link>
+      {/* 페이지 링크를 출력하는 부분 */}
+      <ReactPaginate
+        pageCount={pageCount}
+        onPageChange={({ selected }) => setCurrentPage(selected)}
+        containerClassName={'pagination'}
+        activeClassName={'active'}
+        previousLabel="<"
+        nextLabel=">"  
+      />
     </div>
     );
 };
