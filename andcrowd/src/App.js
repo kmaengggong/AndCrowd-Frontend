@@ -33,6 +33,7 @@ import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
 import Signup from './pages/Signup';
+import Payment from './payment/Payment';
 
 const sections = [
   {title: '홈', url: ''},
@@ -78,6 +79,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/crowd/list" element={<Login />} />
         <Route path="/crowd/create" element={<Login />} />
+        <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<Payment />} />
         <Route path="/team" element={<Login />} />
         <Route path="/help" element={<Login />} />
         <Route path="*" element={<NotFound />} />
