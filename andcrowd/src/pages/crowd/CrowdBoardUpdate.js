@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"; // useEffect 추가
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-const UpdateCrowdBoard = () => {
+const CrowdBoardUpdate = () => {
     const [crowdBoardTag, setCrowdBoardTag] = useState("");
     const [crowdBoardTitle, setCrowdBoardTitle] = useState("");
     const [crowdBoardContent, setCrowdBoardContent] = useState("");
@@ -73,10 +73,10 @@ const UpdateCrowdBoard = () => {
                     <label>Img: </label>
                     <textarea type="text" value={crowdBoardImg} onChange={(e) => setCrowdBoardImg(e.target.value)} />
                 </div>
-                <button type="submit">Submit</button>
+                <button type="submit">수정하기</button>
             </form>
         </div>
     );
 }
 
-export default UpdateCrowdBoard;
+export default CrowdBoardUpdate;

@@ -7,10 +7,10 @@ import NotFound from './components/NotFound';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './components/Login';
-import CrowdBoardFindAll from './crowd/CrowdBoardFindAll';
-import CrowdBoardFindById from "./crowd/CrowdBoardFindById";
-import InsertCrowdBoard from "./crowd/InsertCrowdBoard";
-import UpdateCrowdBoard from "./crowd/UpdateCrowdBoard";
+import CrowdBoardList from './pages/crowd/CrowdBoardList';
+import CrowdBoardDeltail from "./pages/crowd/CrowdBoardDeltail";
+import CrowdBoardInsert from "./pages/crowd/CrowdBoardInsert";
+import CrowdBoardUpdate from "./pages/crowd/CrowdBoardUpdate";
 
 function App() {
   // const [message, setMessage] = useState([]);
@@ -35,10 +35,10 @@ function App() {
       <BrowserRouter>
       <Header />
         <Routes>
-          <Route path="/crowd/:crowdId/insert" element={<InsertCrowdBoard />} />
-          <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<UpdateCrowdBoard />} />
-          <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardFindAll />} />
-          <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardFindById />} />
+          <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
+          <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
+          <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
+          <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDeltail />} />
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />art
           <Route path="*" element={<NotFound />} />

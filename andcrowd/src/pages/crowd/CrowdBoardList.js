@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from 'axios';
-import styles from './CrowdBoardFindAll.module.css';
+import styles from '../../styles/crowd/CrowdBoardList.module.css';
 
 
-const CrowdBoardFindAll = () => {
+const CrowdBoardList = () => {
     const [boards, setBoards] = useState([]);
     const { crowdId } = useParams();
 
@@ -47,4 +47,4 @@ const CrowdBoardFindAll = () => {
     );
 }
 
-export default CrowdBoardFindAll;
+export default CrowdBoardList;

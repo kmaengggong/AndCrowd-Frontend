@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-const InsertCrowdBoard = () => {
+const CrowdBoardInsert = () => {
     const [crowdBoardTag, setCrowdBoardTag] = useState("");
     const [crowdBoardTitle, setCrowdBoardTitle] = useState("");
     const [crowdBoardContent, setCrowdBoardContent] = useState("");
@@ -58,4 +58,4 @@ const InsertCrowdBoard = () => {
     );
 }
 
-export default InsertCrowdBoard;
+export default CrowdBoardInsert;
