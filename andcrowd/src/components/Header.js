@@ -1,21 +1,4 @@
-// import React from 'react';
-// import {Link} from 'react-router-dom';
-// import styles from '../styles/Header.module.css';
-
-// const Header = () => {
-//     return (
-//       <div className={styles.header}>
-//         <Link to="/"><img className={styles.logo} src='http://localhost:3000/logo192.png' alt='no-img' height={30} /></Link>
-//         <div className={styles.andcrowd}><Link to="/">&Crowd</Link></div>
-//         <div className={styles.login}><Link to="/login">Log In</Link></div>
-//       </div>  
-//     );
-// };
-
-// export default Header;
-
 import * as React from 'react';
-// import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
@@ -25,63 +8,43 @@ import Android from '@mui/icons-material/Android';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import '../styles/Header.css';
+import SearchBar from './SearchBar';
 
 const Header = (props) => {
   const { sections, title } = props;
   return (
     <React.Fragment>
-      <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <IconButton href="/" size="small">
-          <Android />
-        </IconButton>
-        <Typography
-          component="h2"
-          variant="h5"
-          color="inherit"
-          align="center"
-          noWrap
-          sx={{ flex: 1 }}
-        >
-          <Link
-            color="text.primary"
-            href="/"
-          >
+      <Toolbar id ='mainTool' sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Link id='navText' href="/" variant="nonlined" size="small" sx={{ml:1, mr:1}}>
+          홈
+        </Link>
+        <Link id='navText' href="/and/list" variant="nonlined" size="small" >
+          모임
+        </Link>
+        <Link id='navText' href="/crowd/list" variant="nonlined" size="small" sx={{ml:1, mr:1}}>
+          펀딩
+        </Link>
+        <Link id='navText' href="/team" variant="nonlined" size="small" >
+          팀소개
+        </Link>
+        <Link id='navText' href="/help" variant="nonlined" size="small">
+          도움말
+        </Link>
+
+         <Link id='logo' href="/">
             {title}
-          </Link>
-          
-        </Typography>
-        <IconButton>
-          <SearchIcon />
-        </IconButton>
-        
-        <Link id='login' href="/login" variant="nonlined" size="small" sx={{ml:1, mr:1}}>
-          로그인
-        </Link>
-        <Link id='signUp' href="/signup" variant="nonlined" size="small" >
-          회원가입
-        </Link>
+         </Link>
+         <SearchBar />
+
+         <Link id='login' href="/login">
+           로그인 
+         </Link>
+         <Link id='signUp' href="/signUp">
+           회원가입 
+         </Link>
+
       </Toolbar>
-      <Toolbar
-        sx={{ borderBottom: 1, borderColor: 'divider' }}
-        // sx={{flexWrap:'wrap'}}
-        // component="nav"
-        // variant="regular"
-        // sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
-      >
-        {sections.map((section) => (
-          <Link
-            color="text.primary"
-            noWrap
-            key={section.title}
-            variant="h6"
-            href={section.url}
-            sx={{my:1, mx:1.5}}
-            // sx={{ p: 1, flexShrink: 0 }}
-          >
-            {section.title}
-          </Link>
-        ))}
-      </Toolbar>
+     
     </React.Fragment>
   );
 }
@@ -95,7 +58,5 @@ Header.propTypes = {
   ).isRequired,
   title: PropTypes.string.isRequired,
 };
-
-
 
 export default Header;
