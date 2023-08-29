@@ -8,16 +8,16 @@ const AdPayment = () => {
         IMP.init("imp43865534");
 
         const data = {
-            pg: "kakaopay.{TC0ONETIME}",
+            pg: "kakaopay.{INIBillTst}",
             pay_method: "card",
-            merchant_uid: "ORD20180131-0000012",
-            name: "노르웨이 회전 의자",
-            amount: 1000,
+            merchant_uid: "2",
+            name: "광고1",
+            amount: 1000000,
             buyer_email: "chosy0716@gmail.com",
-            buyer_name: "홍길동",
-            buyer_tel: "010-4242-4242",
+            buyer_name: "조승연",
+            buyer_tel: "010-1234-5678",
             buyer_addr: "서울특별시 강남구 신사동",
-            buyer_postcode: "01181"
+            buyer_postcode: "123456"
         };
 
         const callback = (response) => {

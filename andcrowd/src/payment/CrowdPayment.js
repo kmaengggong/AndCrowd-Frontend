@@ -6,10 +6,17 @@ import jwtDecode from "jwt-decode";
 const CrowdPayment = () => {
 
     const { crowdId, rewardId } = useParams();
+
     const [reward, setReward] = useState(null);
     const [user, setUser] = useState(null);
-    const [buyeraddr, setBuyeraddr] = useState("");
-    const [userId, setUserId] = useState(null);
+    const [paymentData, setPaymentData] = useState(null);
+
+    const [buyerEmail, setBuyerEmail] = useState("");
+    const [buyerName, setBuyerName] = useState("");
+    const [buyerTel, setBuyerTel] = useState("");
+    const [buyerAddr, setBuyerAddr] = useState("");
+
+    const [userId, setUserId] = useState("");
 
     // 회원정보를 불러오는 기능
     // JWT토큰 디코딩 하여 userId 추출
@@ -40,34 +47,14 @@ const CrowdPayment = () => {
         axios.get(`http://localhost:8080/user/${decodedUserId}`)
             .then(userData => {
                 setUser(userData.data);
+                setBuyerEmail(userData.data.userEmail);
+                setBuyerName(userData.data.userKorName);
+                setBuyerTel(userData.data.userPhone);
             })
             .catch(error => {
                 console.error("찾는 유저가 없습니다.", error)
             });
     }, []);
-
-    useEffect(() => {
-        if (!userId) return; // userId가 null이면 요청하지 않습니다.
-
-        axios.get(`http://localhost:8080/user/${userId}`)
-            .then(userData => {
-                setUser(userData.data);
-            })
-            .catch(error => {
-                console.error("찾는 유저가 없습니다.", error)
-            });
-    }, [userId]);
-
-    // 전달받은
-    useEffect(() => {
-        axios.get(`http://localhost:8080/user/${userId}`)
-            .then(userData => {
-                setUser(userData.data);
-            })
-            .catch(error => {
-                console.error("찾는 유저가 없습니다.", error)
-            });
-    }, [userId]);
 
     // 결제할 상품정보를 불러오는 기능
     useEffect(() => {
@@ -76,7 +63,7 @@ const CrowdPayment = () => {
                 setReward(reward.data)
             })
             .catch(error => {
-                console.error("없는 펀딩글입니다.", error);
+                console.error("없는 리워드입니다.", error);
             });
     }, [crowdId, rewardId]);
 
@@ -101,25 +88,46 @@ const CrowdPayment = () => {
             merchant_uid: "1", // 결제번호
             name: reward.rewardTitle, // 상품명
             amount: reward.rewardAmount, // 금액
-            buyer_email: user.userEmail, // 구매자 이메일
-            buyer_name: user.userKorName, // 구매자 이름
-            buyer_tel: user.userPhone, // 구매자 연락처
-            buyer_addr: buyeraddr // 구매자 주소
+            buyer_email: buyerEmail, // 구매자 이메일
+            buyer_name: buyerName, // 구매자 이름
+            buyer_tel: buyerTel, // 구매자 연락처
+            buyer_addr: buyerAddr // 구매자 주소
         };
+
+        // 백서버로 결제내역을 전송하기 위한 data객체 저장
+        setPaymentData(data);
 
         IMP.request_pay(data, callback);
     }
+
     const callback = async (response) => {
         const {
             success,
             error_msg
         } = response;
-
+        let orderDetails;
+        if(paymentData) {
+            // CrowdOrderDetails에 전송할 데이터를 객체화함
+            orderDetails = {
+                crowdId: crowdId,
+                isDeleted: false,
+                purchaseAddress: paymentData.buyer_addr,
+                purchaseName: paymentData.buyer_name,
+                purchasePhone: paymentData.buyer_tel,
+                purchaseStatus: "결제완료",
+                rewardId: rewardId,
+                userId: userId
+            };
+        }else {
+            alert("서버로 전송할 결제내역이 없습니다.")
+            return;
+        }
         if(success){
             alert("결제성공");
-            // 결제 성공 후 백엔드 서버에 결제 정보를 객체에 담아서 전송(userId, crowdId, rewardId, userName, userPhone, address)
+            // 결제 성공 후 백엔드 서버에 결제 정보를 전송(userId, crowdId, rewardId, userName, userPhone, address)
             try {
-                const serverResponse = await axios.post(`http://localhost:8080/successorder`, response);
+
+                const serverResponse = await axios.post(`http://localhost:8080/successorder`, orderDetails);
                 if(serverResponse.status === 200) {
                     alert("서버에 결제 정보 전송 완료!");
                 } else {
@@ -146,32 +154,32 @@ const CrowdPayment = () => {
                         <label>이메일: </label>
                         <input
                             type="email"
-                            value={user.userEmail}
-                            onChange={(e) => setUser({...user, userEmail: e.target.value})}
+                            value={buyerEmail}
+                            onChange={(e) => setBuyerEmail(e.target.value)}
                         />
                     </div>
                     <div>
                         <label>이름: </label>
                         <input
                             type="text"
-                            value={user.userKorName}
-                            onChange={(e) => setUser({...user, userKorName: e.target.value})}
+                            value={buyerName}
+                            onChange={(e) => setBuyerName(e.target.value)}
                         />
                     </div>
                     <div>
                         <label>연락처: </label>
                         <input
                             type="tel"
-                            value={user.userPhone}
-                            onChange={(e) => setUser({...user, userPhone: e.target.value})}
+                            value={buyerTel}
+                            onChange={(e) => setBuyerTel(e.target.value)}
                         />
                     </div>
                     <div>
                         <label>주소: </label>
                         <input
                             type="text"
-                            value={buyeraddr}
-                            onChange={(e) => setBuyeraddr(e.target.value)}
+                            value={buyerAddr}
+                            onChange={(e) => setBuyerAddr(e.target.value)}
                         />
                     </div>
                 </div>
