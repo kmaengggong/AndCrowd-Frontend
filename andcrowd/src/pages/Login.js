@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import NaverLogin from '../components/NaverLogin';
 
 const defaultTheme = createTheme();
 
@@ -38,14 +39,14 @@ const Login = () => {
       return res.json();
     }).then(data => console.log(data));
   };
-    
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 5,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -54,8 +55,12 @@ const Login = () => {
           {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar> */}
-          <Typography component="h1" variant="h5">
-            Log In
+          <Typography component="h1" variant="h5" sx={{mb: 1}}>
+            소셜 로그인
+          </Typography>
+          <NaverLogin />
+          <Typography component="h1" variant="h5" sx={{mt: 5}}>
+            이메일로 로그인
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField

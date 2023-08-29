@@ -109,15 +109,16 @@ const Signup = () => {
 
     return (
         <ThemeProvider theme={defaultTheme}>
-        <Container component="main" maxWidth="lg">
+        <Container component="main" maxWidth="md">
           <CssBaseline />
           <Box
             sx={{
               marginTop: 8,
+              display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              ml: 15,
-              mr: 15,
+              ml: 5,
+              mr: 5
             }}
           >
             <Typography component="h1" variant="h5">
@@ -125,7 +126,7 @@ const Signup = () => {
             </Typography>
             <Box component="form" noValidate onSubmit={onFormSubmit} sx={{ mt: 3 }}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={10}>
+                <Grid item xs={12} sm={9}>
                   <TextField
                     required
                     fullWidth
@@ -137,7 +138,7 @@ const Signup = () => {
                     disabled={isEmailValid ? true : false}
                   />
                 </Grid>
-                <Grid item xs={12} sm={2}>
+                <Grid item xs={12} sm={3}>
                     <Button
                         className="auth-button"
                         type="submit"
@@ -150,102 +151,96 @@ const Signup = () => {
                         인증번호
                     </Button>
                 </Grid>
-                {originAuthNumber === '' ? <></> : <>
-                  <Grid item xs={12} sm={10}>
-                    <TextField
-                      required
-                      fullWidth
-                      name="auth-number"
-                      label="인증번호"
-                      type="auth-number"
-                      id="auth-number"
-                      onChange={onAuthNumberChange}
-                      disabled={isEmailValid ? true : false}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={2}>
-                      <Button
-                          type="submit"
-                          fullWidth
-                          variant="contained"
-                          sx={{ mt: 1, mb: 1 }}
-                          onClick={onAuthNumberButtonClick}
-                          disabled={isEmailValid ? true : false}
-                      >
-                          인증하기
-                      </Button>
-                  </Grid>
-                  </> 
-                }
-                {!isEmailValid ? <></> : <>
-                  <Grid item xs={12} sm={10}>
-                    <TextField
-                      required
-                      fullWidth
-                      name="nickname"
-                      label="닉네임"
-                      type="nickname"
-                      id="nickname"
-                      onChange={onNicknameChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={2}>
-                      <Button
-                          type="submit"
-                          fullWidth
-                          variant="contained"
-                          sx={{ mt: 1, mb: 1 }}
-                          onClick={onNicknameCheckClick}
-                      >
-                          중복확인
-                      </Button>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      name="password"
-                      label="비밀번호"
-                      type="password"
-                      id="password"
-                      autoComplete="new-password"
-                      onChange={onPasswordChange}
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      fullWidth
-                      name="password-check"
-                      label="비밀번호 확인"
-                      type="password"
-                      onChange={onPasswordCheckChange}
-                      id="password-check"
-                      helperText={isPasswordEqual ? "" : "비밀번호가 일치하지 않습니다."}
-                      error={isPasswordEqual ? false : true}
-                    />
-                  </Grid>
-                  {/* 전화번호 인증, 이메일 인증, 한국 이름, 닉네임, 이메일, 비밀번호, 개인정보 동의, TOS 동의*/}
-                  <Grid item xs={12}>
-                    <FormControlLabel
-                      control={<Checkbox value="allowExtraEmails" color="primary" />}
-                      label="(필수) 서비스 이용약관 동의"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <FormControlLabel
-                      control={<Checkbox value="allowExtraEmails" color="primary" />}
-                      label="(필수) 개인정보 동의"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <FormControlLabel
-                      control={<Checkbox value="allowExtraEmails" color="primary" />}
-                      label="(선택) 마케팅 동의"
-                    />
-                  </Grid>
-                </>
-              }
+                <Grid item xs={12} sm={9}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="auth-number"
+                    label="인증번호"
+                    type="auth-number"
+                    id="auth-number"
+                    onChange={onAuthNumberChange}
+                    disabled={isEmailValid || !originAuthNumber ? true : false}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 1, mb: 1 }}
+                        onClick={onAuthNumberButtonClick}
+                        disabled={isEmailValid || !originAuthNumber ? true : false}
+                    >
+                        인증하기
+                    </Button>
+                </Grid>
+                <Grid item xs={12} sm={9}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="nickname"
+                    label="닉네임"
+                    type="nickname"
+                    id="nickname"
+                    onChange={onNicknameChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={3}>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 1, mb: 1 }}
+                        onClick={onNicknameCheckClick}
+                    >
+                        중복확인
+                    </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    label="비밀번호"
+                    type="password"
+                    id="password"
+                    autoComplete="new-password"
+                    onChange={onPasswordChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="password-check"
+                    label="비밀번호 확인"
+                    type="password"
+                    onChange={onPasswordCheckChange}
+                    id="password-check"
+                    helperText={isPasswordEqual ? "" : "비밀번호가 일치하지 않습니다."}
+                    error={isPasswordEqual ? false : true}
+                  />
+                </Grid>
+                {/* 전화번호 인증, 이메일 인증, 한국 이름, 닉네임, 이메일, 비밀번호, 개인정보 동의, TOS 동의*/}
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={<Checkbox value="allowExtraEmails" color="primary" />}
+                    label="(필수) 서비스 이용약관 동의"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={<Checkbox value="allowExtraEmails" color="primary" />}
+                    label="(필수) 개인정보 동의"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={<Checkbox value="allowExtraEmails" color="primary" />}
+                    label="(선택) 마케팅 동의"
+                  />
+                </Grid>
               </Grid>
               <Button
                 type="submit"
