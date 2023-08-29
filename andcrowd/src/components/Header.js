@@ -24,12 +24,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import Android from '@mui/icons-material/Android';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-
-
+import '../styles/Header.css';
 
 const Header = (props) => {
   const { sections, title } = props;
-
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -55,12 +53,13 @@ const Header = (props) => {
         <IconButton>
           <SearchIcon />
         </IconButton>
-        <Button href="/login" variant="outlined" size="small" sx={{ml:1, mr:1}}>
-          Log in
-        </Button>
-        <Button href="/signup" variant="outlined" size="small">
-          Sign up
-        </Button>
+        
+        <Link id='login' href="/login" variant="nonlined" size="small" sx={{ml:1, mr:1}}>
+          로그인
+        </Link>
+        <Link id='signUp' href="/signup" variant="nonlined" size="small" >
+          회원가입
+        </Link>
       </Toolbar>
       <Toolbar
         sx={{ borderBottom: 1, borderColor: 'divider' }}
@@ -96,5 +95,7 @@ Header.propTypes = {
   ).isRequired,
   title: PropTypes.string.isRequired,
 };
+
+
 
 export default Header;
