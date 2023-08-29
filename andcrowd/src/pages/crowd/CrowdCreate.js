@@ -10,7 +10,7 @@ const CrowdCreate = () => {
     // 토큰 또는 세션을 이용해 userId를 전달
     const fetchUserId = async () => {
       try{
-        const response = await fetch("/pi/getUserId");
+        const response = await fetch("/user");
         if(response.ok) {
           const data = await response.json();
           setUserId(data.userId);
@@ -120,13 +120,21 @@ const CrowdCreate = () => {
         </label>
         <br />
         <label>
+          카테고리 설정:
+          <select id="chooseCategory">
+            <option value="">--카테고리 선택--</option>
+            <option type="number" value={formData.rewardId} onChange={handleInputChange} placeholder="서포터님들에게 제공할 리워드를 입력하세요." />
+          </select>
+        </label>
+        <br />
+        <label>
           펀딩 제목:
           <input type="text" value={formData.crowdTitle} onChange={handleInputChange} placeholder="제목을 입력하세요" />
         </label>
         <br />
         <label>
           펀딩 본문:
-          <textarea value={formData.crowdContent} onChange={handleInputChange} placeholder="OOO한 내용을 기획/개발해 &Crowd에 최초 공개하고자 합니다." />
+          <textarea value={formData.crowdContent} onChange={handleInputChange} placeholder="예) OOO한 내용을 기획/개발해 &Crowd에 최초 공개하고자 합니다." />
         </label>
         <br />
         <label>
@@ -141,12 +149,13 @@ const CrowdCreate = () => {
         <br />
         <label>
           리워드 설정:
-          <input type="number" value={formData.rewardId} onChange={handleInputChange} placeholder="서포터님들에게 제공할 리워드를 입력하세요." />
+          <input type="text" value={formData.rewardId} onChange={handleInputChange} placeholder="서포터님들에게 제공할 리워드를 입력하세요." />
+          <button>추가</button>
         </label>
         <br />
         <label>
           헤더 이미지 업로드:
-          <input type="text" multiple onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
+          <input type="file" multiple onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
         </label>
         <br />
         <label>

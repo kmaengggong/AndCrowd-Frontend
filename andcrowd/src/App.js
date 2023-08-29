@@ -38,6 +38,7 @@ import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
 import CrowdList from './pages/CrowdList';
 import CrowdCreate from './pages/crowd/CrowdCreate' ;
+import CrowdDetail from './pages/crowd/CrowdDetail';
 import Signup from './pages/Signup';
 
 const sections = [
@@ -87,6 +88,7 @@ function App() {
         <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/crowd/list" element={<CrowdList />} />
+        <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
         <Route path="/crowd/create" element={<CrowdCreate />} />
         <Route path="/team" element={<Login />} />
         <Route path="/help" element={<Login />} />
