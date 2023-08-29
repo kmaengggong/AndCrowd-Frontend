@@ -33,6 +33,7 @@ import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
 import Signup from './pages/Signup';
+import AndChat from './pages/and/AndChat';
 
 const sections = [
   {title: '홈', url: ''},
@@ -81,6 +82,8 @@ function App() {
         <Route path="/team" element={<Login />} />
         <Route path="/help" element={<Login />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/and/chat" element={<AndChat />} />
+
       </Routes>
       <Footer
         title="&Crowd"
