@@ -1,8 +1,6 @@
 import React from "react";
 
-const Payment = () => {
-    // 주문서 작성시 crowdDetail 화면에서 선택된 리워드 품목정보와
-    // 현재 로그인한 User정보를 가져오는 기능 구현 필요
+const AdPayment = () => {
 
     const onClickPayment = () =>{
         /* 1. 가맹점 식별하기 */
@@ -22,19 +20,20 @@ const Payment = () => {
             buyer_postcode: "01181"
         };
 
-        IMP.request_pay(data, callback);
-    }
-    const callback = (response) => {
-        const {
-            success,
-            error_msg
-        } = response;
+        const callback = (response) => {
+            const {
+                success,
+                error_msg
+            } = response;
 
-        if(success){
-            alert("결제성공");
-        }else {
-            alert(`결제실패: ${error_msg}`);
-        }
+            if(success){
+                alert("결제성공");
+            }else {
+                alert(`결제실패: ${error_msg}`);
+            }
+        };
+
+        IMP.request_pay(data, callback);
     };
 
     return (
@@ -44,4 +43,4 @@ const Payment = () => {
     )
 };
 
-export default Payment;
+export default AdPayment;
