@@ -10,86 +10,26 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { SignUpEmail } from '../components/user/SingUpEmail';
+import { SignUpAuthNumber } from '../components/user/SignUpAuthNumber';
+import { SignUpNickname } from '../components/user/SignUpNickname';
+import { SignUpPassword } from '../components/user/SignUpPassword';
 
 const defaultTheme = createTheme();
 
 const Signup = () => {
     const [email, setEmail] = useState('');
+    const [isEmailValid, setIsEmailValid] = useState(false);
     const [authNumber, setAuthNumber] = useState('');
-    const [originAuthNumber, setOriginAuthNumber] = useState('');
+    const [isAuthNumberValid, setIsAuthNumberValid] = useState(false);
+
     const [nickname, setNickname] = useState('');
+    const [isNicknameValid, setIsNicknameValid] = useState(false);
+
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
-    const [isEmailValid, setIsEmailValid] = useState(false);
     const [isPasswordEqual, setIsPasswordEqual] = useState(true);
-
-    const onEmailChange = (event) => {
-      setEmail(event.currentTarget.value);
-    };
-    const onAuthNumberChange = (event) => {
-      setAuthNumber(event.currentTarget.value);
-    };
-    const onNicknameChange = (event) => {
-      setNickname(event.currentTarget.value);
-    }
-
-    const onAuthButtonClick = (event) => {
-      event.preventDefault();
-      fetch('/mailAuth', {
-        method: "POST",
-        headers:{
-          "Content-Type":"application/json; charset=utf-8"
-        },
-        body: JSON.stringify({
-          "userEmail": email
-        })
-      }).then((res) => {
-        return res.json();
-      }).then((data) => {
-        setOriginAuthNumber(data);
-      });
-    };
-
-    const onAuthNumberButtonClick = (event) => {
-      event.preventDefault();
-      console.log(authNumber);
-      console.log(originAuthNumber);
-      if(authNumber.match(originAuthNumber)){
-        alert("인증 성공!");
-        setIsEmailValid(true);
-      }
-      else{
-        alert("인증번호가 틀렸습니다.");
-      }
-    };
-
-    const onNicknameCheckClick = (event) => {
-      event.preventDefault();
-      fetch("/nicknameCheck", {
-        method: "POST",
-        headers:{
-          "Content-Type":"application/json; charset=utf-8"
-        },
-        body: JSON.stringify({
-          "userNickname": nickname
-        })
-      }).then((res) => {
-        if(res.status !== 200){
-          alert("이미 사용 중인 닉네임입니다.");
-        }
-        else{
-          alert("사용 가능한 닉네임입니다.");
-        }
-      });
-    };
-
-    const onPasswordChange = (event) => {
-      setPassword(event.currentTarget.value);
-    };
-
-    const onPasswordCheckChange = (event) => {
-      setPasswordCheck(event.currentTarget.value);
-    };
+    const [isPasswordValid, setIsPasswordValid] = useState(false);
 
     useEffect(() => {
       if(passwordCheck.match(password)){
@@ -100,11 +40,53 @@ const Signup = () => {
       }
     }, [password, passwordCheck]);
 
-    const onFormSubmit = (event) => {
+    useEffect(() => {
+      if(isPasswordEqual && password.length>0){
+        setIsPasswordValid(true);
+      }
+    }, [isPasswordEqual, password]);
+
+    const onFormSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
+        if(!isEmailValid){
+          alert("이메일을 확인해 주세요.");
+          return;
+        }
+        if(!isAuthNumberValid){
+          alert("이메일 인증을 다시 해 주세요.");
+          return;
+        }
+        if(!isNicknameValid){
+          alert("닉네임을 확인해 주세요.");
+          return;
+        }
+        if(!isPasswordValid){
+          alert("비밀번호를 확인해 주세요.");
+          return;
+        }
+
+        try{
+          await fetch('/signup',{
+            method: "POST",
+            headers:{
+              "Content-Type":"application/json; charset=utf-8"
+            },
+            body: JSON.stringify({
+              "userEmail": email,
+              "userNickname": nickname,
+              "userPassword": password,
+            })
+          }).then((res) => {
+            console.log(res);
+          })
+        } catch(error){
+          console.error(error);
+          alert("회원가입 실패. 다시 시도해주세요.");
+        }
+        console.log(email);
+        console.log(nickname);
+        console.log(password);
         alert("회원가입 완료");
-        alert("회원가입 실패. 다시 시도해주세요.");
     };
 
     return (
@@ -126,103 +108,27 @@ const Signup = () => {
             </Typography>
             <Box component="form" noValidate onSubmit={onFormSubmit} sx={{ mt: 3 }}>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={9}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="email"
-                    label="이메일 주소"
-                    name="email"
-                    autoComplete="email"
-                    onChange={onEmailChange}
-                    disabled={isEmailValid ? true : false}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                    <Button
-                        className="auth-button"
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 1, mb: 1 }}
-                        onClick={onAuthButtonClick}
-                        disabled={isEmailValid ? true : false}
-                    >
-                        인증번호
-                    </Button>
-                </Grid>
-                <Grid item xs={12} sm={9}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="auth-number"
-                    label="인증번호"
-                    type="auth-number"
-                    id="auth-number"
-                    onChange={onAuthNumberChange}
-                    disabled={isEmailValid || !originAuthNumber ? true : false}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 1, mb: 1 }}
-                        onClick={onAuthNumberButtonClick}
-                        disabled={isEmailValid || !originAuthNumber ? true : false}
-                    >
-                        인증하기
-                    </Button>
-                </Grid>
-                <Grid item xs={12} sm={9}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="nickname"
-                    label="닉네임"
-                    type="nickname"
-                    id="nickname"
-                    onChange={onNicknameChange}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 1, mb: 1 }}
-                        onClick={onNicknameCheckClick}
-                    >
-                        중복확인
-                    </Button>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="password"
-                    label="비밀번호"
-                    type="password"
-                    id="password"
-                    autoComplete="new-password"
-                    onChange={onPasswordChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="password-check"
-                    label="비밀번호 확인"
-                    type="password"
-                    onChange={onPasswordCheckChange}
-                    id="password-check"
-                    helperText={isPasswordEqual ? "" : "비밀번호가 일치하지 않습니다."}
-                    error={isPasswordEqual ? false : true}
-                  />
-                </Grid>
-                {/* 전화번호 인증, 이메일 인증, 한국 이름, 닉네임, 이메일, 비밀번호, 개인정보 동의, TOS 동의*/}
+                <SignUpEmail
+                  email={email}
+                  setEmail={setEmail}
+                  setIsEmailValid={setIsEmailValid}
+                  setAuthNumber={setAuthNumber}
+                />
+                <SignUpAuthNumber
+                  authNumber={authNumber}
+                  setIsAuthNumberValid={setIsAuthNumberValid}
+                />
+                <SignUpNickname
+                  nickname={nickname}
+                  setNickname={setNickname}
+                  setIsNicknameValid={setIsNicknameValid}
+                />
+                <SignUpPassword
+                  setPassword={setPassword}
+                  setPasswordCheck={setPasswordCheck}
+                  isPasswordEqual={isPasswordEqual}
+                  setIsPasswordValid={setIsPasswordValid}
+                />
                 <Grid item xs={12}>
                   <FormControlLabel
                     control={<Checkbox value="allowExtraEmails" color="primary" />}
