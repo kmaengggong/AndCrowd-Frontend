@@ -7,6 +7,10 @@ import Test from './pages/Test';
 import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import CrowdBoardList from './pages/crowd/CrowdBoardList';
+import CrowdBoardDeltail from "./pages/crowd/CrowdBoardDeltail";
+import CrowdBoardInsert from "./pages/crowd/CrowdBoardInsert";
+import CrowdBoardUpdate from "./pages/crowd/CrowdBoardUpdate";
 import Login from './pages/Login';
 import Navigation from './components/Navigation';
 import AndList from './pages/AndList';
@@ -77,6 +81,10 @@ function App() {
         <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
         <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
         <Route path="/and/create" element={<AndCreate />} />
+        <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
+        <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
+        <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDeltail />} />
+        <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/crowd/list" element={<CrowdList />} />
         <Route path="/crowd/create" element={<CrowdCreate />} />
