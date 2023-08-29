@@ -10,7 +10,7 @@ const AdPayment = () => {
         const data = {
             pg: "kakaopay.{INIBillTst}",
             pay_method: "card",
-            merchant_uid: "2",
+            merchant_uid: "3",
             name: "광고1",
             amount: 1000000,
             buyer_email: "chosy0716@gmail.com",

@@ -38,6 +38,7 @@ import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
 import Signup from './pages/Signup';
 import CrowdPayment from './payment/CrowdPayment';
+import AdPayment from "./payment/AdPayment";
 
 const sections = [
   {title: '홈', url: ''},
@@ -84,6 +85,7 @@ function App() {
         <Route path="/crowd/list" element={<Login />} />
         <Route path="/crowd/create" element={<Login />} />
         <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} />
+        <Route path="/ad/payment" element={<AdPayment />} />
         <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
         <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
         <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDeltail />} />

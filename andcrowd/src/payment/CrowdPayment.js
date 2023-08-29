@@ -5,6 +5,18 @@ import jwtDecode from "jwt-decode";
 
 const CrowdPayment = () => {
 
+    //테스트용 더미
+    // const reward = {
+    //     rewardTitle: "상품1",
+    //     rewardAmount: 1000000
+    // }
+    //
+    // let buyerEmail = "chosy0716@kakao.com";
+    // let buyerName = "조승연";
+    // let buyerAddr = "비트캠프 강남";
+    // let buyerTel = "010-0000-0000";
+    // let userId = 1;
+
     const { crowdId, rewardId } = useParams();
 
     const [reward, setReward] = useState(null);
@@ -72,11 +84,11 @@ const CrowdPayment = () => {
 
     // 결제 기능
     const onClickPayment = () =>{
-        // user crowd null 검사
-        if (!user || !reward) {
-            alert("유저나 상품 정보가 없습니다.");
-            return;
-        }
+        // // user crowd null 검사
+        // if (!user || !reward) {
+        //     alert("유저나 상품 정보가 없습니다.");
+        //     return;
+        // }
 
         //1. 가맹점 식별하기
         const { IMP } = window;
@@ -85,7 +97,7 @@ const CrowdPayment = () => {
         const data = {
             pg: "kakaopay.{TC0ONETIME}", // 결제 API 명시
             pay_method: "card", // 결제수단
-            merchant_uid: "1", // 결제번호
+            merchant_uid: "14", // 결제번호
             name: reward.rewardTitle, // 상품명
             amount: reward.rewardAmount, // 금액
             buyer_email: buyerEmail, // 구매자 이메일
@@ -97,10 +109,10 @@ const CrowdPayment = () => {
         // 백서버로 결제내역을 전송하기 위한 data객체 저장
         setPaymentData(data);
 
-        IMP.request_pay(data, callback);
+        IMP.request_pay(data, callback.bind(null, data));
     }
 
-    const callback = async (response) => {
+    const callback = async (paymentData,response) => {
         const {
             success,
             error_msg
@@ -117,6 +129,7 @@ const CrowdPayment = () => {
                 purchaseStatus: "결제완료",
                 rewardId: rewardId,
                 userId: userId
+
             };
         }else {
             alert("서버로 전송할 결제내역이 없습니다.")
@@ -127,7 +140,7 @@ const CrowdPayment = () => {
             // 결제 성공 후 백엔드 서버에 결제 정보를 전송(userId, crowdId, rewardId, userName, userPhone, address)
             try {
 
-                const serverResponse = await axios.post(`http://localhost:8080/successorder`, orderDetails);
+                const serverResponse = await axios.post(`http://localhost:8080/crowd_order/successorder`, orderDetails);
                 if(serverResponse.status === 200) {
                     alert("서버에 결제 정보 전송 완료!");
                 } else {
