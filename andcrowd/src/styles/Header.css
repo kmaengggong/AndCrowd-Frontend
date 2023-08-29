@@ -1,0 +1,16 @@
+#login{
+    font-size: 15px;
+    background-color: transparent;
+    color: #2D2D2D;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+#signUp{
+    font-size: 15px;
+    background-color: transparent;
+    color: #2D2D2D;
+    text-decoration: none;
+    margin-right: 0px;
+    text-align: right;
+}
