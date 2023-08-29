@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { redirect, useLocation, useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
-import styles from '../../styles/crowd/CrowdDetail.module.css';
+//import styles from '../../styles/crowd/CrowdDetail.module.css';
 import axios from "axios";
 
 const CrowdDetail = () => {
