@@ -16,7 +16,7 @@ input {
   padding: 10px;
   font-size: 1.2em;
 }
-button{
+/* button{
   border: none;
   padding: 10px;
   background: green;
@@ -123,4 +123,4 @@ ul {
 }
 .message.self{
   justify-content: end;
-}
+} */
