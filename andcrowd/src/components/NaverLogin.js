@@ -1,5 +1,6 @@
 import {useEffect, useRef} from 'react';
 import Button from '@mui/material/Button';
+import '../styles/Login.css';
 
 const NaverLogin = ({setGetToken, setUserInfo}) => {
     const naverRef = useRef();
@@ -42,10 +43,9 @@ const NaverLogin = ({setGetToken, setUserInfo}) => {
 
     return(
         <>
-            <Button onClick={handleNaverLogin} >
-                <img alt="Naver Login" src={`${process.env.PUBLIC_URL}/naverLoginButton.png`} width={300} />
+            <Button id='naver-login-button' onClick={handleNaverLogin} >
             </Button>
-        </>
+        </> 
     );
 }
 
