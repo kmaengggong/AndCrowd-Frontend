@@ -123,7 +123,6 @@ const Login = () => {
 
     const onClickLogin = async () => {
       let result;
-
       try{
         await fetch('/login',{
           method: "POST",
@@ -135,6 +134,7 @@ const Login = () => {
             "userPassword": password
           })
         }).then(res => {
+          console.log(res);
           if(res.status !== 200){
               alert("이메일 혹은 비밀번호를 확인해주세요.");
               return;
@@ -161,7 +161,7 @@ const Login = () => {
             "Content-Type":"application/json; charset=utf-8"
           },
           body: JSON.stringify({
-            "refreshToken": data.accessToken,
+            "refreshToken": data.refreshToken,
           })
         }).then((res) => {
           console.log(res);
