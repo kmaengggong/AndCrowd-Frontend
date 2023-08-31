@@ -1,0 +1,44 @@
+.crowdListblock {
+    background: #e9ecef;
+}
+
+.crowdlist{
+    background: white;
+    margin-right: 100px;
+}
+
+.PopularRecommend {
+    margin-top: 10px;
+    background: #e9ecef;
+    height: 300px;
+}
+
+.category {
+    margin-right: 20px;
+}
+
+.cardContainer {
+    display: flex;
+    margin-top: 20px;
+}
+
+.card{
+    width: 18rem;
+    border: 1px black;
+    margin-left: 20px;
+}
+
+.cardImgTop {
+    margin-top: 20px;
+    background: lightblue;
+    width: 290px;
+    height: 200px;
+}
+
+.cardBody {
+    border: 1px solid grey;
+}
+
+.cardText {
+    font-size: 20px;
+}

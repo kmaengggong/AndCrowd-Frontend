@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { redirect, useLocation, useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
-//import styles from '../../styles/crowd/CrowdDetail.module.css';
+import styles from "../../styles/crowd/CrowdDetail.module.css";
 import axios from "axios";
 
 const CrowdDetail = () => {
@@ -61,8 +61,8 @@ const CrowdDetail = () => {
     };
 
     return (
-        <div className={styles.crowdDetailContainer}>
-            <div className="header">
+        <div className={styles.crowdDetailContainer} id="container">
+            <div className={styles.leftSide}>
                 <Link to={`/crowd/${crowd.crowdId}/detail`}>
                 <button>상세정보</button>
                 </Link>
@@ -72,11 +72,16 @@ const CrowdDetail = () => {
                 <Link to={`/crowd/${crowd.crowdId}/qna/${crowd.crowdQnaId}`}>
                 <button>QnA</button>
                 </Link>
+                <hr />
+                <div className={styles.imgContainer}>
+                    <div className={styles.Img1}>{/* crowdImg 1 */}</div>
+                    <div className={styles.Img2}>{/* crowdImg 2 */}</div>
+                    <div className={styles.Img3}>{/* crowdImg 3 */}</div>
+                    <div className={styles.Img4}>{/* crowdImg 4 */}</div>
+                    <div className={styles.Img5}>{/* crowdImg 5 */}</div>
+                </div>
             </div>
             <hr />
-            <div className={styles.leftSide}>
-                {/* crowdImg 1~5 */}
-            </div>
             <div className={styles.rightSide}>
                 <span>카테고리</span>
                 <span className="shareBtn" onClick={() => handleCopyClipBoard(`${"http://localhost:3000"}${location.pathname}`)}>
@@ -84,9 +89,14 @@ const CrowdDetail = () => {
                 </span>
                 <hr />
                 <h1>프로젝트 제목</h1><br/>
-                <span>00%달성 </span><span>00일 남음</span>
+                <span>{/* (현재 모인금액/총 금액)*100 */}% 달성 | </span><span>{/* 남은일수 */}일 남음</span>
                 <br />
-                <span>000,000,000원 달성 </span><span>00명 참여</span>                
+                <span>{/* 목표금액 - 미달액 */}원 달성 | </span><span>{/* 후원자 수 count */}명 참여</span> 
+                <hr />
+                <div className={styles.rewardTitle}>
+                    **리워드 목록**
+                </div>
+                <br />               
             </div>
 
         </div>

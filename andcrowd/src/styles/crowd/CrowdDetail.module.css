@@ -13,3 +13,18 @@
     padding: 20px;
     border-left: 1px solid #ccc; /* 왼쪽과 오른쪽 영역을 나누는 경계선 */
 }
+
+button {
+    margin-right: 30px;
+    font-size: 15px;
+}
+
+.imgContainer {
+    background: #e9ecef;
+    width: 1200px;
+    height: 1000px;
+}
+
+.rewardTitle {
+    border: 1px solid black;
+}
