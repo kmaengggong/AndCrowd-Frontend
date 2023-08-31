@@ -1,44 +1,21 @@
-.crowdListblock {
-    background: #e9ecef;
-}
-
-.crowdlist{
-    background: white;
-    margin-right: 100px;
-}
-
-.PopularRecommend {
+.carousel{
     margin-top: 10px;
-    background: #e9ecef;
-    height: 300px;
+    padding: 10px;
 }
 
-.category {
-    margin-right: 20px;
+.btnCategory {
+    margin-top: 10px;
+    text-align: center;
 }
 
-.cardContainer {
+.crowdListblock {
     display: flex;
-    margin-top: 20px;
+    gap: 2;
+    flex-wrap: wrap;
+    float: right;
 }
 
-.card{
-    width: 18rem;
-    border: 1px black;
-    margin-left: 20px;
-}
-
-.cardImgTop {
-    margin-top: 20px;
-    background: lightblue;
-    width: 290px;
-    height: 200px;
-}
-
-.cardBody {
-    border: 1px solid grey;
-}
-
-.cardText {
-    font-size: 20px;
+.cardList {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

@@ -35,7 +35,7 @@ const CrowdCreate = () => {
   })
 
   const [images, setImages] = useState({
-    crowdHeaderImg: "",
+    headerImg: "",
     crowdImg1: "",
     crowdImg2: "",
     crowdImg3: "",
@@ -155,28 +155,28 @@ const CrowdCreate = () => {
         <br />
         <label>
           헤더 이미지 업로드:
-          <input type="file" multiple onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
+          <input type="text" value={formData.headerImg} onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
         </label>
         <br />
         <label>
           이미지1 업로드:
-          <input type="file" multiple onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
+          <input type="text" value={formData.crowdImg1} onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
         </label>
         <label>
           이미지2 업로드:
-          <input type="file" multiple onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
+          <input type="text" value={formData.crowdImg2} onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
         </label>
         <label>
           이미지3 업로드:
-          <input type="file" multiple onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
+          <input type="text" value={formData.crowdImg3} onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
         </label>
         <label>
           이미지4 업로드:
-          <input type="file" multiple onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
+          <input type="text" value={formData.crowdImg4} onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
         </label>
         <label>
           이미지5 업로드:
-          <input type="file" multiple onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
+          <input type="text" value={formData.crowdImg5} onChange={handleImageUpload} placeholder="첨부 파일을 업로드 하세요." />
         </label>
         <br />
         {/* {images.map((image, index) => (

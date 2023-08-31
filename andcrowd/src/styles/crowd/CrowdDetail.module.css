@@ -1,4 +1,5 @@
 .crowdDetailContainer {
+    text-align: center;
     display: flex;
     align-items: flex-start; /* 아이템을 상단으로 정렬 */
 }
@@ -21,7 +22,7 @@ button {
 
 .imgContainer {
     background: #e9ecef;
-    width: 1200px;
+    width: 900px;
     height: 1000px;
 }
 

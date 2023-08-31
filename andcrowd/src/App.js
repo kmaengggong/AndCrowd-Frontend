@@ -39,6 +39,9 @@ import Signup from './pages/Signup';
 import CrowdPayment from './payment/CrowdPayment';
 import AdPayment from "./payment/AdPayment";
 import MyPage from './pages/MyPage';
+import CrowdDetail from './pages/crowd/CrowdDetail';
+import CrowdList from './pages/CrowdList';
+import CrowdCreate from './pages/crowd/CrowdCreate';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -105,9 +108,9 @@ function App() {
             <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} />
             <Route path="/ad/payment" element={<AdPayment />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/crowd/list" element={<Login />} />
+            <Route path="/crowd/list" element={<CrowdList />} />
             <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
-            <Route path="/crowd/create" element={<Login />} />
+            <Route path="/crowd/create" element={<CrowdCreate />} />
             <Route path="/team" element={<Login />} />
             <Route path="/help" element={<Login />} />
             <Route path="*" element={<NotFound />} />
