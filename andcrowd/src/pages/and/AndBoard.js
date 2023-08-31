@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 const AndBoard = () => {
   const params = useParams();
   const andId = params.andId;
-
+  const andBoardId = params.andBoardId;
   const [andBoardList, setAndBoardList] = useState([]);
 
   useEffect(() => {

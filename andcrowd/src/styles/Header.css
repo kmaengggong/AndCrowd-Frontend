@@ -1,0 +1,38 @@
+#login{
+    margin-left: 4vh;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    background-color: transparent;
+    color: #2D2D2D;
+    text-decoration: none;
+}
+
+#signUp{
+    margin-left: 2vh;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    background-color: transparent;
+    color: #2D2D2D;
+    text-decoration: none;
+    margin-right: 0px;
+    text-align: right;
+}
+
+#navText{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    color: #000000;
+    margin: 20px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+#logo{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 32px;
+    color: #000000;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 14vh;
+    margin-right: 13vh;
+}
