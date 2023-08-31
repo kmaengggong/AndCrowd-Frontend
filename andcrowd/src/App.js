@@ -8,7 +8,7 @@ import NotFound from './pages/NotFound';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import CrowdBoardList from './pages/crowd/CrowdBoardList';
-import CrowdBoardDeltail from "./pages/crowd/CrowdBoardDeltail";
+import CrowdBoardDetail from "./pages/crowd/CrowdBoardDetail";
 import CrowdBoardInsert from "./pages/crowd/CrowdBoardInsert";
 import CrowdBoardUpdate from "./pages/crowd/CrowdBoardUpdate";
 import Login from './pages/Login';
@@ -88,7 +88,7 @@ function App() {
         <Route path="/:projectType/:projectId/ad/:adId/payment" element={<AdPaymentFunction />} />
         <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
         <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
-        <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDeltail />} />
+        <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
         <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/crowd/list" element={<Login />} />

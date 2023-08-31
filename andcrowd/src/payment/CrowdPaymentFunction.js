@@ -107,9 +107,7 @@ const CrowdPaymentFunction = () => {
 
         // 백서버로 결제내역을 전송하기 위한 data객체 저장
         setPaymentData(data);
-
-
-
+        
         IMP.request_pay(data, callback.bind(null, data));
     }
 
