@@ -36,6 +36,8 @@ import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
 import Signup from './pages/Signup';
+import CrowdPayment from './payment/CrowdPayment';
+import AdPayment from "./payment/AdPayment";
 import MyPage from './pages/MyPage';
 
 const sections = [
@@ -100,6 +102,8 @@ function App() {
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDeltail />} />
             <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
+            <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} />
+            <Route path="/ad/payment" element={<AdPayment />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/crowd/list" element={<Login />} />
             <Route path="/crowd/create" element={<Login />} />
