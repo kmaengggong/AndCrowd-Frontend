@@ -35,6 +35,7 @@ import AndRoleUpdate from './pages/and/AndRoleUpdate';
 import Signup from './pages/Signup';
 import ChatPage from './pages/chat/ChatPage';
 import AndChat from './pages/and/AndChat';
+import ChatroomUpdate from './pages/chat/ChatroomUpdate';
 
 const sections = [
   {title: '홈', url: ''},
@@ -77,6 +78,7 @@ function App() {
         <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
         <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
         <Route path="/and/:andId/chat" element={<AndChat />} />
+        <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
         <Route path="/and/create" element={<AndCreate />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/crowd/list" element={<Login />} />

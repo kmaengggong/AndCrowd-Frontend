@@ -28,7 +28,7 @@ const AndChat = () => {
             <div>
               <h2>Welcome, {nickname}!</h2>
               <ul>
-                  <ChatRoom roomData={roomData} nickname={nickname} />
+                  <ChatRoom roomData={roomData} nickname={nickname} andId={andId} />
               </ul>
             </div>
           )}
