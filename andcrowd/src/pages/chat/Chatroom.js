@@ -18,16 +18,46 @@ function ChatRoom({ roomData, nickname, andId }) {
   const [previousMessages, setPreviousMessages] = useState([]);
   const [loadingPrevious, setLoadingPrevious] = useState(false);
   const [members, setMembers] = useState([]);
+  const [connectedList, setConnectedList] = useState([]);
 
   useEffect(() => {
     const socket = new SockJS('http://localhost:8080/ws');
     const stomp = Stomp.over(socket);
+    
+    const handleBeforeUnload = () => {
+      if (stomp) {
+        const leaveMessage = {
+          senderName: nickname,
+          roomId: roomData.roomId,
+          status: 'LEAVE',
+        };
+        stomp.send('/app/chat/out', {}, JSON.stringify(leaveMessage));
+        stomp.disconnect();
+      }
+    };
 
     stomp.connect({}, () => {
       stomp.subscribe(`/sub/chat/room/${roomData.roomId}`, (message) => {
         const newMessage = JSON.parse(message.body);
-        setMessages((prevMessages) => [...prevMessages, newMessage]);
+          setConnectedList(newMessage.userList);
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
       });
+
+      const joinMessage = {
+        senderName: nickname,
+        roomId: roomData.roomId,
+        status: 'JOIN',
+      };
+      stomp.send('/app/chat/enter', {}, JSON.stringify(joinMessage));
+
+      setStompClient(stomp);
+
+      loadPreviousMessages(roomData.roomId);
+      loadChatMembers(roomData.roomId);
+
+      // beforeunload 이벤트 핸들러 등록
+      window.addEventListener('beforeunload', handleBeforeUnload);
+
     });
 
     setStompClient(stomp);
@@ -36,13 +66,22 @@ function ChatRoom({ roomData, nickname, andId }) {
     loadPreviousMessages(roomData.roomId);
 
     // 채팅방 멤버 목록 로드
-    loadChatMembers(roomData.roomId);
+    loadChatMembers(roomData.roomId);    
 
     return () => {
       if (stomp.connected) {
+        const leaveMessage = {
+          senderName: nickname,
+          roomId: roomData.roomId,
+          status: 'LEAVE',
+        };
+        stomp.send('/app/chat/out', {}, JSON.stringify(leaveMessage));
+
         stomp.disconnect();
       }
-      setMessages([]); // 현재 채팅방에서 나갈 때 메시지 초기화
+      setMessages([]);
+      // beforeunload 이벤트 핸들러 해제
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [roomData.roomId]);
 
@@ -98,9 +137,13 @@ function ChatRoom({ roomData, nickname, andId }) {
       <div>
         <h3>Chat Members: 닉네임(이름)</h3>
         {members.map((member, index) => (
-          <div key={index}>
+          <div
+            key={index}
+          >
             <span>{member.userNickname}</span>
             <span>({member.userKorName})</span>
+            {connectedList.includes(member.userNickname) && (
+            <span> - Online</span>)}
           </div>
         ))}
       </div>
@@ -119,11 +162,14 @@ function ChatRoom({ roomData, nickname, andId }) {
         ))}
         <hr />
         {messages.map((msg, index) => (
-          <div key={index}>
-            <span>{msg.senderName}: </span>
-            <span>{msg.message} </span>
-            <span>{formatTimestamp(msg.publishedAt)}</span>
-          </div>
+          // msg.status가 'message'인 경우에만 렌더링
+          msg.status === 'message' && (
+            <div key={index}>
+              <span>{msg.senderName}: </span>
+              <span>{msg.message} </span>
+              <span>{formatTimestamp(msg.publishedAt)}</span>
+            </div>
+          )
         ))}
       </div>
       <input
