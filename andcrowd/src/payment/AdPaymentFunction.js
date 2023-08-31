@@ -4,7 +4,7 @@ import jwtDecode from "jwt-decode";
 import {useParams} from "react-router-dom";
 
 const AdPaymentFunction = () => {
-    const { projectType, projectId, adId } = useParams();
+    const { projectType, projectId } = useParams();
 
     const [ad, setAd] = useState(null);
     const [user, setUser] = useState(null);
@@ -14,6 +14,8 @@ const AdPaymentFunction = () => {
     const [buyerName, setBuyerName] = useState("");
     const [buyerTel, setBuyerTel] = useState("");
     const [buyerAddr, setBuyerAddr] = useState("");
+    const [adId, setAdId] = useState("");
+    const [adList, setAdList] = useState("");
 
     const [userId, setUserId] = useState("");
 
@@ -54,6 +56,22 @@ const AdPaymentFunction = () => {
                 console.error("찾는 유저가 없습니다.", error)
             });
     }, []);
+
+    // 전체 광고 리스트를 불러오는 기능
+    useEffect(() => {
+        axios.get(`http://localhost:8080/ad/all`)
+            .then(response => {
+                setAdList(response.data);
+            })
+            .catch(error => {
+                console.error("광고 목록을 가져오는데 실패했습니다.", error);
+            });
+    }, []);
+
+    // 광고 선택에 따른 Id값 업데이트
+    const handleAdSelect = (e) => {
+        setAdId(e.target.value);
+    };
 
     // 결제할 광고를 불러오는 기능
     useEffect(() => {
@@ -133,6 +151,11 @@ const AdPaymentFunction = () => {
     };
     return (
         <div>
+            <select onChange={handleAdSelect}>
+                {adList.map(adItem => (
+                    <option key={adItem.id} value={adItem.id}>{adItem.adName}</option>
+                ))}
+            </select>
             <button onClick={onClickPayment}>결제하기</button>
         </div>
     )

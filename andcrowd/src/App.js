@@ -85,7 +85,7 @@ function App() {
         <Route path="/crowd/list" element={<Login />} />
         <Route path="/crowd/create" element={<Login />} />
         <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
-        <Route path="/:projectType/:projectId/ad/:adId/payment" element={<AdPaymentFunction />} />
+        <Route path="/ad/payment/:projectType/:projectId" element={<AdPaymentFunction />} />
         <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
         <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
         <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
