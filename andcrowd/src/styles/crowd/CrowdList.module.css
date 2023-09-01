@@ -1,6 +1,20 @@
 .carousel{
-    margin-top: 10px;
+    margin-top: 5px;
     padding: 10px;
+}
+
+.linkToCreate {
+    font: black;
+    margin-top: 5px;
+    background: #3bc9db;
+    float: right;
+    border-radius: 5px;
+    border: none;
+}
+
+.linkToCreate:hover {
+    background-color: white;
+    opacity: 1;
 }
 
 .btnCategory {
