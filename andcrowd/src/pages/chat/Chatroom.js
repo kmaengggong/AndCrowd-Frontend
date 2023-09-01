@@ -75,7 +75,7 @@ function ChatRoom({ roomData, nickname, andId }) {
       setStompClient(stomp);
 
       loadPreviousMessages(roomData.roomId);
-      loadPreviousPrivateMessages(roomData.roomId, roomData.senderName, roomData.receiverName);
+      loadPreviousPrivateMessages(roomData.roomId, nickname, tab);
       loadChatMembers(roomData.roomId);
 
       // beforeunload 이벤트 핸들러 등록
@@ -178,7 +178,8 @@ function ChatRoom({ roomData, nickname, andId }) {
         receiverName: tab,
         message: message,
         roomId: roomData.roomId,
-        status:"MESSAGE"
+        status:"MESSAGE",
+        publishedAt: new Date().toISOString() // 현재 시간 설정
       };
       
       if (nickname !== tab) {
@@ -367,6 +368,7 @@ function ChatRoom({ roomData, nickname, andId }) {
         }
         {tab!=="CHATROOM" &&
         <div>
+          <h4>{tab}과의 1:1 채팅</h4>
           <div>
             {/* DB에 저장된 메세지 출력 */}
             {previousPrivateMessages.map((msg, index) => (
@@ -411,6 +413,10 @@ function ChatRoom({ roomData, nickname, andId }) {
                   </div>}
                   <div className="message-data">
                     {chat.message}
+                  </div>
+                  <div className="message-data">
+                    {formatTimestamp(chat.publishedAt)}<br />
+                    <br />
                   </div>
                 </li>
                 </div>
