@@ -63,7 +63,7 @@ const CrowdDetail = () => {
     return (
         <div className={styles.crowdDetailContainer} id="container">
             <div className={styles.leftSide}>
-                <Link to={`/crowd/${crowd.crowdId}/detail`}>
+                <Link to={`/crowd/${crowd.crowdId}/detail`}>{/* 링크에 crowdId추가 */}
                 <button>상세정보</button>
                 </Link>
                 <Link to={`/crowd/${crowd.crowdId}/board/${crowd.crowdBoardId}`}>
@@ -74,7 +74,9 @@ const CrowdDetail = () => {
                 </Link>
                 <hr />
                 <div className={styles.imgContainer}>
-                    <div className={styles.Img1}>{/* crowdImg 1 */}</div>
+                    <Link>
+                        <div className={styles.Img1}>{/* crowdImg 1 */}</div>
+                    </Link>
                     <div className={styles.Img2}>{/* crowdImg 2 */}</div>
                     <div className={styles.Img3}>{/* crowdImg 3 */}</div>
                     <div className={styles.Img4}>{/* crowdImg 4 */}</div>

@@ -5,12 +5,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import CssBaseline from '@mui/material/CssBaseline';
-import PropTypes from 'prop-types';
 import { NumericFormat } from 'react-number-format';
+import { InputAdornment } from '@mui/material';
 
 const CrowdCreate = () => {
   const navigate = useNavigate();
@@ -89,60 +88,6 @@ const CrowdCreate = () => {
     navigate('/crowd/list'); // 업로드 취소 버튼 클릭 시 페이지 전환
   };
 
-  // 목표금액 설정  
-  const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(
-    props,
-    ref,
-  ) {
-    const { onChange, ...other } = props;
-  
-    return (
-      <NumericFormat
-        {...other}
-        getInputRef={ref}
-        onValueChange={(values) => {
-          onChange({
-            target: {
-              name: props.name,
-              value: values.value,
-            },
-          });
-        }}
-        thousandSeparator
-        isNumericString 
-        prefix="₩"
-      />
-    );
-  });
-  
-  NumericFormatCustom.propTypes = {
-    name: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired,
-  };
-  
-  const [values, setValues] = React.useState({
-    numberformat: "",
-  });
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    // 목표금액 필드만 따로 처리
-    if (name === 'crowdGoal') {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
-    // setValues({
-    //   ...values,
-    //   [event.target.name]: event.target.value,
-    // });
-  };
-
   return ( // 화면단 입력 구문 시작
     <Container component="main" maxWidth="md">
       <CssBaseline />
@@ -156,10 +101,10 @@ const CrowdCreate = () => {
               mr: 5
             }}
       >
-      <Typography component="h1" variant="h5">
-      우리의 꿈과 열정을 함께 나누어주세요 🌟
-      여러분의 따뜻한 지원과 사랑으로 이 프로젝트를 실현하고자 합니다.
-      함께하는 모든 순간이 소중하고, 우리의 미래에 희망을 안겨줄 것입니다.
+      <Typography component="h1" variant="h5" style={{ lineHeight: '2' }}>
+      우리의 꿈과 열정을 함께 나누어주세요 🌟<br />
+      여러분의 따뜻한 지원과 사랑으로 이 프로젝트를 실현하고자 합니다.<br />
+      함께하는 모든 순간이 소중하고, 우리의 미래에 희망을 안겨줄 것입니다.<br />
       감사함과 함께, 함께하는 여정을 시작해봅시다!
       </Typography>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -171,10 +116,11 @@ const CrowdCreate = () => {
                 id="userId"
                 label="회원번호"
                 name="userId"
-                autoComplete="userId"
-                aria-readonly="true"
                 value={userId} // userId 상태를 TextField의 value로 설정
-                onChange={handleInputChange} // 필요한 경우 이벤트 핸들러 추가
+                //onChange={handleInputChange}
+                InputProps={{
+                  readOnly: true,
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={9}>
@@ -224,28 +170,20 @@ const CrowdCreate = () => {
               />
             </Grid>
             {/* 목표금액 설정구문 */}
-            {/* <Box
-              sx={{
-                '& > :not(style)': {
-                  m: 1,
-                },
-              }}
-            ></Box> */}
             <Grid item xs={12} sm={9}>
-              <TextField 
-                required
+              <NumericFormat
+                label="목표 금액"
+                customInput={TextField}
+                thousandSeparator={true}
                 fullWidth
-                id="crowdGoal" // 목표금액 입력 필드의 ID
-                label="펀딩 목표 금액" // 목표금액 입력 필드의 라벨
-                name="crowdGoal" // 목표금액 입력 필드의 이름
-                type="text" // 숫자만 입력 가능하도록 설정
-                value={values.numberformat} // 현재 상태의 목표금액 값을 사용
-                onChange={handleChange} // 입력값 변경 시 상태 업데이트
-                placeholder="목표 금액을 입력하세요."
+                value={formData.crowdGoal}
                 InputProps={{
-                  inputComponent: NumericFormatCustom,
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <div className="text-primary fw-700">원</div>
+                        </InputAdornment>
+                    )
                 }}
-                variant="standard"
               />
             </Grid>
             {/* 이미지 업로드 부분 */}
@@ -327,7 +265,7 @@ const CrowdCreate = () => {
                 type="button"
                 onClick={handleUploadCancel}
                 variant="contained"
-                color="secondary"
+                color="inherit"
               >
                 업로드 취소
               </Button>

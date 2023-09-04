@@ -11,6 +11,7 @@ import Link from '@mui/joy/Link';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Typography from '@mui/joy/Typography';
+import CrowdMainImg from "./crowd/CrowdMainImg";
 
 const CrowdList = () => {
   
@@ -20,6 +21,7 @@ const CrowdList = () => {
         <Link href="http://localhost:3000/crowd/create">펀딩을 시작해보세요!</Link>
       </button>
       <br />
+      {/* <CrowdMainImg /> */}
       <div className={styles.carousel}>
         {/* 화면상단 인기/추천 게시글 */}
         <Box sx={{ borderRadius: 'sm', p: 1}}>
@@ -77,6 +79,7 @@ const CrowdList = () => {
             textColor="text.primary"
             overlay
             endDecorator={<ArrowOutwardIcon />}
+            to="/crowd/detail/${crowd.crowdId}"
           >
             {/* CrowdTitle */}
             노이즈 캔슬링의 최강자 A400!
