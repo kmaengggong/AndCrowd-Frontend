@@ -8,7 +8,7 @@ import Home from './pages/Home';
 import Test from './pages/Test';
 import NotFound from './pages/NotFound';
 import CrowdBoardList from './pages/crowd/CrowdBoardList';
-import CrowdBoardDeltail from "./pages/crowd/CrowdBoardDeltail";
+import CrowdBoardDetail from "./pages/crowd/CrowdBoardDetail";
 import CrowdBoardInsert from "./pages/crowd/CrowdBoardInsert";
 import CrowdBoardUpdate from "./pages/crowd/CrowdBoardUpdate";
 import Login from './pages/Login';
@@ -36,9 +36,11 @@ import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
 import Signup from './pages/Signup';
-import CrowdPayment from './payment/CrowdPayment';
-import AdPayment from "./payment/AdPayment";
+import CrowdPayment from './payment/CrowdPaymentFunction';
+import AdPayment from "./payment/AdPaymentFunction";
 import MyPage from './pages/MyPage';
+import CrowdPaymentFunction from "./payment/CrowdPaymentFunction";
+import AdPaymentFunction from "./payment/AdPaymentFunction";
 
 const sections = [
   { title: '홈', url: '/' },
@@ -100,10 +102,10 @@ function App() {
             <Route path="/and/create" element={<AndCreate />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
-            <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDeltail />} />
+            <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
             <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
-            <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} />
-            <Route path="/ad/payment" element={<AdPayment />} />
+            <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
+            <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/crowd/list" element={<Login />} />
             <Route path="/crowd/create" element={<Login />} />

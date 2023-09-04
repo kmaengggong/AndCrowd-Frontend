@@ -4,7 +4,26 @@ import jwtDecode from "jwt-decode";
 import {useParams} from "react-router-dom";
 
 const AdPaymentFunction = () => {
-    const { projectType, projectId } = useParams();
+
+    // // 테스트용 더미
+    // const ad = {
+    //     adName: "더미광고1",
+    //     adPrice: 1000000
+    // }
+    //
+    // let buyerEmail = "chosy0716@kakao.com";
+    // let buyerName = "조승연";
+    // let buyerTel = "010-0000-0000";
+    // let userId = 1;
+
+    let { projectType, projectId } = useParams();
+
+        if (projectType === 'crowd') {
+            projectType = 1;
+        } else if (projectType === 'and') {
+            projectType = 0;
+        }
+
 
     const [ad, setAd] = useState(null);
     const [user, setUser] = useState(null);
@@ -99,7 +118,7 @@ const AdPaymentFunction = () => {
         const data = {
             pg: "kakaopay.{TC0ONETIME}", // 결제사 명시
             pay_method: "card", // 결제수단
-            merchant_uid: "3", // 결제번호
+            merchant_uid: "115", // 결제번호
             name: ad.adName, // 상품명
             amount: ad.adPrice, // 금액
             buyer_email: buyerEmail, // 구매자 이메일
@@ -123,7 +142,7 @@ const AdPaymentFunction = () => {
             // adPayment에 전송할 데이터를 객체화함
             adDetails = {
                 adId: adId,
-                adPaymentStatus: "결제완료",
+                adPaymentStatus: 1,
                 projectId: projectId,
                 projectType: projectType,
                 userId: userId
@@ -136,7 +155,7 @@ const AdPaymentFunction = () => {
             alert("결제성공");
             // 결제 성공 후 백엔드 서버에 결제 정보를 전송
             try {
-                const serverResponse = await axios.post(`http://localhost:8080/ad/successad`, adDetails);
+                const serverResponse = await axios.post(`http://localhost:8080/ad/payment/insert`, adDetails);
                 if(serverResponse.status === 200) {
                     alert("서버에 결제 정보 전송 완료!");
                 } else {
