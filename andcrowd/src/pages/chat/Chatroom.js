@@ -47,7 +47,7 @@ function ChatRoom({ roomData, nickname, andId }) {
         const leaveMessage = {
           senderName: nickname,
           roomId: roomData.roomId,
-          status: 'LEAVE',
+          chatStatus: 'LEAVE',
         };
         stomp.send('/app/chat/out', {}, JSON.stringify(leaveMessage));
         stomp.disconnect();
@@ -58,7 +58,7 @@ function ChatRoom({ roomData, nickname, andId }) {
       stomp.subscribe(`/sub/chat/room/${roomData.roomId}`, (message) => {
         const newMessage = JSON.parse(message.body);
         
-        if(newMessage.status !== "MESSAGE"){
+        if(newMessage.chatStatus !== "MESSAGE"){
           setConnectedList(newMessage.userList);}
         setMessages((prevMessages) => [...prevMessages, newMessage]);
       });
@@ -68,7 +68,7 @@ function ChatRoom({ roomData, nickname, andId }) {
       const joinMessage = {
         senderName: nickname,
         roomId: roomData.roomId,
-        status: 'JOIN',
+        chatStatus: 'JOIN',
       };
       stomp.send('/app/chat/enter', {}, JSON.stringify(joinMessage));
 
@@ -87,7 +87,7 @@ function ChatRoom({ roomData, nickname, andId }) {
         const leaveMessage = {
           senderName: nickname,
           roomId: roomData.roomId,
-          status: 'LEAVE',
+          chatStatus: 'LEAVE',
         };
         stomp.send('/app/chat/out', {}, JSON.stringify(leaveMessage));
 
@@ -119,6 +119,12 @@ function ChatRoom({ roomData, nickname, andId }) {
       if (response.ok) {
         const data = await response.json();
         setPreviousPrivateMessages(data);
+
+        console.log(roomData.roomId);
+        console.log(nickname);
+        console.log(tab);
+        console.log(data);
+
       } else {
         throw new Error(`Fetching and data failed with status ${response.status}.`);
       }
@@ -164,7 +170,7 @@ function ChatRoom({ roomData, nickname, andId }) {
         senderName: nickname,
         message: message,
         roomId: roomData.roomId,
-        status: "MESSAGE",
+        chatStatus: "MESSAGE",
       };
       stompClient.send('/app/message', {}, JSON.stringify(chatMessage));
       setMessage('');
@@ -178,7 +184,7 @@ function ChatRoom({ roomData, nickname, andId }) {
         receiverName: tab,
         message: message,
         roomId: roomData.roomId,
-        status:"MESSAGE",
+        chatStatus:"MESSAGE",
         publishedAt: new Date().toISOString() // 현재 시간 설정
       };
       
@@ -223,7 +229,7 @@ function ChatRoom({ roomData, nickname, andId }) {
           roomId: roomData.roomId,
           senderName: nickname,
           message: `${nickname}님의 파일 업로드`,
-          status: 'MESSAGE',
+          chatStatus: 'MESSAGE',
           s3DataUrl: data.s3DataUrl,
           fileName: selectedFile.name,
           fileDir: data.fileDir,
@@ -268,6 +274,10 @@ function ChatRoom({ roomData, nickname, andId }) {
   const handleChatRoomClick = () => {
     setTab('CHATROOM');
   };
+
+  useEffect(() => {
+    loadPreviousPrivateMessages(roomData.roomId, nickname, tab);
+  }, [tab, roomData.roomId, nickname]);
 
   return (
     <div>
@@ -334,7 +344,7 @@ function ChatRoom({ roomData, nickname, andId }) {
 
             {/* 접속 후의 메세지 출력 */}
             {messages.map((msg, index) =>
-              msg.status === 'MESSAGE' && (
+              msg.chatStatus === 'MESSAGE' && (
                 <div key={index}>
                   <span>{msg.senderName}: </span>
                   {msg.s3DataUrl ? (
