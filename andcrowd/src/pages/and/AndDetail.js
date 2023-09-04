@@ -56,6 +56,10 @@ const AndDetail = () => {
     navigate(`/and/${andId}/applicant/list`);
   };
 
+  const andChat = (andId) => {
+    navigate(`/and/${andId}/chat`);
+  };
+
   if (and.deleted === true) {
     alert("이 글은 삭제되었습니다.");
     window.location.href = `/and/list`;
@@ -73,6 +77,8 @@ const AndDetail = () => {
         <br />
         <button onClick={() => applyAnd(and.andId)}>apply</button>
         <button onClick={() => applicantList(and.andId)}>apply List</button>
+        <br />
+        <button onClick={() => andChat(and.andId)}>CHAT</button>
         <hr />
         <br />
       </div>
