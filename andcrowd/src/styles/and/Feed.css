@@ -6,7 +6,7 @@
 }
 
 #and-title{
-    width: 8vw;
+    width: 10vw;
     margin-right:1vw;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 28px;
@@ -54,7 +54,7 @@
     border:1px solid #00D337;
     border-radius: 10px;
     margin-top: 2vh;
-    margin-left: 9.5vw;
+    flex-wrap: wrap; 
 }
 #follow:hover{
     background-color: rgb(231, 253, 224);
@@ -164,8 +164,8 @@
     font-weight: 500;
     color: #00D337;
     margin-left: 0;
-    margin-right: 
 }
+
 #bottom-gap{
     margin-bottom: 15vh;
 }

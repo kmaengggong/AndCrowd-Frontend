@@ -43,6 +43,7 @@ import Signup from './pages/Signup';
 import CrowdPayment from './payment/CrowdPayment';
 import AdPayment from "./payment/AdPayment";
 import MyPage from './pages/MyPage';
+import ScrollToTop from './components/ScrollToTop';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -74,6 +75,7 @@ function App() {
       <div className="wrapper" style={{ maxWidth: `${maxWidth}px` }}>
         <Header title="&Crowd" sections={sections} />
         <div className="main-content">
+          <ScrollToTop></ScrollToTop>
           <Routes>
             <Route path="/user/1/and" element={<Test />} />
             <Route path="/" element={<Home />} />
@@ -103,8 +105,8 @@ function App() {
             <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
             <Route path="/and/:andId/member/list" element={<AndMember />} />
             <Route path="/and/:andId/member/create" element={<AndMemberCreate />} />
-            <Route path="/and/:andId/member/:andMemberId" element={<AndMemberDetail />} />
-            <Route path="/and/:andId/member/:andMemberId/update" element={<AndMemberUpdate />} />
+            <Route path="/and/:andId/member/:memberId" element={<AndMemberDetail />} />
+            <Route path="/and/:andId/member/:memberId/update" element={<AndMemberUpdate />} />
             <Route path="/and/create" element={<AndCreate />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />

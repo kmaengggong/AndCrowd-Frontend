@@ -14,7 +14,7 @@ const AndMemberDetail = () => {
 
   useEffect(() => {
     fetchData();
-  }, [andId, memberId]);
+  }, [andId,   memberId]);
 
   const fetchData = async () => {
     try {
@@ -57,8 +57,8 @@ const AndMemberDetail = () => {
         <h4>멤버id: {andMember.memberId}</h4>
         <p>유저id: {andMember.userId}</p>
         <br />
-        <button onClick={() => deleteAndMember(andId, memberId)}>Delete</button>
-        <button onClick={() => updateAndMember(andId, memberId)}>Update</button>
+        <button onClick={() => deleteAndMember(andMember.andId, andMember.memberId)}>Delete</button>
+        <button onClick={() => updateAndMember(andMember.andId, andMember.memberId)}>Update</button>
       </div>
     </div>
   );
