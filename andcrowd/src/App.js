@@ -35,6 +35,10 @@ import AndRole from './pages/and/AndRole';
 import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
+import AndMember from './pages/and/AndMember';
+import AndMemberDetail from './pages/and/AndMemberDetail';
+import AndMemberCreate from './pages/and/AndMemberCreate';
+import AndMemberUpdate from './pages/and/AndMemberUpdate';
 import Signup from './pages/Signup';
 import CrowdPayment from './payment/CrowdPayment';
 import AdPayment from "./payment/AdPayment";
@@ -97,6 +101,10 @@ function App() {
             <Route path="/and/:andId/role/create" element={<AndRoleCreate />} />
             <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
             <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
+            <Route path="/and/:andId/member/list" element={<AndMember />} />
+            <Route path="/and/:andId/member/create" element={<AndMemberCreate />} />
+            <Route path="/and/:andId/member/:andMemberId" element={<AndMemberDetail />} />
+            <Route path="/and/:andId/member/:andMemberId/update" element={<AndMemberUpdate />} />
             <Route path="/and/create" element={<AndCreate />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
