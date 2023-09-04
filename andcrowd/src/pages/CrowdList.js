@@ -11,7 +11,6 @@ import Link from '@mui/joy/Link';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Typography from '@mui/joy/Typography';
-import CrowdMainImg from "./crowd/CrowdMainImg";
 
 const CrowdList = () => {
   
@@ -79,7 +78,7 @@ const CrowdList = () => {
             textColor="text.primary"
             overlay
             endDecorator={<ArrowOutwardIcon />}
-            to="/crowd/detail/${crowd.crowdId}"
+            to="http://localhost:3000/crowd/detail/"
           >
             {/* CrowdTitle */}
             노이즈 캔슬링의 최강자 A400!

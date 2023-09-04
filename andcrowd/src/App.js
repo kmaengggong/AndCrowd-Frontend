@@ -36,13 +36,10 @@ import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
 import Signup from './pages/Signup';
-import ChatPage from './pages/chat/ChatPage';
-import AndChat from './pages/and/AndChat';
-import ChatroomUpdate from './pages/chat/ChatroomUpdate';
 import CrowdPayment from './payment/CrowdPayment';
 import AdPayment from "./payment/AdPayment";
 import MyPage from './pages/MyPage';
-import CrowdDetail from './pages/crowd/CrowdDetail';
+import CrowdDetail from './pages/crowd/detail';
 import CrowdList from './pages/CrowdList';
 import CrowdCreate from './pages/crowd/CrowdCreate';
 
@@ -104,8 +101,6 @@ function App() {
             <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
             <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
             <Route path="/and/create" element={<AndCreate />} />
-            <Route path="/and/:andId/chat" element={<AndChat />} />
-            <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDeltail />} />
@@ -114,12 +109,11 @@ function App() {
             <Route path="/ad/payment" element={<AdPayment />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/crowd/list" element={<CrowdList />} />
-            <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
+            <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
             <Route path="/crowd/create" element={<CrowdCreate />} />
             <Route path="/team" element={<Login />} />
             <Route path="/help" element={<Login />} />
             <Route path="*" element={<NotFound />} />
-            <Route path='/chat' element={<ChatPage />} />
           </Routes>
         </div>
       </div>
