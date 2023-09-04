@@ -8,6 +8,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import NaverLogin from '../components/NaverLogin';
+import '../styles/Login.css';
 
 const defaultTheme = createTheme();
 
@@ -38,14 +40,14 @@ const Login = () => {
       return res.json();
     }).then(data => console.log(data));
   };
-    
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 5,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -54,48 +56,49 @@ const Login = () => {
           {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar> */}
-          <Typography component="h1" variant="h5">
-            Log In
+          
+          <Typography id='login-text'>
+            로그인
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
+          <Box id='form-box' component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+            <TextField className="login"
               margin="normal"
               required
               fullWidth
               id="email"
-              label="이메일 주소"
+              placeholder="이메일을 입력해주세요"
               name="email"
               autoComplete="email"
               autoFocus
             />
-            <TextField
+            <TextField className="login"
               margin="normal"
               required
               fullWidth
               name="password"
-              label="비밀번호"
+              placeholder="비밀번호를 입력해주세요"
               type="password"
               id="password"
               autoComplete="current-password"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
+            <Link id='find-login-info' href="#" variant="body2">
+                  로그인 정보를 잊으셨나요?
+            </Link>
+            <Button id='login-button' type="submit">
               로그인
             </Button>
-            <Grid container>
+            <NaverLogin />
+            <Grid container id='signup-container'>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  비밀번호 분실
-                </Link>
+              <Typography id='signup-text'>
+              &Crowd가 처음이신가요?
+              </Typography>
+            
               </Grid>
               <Grid item xs>
-                <Link href="#" variant="body2">
+              <Link id='to-signup'href="#" variant="body2">
                   회원가입
-                </Link>
+              </Link>
               </Grid>
             </Grid>
           </Box>
