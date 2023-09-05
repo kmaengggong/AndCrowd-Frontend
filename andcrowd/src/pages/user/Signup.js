@@ -10,10 +10,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { SignUpEmail } from '../components/user/SingUpEmail';
-import { SignUpAuthNumber } from '../components/user/SignUpAuthNumber';
-import { SignUpNickname } from '../components/user/SignUpNickname';
-import { SignUpPassword } from '../components/user/SignUpPassword';
+import { SignUpEmail } from '../../components/sign/SingUpEmail';
+import { SignUpAuthNumber } from '../../components/sign/SignUpAuthNumber';
+import { SignUpNickname } from '../../components/sign/SignUpNickname';
+import { SignUpPassword } from '../../components/sign/SignUpPassword';
+import { useNavigate } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
@@ -30,6 +31,7 @@ const Signup = () => {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [isPasswordEqual, setIsPasswordEqual] = useState(true);
     const [isPasswordValid, setIsPasswordValid] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
       if(passwordCheck.match(password)){
@@ -87,6 +89,7 @@ const Signup = () => {
         console.log(nickname);
         console.log(password);
         alert("회원가입 완료");
+        navigate("/");
     };
 
     return (

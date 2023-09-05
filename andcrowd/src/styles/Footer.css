@@ -4,6 +4,7 @@
     margin-right: 0;
     padding-left: 0;
     padding-right: 0;
+    padding-bottom: 3vh;
 }
 
 
@@ -13,8 +14,6 @@
     background: #F7F7F7;
     height: 20%;
 }
-
-
 
 #headText,#headText2{
     font-family: 'Noto Sans KR', sans-serif;

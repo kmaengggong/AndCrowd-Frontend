@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {createContext, useContext, useState} from 'react';
 import { useNavigate } from 'react-router';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,7 +9,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import NaverLogin from '../components/NaverLogin';
+import '../../styles/Login.css';
+import { isLoginContext } from '../../context/isLoginContext';
+import NaverLogin from '../../components/sign/NaverLogin';
+import { useCookies } from 'react-cookie';
 
 const defaultTheme = createTheme();
 
@@ -112,7 +115,12 @@ const Login = () => {
   // );
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const NAVER_CLIENT_ID = "VuPedkCMX9rG5c9njrEN";
+    const REDIRECT_URI = "http://localhost:3000/";
+    const STATE = false;
+    const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
     const navigate = useNavigate();
+    const {isLogin, setIsLogin} = useContext(isLoginContext);
 
     const onChangeEmail = (e) => {
         setEmail(e.target.value);
@@ -121,8 +129,11 @@ const Login = () => {
         setPassword(e.target.value);
     }
 
-    const onClickLogin = async () => {
-      let result;
+    const onClickNaverLoginButton = () => {
+      window.location.href = NAVER_AUTH_URL;
+    }
+
+    const onClickLoginButton = async () => {
       try{
         await fetch('/login',{
           method: "POST",
@@ -134,7 +145,6 @@ const Login = () => {
             "userPassword": password
           })
         }).then(res => {
-          console.log(res);
           if(res.status !== 200){
               alert("이메일 혹은 비밀번호를 확인해주세요.");
               return;
@@ -142,57 +152,83 @@ const Login = () => {
           alert("로그인 성공!!!!!!!!!!!!");
           return res.json();
         }).then(data => {
-          console.log(data);
-          result = data;
-          //return navigate("/");
+          localStorage.setItem('access_token', data.accessToken);
+          setIsLogin(true);
+          navigate(-1);
         })
       } catch(error){
         console.log(error);
       }
-
-      fetchToken(result);
     }
 
-    const fetchToken = async (data) => {
-      try{
-        await fetch('/api/token',{
-          method: "POST",
-          headers:{
-            "Content-Type":"application/json; charset=utf-8"
-          },
-          body: JSON.stringify({
-            "refreshToken": data.refreshToken,
-          })
-        }).then((res) => {
-          console.log(res);
-          if(res.status !== 200){
-            console.log("fuck");
-            return;
-          }
-          console.log(res.json());
-        })
-      } catch(error){
-        console.error(error);
-      }
-    }
-
-    const NAVER_CLIENT_ID = "VuPedkCMX9rG5c9njrEN";
-    const REDIRECT_URI = "http://localhost:3000/";
-    const STATE = false;
-    const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&state=${STATE}&redirect_uri=${REDIRECT_URI}`;
-    
-    const onClickNaverLoginButton = () => {
-      window.location.href = NAVER_AUTH_URL;
-    }
-
-    return (
-      <div>
-        <button onClick={onClickNaverLoginButton}>네이버 로그인</button>
-        E-mail: <input type="text" value={email} onChange={onChangeEmail} /><br />
-        Password: <input type="password" value={password} onChange={onChangePassword} /><br />
-        <button type="button" onClick={onClickLogin}>Log In</button>
-      </div> 
-    );
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 5,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar> */}
+          
+          <Typography id='login-text'>
+            로그인
+          </Typography>
+          <Box id='form-box' component="form" noValidate sx={{ mt: 1 }}>
+            <TextField className="login"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              placeholder="이메일을 입력해주세요"
+              name="email"
+              autoComplete="email"
+              onChange={onChangeEmail}
+              autoFocus
+            />
+            <TextField className="login"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              placeholder="비밀번호를 입력해주세요"
+              type="password"
+              id="password"
+              onChange={onChangePassword}
+              autoComplete="current-password"
+            />
+            <Link id='find-login-info' href="#" variant="body2">
+                  로그인 정보를 잊으셨나요?
+            </Link>
+            <Button id='login-button' type="button" onClick={onClickLoginButton}>
+              로그인
+            </Button>
+            <NaverLogin />
+            <Grid container id='signup-container'>
+              <Grid item xs>
+              <Typography id='signup-text'>
+              &Crowd가 처음이신가요?
+              </Typography>
+            
+              </Grid>
+              <Grid item xs>
+              <Link id='to-signup'href="/signup" variant="body2">
+                  회원가입
+              </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+      </Container>
+      {isLogin ? <h1>로그인됨</h1> : <h1>로그인안됨</h1>}
+    </ThemeProvider>
+  );
 };
 
 export default Login;
