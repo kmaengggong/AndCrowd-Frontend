@@ -40,23 +40,17 @@ import AndRole from './pages/and/AndRole';
 import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
-<<<<<<< HEAD
-
-=======
 import AndMember from './pages/and/AndMember';
 import AndMemberDetail from './pages/and/AndMemberDetail';
 import AndMemberCreate from './pages/and/AndMemberCreate';
 import AndMemberUpdate from './pages/and/AndMemberUpdate';
-import Signup from './pages/Signup';
 import ChatPage from './pages/chat/ChatPage';
 import AndChat from './pages/and/AndChat';
 import ChatroomUpdate from './pages/chat/ChatroomUpdate';
 import CrowdPayment from './payment/CrowdPayment';
 import AdPayment from "./payment/AdPayment";
-import MyPage from './pages/MyPage';
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
->>>>>>> 409b6efa7547b3a4009a30246b02542c1942f006
 
 const sections = [
   { title: '홈', url: '/' },
@@ -119,10 +113,10 @@ function App() {
             <Route path="/and/:andId/board/:andBoardId" element={<AndBoardDetail />} />
             <Route path="/and/:andId/role/list" element={<AndRole />} />
             <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
-<<<<<<< HEAD
 
             {/* 로그인된 유저만 접근 가능 */}
             <Route element={<PrivateRoute />}>
+            <Route path="/and/create" element={<AndCreate />} />
               <Route path="/and/:andId/update" element={<AndUpdate />} />
               <Route path="/and/:andId/qna/create" element={<AndQnaCreate />} />
               <Route path="/and/create" element={<AndCreate />} />
@@ -130,33 +124,27 @@ function App() {
               <Route path="/and/:andId/applicant/create" element={<AndApplicantCreate />} />
               <Route path="/and/:andId/board/create" element={<AndBoardCreate />} />
               <Route path="/and/:andId/board/:andBoardId/update" element={<AndBoardUpdate />} />
+              <Route path="/and/:andId/member/create" element={<AndMemberCreate />} />
+              <Route path="/and/:andId/member/:memberId/update" element={<AndMemberUpdate />} />
               <Route path="/and/:andId/role/create" element={<AndRoleCreate />} />
               <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
-              <Route path="/and/create" element={<AndCreate />} />
+              
               <Route path="/crowd/create" element={<Login />} />
+              <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
             </Route>
-
-=======
-            <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
+            
             <Route path="/and/:andId/member/list" element={<AndMember />} />
-            <Route path="/and/:andId/member/create" element={<AndMemberCreate />} />
             <Route path="/and/:andId/member/:memberId" element={<AndMemberDetail />} />
-            <Route path="/and/:andId/member/:memberId/update" element={<AndMemberUpdate />} />
-            <Route path="/and/create" element={<AndCreate />} />
             <Route path="/and/:andId/chat" element={<AndChat />} />
             <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
->>>>>>> 409b6efa7547b3a4009a30246b02542c1942f006
-            <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
+
+            
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDeltail />} />
             <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
-<<<<<<< HEAD
-=======
             <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} />
+
             <Route path="/ad/payment" element={<AdPayment />} />
-            <Route path="/signup" element={<Signup />} />
->>>>>>> 409b6efa7547b3a4009a30246b02542c1942f006
-            <Route path="/crowd/list" element={<Login />} />
 
             <Route path="/team" element={<Login />} />
             <Route path="/help" element={<Login />} />

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
@@ -13,13 +12,8 @@ import { isLoginContext } from '../context/isLoginContext';
 import { Button } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-=======
-import Toolbar from '@mui/material/Toolbar';   
-import Link from '@mui/material/Link';
 import '../styles/Header.css';
-import SearchBar from './SearchBar';
 import logo from '../logo.svg' 
->>>>>>> 409b6efa7547b3a4009a30246b02542c1942f006
 
 const Header = (props) => {
   const { sections, title } = props;
