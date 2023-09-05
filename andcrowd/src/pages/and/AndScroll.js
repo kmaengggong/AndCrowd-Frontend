@@ -228,9 +228,11 @@ const navigateToAndCreate = () => {
                   {calculateRemainingDays(item.andEndDate)}
                 </Typography>
               </div>
+              <div id='showmore-button-box'>
               <button id='follow'>팔로우</button>
               <img id='show-more-img' src={showMoreImg} alt="showMoreImg" aria-controls="simple-menu" aria-haspopup="true" 
                 onClick={handleClick1} />
+              </div>
               <Menu
               id="simple-menu"
                 anchorEl={anchorEl1}
