@@ -51,6 +51,7 @@ import CrowdPayment from './payment/CrowdPayment';
 import AdPayment from "./payment/AdPayment";
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
+import { NaverLoginCallback } from './components/sign/NaverLoginCallback';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -89,6 +90,7 @@ function App() {
             <Route element={<PublicRoute />}>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/naverLoginCallback/*" element={<NaverLoginCallback />} />
             </Route>
 
             {/* 누구라 접근 가능 */}

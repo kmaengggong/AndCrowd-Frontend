@@ -210,6 +210,7 @@ const Login = () => {
               로그인
             </Button>
             <NaverLogin />
+            <button onClick={onClickNaverLoginButton}>ㅁㄴㅇㄹ</button>
             <Grid container id='signup-container'>
               <Grid item xs>
               <Typography id='signup-text'>
