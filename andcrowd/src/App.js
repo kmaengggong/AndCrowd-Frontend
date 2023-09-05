@@ -40,10 +40,14 @@ import AndMemberDetail from './pages/and/AndMemberDetail';
 import AndMemberCreate from './pages/and/AndMemberCreate';
 import AndMemberUpdate from './pages/and/AndMemberUpdate';
 import Signup from './pages/Signup';
+import ChatPage from './pages/chat/ChatPage';
+import AndChat from './pages/and/AndChat';
+import ChatroomUpdate from './pages/chat/ChatroomUpdate';
 import CrowdPayment from './payment/CrowdPayment';
 import AdPayment from "./payment/AdPayment";
 import MyPage from './pages/MyPage';
 import ScrollToTop from './components/ScrollToTop';
+import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -95,6 +99,7 @@ function App() {
             <Route path="/and/:andId/applicant/create" element={<AndApplicantCreate />} />
             <Route path="/and/:andId/applicant/:andApplyId/update" element={<AndApplicantUpdate />} />
             <Route path="/and/:andId/applicant/:andApplyId" element={<AndApplicantDetail />} />
+            <Route path="/and/:andId/applicant/:andApplyId/admin" element={<AndApplicantAdmin />} />
             <Route path="/and/:andId/board/list" element={<AndBoard />} />
             <Route path="/and/:andId/board/create" element={<AndBoardCreate />} />
             <Route path="/and/:andId/board/:andBoardId" element={<AndBoardDetail />} />
@@ -108,6 +113,8 @@ function App() {
             <Route path="/and/:andId/member/:memberId" element={<AndMemberDetail />} />
             <Route path="/and/:andId/member/:memberId/update" element={<AndMemberUpdate />} />
             <Route path="/and/create" element={<AndCreate />} />
+            <Route path="/and/:andId/chat" element={<AndChat />} />
+            <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDeltail />} />
@@ -120,6 +127,7 @@ function App() {
             <Route path="/team" element={<Login />} />
             <Route path="/help" element={<Login />} />
             <Route path="*" element={<NotFound />} />
+            <Route path='/chat' element={<ChatPage />} />
           </Routes>
         </div>
       </div>

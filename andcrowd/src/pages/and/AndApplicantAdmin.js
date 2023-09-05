@@ -11,6 +11,8 @@ const AndApplicantDetail = () => {
     const navigate = useNavigate();
 
     const [andApplicant, setAndApplicant] = useState({});
+    const [andApplyStatus, setAndApplyStatus] = useState([]);
+
 
     useEffect(() => {
         fetchData();
@@ -29,25 +31,32 @@ const AndApplicantDetail = () => {
         console.error("Error fetching And data:", error);
       }
     };
-  
 
-    const deleteAndApply = async (andId, andApplyId) => {
-        try {
-          await axios.delete(`/and/${andId}/applicant/${andApplyId}/delete`);
-          console.log("Deleted and with ID:", andApplyId);
+    const handleApplyStatusChange = async (updatedStatus) => {
+      const updatedStatusValue = parseInt(updatedStatus); 
+    
+      setAndApplyStatus(updatedStatus);
+    
+      try {
+        const response = await fetch(`/and/${andId}/applicant/${andApplyId}/update/admin`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedStatusValue),
+        });
+    
+        if (response.ok) {
           navigate(`/and/${andId}/applicant/list`);
-        } catch (error) {
-          console.error("error in deleting and:", error);
+        } else {
+          throw new Error(`상태 업데이트 실패. 상태 코드: ${response.status}.`);
         }
-      };
+      } catch (error) {
+        console.error("상태 업데이트 오류:", error);
+      }
+    };
+          
     
-      const updateAndApply = (andId, andApplyId) => {
-        navigate(`/and/${andId}/applicant/${andApplyId}/update`);
-      };
-    
-      const acceptAndApply = (andId, andApplyId) => {
-        navigate(`/and/${andId}/applicant/${andApplyId}/admin`);
-      };
 
     return (
         <>
@@ -59,10 +68,18 @@ const AndApplicantDetail = () => {
                 <p>신청 현황: {andApplicant.andApplyStatus}</p>
                 <p>(0: new / 1: 합격 / 2: 보류 / 3: 탈락)</p>
                 <br />
-                <button onClick={() => updateAndApply(andId, andApplyId)}>update</button>
-                <button onClick={() => deleteAndApply(andId, andApplyId)}>delete</button>
-                <button onClick={() => acceptAndApply(andId, andApplyId)}>모임장 관리</button>
             </div>
+            <hr />
+            <div>
+              <label>상태 변경: </label>
+              <select value={andApplyStatus} onChange={(e) => handleApplyStatusChange(e.target.value)}>
+                <option value="0">0 : new</option>
+                <option value="1">1 : 승인</option>
+                <option value="2">2 : 보류</option>
+                <option value="3">3 : 기각</option>
+              </select>
+            </div>
+
         </>
     );
 };
