@@ -42,6 +42,7 @@ import ChatroomUpdate from './pages/chat/ChatroomUpdate';
 import CrowdPayment from './payment/CrowdPayment';
 import AdPayment from "./payment/AdPayment";
 import MyPage from './pages/MyPage';
+import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -92,6 +93,7 @@ function App() {
             <Route path="/and/:andId/applicant/create" element={<AndApplicantCreate />} />
             <Route path="/and/:andId/applicant/:andApplyId/update" element={<AndApplicantUpdate />} />
             <Route path="/and/:andId/applicant/:andApplyId" element={<AndApplicantDetail />} />
+            <Route path="/and/:andId/applicant/:andApplyId/admin" element={<AndApplicantAdmin />} />
             <Route path="/and/:andId/board/list" element={<AndBoard />} />
             <Route path="/and/:andId/board/create" element={<AndBoardCreate />} />
             <Route path="/and/:andId/board/:andBoardId" element={<AndBoardDetail />} />
