@@ -53,6 +53,9 @@ import MyPage from './pages/MyPage';
 import AndCreateImg from './pages/and/AndCreateImg';
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
+import CrowdDetail from './pages/crowd/detail';
+import CrowdList from './pages/CrowdList';
+import CrowdCreate from './pages/crowd/CrowdCreate';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -149,6 +152,9 @@ function App() {
             <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDeltail />} />
             <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
             <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} />
+            <Route path="/crowd/list" element={<CrowdList />} />
+            <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
+            <Route path="/crowd/create" element={<CrowdCreate />} />
 
             <Route path="/ad/payment" element={<AdPayment />} />
 
