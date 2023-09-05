@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 const AndRole = () => {
+  const navigate = useNavigate(); 
+
   const params = useParams();
   const andId = params.andId;
 
@@ -26,6 +28,15 @@ const AndRole = () => {
     }
   };
 
+  const handleButtonClick = async () => {
+    await fetch(`/and/${andId}/update/status`, {
+      method: "PATCH",
+    });
+
+    navigate(`/and/list`);
+};
+
+
   return (
     <div>
       <h1>AndRole List</h1>
@@ -47,7 +58,10 @@ const AndRole = () => {
           ))}
         </tbody>
       </table>
-      <Link to={`/and/${andId}/role/create`}>역할 추가</Link>
+      <Link to={`/and/${andId}/role/create`}>역할 추가</Link> <br/>
+      <button type="button" onClick={handleButtonClick}>
+            submit
+      </button>
     </div>
   );
 };

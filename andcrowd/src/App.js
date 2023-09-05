@@ -42,6 +42,7 @@ import ChatroomUpdate from './pages/chat/ChatroomUpdate';
 import CrowdPayment from './payment/CrowdPayment';
 import AdPayment from "./payment/AdPayment";
 import MyPage from './pages/MyPage';
+import AndCreateImg from './pages/and/AndCreateImg';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -101,6 +102,7 @@ function App() {
             <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
             <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
             <Route path="/and/create" element={<AndCreate />} />
+            <Route path="/and/:andId/img/create" element={<AndCreateImg />} />
             <Route path="/and/:andId/chat" element={<AndChat />} />
             <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
