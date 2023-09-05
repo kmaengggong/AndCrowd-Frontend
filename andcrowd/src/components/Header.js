@@ -1,13 +1,35 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Toolbar from '@mui/material/Toolbar';   
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+import Android from '@mui/icons-material/Android';
+import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import '../styles/Header.css';
 import SearchBar from './SearchBar';
+import { isLoginContext } from '../context/isLoginContext';
+import { Button } from '@mui/material';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import '../styles/Header.css';
 import logo from '../logo.svg' 
 
 const Header = (props) => {
   const { sections, title } = props;
+  const {isLogin, setIsLogin} = React.useContext(isLoginContext);
+  const [, , removeCookie] = useCookies(['refresh_token']);
+  const navigate = useNavigate();
+
+  const onClickLogoutButton = () => {
+    localStorage.removeItem('access_token');
+    removeCookie("refresh_token");
+    removeCookie("refresh_token");
+    setIsLogin(false);
+    alert("로그아웃 되었습니다.");
+    navigate("/");
+  }
+
   return (
     <React.Fragment>
       <Toolbar id ='mainTool' sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -32,13 +54,18 @@ const Header = (props) => {
          </Link>
          <SearchBar />
 
+        {isLogin ?
+        <Button id='logout' onClick={onClickLogoutButton}>로그아웃</Button>
+        :
+        <>
          <Link id='login' href="/login">
            로그인 
          </Link>
          <Link id='signUp' href="/signUp">
-           회원가입 
+           회원가입
          </Link>
-
+        </>
+        }
       </Toolbar>
      
     </React.Fragment>
