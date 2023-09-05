@@ -15,6 +15,7 @@ const AndApplicantUpdate = () => {
         userId: "",
         andRoleId: "",
         andApplyContent: "",
+        andApplyStatus: "",
     });
 
     useEffect(() => {

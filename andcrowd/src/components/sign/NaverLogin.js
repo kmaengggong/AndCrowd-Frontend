@@ -1,6 +1,6 @@
 import {useEffect, useRef} from 'react';
 import Button from '@mui/material/Button';
-import '../styles/Login.css';
+import '../../styles/Login.css';
 
 const NaverLogin = ({setGetToken, setUserInfo}) => {
     const naverRef = useRef();
