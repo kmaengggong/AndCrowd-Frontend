@@ -12,14 +12,22 @@ const AndChat = () => {
   const [roomData, setRoomData] = useState(null);
 
   const handleJoinChat = async (nickname) => {
-    const roomResponse = await fetch(`http://localhost:8080/and/${andId}/chat`);
-    const roomData = await roomResponse.json();
+    // 사용자의 멤버 여부 확인 요청
+    const memberResponse = await fetch(`http://localhost:8080/and/${andId}/check-member?nickname=${nickname}`);
+    const memberData = await memberResponse.json();
+  
+    if (memberData.isMember) {
+      const roomResponse = await fetch(`http://localhost:8080/and/${andId}/chat`);
+      const roomData = await roomResponse.json();
+  
       setRoomData(roomData);
       setNickname(nickname);
       setJoined(true);
-      console.log(roomData);
-    };
-
+    } else {
+      alert("You are not a member of this group."); // 사용자가 멤버가 아닌 경우 경고 표시
+    }
+  };
+  
     return (
         <div>
           {!joined ? (

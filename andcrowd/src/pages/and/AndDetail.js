@@ -75,7 +75,7 @@ const AndDetail = () => {
     <div>
       <AndToolbar andId={and.andId} />
       <div> 
-        <Box id='right-top-box'>
+       <Box id='right-top-box'>
           <Typography id ='and-title'>{and.andTitle}</Typography>
           <CountdownTimer publishedAt={and.publishedAt} andEndDate={and.andEndDate} />
           <hr style={{ margin: '20px auto', width: '70%' }}></hr>

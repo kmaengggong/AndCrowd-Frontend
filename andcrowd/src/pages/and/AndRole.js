@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import AndToolBar from "../../components/and/AndToolBar";
 
 const AndRole = () => {
+  const navigate = useNavigate(); 
+
   const params = useParams();
   const andId = params.andId;
 
@@ -27,6 +29,15 @@ const AndRole = () => {
     }
   };
 
+  const handleButtonClick = async () => {
+    await fetch(`/and/${andId}/update/status`, {
+      method: "PATCH",
+    });
+
+    navigate(`/and/list`);
+};
+
+
   return (
     <div>
       <AndToolBar andId={andId} />
@@ -49,7 +60,10 @@ const AndRole = () => {
           ))}
         </tbody>
       </table>
-      <Link to={`/and/${andId}/role/create`}>역할 추가</Link>
+      <Link to={`/and/${andId}/role/create`}>역할 추가</Link> <br/>
+      <button type="button" onClick={handleButtonClick}>
+            submit
+      </button>
     </div>
   );
 };
