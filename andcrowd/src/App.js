@@ -35,6 +35,10 @@ import AndRole from './pages/and/AndRole';
 import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
+import AndMember from './pages/and/AndMember';
+import AndMemberDetail from './pages/and/AndMemberDetail';
+import AndMemberCreate from './pages/and/AndMemberCreate';
+import AndMemberUpdate from './pages/and/AndMemberUpdate';
 import Signup from './pages/Signup';
 import ChatPage from './pages/chat/ChatPage';
 import AndChat from './pages/and/AndChat';
@@ -42,6 +46,7 @@ import ChatroomUpdate from './pages/chat/ChatroomUpdate';
 import CrowdPayment from './payment/CrowdPayment';
 import AdPayment from "./payment/AdPayment";
 import MyPage from './pages/MyPage';
+import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
 
 const sections = [
@@ -74,6 +79,7 @@ function App() {
       <div className="wrapper" style={{ maxWidth: `${maxWidth}px` }}>
         <Header title="&Crowd" sections={sections} />
         <div className="main-content">
+          <ScrollToTop></ScrollToTop>
           <Routes>
             <Route path="/user/1/and" element={<Test />} />
             <Route path="/" element={<Home />} />
@@ -102,6 +108,10 @@ function App() {
             <Route path="/and/:andId/role/create" element={<AndRoleCreate />} />
             <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
             <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
+            <Route path="/and/:andId/member/list" element={<AndMember />} />
+            <Route path="/and/:andId/member/create" element={<AndMemberCreate />} />
+            <Route path="/and/:andId/member/:memberId" element={<AndMemberDetail />} />
+            <Route path="/and/:andId/member/:memberId/update" element={<AndMemberUpdate />} />
             <Route path="/and/create" element={<AndCreate />} />
             <Route path="/and/:andId/chat" element={<AndChat />} />
             <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />

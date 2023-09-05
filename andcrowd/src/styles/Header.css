@@ -26,13 +26,15 @@
     font-weight: 700;
     text-decoration: none;
 }
-
 #logo{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 32px;
-    color: #000000;
-    font-weight: 700;
-    text-decoration: none;
-    margin-left: 14vh;
-    margin-right: 13vh;
+    margin-left: 10%;
+    margin-right: 6%;
+}
+#logoimg{
+    height: 4vh;
+}
+#mainTool{
+    position: sticky;
+    top: 0;
+    background-color: white;
 }
