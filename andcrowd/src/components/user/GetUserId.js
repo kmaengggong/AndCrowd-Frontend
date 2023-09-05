@@ -1,24 +1,10 @@
-export const GetUserId = async () => {
-    const accessToken = localStorage.getItem("access_token");
-    
-    try{
-        const userId = await fetch('/api/getUserId', {
-            method: "POST",
-            headers:{
-                "Content-Type":"application/json; charset=utf-8"
-            },
-            body: JSON.stringify({
-                "accessToken": accessToken,
-            })
-        }).then(res => {
-            return res.json();
-        }).then(data => {
-            console.log(data);
-            return data;
-        })
+import jwtDecode from "jwt-decode"
 
-        return userId;
+export const GetUserId = () => {
+    try{
+        return jwtDecode(localStorage.getItem("access_token")).userId;
     } catch(error){
-        console.error("/api/getUserId: " + error);
+        console.error("GetUserId: " + error);
+        return null;
     }
 }

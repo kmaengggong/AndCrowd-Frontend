@@ -96,6 +96,7 @@ function App() {
             <Route path="/test" element={<Test />} />
             <Route path="/user/2/and" element={<Test />} />
             <Route path="/" element={<Home />} />
+            <Route path="/user/:userId" element={<MyPage />} />
 
             {/* And 관련 */}
             <Route path="/and/list" element={<AndList />} />

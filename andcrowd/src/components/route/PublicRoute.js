@@ -1,5 +1,4 @@
-import { useContext } from "react"
-import { isLoginContext, useIsLoginState } from "../../context/isLoginContext"
+import { useIsLoginState } from "../../context/isLoginContext"
 import { Navigate, Outlet } from "react-router";
 
 const PublicRoute = () => {

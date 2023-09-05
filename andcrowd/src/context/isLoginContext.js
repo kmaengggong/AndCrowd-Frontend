@@ -7,7 +7,7 @@ export const isLoginContext = createContext({isLogin: access_token ? true : fals
 export function IsLoginProvider({children}){
     const [isLogin, setIsLogin] = useState(access_token !== null ? true : false);
     
-    const value = useMemo(() => ({ isLogin, setIsLogin}), [isLogin, setIsLogin]);
+    // const value = useMemo(() => ({ isLogin, setIsLogin}), [isLogin, setIsLogin]);
     return <isLoginContext.Provider value={{ isLogin, setIsLogin}}>{children}</isLoginContext.Provider>
 }
 

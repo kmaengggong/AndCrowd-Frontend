@@ -226,7 +226,6 @@ const Login = () => {
           </Box>
         </Box>
       </Container>
-      {isLogin ? <h1>로그인됨</h1> : <h1>로그인안됨</h1>}
     </ThemeProvider>
   );
 };

@@ -21,6 +21,12 @@
 // import UserAndSimple from '../../../components/user/UserAndSimple';
 // import { useParams } from 'react-router';
 
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useIsLoginState } from "../../context/isLoginContext";
+import { GetUserId } from "../../components/user/GetUserId";
+import profileImg from "../and/cat.jpg";
+
 // const defaultTheme = createTheme();
 
 // const MyPage = () => {
@@ -179,3 +185,141 @@
 // }
 
 // export default MyPage;
+
+const MyPage = () => {
+    const params = useParams();
+    const userId = params.userId;
+    const isLogin = useIsLoginState();
+    const [isOwner, setIsOwner] = useState(false);
+    const [userAnd, setUserAnd] = useState([]);
+    const [userOrder, setUserOrder] = useState([]);
+    const [userLike, setUserLike] = useState([]);
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+        fetchIsUserExist();
+        if(isLogin){
+            if(parseInt(GetUserId()) === parseInt(userId)) setIsOwner(true);
+        }
+        fetchGetDynamicUserAnd();
+        fetchGetDynamicUserOrder();
+        fetchGetDynamicUserLike();
+    }, []);
+
+    const fetchIsUserExist = async () => {
+        try{
+            await fetch(`/user/${userId}`)
+            .then(res => {
+                if(res.status !== 200){
+                    navigate("/NotFound");
+                }
+            });
+        } catch(error){
+            console.error(`/${userId}: ${error}`);
+        }
+    };
+
+    const fetchGetDynamicUserAnd = async () => {
+        try{
+            await fetch(`/user/${userId}/and`)
+            .then(res => {
+                return res.json();
+            }).then(data => {
+                console.log(data);
+                setUserAnd(data);
+            })
+        } catch(error){
+            console.error(`/user/${userId}/and: ${error}`);
+        }
+    }
+
+    const fetchGetDynamicUserOrder = async () => {
+        try{
+            await fetch(`/user/${userId}/order`)
+            .then(res => {
+                return res.json();
+            }).then(data => {
+                setUserOrder(data);
+            })
+        } catch(error){
+            console.error(`/user/${userId}/order: ${error}`);
+        }
+    }
+
+    const fetchGetDynamicUserLike = async () => {
+        try{
+            await fetch(`/user/${userId}/like`)
+            .then(res => {
+                return res.json();
+            }).then(data => {
+                setUserLike(data);
+            })
+        } catch(error){
+            console.error(`/user/${userId}/like: ${error}`);
+        }
+    }
+
+    return (
+        <>
+            <br />
+            <img src={profileImg} alt="프로필" style={{width: 100, height:100, borderRadius: 100/2 }} />
+            <br />
+            {isOwner ?
+                <>
+                    <button>프로필 페이지 수정</button>
+                    <button>메이커 페이지</button>
+                </>
+                :
+                <></>
+            }
+            <hr />
+            <h1>참여한 모임</h1>
+            <button>자세히</button>
+            {userAnd.length === 0 ?
+                <h2>비어있습니다.</h2>
+                :
+                <>
+                    {userAnd.map((card) => (
+                        <>
+                            <h2>타이틀:{card.andTitle}</h2>
+                            <h2>컨텐츠:{card.andContent}</h2>
+                        </>
+                    ))}
+                </>
+            }
+            <hr />
+            <h1>후원한 펀딩</h1>
+            <button>자세히</button>
+            {userOrder.length === 0 ?
+                <h2>비어있습니다.</h2>
+                :
+                <>
+                    {userOrder.map((card) => (
+                        <>
+                            <h2>{card.orderTitle}</h2>
+                            <h2>{card.orderContent}</h2>
+                        </>
+                    ))}
+                </>
+                
+            }
+            <hr />
+            <h1>찜한 목록</h1>
+            <button>자세히</button>
+            {userLike.length === 0 ?
+                <h2>비어있습니다.</h2>
+                :
+                <>
+                    {userLike.map((card) => (
+                        <>
+                            <h2>{card.projectTitle}</h2>
+                            <h2>{card.projectContent}</h2>
+                        </>
+                    ))}
+                </>
+            }
+        </>
+    );
+}
+
+export default MyPage;
