@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { redirect, useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
-
+import AndToolbar from "../../components/and/AndToolBar";
 
 const AndDetail = () => {
   const params = useParams();
@@ -15,7 +15,6 @@ const AndDetail = () => {
   useEffect(() => {
     fetchData();
   }, [andId]);
-
   const fetchData = async () => {
     try {
       const response = await fetch(`/and/${andId}`);
@@ -68,6 +67,7 @@ const AndDetail = () => {
 
   return (
     <div>
+      <AndToolbar andId={and.andId} />
       <div> 
         <h4>제목: {and.andTitle}</h4>
         <p>본문: {and.andContent}</p>
@@ -82,17 +82,7 @@ const AndDetail = () => {
         <hr />
         <br />
       </div>
-      <div>
-      <Link to={`/and/${and.andId}/qna/list`}>
-        <button>qna</button>
-        </Link>
-        <Link to={`/and/${and.andId}/board/list`}>
-        <button>board</button>
-        </Link>
-        <Link to={`/and/${and.andId}/role/list`}>
-        <button>role</button>
-        </Link>
-      </div>
+      
     </div>
   );
 };
