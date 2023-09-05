@@ -21,6 +21,8 @@
     "react-scripts": "5.0.1",
     "sass": "^1.65.1",
     "scss": "^0.2.4",
+    "sockjs-client": "^1.6.1",
+    "stompjs": "^2.3.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
@@ -12,6 +13,13 @@ import { isLoginContext } from '../context/isLoginContext';
 import { Button } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+=======
+import Toolbar from '@mui/material/Toolbar';   
+import Link from '@mui/material/Link';
+import '../styles/Header.css';
+import SearchBar from './SearchBar';
+import logo from '../logo.svg' 
+>>>>>>> 409b6efa7547b3a4009a30246b02542c1942f006
 
 const Header = (props) => {
   const { sections, title } = props;
@@ -34,7 +42,7 @@ const Header = (props) => {
         <Link id='navText' href="/" variant="nonlined" size="small" sx={{ml:1, mr:1}}>
           홈
         </Link>
-        <Link id='navText' href="/and/list" variant="nonlined" size="small" >
+        <Link id='navText' href="/and/scroll" variant="nonlined" size="small" >
           모임
         </Link>
         <Link id='navText' href="/crowd/list" variant="nonlined" size="small" sx={{ml:1, mr:1}}>
@@ -48,7 +56,7 @@ const Header = (props) => {
         </Link>
 
          <Link id='logo' href="/">
-            {title}
+          <img id ='logoimg' src={logo} alt="Logo" /> 
          </Link>
          <SearchBar />
 
