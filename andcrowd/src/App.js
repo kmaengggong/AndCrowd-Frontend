@@ -53,9 +53,11 @@ import AndCreateImg from './pages/and/AndCreateImg';
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
 import { NaverLoginCallback } from './components/sign/NaverLoginCallback';
+import AndManage from './pages/and/AndManage';
 import CrowdDetail from './pages/crowd/detail';
 import CrowdList from './pages/CrowdList';
 import CrowdCreate from './pages/crowd/CrowdCreate';
+
 
 const sections = [
   { title: '홈', url: '/' },
@@ -120,6 +122,7 @@ function App() {
             <Route path="/and/:andId/board/:andBoardId" element={<AndBoardDetail />} />
             <Route path="/and/:andId/role/list" element={<AndRole />} />
             <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
+            <Route path="/and/:andId/manage" element={<AndManage />} />
 
             {/* 로그인된 유저만 접근 가능 */}
             <Route element={<PrivateRoute />}>
