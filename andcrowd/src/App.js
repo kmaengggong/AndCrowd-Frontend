@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {React, useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
@@ -146,12 +145,10 @@ function App() {
             <Route path="/and/:andId/chat" element={<AndChat />} />
             <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
 
-            
+
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
             <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
-            <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
-            <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/crowd/list" element={<Login />} />
             <Route path="/crowd/create" element={<Login />} />
@@ -159,6 +156,10 @@ function App() {
             <Route path="/help" element={<Login />} />
             <Route path="*" element={<NotFound />} />
             <Route path='/chat' element={<ChatPage />} />
+
+            {/* 결제관련 */}
+            <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
+            <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
           </Routes>
         </div>
       </div>

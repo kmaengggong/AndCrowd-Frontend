@@ -3,6 +3,17 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
+
+
+// 현재시간을 얻어와서 HHMMSS 현태로 변환해주는 코드
+const getCurrentTime = () => {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return hours + minutes + seconds;
+}
 const CrowdPaymentFunction = () => {
 
     //테스트용 더미
@@ -96,13 +107,13 @@ const CrowdPaymentFunction = () => {
         const data = {
             pg: "kakaopay.{TC0ONETIME}", // 결제사 명시
             pay_method: "card", // 결제수단
-            merchant_uid: "14", // 결제번호
+            merchant_uid: getCurrentTime() + userId, // 결제번호  (시간 + userId)
             name: reward.rewardTitle, // 상품명
             amount: reward.rewardAmount, // 금액
             buyer_email: buyerEmail, // 구매자 이메일
-            buyer_name: buyerName, // 구매자 이름
-            buyer_tel: buyerTel, // 구매자 연락처
-            buyer_addr: buyerAddr // 구매자 주소
+            buyer_name: "조승연", // 구매자 이름
+            buyer_tel: "010-0000-0000", // 구매자 연락처
+            buyer_addr: "테스트시테스트동" // 구매자 주소
         };
 
         // 백서버로 결제내역을 전송하기 위한 data객체 저장
