@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
-const CrowdPayment = () => {
+const CrowdPaymentFunction = () => {
 
     //테스트용 더미
     // const reward = {
@@ -37,7 +37,7 @@ const CrowdPayment = () => {
             const decoded = jwtDecode(token);
             return decoded.userId;
         } catch (error) {
-            console.error("Failed to decode token", error);
+            console.error("토큰 디코딩에 실패했습니다.", error);
             return null;
         }
     }
@@ -48,13 +48,13 @@ const CrowdPayment = () => {
             console.error("토큰이 유효하지 않습니다.");
             return;
         }
-        const decodedUserId = getUserIdFromToken(token); // userId를 디코딩합니다.
+        const decodedUserId = getUserIdFromToken(token); // userId를 디코딩
         if (!decodedUserId) {
             console.error("userId를 찾을수 없습니다.");
             return;
         }
 
-        setUserId(decodedUserId); // userId 상태를 갱신합니다.
+        setUserId(decodedUserId); // userId 상태를 갱신
 
         axios.get(`http://localhost:8080/user/${decodedUserId}`)
             .then(userData => {
@@ -79,23 +79,22 @@ const CrowdPayment = () => {
             });
     }, [crowdId, rewardId]);
 
-    // 상품결제하는 페이지(crowd) 정보를 불러오는 기능
-
 
     // 결제 기능
     const onClickPayment = () =>{
-        // // user crowd null 검사
-        // if (!user || !reward) {
-        //     alert("유저나 상품 정보가 없습니다.");
-        //     return;
-        // }
+        // user reward null 검사
+        if (!user || !reward) {
+            alert("유저나 상품 정보가 없습니다.");
+            return;
+        }
 
-        //1. 가맹점 식별하기
+        //가맹점 식별하기
         const { IMP } = window;
         IMP.init("imp43865534");
 
+        // 결제정보 입력
         const data = {
-            pg: "kakaopay.{TC0ONETIME}", // 결제 API 명시
+            pg: "kakaopay.{TC0ONETIME}", // 결제사 명시
             pay_method: "card", // 결제수단
             merchant_uid: "14", // 결제번호
             name: reward.rewardTitle, // 상품명
@@ -108,7 +107,7 @@ const CrowdPayment = () => {
 
         // 백서버로 결제내역을 전송하기 위한 data객체 저장
         setPaymentData(data);
-
+        
         IMP.request_pay(data, callback.bind(null, data));
     }
 
@@ -129,7 +128,6 @@ const CrowdPayment = () => {
                 purchaseStatus: "결제완료",
                 rewardId: rewardId,
                 userId: userId
-
             };
         }else {
             alert("서버로 전송할 결제내역이 없습니다.")
@@ -139,7 +137,6 @@ const CrowdPayment = () => {
             alert("결제성공");
             // 결제 성공 후 백엔드 서버에 결제 정보를 전송(userId, crowdId, rewardId, userName, userPhone, address)
             try {
-
                 const serverResponse = await axios.post(`http://localhost:8080/crowd_order/successorder`, orderDetails);
                 if(serverResponse.status === 200) {
                     alert("서버에 결제 정보 전송 완료!");
@@ -203,4 +200,4 @@ const CrowdPayment = () => {
     )
 };
 
-export default CrowdPayment;
+export default CrowdPaymentFunction;
