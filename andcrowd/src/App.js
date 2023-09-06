@@ -53,6 +53,7 @@ import MyPage from './pages/MyPage';
 import AndCreateImg from './pages/and/AndCreateImg';
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
+import { NaverLoginCallback } from './components/sign/NaverLoginCallback';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -91,6 +92,7 @@ function App() {
             <Route element={<PublicRoute />}>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/naverLoginCallback/*" element={<NaverLoginCallback />} />
             </Route>
 
             {/* 누구라 접근 가능 */}
@@ -98,6 +100,7 @@ function App() {
             <Route path="/test" element={<Test />} />
             <Route path="/user/2/and" element={<Test />} />
             <Route path="/" element={<Home />} />
+            <Route path="/user/:userId" element={<MyPage />} />
 
             {/* And 관련 */}
             <Route path="/and/list" element={<AndList />} />
