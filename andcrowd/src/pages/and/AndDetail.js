@@ -56,6 +56,11 @@ const AndDetail = () => {
     navigate(`/and/${andId}/applicant/list`);
   };
 
+  const andChat = (andId) => {
+    
+    navigate(`/and/${andId}/chat`);
+  };
+
   if (and.deleted === true) {
     alert("이 글은 삭제되었습니다.");
     window.location.href = `/and/list`;
@@ -68,11 +73,18 @@ const AndDetail = () => {
         <h4>제목: {and.andTitle}</h4>
         <p>본문: {and.andContent}</p>
         <p>마감일: {and.andEndDate}</p>
+        <img 
+          src={and.andHeaderImg}
+          width={300}
+        />
+        <p>상태 코드: {and.andStatus}</p>
         <button onClick={() => updateAnd(and.andId)}>edit</button>
         <button onClick={() => deleteAnd(and.andId)}>delete</button>
         <br />
         <button onClick={() => applyAnd(and.andId)}>apply</button>
         <button onClick={() => applicantList(and.andId)}>apply List</button>
+        <br />
+        <button onClick={() => andChat(and.andId)}>CHAT</button>
         <hr />
         <br />
       </div>
