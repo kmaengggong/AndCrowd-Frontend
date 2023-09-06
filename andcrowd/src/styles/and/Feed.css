@@ -1,13 +1,10 @@
 #feed-head{
     display: flex;
-    width: 35vw;
-    margin: 0 auto;
 }
 #feed-top{
     display: flex;
     width: 35vw;
     margin:3vh 30%;
-
 }
 #and-feed-title{
     width: 10vw;
@@ -24,11 +21,9 @@
 #and-end-date{
     width: 75px;
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     color: #00D337;
-    padding-top: 1.3vh;
-    padding-left: 0.7vw;
 }
 #profile-img{
     border-radius: 100%;
@@ -43,7 +38,7 @@
     border-radius: 10px;
 }
 #main-img-box{
-    margin-top: 2vh;
+    margin-top: 1%;
     margin-left: 40vh;
     margin-bottom: 2vh;
 }
@@ -62,8 +57,8 @@
     margin-right: 10px;
 }
 #showmore-button-box{
-    position: absolute;
-    right: 7%;
+    margin-left: 20%;
+    height:35%;
 }
 #follow:hover{
     background-color: rgb(231, 253, 224);
@@ -79,6 +74,10 @@
 #show-more-img:hover{
     cursor:pointer;
 }
+#simple-menu{
+    margin-left:2%;
+    border-radius: 10px;
+}
 #menu-box{
     border: 1px solid black;
     border-radius: 10px;
@@ -87,12 +86,11 @@
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
     font-weight: 500;
-    width: 15vw;
+    width: 13vw;
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
     cursor: pointer;
-    
     
 }
 #report-menu{
@@ -102,7 +100,6 @@
 #feed-head{
     display: flex;
     margin-left: 27%;
-    margin-bottom: 4%;
     margin-top: 2%;
 }
 
