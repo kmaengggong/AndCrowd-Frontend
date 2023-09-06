@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import AndToolBar from "../../components/and/AndToolBar";
 
 const AndQna = () => {
 
@@ -36,6 +36,7 @@ const AndQna = () => {
 
 return (
     <div>
+      <AndToolBar andId={andId} />
       <h1>And Qna List</h1>
         <table>
             <thead>
