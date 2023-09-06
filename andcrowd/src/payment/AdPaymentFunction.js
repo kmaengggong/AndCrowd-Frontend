@@ -1,6 +1,6 @@
 import React from "react";
 
-const AdPayment = () => {
+const AdPaymentFunction = () => {
 
     const onClickPayment = () =>{
         /* 1. 가맹점 식별하기 */
@@ -43,4 +43,4 @@ const AdPayment = () => {
     )
 };
 
-export default AdPayment;
+export default AdPaymentFunction;

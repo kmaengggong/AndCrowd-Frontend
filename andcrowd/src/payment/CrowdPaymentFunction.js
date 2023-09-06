@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
-const CrowdPayment = () => {
+const CrowdPaymentFunction = () => {
 
     //테스트용 더미
     // const reward = {
@@ -203,4 +203,4 @@ const CrowdPayment = () => {
     )
 };
 
-export default CrowdPayment;
+export default CrowdPaymentFunction;
