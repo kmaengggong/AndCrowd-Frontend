@@ -150,7 +150,7 @@ const navigateToAndCreate = () => {
   
   return (
     <div>
-      <div id='feed-head'>
+      <div id='feed-top'>
       <Typography className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
         onClick={() => handleSortFieldChange('publishedAt')}
       >
@@ -220,7 +220,7 @@ const navigateToAndCreate = () => {
                 <img id='profile-img' src={profileImg} alt="profileImg" /> 
               </div>
               <div>
-                <Typography id='and-title'>{item.andTitle}</Typography>
+                <Typography id='and-feed-title'>{item.andTitle}</Typography>
                 <Typography id='user-id'>@{item.userId}</Typography>
               </div>
               <div>

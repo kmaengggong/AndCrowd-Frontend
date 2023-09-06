@@ -53,7 +53,7 @@ import AndCreateImg from './pages/and/AndCreateImg';
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
 import { NaverLoginCallback } from './components/sign/NaverLoginCallback';
-import CrowdDetail from './pages/crowd/detail';
+import CrowdDetail from './pages/crowd/CrowdDetail';
 import CrowdList from './pages/CrowdList';
 import CrowdCreate from './pages/crowd/CrowdCreate';
 
@@ -152,7 +152,6 @@ function App() {
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
             <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
-            <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} />
             <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
             <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
             <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
