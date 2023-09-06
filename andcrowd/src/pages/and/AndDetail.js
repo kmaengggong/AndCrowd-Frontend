@@ -57,6 +57,7 @@ const AndDetail = () => {
   };
 
   const andChat = (andId) => {
+    
     navigate(`/and/${andId}/chat`);
   };
 
@@ -72,7 +73,10 @@ const AndDetail = () => {
         <h4>제목: {and.andTitle}</h4>
         <p>본문: {and.andContent}</p>
         <p>마감일: {and.andEndDate}</p>
-        <p>대표이미지: {and.andHeaderImg}</p>
+        <img 
+          src={and.andHeaderImg}
+          width={300}
+        />
         <p>상태 코드: {and.andStatus}</p>
         <button onClick={() => updateAnd(and.andId)}>edit</button>
         <button onClick={() => deleteAnd(and.andId)}>delete</button>
