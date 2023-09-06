@@ -210,6 +210,7 @@ const Login = () => {
               로그인
             </Button>
             <NaverLogin />
+            <button onClick={onClickNaverLoginButton}>ㅁㄴㅇㄹ</button>
             <Grid container id='signup-container'>
               <Grid item xs>
               <Typography id='signup-text'>
@@ -226,7 +227,6 @@ const Login = () => {
           </Box>
         </Box>
       </Container>
-      {isLogin ? <h1>로그인됨</h1> : <h1>로그인안됨</h1>}
     </ThemeProvider>
   );
 };

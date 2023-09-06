@@ -63,6 +63,7 @@ const AndDetail = () => {
   };
 
   const andChat = (andId) => {
+    
     navigate(`/and/${andId}/chat`);
   };
   if (and.deleted === true) {
