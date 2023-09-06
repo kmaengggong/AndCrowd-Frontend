@@ -1,0 +1,35 @@
+.carousel{
+    margin-top: 5px;
+    padding: 10px;
+}
+
+.linkToCreate {
+    font: black;
+    margin-top: 5px;
+    background: #3bc9db;
+    float: right;
+    border-radius: 5px;
+    border: none;
+}
+
+.linkToCreate:hover {
+    background-color: white;
+    opacity: 1;
+}
+
+.btnCategory {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.crowdListblock {
+    display: flex;
+    gap: 2;
+    flex-wrap: wrap;
+    float: right;
+}
+
+.cardList {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
