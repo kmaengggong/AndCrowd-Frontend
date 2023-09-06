@@ -49,6 +49,8 @@ import AndChat from './pages/and/AndChat';
 import ChatroomUpdate from './pages/chat/ChatroomUpdate';
 import CrowdPayment from './payment/CrowdPayment';
 import AdPayment from "./payment/AdPayment";
+import MyPage from './pages/MyPage';
+import AndCreateImg from './pages/and/AndCreateImg';
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
 import { NaverLoginCallback } from './components/sign/NaverLoginCallback';
@@ -120,6 +122,9 @@ function App() {
             {/* 로그인된 유저만 접근 가능 */}
             <Route element={<PrivateRoute />}>
             <Route path="/and/create" element={<AndCreate />} />
+
+            <Route path="/and/:andId/img/create" element={<AndCreateImg />} />
+
               <Route path="/and/:andId/update" element={<AndUpdate />} />
               <Route path="/and/:andId/qna/create" element={<AndQnaCreate />} />
               <Route path="/and/create" element={<AndCreate />} />
@@ -138,6 +143,7 @@ function App() {
             
             <Route path="/and/:andId/member/list" element={<AndMember />} />
             <Route path="/and/:andId/member/:memberId" element={<AndMemberDetail />} />
+
             <Route path="/and/:andId/chat" element={<AndChat />} />
             <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
 
