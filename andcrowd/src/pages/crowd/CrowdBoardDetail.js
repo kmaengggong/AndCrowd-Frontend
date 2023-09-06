@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-const CrowdBoardDeltail = () => {
+const CrowdBoardDetail = () => {
     const [board, setBoard] = useState(null);
     const { crowdId, crowdBoardId } = useParams();
 
@@ -55,4 +55,4 @@ const CrowdBoardDeltail = () => {
     );
 }
 
-export default CrowdBoardDeltail;
+export default CrowdBoardDetail;

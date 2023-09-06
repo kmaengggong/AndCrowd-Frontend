@@ -14,7 +14,7 @@ import Login from './pages/user/Login';
 import Signup from './pages/user/Signup';
 import MyPage from './pages/user/MyPage';
 import CrowdBoardList from './pages/crowd/CrowdBoardList';
-import CrowdBoardDeltail from "./pages/crowd/CrowdBoardDeltail";
+import CrowdBoardDetail from "./pages/crowd/CrowdBoardDetail";
 import CrowdBoardInsert from "./pages/crowd/CrowdBoardInsert";
 import CrowdBoardUpdate from "./pages/crowd/CrowdBoardUpdate";
 import AndList from './pages/AndList';
@@ -40,6 +40,8 @@ import AndRole from './pages/and/AndRole';
 import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
+import CrowdPaymentFunction from "./payment/CrowdPaymentFunction";
+import AdPaymentFunction from "./payment/AdPaymentFunction";
 import AndMember from './pages/and/AndMember';
 import AndMemberDetail from './pages/and/AndMemberDetail';
 import AndMemberCreate from './pages/and/AndMemberCreate';
@@ -47,12 +49,10 @@ import AndMemberUpdate from './pages/and/AndMemberUpdate';
 import ChatPage from './pages/chat/ChatPage';
 import AndChat from './pages/and/AndChat';
 import ChatroomUpdate from './pages/chat/ChatroomUpdate';
-import CrowdPayment from './payment/CrowdPayment';
-import AdPayment from "./payment/AdPayment";
-import MyPage from './pages/MyPage';
 import AndCreateImg from './pages/and/AndCreateImg';
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
+import { NaverLoginCallback } from './components/sign/NaverLoginCallback';
 import CrowdDetail from './pages/crowd/detail';
 import CrowdList from './pages/CrowdList';
 import CrowdCreate from './pages/crowd/CrowdCreate';
@@ -94,6 +94,7 @@ function App() {
             <Route element={<PublicRoute />}>
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/naverLoginCallback/*" element={<NaverLoginCallback />} />
             </Route>
 
             {/* 누구라 접근 가능 */}
@@ -101,6 +102,7 @@ function App() {
             <Route path="/test" element={<Test />} />
             <Route path="/user/2/and" element={<Test />} />
             <Route path="/" element={<Home />} />
+            <Route path="/user/:userId" element={<MyPage />} />
 
             {/* And 관련 */}
             <Route path="/and/list" element={<AndList />} />
@@ -148,14 +150,15 @@ function App() {
             <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
 
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
-            <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDeltail />} />
+            <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
             <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
             <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} />
-            <Route path="/crowd/list" element={<CrowdList />} />
             <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
-
-            <Route path="/ad/payment" element={<AdPayment />} />
-
+            <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
+            <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/crowd/list" element={<Login />} />
+            <Route path="/crowd/create" element={<Login />} />
             <Route path="/team" element={<Login />} />
             <Route path="/help" element={<Login />} />
             <Route path="*" element={<NotFound />} />
