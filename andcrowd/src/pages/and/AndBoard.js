@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import AndToolBar from "../../components/and/AndToolBar";
 
 const AndBoard = () => {
   const params = useParams();
@@ -28,12 +29,13 @@ const AndBoard = () => {
 
   return (
     <div>
+       <AndToolBar andId={andId} />
       <h1>AndBoard List</h1>
       <table>
         <thead>
           <tr>
             <th>번호</th>
-            <th>제목</th>
+            <th>제목</th> 
             <th>내용</th>
             <th>작성일</th>
             <th>수정일</th>
