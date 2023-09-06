@@ -1,4 +1,4 @@
-import jwtDecode from "jwt-decode"
+import jwtDecode from "jwt-decode";
 
 export const GetUserId = () => {
     try{
@@ -7,4 +7,4 @@ export const GetUserId = () => {
         console.error("GetUserId: " + error);
         return null;
     }
-}
+};
