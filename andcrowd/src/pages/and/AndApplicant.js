@@ -21,6 +21,7 @@ const AndApplicant = () => {
         if (response.ok) {
           const data = await response.json();
           setAndApplicantList(data);
+          console.log(data)
         } else {
           throw new Error(`Fetching and data failed with status ${response.status}.`);
         }
@@ -41,7 +42,7 @@ return (
                 <th>신청번호</th>
                 <th>회원번호</th>
                 <th>역할번호</th>
-                <th>신청내용</th>
+                <th>제목</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,7 +51,7 @@ return (
                     <td>{andApply.andApplyId}</td>
                     <td>{andApply.userId}</td>
                     <td>{andApply.andRoleId}</td>
-                    <td><Link to={`/and/${andId}/applicant/${andApply.andApplyId}`}>{andApply.andApplyContent}</Link></td>
+                    <td><Link to={`/and/${andId}/applicant/${andApply.andApplyId}`}>{andApply.andApplyTitle}</Link></td>
                 </tr>
                 ))}
             </tbody>
