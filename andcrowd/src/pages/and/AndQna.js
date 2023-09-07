@@ -38,7 +38,7 @@ const AndQna = () => {
           throw new Error(`Fetching and data failed with status ${response.status}.`);
         }
     
-        const qnaReplyResponse = await fetch(`/and/${andId}/qna/reply/${andQna.andQnaId}/all`);
+        const qnaReplyResponse = await fetch(`/and/${andId}/qna/reply/${andQnaId}/all`);
         if (qnaReplyResponse.ok) {
           const qnaReplyData = await qnaReplyResponse.json();
           setAndReplyList(qnaReplyData);
