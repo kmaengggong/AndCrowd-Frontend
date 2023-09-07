@@ -10,29 +10,11 @@ import MenuItem from '@mui/material/MenuItem';
 import CssBaseline from '@mui/material/CssBaseline';
 import { NumericFormat } from 'react-number-format';
 import { InputAdornment } from '@mui/material';
+import Cookies from 'js-cookie';
 
 const CrowdCreate = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState(""); // userId를 상태로 설정
-
-  useEffect(() => {
-    // userId를 백엔드로부터 가져오는 로직
-    // 토큰 또는 세션을 이용해 userId를 전달
-    const fetchUserId = async () => {
-      try{
-        const response = await fetch("/user");
-        if(response.ok) {
-          const data = await response.json();
-          setUserId(data.userId);
-        }else {
-          throw new Error(`Fetching userId failed with status ${response.status}`);
-        }
-      } catch (error) {
-        console.error("Error fetching userId:", error);
-      }
-    };
-    fetchUserId();
-  },[]);
 
   const [formData, setFormData] = useState({
     userId: "",
@@ -49,6 +31,34 @@ const CrowdCreate = () => {
     crowdImg4: "",
     crowdImg5: "",
   })
+
+  const userAccessToken = Cookies.get('refresh_token');
+  // userId를 백엔드로부터 가져오는 로직
+  // 토큰 또는 세션을 이용해 userId를 전달
+  const fetchUserId = async () => {
+    try{
+      const userResponse = await fetch(`/user-info/userId`,{
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${userAccessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (userResponse.ok) {
+        const userId = await userResponse.json();
+        setUserId(userId.userId);
+      } else {
+        throw new Error(`Fetching userId failed with status ${userResponse.status}.`);
+      }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+  };
+
+  useEffect(() => {
+    fetchUserId();
+  },[]);
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -85,6 +95,7 @@ const CrowdCreate = () => {
   };
 
   const handleUploadCancel = () => {
+    alert("작성이 취소되었습니다.");
     navigate('/crowd/list'); // 업로드 취소 버튼 클릭 시 페이지 전환
   };
 
@@ -160,13 +171,22 @@ const CrowdCreate = () => {
                 required
                 fullWidth
                 multiline
-                maxRows={4}
+                rows={4}
                 id="crowdContent"
                 label="펀딩 본문"
                 name="crowdContent"
                 value={formData.crowdContent}
                 onChange={handleInputChange}
                 placeholder="예) OOO한 내용을 기획/개발해 &Crowd에 최초 공개하고자 합니다."
+                helperText={
+                  <>
+                      This field is required. Only letters and numbers
+                      are allowed.
+                      <br />
+                      Space is not allowed at start. Special
+                      characters are not allowed.
+                  </>
+              }
               />
             </Grid>
             {/* 목표금액 설정구문 */}

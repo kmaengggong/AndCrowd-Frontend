@@ -1,7 +1,7 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import {React, useState, useEffect } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom'; // Link 삭제
 import { IsLoginProvider } from './context/isLoginContext';
 import PublicRoute from './components/route/PublicRoute';
 import PrivateRoute from './components/route/PrivateRoute';
@@ -53,7 +53,7 @@ import AndCreateImg from './pages/and/AndCreateImg';
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
 import { NaverLoginCallback } from './components/sign/NaverLoginCallback';
-import CrowdDetail from './pages/crowd/detail';
+import CrowdDetail from './pages/crowd/CrowdDetail'; // 수정
 import CrowdList from './pages/CrowdList';
 import CrowdCreate from './pages/crowd/CrowdCreate';
 
@@ -139,7 +139,7 @@ function App() {
               <Route path="/and/:andId/role/create" element={<AndRoleCreate />} />
               <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
               
-              <Route path="/crowd/create" element={<CrowdCreate />} />
+              {/* <Route path="/crowd/create" element={<CrowdCreate />} /> */}
               <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
             </Route>
             
@@ -152,13 +152,14 @@ function App() {
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
             <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
-            <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} />
+            {/* <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} />  오류로 인한 일시 주석처리 */}
             <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
+            {/* <Route path="/crowd/detail" element={<CrowdDetail />} /> 157번 삭제 156 주석해제 */}
             <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
             <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/crowd/list" element={<Login />} />
-            <Route path="/crowd/create" element={<Login />} />
+            <Route path="/crowd/list" element={<CrowdList />} /> {/* element 수정 login->crowdList */}
+            <Route path="/crowd/create" element={<CrowdCreate />} /> {/* 142라인에서 옮김(로그인절차오류) */}
             <Route path="/team" element={<Login />} />
             <Route path="/help" element={<Login />} />
             <Route path="*" element={<NotFound />} />

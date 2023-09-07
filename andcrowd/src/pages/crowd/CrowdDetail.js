@@ -1,57 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { redirect, useLocation, useParams } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
-import styles from "../../styles/crowd/CrowdDetail.module.css";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from 'react-router-dom';
 import axios from "axios";
+import styles from '../../styles/crowd/CrowdDetail.module.css';
+import {formatMoney, getDaysBetweenDate, calculateAchievedRate, calculateRaisedAmount, countSponsors} from '../etc/Finance.js';
 
 const CrowdDetail = () => {
     const params = useParams();
     const crowdId = params.crowdId;
-    const navigate = useNavigate();
     const [crowd, setCrowd] = useState({});
-    
-    useEffect(() => {
+    // const [data, setData] = useState([]);
+    const [isOpened, setIsOpened] = useState(false);
+    const [number, setNumber] = useState(0);
+
+    useEffect(() => { // useEffect 내부에서 fetchData 함수를 호출하여 crowd 정보 가져오기
         fetchData();
     }, [crowdId]);
 
     const fetchData = async () => {
-        try {
-            const response = await fetch(`/crowd/detail/${crowdId}`);
-            if(response.ok) {
+        try{
+            const response = await fetch(`/crowd/${crowdId}`);
+            if(response.ok){
                 const data = await response.json();
                 setCrowd(data);
             } else {
-                throw new Error(`Error: ${response.status}.`);
+                throw new Error(`${response.status}`);
             }
-        } catch (error) {
-            // console.error(error);
-        }
-    };
-
-    const insertCrowd = (crowdId) => { // 업로드
-        navigate(`/crowd/create`);
-    };
-
-    const updateCrowd = (crowdId) => { // 수정
-        navigate(`/crowd/${crowdId}/update`); 
-    };
-
-    const deleteCrowd = async (crowdId) => { // 삭제
-        try {
-            await axios.delete(`/crowd/${crowdId}/delete`);
-            navigate(`/crowd/list`);
         } catch (error) {
             console.error(error);
         }
-    };
+    }
 
-    if(crowd.deleted === true) { // 삭제 후 
-        alert("펀딩글이 삭제되었습니다.");
-        window.location.href = `/crowd/list`;
-    };
-
-    const location = useLocation();
-    const handleCopyClipBoard = async (text) => {
+    const handleCopyClipBoard = async (text) => { // 공유시 url복사
         try {
             await navigator.clipboard.writeText(text);
             alert("클립보드에 링크가 복사되었어요.");
@@ -60,47 +39,143 @@ const CrowdDetail = () => {
         }
     };
 
+    const [contributionAmount, setContributionAmount] = useState(0);
+    const [selectedReward, setSelectedReward] = useState(null);
+    const [rewards, setRewards] = useState([]);
+
+    const toggleOptionMenu = () => {
+        setIsOpened(!isOpened);
+        };
+    
+        const Increase5000 = () => {
+        setNumber(number + 5000);
+        };
+    
+        const Increase10000 = () => {
+        setNumber(number + 10000);
+        };
+    
+        const Increase50000 = () => {
+        setNumber(number + 50000);
+        };
+    
+        const Increase100000 = () => {
+        setNumber(number + 100000);
+        };
+    
+        const handleAlert = () => {
+        alert('후원해주셔서 감사합니다!🥳');
+    };
+    
+    useEffect(() => {
+        // Crowd의 리워드 목록을 가져오는 HTTP 요청
+        axios.get(`/crowd/${crowdId}/reward/list`)
+        .then(response => {
+            setRewards(response.data);
+        })
+        .catch(error => {
+            console.error('리워드를 불러오는 중 에러 발생:', error);
+        });
+    }, [crowdId]);
+
+    const [sponsor, setSponsor] = useState([]);
+
+    useEffect(() => {
+        // Fetch supporters data here
+        const fetchSponsorData = async () => {
+        try {
+            const response = await axios.get(`/crowd/${crowdId}/sponsor`);
+            if (response.status === 200) {
+                setSponsor(response.data);
+            }
+        } catch (error) {
+            console.error("Error fetching supporters data:", error);
+        }
+        };
+
+        // Call the function to fetch supporters data
+        fetchSponsorData();
+    }, [crowdId]);
+
+    const sponsorCount = crowd.crowdSponsor ? countSponsors(crowd.crowdSponsor) : 0;// 후원자 수 카운트
+
     return (
         <div className={styles.crowdDetailContainer} id="container">
             <div className={styles.leftSide}>
-                <Link to={`/crowd/${crowd.crowdId}/detail`}>{/* 링크에 crowdId추가 */}
+                <Link to={`/crowd/detail/${crowd.crowdId}`}>{/* 링크에 crowdId추가 */}
                 <button>상세정보</button>
                 </Link>
-                <Link to={`/crowd/${crowd.crowdId}/board/${crowd.crowdBoardId}`}>
+                <Link to={`/crowd/${crowd.crowdId}/board/${crowd.board}/all`}>
                 <button>게시판</button>
                 </Link>
-                <Link to={`/crowd/${crowd.crowdId}/qna/${crowd.crowdQnaId}`}>
+                <Link to={`/crowd/${crowd.crowdId}/qna/${crowd.qna}`}>
                 <button>QnA</button>
                 </Link>
                 <hr />
-                <div className={styles.imgContainer}>
-                    <Link>
-                        <div className={styles.Img1}>{/* crowdImg 1 */}</div>
-                    </Link>
-                    <div className={styles.Img2}>{/* crowdImg 2 */}</div>
-                    <div className={styles.Img3}>{/* crowdImg 3 */}</div>
-                    <div className={styles.Img4}>{/* crowdImg 4 */}</div>
-                    <div className={styles.Img5}>{/* crowdImg 5 */}</div>
+                {crowd.crowdTitle && ( // crowd.crowdTitle이 존재할 때만 출력
+                    <h1>제목{crowd.crowdTitle}</h1>
+                )}
+                <div>
+                    {crowd.crowdContent && ( // crowd.crowdContent가 존재할 때만 출력
+                        <p>본문{crowd.crowdContent}</p>
+                    )}
                 </div>
+            </div>
+            <div className={styles.imgContainer}>
+                <img src={crowd.headerImg} />
+                <img src={crowd.crowdImg1} />
+                <img src={crowd.crowdImg2} />
+                <img src={crowd.crowdImg3} />
+                <img src={crowd.crowdImg4} />
+                <img src={crowd.crowdImg5} />
             </div>
             <hr />
             <div className={styles.rightSide}>
-                <span>카테고리</span>
-                <span className="shareBtn" onClick={() => handleCopyClipBoard(`${"http://localhost:3000"}${location.pathname}`)}>
+                <span>{crowd.crowdCategory}</span>
+                <span className="shareBtn" onClick={() => handleCopyClipBoard(`${window.location.origin}${window.location.pathname}`)}>
                     [공유]
                 </span>
                 <hr />
-                <h1>프로젝트 제목</h1><br/>
-                <span>{/* (현재 모인금액/총 금액)*100 */}% 달성 | </span><span>{/* 남은일수 */}일 남음</span>
+                <p>마감일:{crowd.crowdEndDate}</p>
+                <span>{calculateAchievedRate(crowd.currentAmount, crowd.totalAmount)}% 달성 | </span>
+                <span>{getDaysBetweenDate(crowd.crowdStartDate, crowd.crowdEndDate)}일 남음</span>
                 <br />
-                <span>{/* 목표금액 - 미달액 */}원 달성 | </span><span>{/* 후원자 수 count */}명 참여</span> 
+                <div>
+                    모인금액 : 
+                    <span>{formatMoney(calculateRaisedAmount(crowd.totalAmount, crowd.currentAmount))}원</span>
+                </div>
+                <span>{countSponsors(crowd.crowdSponsor)}명 참여</span>
                 <hr />
                 <div className={styles.rewardTitle}>
                     **리워드 목록**
                 </div>
+                <div>
+                    {/* rewardList */}
+                    <div>
+                        <h2>금액만 후원하고 싶다면?</h2>
+                        <input
+                            type="number"
+                            value={contributionAmount}
+                            onChange={(e) => setContributionAmount(Number(e.target.value))}
+                        />
+                        <button onClick={() => setContributionAmount(contributionAmount + 5000)}>+5,000</button>
+                        <button onClick={() => setContributionAmount(contributionAmount + 10000)}>+10,000</button><br />
+                        <button onClick={() => setContributionAmount(contributionAmount + 50000)}>+50,000</button>
+                        <button onClick={() => setContributionAmount(contributionAmount + 100000)}>+100,000</button>
+                    </div>
+                    <ul>
+                    {rewards.map((reward) => (
+                        <li key={reward.rewardId}>
+                        <h4>{reward.rewardAmount}</h4>
+                        <span>{reward.rewardTitle}</span>
+                        <span>{reward.rewardContent}</span>
+                        {/* 리워드 상세 정보를 보여주는 버튼 */}
+                        </li>
+                        ))}
+                    </ul>
+                </div>
                 <br />               
             </div>
-
         </div>
     );
 };

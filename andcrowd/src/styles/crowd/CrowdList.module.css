@@ -1,20 +1,21 @@
-.carousel{
-    margin-top: 5px;
-    padding: 10px;
-}
-
 .linkToCreate {
-    font: black;
-    margin-top: 5px;
-    background: #3bc9db;
+    font: white;
+    margin-top: 15px;
+    background-color: #00D337;
     float: right;
-    border-radius: 5px;
+    border-radius: 3px;
     border: none;
+    font-size: 1rem;
 }
 
 .linkToCreate:hover {
     background-color: white;
     opacity: 1;
+}
+
+.carousel{
+    margin: 10px;
+    padding: 10px;
 }
 
 .btnCategory {
@@ -23,10 +24,9 @@
 }
 
 .crowdListblock {
-    display: flex;
-    gap: 2;
-    flex-wrap: wrap;
     float: right;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .cardList {
