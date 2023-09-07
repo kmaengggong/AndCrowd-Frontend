@@ -1,0 +1,11 @@
+#and-navText{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    color: #000000;
+    margin: 0 1vw;
+    text-decoration: none;
+}
+#and-tool{
+    padding-left: 27vw;
+    cursor: pointer;
+}

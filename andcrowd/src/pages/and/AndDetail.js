@@ -2,20 +2,26 @@ import React, { useState, useEffect } from "react";
 import { redirect, useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
-
+import AndToolbar from "../../components/and/AndToolBar";
+import Typography from '@mui/material/Typography';
+import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
+import CountdownTimer from "../../components/and/CountdownTimer";
+import Box from '@mui/material/Box';
+import '../../styles/and/AndDetail.css';
 
 const AndDetail = () => {
   const params = useParams();
   const andId = params.andId;
 
   const navigate = useNavigate();
-
+  const [isClicked, setIsClicked] = useState(false);
   const [and, setAnd] = useState({});
-
+  const handleClick = () => {
+    setIsClicked(!isClicked);
+  };
   useEffect(() => {
     fetchData();
   }, [andId]);
-
   const fetchData = async () => {
     try {
       const response = await fetch(`/and/${andId}`);
@@ -47,6 +53,10 @@ const AndDetail = () => {
     }
   };
 
+  const manageAnd = (andId) => {
+    navigate(`/and/${andId}/manage`);
+  };
+
 
   const applyAnd = (andId) => {
     navigate(`/and/${andId}/applicant/create`);
@@ -60,7 +70,6 @@ const AndDetail = () => {
     
     navigate(`/and/${andId}/chat`);
   };
-
   if (and.deleted === true) {
     alert("이 글은 삭제되었습니다.");
     window.location.href = `/and/list`;
@@ -69,15 +78,29 @@ const AndDetail = () => {
 
   return (
     <div>
+      <AndToolbar andId={and.andId} />
       <div> 
-        <h4>제목: {and.andTitle}</h4>
-        <p>본문: {and.andContent}</p>
-        <p>마감일: {and.andEndDate}</p>
-        <img 
-          src={and.andHeaderImg}
-          width={300}
-        />
-        <p>상태 코드: {and.andStatus}</p>
+       <Box id='right-top-box'>
+          <Typography id ='and-title'>{and.andTitle}</Typography>
+          <CountdownTimer publishedAt={and.publishedAt} andEndDate={and.andEndDate} />
+          <hr style={{ margin: '20px auto', width: '70%' }}></hr>
+          <Box id='like-and-button'>
+            <Box id ='like-icon' onClick={handleClick}> 
+            {isClicked ? <AiFillHeart id='heart-icon' size={"30"}/> : <AiOutlineHeart id='heart-icon' size={"30"}/>}
+            </Box>
+            <button id='go-and'>
+              모임 참가하기
+            </button>
+            </Box>
+          <button id='go-chat'>
+            채팅방으로 이동하기
+          </button>
+          <Typography id ='go-member'>
+            모임에 참여중인 멤버 보기
+          </Typography>
+        </Box>
+        <Box id ='left-main-box'>
+        <Typography id ='and-content'>{and.andContent}</Typography>
         <button onClick={() => updateAnd(and.andId)}>edit</button>
         <button onClick={() => deleteAnd(and.andId)}>delete</button>
         <br />
@@ -85,20 +108,13 @@ const AndDetail = () => {
         <button onClick={() => applicantList(and.andId)}>apply List</button>
         <br />
         <button onClick={() => andChat(and.andId)}>CHAT</button>
+        <br />
+        <button onClick={() => manageAnd(and.andId)}>모임 관리</button>
         <hr />
         <br />
+        </Box>
       </div>
-      <div>
-      <Link to={`/and/${and.andId}/qna/list`}>
-        <button>qna</button>
-        </Link>
-        <Link to={`/and/${and.andId}/board/list`}>
-        <button>board</button>
-        </Link>
-        <Link to={`/and/${and.andId}/role/list`}>
-        <button>role</button>
-        </Link>
-      </div>
+      
     </div>
   );
 };

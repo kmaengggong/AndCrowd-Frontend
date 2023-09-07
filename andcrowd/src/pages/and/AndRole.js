@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import AndToolBar from "../../components/and/AndToolBar";
 
 const AndRole = () => {
   const navigate = useNavigate(); 
@@ -39,6 +40,7 @@ const AndRole = () => {
 
   return (
     <div>
+      <AndToolBar andId={andId} />
       <h1>AndRole List</h1>
       <table>
         <thead>
