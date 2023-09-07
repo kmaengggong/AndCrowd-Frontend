@@ -4,10 +4,10 @@
 #feed-top{
     display: flex;
     width: 35vw;
-    margin:3vh 30%;
+    margin:3vh 28%;
 }
 #and-feed-title{
-    width: 10vw;
+    width: 15vw;
     margin-right:1vw;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 28px;
@@ -57,7 +57,7 @@
     margin-right: 10px;
 }
 #showmore-button-box{
-    margin-left: 20%;
+    margin-left: 10%;
     height:35%;
 }
 #follow:hover{

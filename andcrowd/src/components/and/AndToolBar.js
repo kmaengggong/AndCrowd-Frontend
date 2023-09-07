@@ -7,6 +7,14 @@ const AndToolBar = ({ andId }) => {
   return (
     <Toolbar id="and-tool" sx={{ borderBottom: 1, borderColor: 'divider' }}>
       <Link
+        id='and-navText'
+          to={`/and/${andId}`}
+         variant="nonlined" 
+         size="small" 
+       >
+       상세정보
+     </Link>
+      <Link
         id="and-navText"
         to={`/and/${andId}/board/list`}
         variant="nonlined"
@@ -22,14 +30,7 @@ const AndToolBar = ({ andId }) => {
       >
         Q&A
       </Link>
-      <Link
-        id='and-navText'
-         to={`/and/${andId}/role/list`}
-         variant="nonlined" 
-         size="small" 
-       >
-       구하는 역할
-     </Link>
+      
    </Toolbar>
  );
 };

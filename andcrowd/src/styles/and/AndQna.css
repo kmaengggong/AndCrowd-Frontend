@@ -1,0 +1,14 @@
+
+#and-qna-title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    color: #000000;
+    font-weight: 700;
+}
+#qna-content{
+    width: 50%;
+}
+#qna-div{
+    padding: 15px;
+    background-color: rgb(241, 241, 241);
+}
