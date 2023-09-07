@@ -101,7 +101,7 @@ const CrowdPaymentFunction = () => {
 
         //가맹점 식별하기
         const { IMP } = window;
-        IMP.init("imp43865534");
+        IMP.init("imp43865534"); // 상점 아이디 입력
 
         // 결제정보 입력
         const data = {
@@ -111,9 +111,9 @@ const CrowdPaymentFunction = () => {
             name: reward.rewardTitle, // 상품명
             amount: reward.rewardAmount, // 금액
             buyer_email: buyerEmail, // 구매자 이메일
-            buyer_name: "조승연", // 구매자 이름
-            buyer_tel: "010-0000-0000", // 구매자 연락처
-            buyer_addr: "테스트시테스트동" // 구매자 주소
+            buyer_name: buyerName, // 구매자 이름
+            buyer_tel: buyerTel, // 구매자 연락처
+            buyer_addr: buyerAddr // 구매자 주소
         };
 
         // 백서버로 결제내역을 전송하기 위한 data객체 저장
