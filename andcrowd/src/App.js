@@ -52,6 +52,11 @@ import AndCreateImg from './pages/and/AndCreateImg';
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
 import { NaverLoginCallback } from './components/sign/NaverLoginCallback';
+import AndManage from './pages/and/AndManage';
+import CrowdDetail from './pages/crowd/detail';
+import CrowdList from './pages/CrowdList';
+import CrowdCreate from './pages/crowd/CrowdCreate';
+
 
 const sections = [
   { title: '홈', url: '/' },
@@ -116,6 +121,7 @@ function App() {
             <Route path="/and/:andId/board/:andBoardId" element={<AndBoardDetail />} />
             <Route path="/and/:andId/role/list" element={<AndRole />} />
             <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
+            <Route path="/and/:andId/manage" element={<AndManage />} />
 
             {/* 로그인된 유저만 접근 가능 */}
             <Route element={<PrivateRoute />}>
@@ -135,7 +141,7 @@ function App() {
               <Route path="/and/:andId/role/create" element={<AndRoleCreate />} />
               <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
               
-              <Route path="/crowd/create" element={<Login />} />
+              <Route path="/crowd/create" element={<CrowdCreate />} />
               <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
             </Route>
             
@@ -145,10 +151,14 @@ function App() {
             <Route path="/and/:andId/chat" element={<AndChat />} />
             <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
 
-
             <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
             <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
             <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
+            <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} />
+            <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
+            <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
+            <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
+
             <Route path="/signup" element={<Signup />} />
             <Route path="/crowd/list" element={<Login />} />
             <Route path="/crowd/create" element={<Login />} />
