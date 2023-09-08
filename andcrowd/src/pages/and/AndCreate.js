@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import Editor from "../../components/and/Editor";
 
 const AndCreate = () => {
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 페이지 이동 함수를 가져옵니다.
@@ -49,6 +50,7 @@ const AndCreate = () => {
       [name]: value,
     });
   };
+  const [htmlStr, setHtmlStr] = React.useState('');
 
   const updatedFormData = {
     ...formData,
@@ -83,6 +85,7 @@ const AndCreate = () => {
 
   return (
     <>
+    <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
       <form onSubmit={handleNextButtonClick}>
         <div>
                 <input type="text" name="userId" value={userId} readOnly />
