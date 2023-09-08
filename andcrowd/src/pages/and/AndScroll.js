@@ -167,7 +167,7 @@ const navigateToAndCreate = () => {
   
   return (
     <div>
-      <div id='feed-head'>
+      <div id='feed-top'>
       <Typography className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
         onClick={() => handleSortFieldChange('publishedAt')}
       >
@@ -246,15 +246,16 @@ const navigateToAndCreate = () => {
               <div id='img-box'>
                 <img id='profile-img' src={profileImg} alt="profileImg" /> 
               </div>
-              <div>
-                <Typography id='and-title'>{item.andTitle}</Typography>
-                <Typography id='user-id'>@{item.userId}</Typography>
-              </div>
-              <div>
+              <div id='and-title-box'>
+                <Typography id='and-feed-title'>{item.andTitle}</Typography>
+                <div>
                 <Typography id='and-end-date'>
                   {calculateRemainingDays(item.andEndDate)}
                 </Typography>
               </div>
+                <Typography id='user-id'>@{item.userId}</Typography>
+              </div>
+              
               <div id='showmore-button-box'>
               <button id='follow'>팔로우</button>
               <img id='show-more-img' src={showMoreImg} alt="showMoreImg" aria-controls="simple-menu" aria-haspopup="true" 
