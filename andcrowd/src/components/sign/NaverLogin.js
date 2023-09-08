@@ -56,16 +56,18 @@ const NaverLogin = () => {
     // const redirect_uri = process.env.REACT_APP_NAVER_REDIRECT_URI;
     // const state = process.env.REACT_APP_NAVER_STATE;
     const client_id = "VuPedkCMX9rG5c9njrEN";
-    const redirect_uri = "http://localhost:3000/naverLoginCallback/";
+    const redirect_uri = "http://localhost:3000/oauth/redirected/naver";
     const state = "test";
 
     const url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=${state}&redirect_uri=${redirect_uri}`;
 
     const onClickNaverLoginButton = () => {
-        window.location.href = url;
+        alert("wtf");
+        fetch('/api/oauth/naver').then(res => console.log(res));
+        // window.location.href = url;
     }
 
-    return <Link to={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=${state}&redirect_uri=${redirect_uri}`}>네이버 로그인</Link>
+    return <button onClick={onClickNaverLoginButton}>네이버 로그인</button>;//<Link to={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${client_id}&state=${state}&redirect_uri=${redirect_uri}`}>네이버 로그인</Link>;
 }
 
 export default NaverLogin;

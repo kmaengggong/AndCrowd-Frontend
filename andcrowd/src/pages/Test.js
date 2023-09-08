@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { GetUserId } from "../components/user/GetUserId";
 import { GetUserInfo } from "../components/user/GetUserInfo";
+import { useNavigate } from "react-router";
 
 const Test = () => {
   const [userId, setUserId] = useState('');
   const [userInfo, setUserInfo] = useState([]);
   const [userEmail, setUserEmail] = useState('');
   const [userNickname, setUserNickname] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     setUserId(GetUserId());
@@ -18,7 +20,8 @@ const Test = () => {
   }, [userInfo]);
 
   const onClickTestButton = () => {
-    GetUserInfo(userId, setUserInfo);
+    window.location.href= 'http://localhost:8080/api/oauth/naver';
+    // GetUserInfo(userId, setUserInfo);
   }
 
   return (

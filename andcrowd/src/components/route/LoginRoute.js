@@ -14,8 +14,8 @@ const LoginRoute = () => {
             fetch('/api/accessTokenValid', {
                 method: "POST",
                 headers:{
-                'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-                'Content-Type': 'application/json; text=utf-8'
+                    'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+                    'Content-Type': 'application/json; text=utf-8'
                 }
             }).then((res) => {
                 // 일단 액세스 토큰은 삭제
