@@ -1,7 +1,6 @@
 #feed-head{
     display: flex;
     width: 35vw;
-    height: 1vhvw;
     margin: 0 auto;
 }
 
@@ -191,4 +190,22 @@
     color: #00D337;
     margin-right: 10px;
     margin-bottom: 10px;
+}
+#and-search-bar{
+    margin-left: 55%;
+    margin-bottom: 5%;
+}
+#and-search{
+    padding-left: 10px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 5vh;
+    border-radius: 7px;
+    border: 1px solid #00D337;
+}
+#and-search-button{
+    border: none;
+    background-color: white;
+    cursor: pointer;
 }
