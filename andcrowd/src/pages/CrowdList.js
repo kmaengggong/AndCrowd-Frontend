@@ -207,42 +207,34 @@ const CrowdList = () => {
       </div>
       <div className={styles.crowdListblock}>
         {/* 상태별분류 목록 */}
-        <div>
-          <Typography
-            className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('publishedAt')}
-            style={{ cursor: 'pointer', marginRight: '10px' }}
-          >
-            최신순
-          </Typography>
-        </div>
-        <div>
-          <Typography
-            className={`sortOption ${sortField === 'crowdViewCount' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('crowdViewCount')}
-            style={{ cursor: 'pointer', marginRight: '10px' }}
-          >
-            인기순
-          </Typography>
-        </div>
-        <div>
-          <Typography
-            className={`sortOption ${sortField === 'crowdEndDate' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('crowdEndDate')}
-            style={{ cursor: 'pointer', marginRight: '10px' }}
-          >
-            마감임박순
-          </Typography>
-        </div>
-        <div>
-          <Typography
-            className={`sortOption ${sortField === 'crowdLikeSum' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('crowdLikeSum')}
-            style={{ cursor: 'pointer' }}
-          >
-            좋아요순
-          </Typography>
-        </div>
+        <Typography
+          className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
+          onClick={() => handleSortFieldChange('publishedAt')}
+          style={{ cursor: 'pointer', marginRight: '10px' }}
+        >
+          최신순
+        </Typography>
+        <Typography
+          className={`sortOption ${sortField === 'crowdViewCount' ? 'selected' : ''}`}
+          onClick={() => handleSortFieldChange('crowdViewCount')}
+          style={{ cursor: 'pointer', marginRight: '10px' }}
+        >
+          인기순
+        </Typography>
+        <Typography
+          className={`sortOption ${sortField === 'crowdEndDate' ? 'selected' : ''}`}
+          onClick={() => handleSortFieldChange('crowdEndDate')}
+          style={{ cursor: 'pointer', marginRight: '10px' }}
+        >
+          마감임박순
+        </Typography>
+        <Typography
+          className={`sortOption ${sortField === 'crowdLikeSum' ? 'selected' : ''}`}
+          onClick={() => handleSortFieldChange('crowdLikeSum')}
+          style={{ cursor: 'pointer' }}
+        >
+          좋아요순
+        </Typography>
       </div>
       <br />
         <div className={styles.listContainer}>
@@ -250,6 +242,7 @@ const CrowdList = () => {
           {filteredCrowdData && filteredCrowdData.map((crowd) => (
             <div key={crowd.crowdId} onClick={() => navigateToDetail(crowd.crowdId)}>
               <h2>{crowd.crowdTitle}</h2>
+              <p>{crowd.crowdContent}</p>
               <p>{crowd.crowdCategory}</p>
               {/* 다른 게시글 내용 표시 요소 추가 */}
             </div>

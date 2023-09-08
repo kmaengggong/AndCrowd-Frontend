@@ -11,26 +11,21 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { NumericFormat } from 'react-number-format';
 import { InputAdornment } from '@mui/material';
 import Cookies from 'js-cookie';
+import CrowdRewardCreate from '../crowd/CrowdRewardCreate';
 
 const CrowdCreate = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState(""); // userId를 상태로 설정
   const params = useParams();
   const crowdId = params.crowdId;
+  const [rewards, setRewards] = useState([]);
 
   const [formData, setFormData] = useState({
     crowdCategoryId: "",
     crowdTitle: "",
     crowdContent: "",
     crowdGoal: "",
-    crowdReward: "",
-    crowdEndDate: "",
-    headerImg: "",
-    crowdImg1: "",
-    crowdImg2: "",
-    crowdImg3: "",
-    crowdImg4: "",
-    crowdImg5: "",
+    crowdEndDate: ""
   })
 
   const userAccessToken = Cookies.get('refresh_token');
@@ -74,8 +69,7 @@ const CrowdCreate = () => {
     userId: userId,
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleNextButtonClick = async () => {
     try {
       const response = await fetch("/crowd/create", {
         method: "POST",
@@ -84,21 +78,23 @@ const CrowdCreate = () => {
         },
         body: JSON.stringify(updatedFormData),
       });
-
       if (response.ok) {
         // 성공적으로 데이터 전송 및 처리되었을 때의 코드
         // 데이터를 저장하고 이동할 경로를 지정합니다.
-        alert("펀딩글이 등록되었습니다. 심사는 5-7일 정도 소요됩니다.")
         const responseData = await response.json();
         const crowdId = responseData; // 응답 데이터에서 andId 값을 추출
         console.log("Created crowdId:", crowdId);
-        navigate(`/crowd/list`);
+        navigate(`/crowd/${crowdId}/img/create`);
       } else {
         throw new Error(`Request failed with status ${response.status}`);
       }
     } catch (error) {
       console.error("Error sending data:", error);
     }
+  };
+
+  const handleRewardAdd = (newReward) => {
+    setRewards([...rewards, newReward]);
   };
 
   const handleUploadCancel = () => {
@@ -125,7 +121,7 @@ const CrowdCreate = () => {
       함께하는 모든 순간이 소중하고, 우리의 미래에 희망을 안겨줄 것입니다.<br />
       감사함과 함께, 함께하는 여정을 시작해봅시다!
       </Typography>
-      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+      <Box component="form" noValidate onSubmit={handleNextButtonClick} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
             <Grid item xs={12} sm={5}>
               <TextField 
@@ -184,15 +180,6 @@ const CrowdCreate = () => {
                 value={formData.crowdContent}
                 onChange={handleInputChange}
                 placeholder="예) OOO한 내용을 기획/개발해 &Crowd에 최초 공개하고자 합니다."
-                helperText={
-                  <>
-                      This field is required. Only letters and numbers
-                      are allowed.
-                      <br />
-                      Space is not allowed at start. Special
-                      characters are not allowed.
-                  </>
-              }
               />
             </Grid>
             {/* 목표금액 설정구문 */}
@@ -210,9 +197,37 @@ const CrowdCreate = () => {
                         </InputAdornment>
                     )
                 }}
+                helperText={
+                  <>
+                      This field is required. Only letters and numbers
+                      are allowed.
+                      <br />
+                      Space is not allowed at start. Special
+                      characters are not allowed.
+                  </>
+                }
               />
             </Grid>
-            
+            {/* 리워드 설정 */}
+            <Grid item xs={12} sm={9}>
+              {/* 리워드 설정 버튼  */}
+              <h3>프로젝트 리워드 설계</h3>
+              <span>서포터님들에게 제공할 리워드를 입력해 주세요.</span>
+              <CrowdRewardCreate onRewardAdd={handleRewardAdd} />
+              <div>
+                <h4>입력된 리워드</h4>
+                <ul>
+                  {rewards.map((reward, index) => (
+                    <li key={index}>
+                      <strong>리워드 제목:</strong> {reward.rewardTitle}<br />
+                      <strong>리워드 본문:</strong> {reward.rewardContent}<br />
+                      <strong>리워드 금액:</strong> {reward.rewardAmount}원<br />
+                      <strong>리워드 제한:</strong> {reward.rewardLimit}개<br />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Grid>
             <Container component="main" maxWidth="md">
               <br />
               <Button
@@ -227,8 +242,9 @@ const CrowdCreate = () => {
                 type="submit"
                 variant="contained"
                 color="primary"
+                onClick={handleNextButtonClick}
               >
-                업로드
+                다음
               </Button>
             </Container>
           </Grid>

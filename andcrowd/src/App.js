@@ -57,6 +57,7 @@ import AndManage from './pages/and/AndManage';
 import CrowdDetail from './pages/crowd/CrowdDetail';
 import CrowdList from './pages/CrowdList';
 import CrowdCreate from './pages/crowd/CrowdCreate';
+import CrowdCreateImg from './pages/crowd/CrowdCreateImg';
 
 
 const sections = [
@@ -141,9 +142,6 @@ function App() {
               <Route path="/and/:andId/member/:memberId/update" element={<AndMemberUpdate />} />
               <Route path="/and/:andId/role/create" element={<AndRoleCreate />} />
               <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
-              
-              <Route path="/crowd/create" element={<CrowdCreate />} />
-              <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
             </Route>
             
             <Route path="/and/:andId/member/list" element={<AndMember />} />
@@ -152,15 +150,21 @@ function App() {
             <Route path="/and/:andId/chat" element={<AndChat />} />
             <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
 
-            <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
-            <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
-            <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
-            {/* <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} /> */}
-            <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
-            <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
+            {/* 추가 */}
+            <Route path="/crowd/:crowdId/img/create" element={<CrowdCreateImg />}>
+              <Route path="/crowd/create" element={<CrowdCreate />} />
+              <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
+              <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
+              <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
+              <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
+              {/* <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPayment />} /> */}
+              <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
+              <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
+            </Route>
+
             <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/crowd/list" element={<Login />} />
+            <Route path="/crowd/list" element={<CrowdList />} /> {/* 수정 */}
             <Route path="/crowd/create" element={<Login />} />
             <Route path="/team" element={<Login />} />
             <Route path="/help" element={<Login />} />

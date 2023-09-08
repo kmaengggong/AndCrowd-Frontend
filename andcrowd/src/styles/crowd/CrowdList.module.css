@@ -19,17 +19,20 @@
 }
 
 .btnCategory {
-    margin-top: 10px;
     text-align: center;
 }
 
 .crowdListblock {
+    margin-top: 10px;
     float: right;
     display: flex;
     flex-wrap: wrap;
 }
 
-.cardList {
-    margin-top: 10px;
-    margin-bottom: 10px;
+.listContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+    gap: 20px; 
 }
+
+  

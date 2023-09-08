@@ -3,6 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import axios from "axios";
 import styles from '../../styles/crowd/CrowdDetail.module.css';
 import {formatMoney, getDaysBetweenDate, calculateAchievedRate, calculateRaisedAmount, countSponsors} from '../etc/Finance.js';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
 
 const CrowdDetail = () => {
     const params = useParams();
@@ -158,10 +160,12 @@ const CrowdDetail = () => {
                                 value={contributionAmount}
                                 onChange={(e) => setContributionAmount(Number(e.target.value))}
                             />
-                            <button onClick={() => setContributionAmount(contributionAmount + 5000)}>+5,000</button>
-                            <button onClick={() => setContributionAmount(contributionAmount + 10000)}>+10,000</button><br />
-                            <button onClick={() => setContributionAmount(contributionAmount + 50000)}>+50,000</button>
-                            <button onClick={() => setContributionAmount(contributionAmount + 100000)}>+100,000</button>
+                            <Grid xs="auto">
+                                <Button onClick={() => setContributionAmount(contributionAmount + 5000)}>+5,000</Button>
+                                <Button onClick={() => setContributionAmount(contributionAmount + 10000)}>+10,000</Button><br />
+                                <Button onClick={() => setContributionAmount(contributionAmount + 50000)}>+50,000</Button>
+                                <Button onClick={() => setContributionAmount(contributionAmount + 100000)}>+100,000</Button>
+                            </Grid>
                         </div>
                         <ul>
                         {rewards.map((reward) => (
