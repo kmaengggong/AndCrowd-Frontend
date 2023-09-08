@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 
-const AndApplicantDetail = () => {
+const AndApplicantAdmin = () => {
     const params = useParams();
     const andId = params.andId;
     const andApplyId = params.andApplyId;
@@ -84,4 +84,4 @@ const AndApplicantDetail = () => {
     );
 };
     
-export default AndApplicantDetail;
+export default AndApplicantAdmin;

@@ -53,12 +53,14 @@ import AndCreateImg from './pages/and/AndCreateImg';
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
 import { NaverLoginCallback } from './components/sign/NaverLoginCallback';
+import AndManage from './pages/and/AndManage';
 import CrowdDetail from './pages/crowd/CrowdDetail';
 import CrowdList from './pages/CrowdList';
 import CrowdCreate from './pages/crowd/CrowdCreate';
 import LoginRoute from './components/route/LoginRoute';
 import UserInfoEdit from './pages/user/UserInfoEdit';
 import Logout from './components/sign/Logout';
+
 
 const sections = [
   { title: '홈', url: '/' },
@@ -132,6 +134,22 @@ function App() {
               <Route path="/and/:andId/board/:andBoardId" element={<AndBoardDetail />} />
               <Route path="/and/:andId/role/list" element={<AndRole />} />
               <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
+              <Route path="/and/:andId/manage" element={<AndManage />} />
+              <Route path="/and/list" element={<AndList />} />
+              <Route path="/and/scroll" element={<AndScroll />} />
+              <Route path="/and/:andId" element={<AndDetail />} />
+              <Route path="/and/:andId/qna/list" element={<AndQna />} />
+              <Route path="/and/:andId/qna/:andQnaId" element={<AndQnaDetail />} />
+              <Route path="/and/:andId/qna/:andQnaId/update" element={<AndQnaUpdate />} />
+              <Route path="/and/:andId/qna/reply/:andQnaId/:andQnaReplyId/update" element={<AndReplyUpdate />} />
+              <Route path="/and/:andId/applicant/list" element={<AndApplicant />} />
+              <Route path="/and/:andId/applicant/:andApplyId/update" element={<AndApplicantUpdate />} />
+              <Route path="/and/:andId/applicant/:andApplyId" element={<AndApplicantDetail />} />
+              <Route path="/and/:andId/applicant/:andApplyId/admin" element={<AndApplicantAdmin />} />
+              <Route path="/and/:andId/board/list" element={<AndBoard />} />
+              <Route path="/and/:andId/board/:andBoardId" element={<AndBoardDetail />} />
+              <Route path="/and/:andId/role/list" element={<AndRole />} />
+              <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
               <Route path="/and/:andId/member/list" element={<AndMember />} />
               <Route path="/and/:andId/member/:memberId" element={<AndMemberDetail />} />
               <Route path="/and/:andId/chat" element={<AndChat />} />
@@ -170,7 +188,7 @@ function App() {
                 <Route path="/crowd/create" element={<CrowdCreate />} />
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
               </Route>
-
+              
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
