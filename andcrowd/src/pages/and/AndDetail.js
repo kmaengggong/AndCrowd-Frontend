@@ -51,6 +51,10 @@ const AndDetail = () => {
     }
   };
 
+  const manageAnd = (andId) => {
+    navigate(`/and/${andId}/manage`);
+  };
+
 
   const applyAnd = (andId) => {
     navigate(`/and/${andId}/applicant/create`);
@@ -83,6 +87,9 @@ const AndDetail = () => {
         <button onClick={() => applicantList(and.andId)}>apply List</button>
         <br />
         <button onClick={() => andChat(and.andId)}>CHAT</button>
+        <br />
+        <button onClick={() => manageAnd(and.andId)}>모임 관리</button>
+        <hr />
         <br />
         </Box>
         <AndRightBox/>
