@@ -15,9 +15,10 @@ import Cookies from 'js-cookie';
 const CrowdCreate = () => {
   const navigate = useNavigate();
   const [userId, setUserId] = useState(""); // userId를 상태로 설정
+  const params = useParams();
+  const crowdId = params.crowdId;
 
   const [formData, setFormData] = useState({
-    userId: "",
     crowdCategoryId: "",
     crowdTitle: "",
     crowdContent: "",
@@ -68,6 +69,11 @@ const CrowdCreate = () => {
     });
   };
 
+  const updatedFormData = {
+    ...formData,
+    userId: userId,
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -76,12 +82,13 @@ const CrowdCreate = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(updatedFormData),
       });
 
       if (response.ok) {
         // 성공적으로 데이터 전송 및 처리되었을 때의 코드
         // 데이터를 저장하고 이동할 경로를 지정합니다.
+        alert("펀딩글이 등록되었습니다. 심사는 5-7일 정도 소요됩니다.")
         const responseData = await response.json();
         const crowdId = responseData; // 응답 데이터에서 andId 값을 추출
         console.log("Created crowdId:", crowdId);
@@ -128,7 +135,6 @@ const CrowdCreate = () => {
                 label="회원번호"
                 name="userId"
                 value={userId} // userId 상태를 TextField의 value로 설정
-                //onChange={handleInputChange}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -206,79 +212,7 @@ const CrowdCreate = () => {
                 }}
               />
             </Grid>
-            {/* 이미지 업로드 부분 */}
-              <Grid item xs={12} sm={9}>
-                <TextField
-                  required 
-                  fullWidth
-                  id="headerImg"
-                  label="헤더 이미지"
-                  name="headerImg"
-                  value={formData.headerImg}
-                  onChange={handleInputChange}
-                  placeholder="첨부 파일을 업로드 하세요."
-                />
-              </Grid>
-              <Grid item xs={12} sm={9}>
-                <TextField
-                  required 
-                  fullWidth
-                  id="crowdImg1"
-                  label="이미지1"
-                  name="crowdImg1"
-                  value={formData.crowdImg1}
-                  onChange={handleInputChange}
-                  placeholder="첨부 파일을 업로드 하세요."
-                />
-              </Grid>
-              <Grid item xs={12} sm={9}>
-                <TextField
-                  required 
-                  fullWidth
-                  id="crowdImg2"
-                  label="이미지2"
-                  name="crowdImg2"
-                  value={formData.crowdImg2}
-                  onChange={handleInputChange}
-                  placeholder="첨부 파일을 업로드 하세요."
-                />
-              </Grid>
-              <Grid item xs={12} sm={9}>
-                <TextField 
-                  required
-                  fullWidth
-                  id="crowdImg3"
-                  label="이미지3"
-                  name="crowdImg3"
-                  value={formData.crowdImg3}
-                  onChange={handleInputChange}
-                  placeholder="첨부 파일을 업로드 하세요."
-                />
-              </Grid>
-              <Grid item xs={12} sm={9}>
-                <TextField
-                  required 
-                  fullWidth
-                  id="crowdImg4"
-                  label="이미지4"
-                  name="crowdImg4"
-                  value={formData.crowdImg4}
-                  onChange={handleInputChange}
-                  placeholder="첨부 파일을 업로드 하세요."
-                />
-              </Grid>
-              <Grid item xs={12} sm={9}>
-                <TextField 
-                  required
-                  fullWidth
-                  id="crowdImg5"
-                  label="이미지5"
-                  name="crowdImg5"
-                  value={formData.crowdImg5}
-                  onChange={handleInputChange}
-                  placeholder="첨부 파일을 업로드 하세요."
-                />
-              </Grid>
+            
             <Container component="main" maxWidth="md">
               <br />
               <Button
