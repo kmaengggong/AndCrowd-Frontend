@@ -15,6 +15,7 @@ import { SignUpAuthNumber } from '../../components/sign/SignUpAuthNumber';
 import { SignUpNickname } from '../../components/sign/SignUpNickname';
 import { SignUpPassword } from '../../components/sign/SignUpPassword';
 import { useNavigate } from 'react-router-dom';
+import { SignUpKorName } from '../../components/sign/SignUpKorName';
 
 const defaultTheme = createTheme();
 
@@ -26,6 +27,8 @@ const Signup = () => {
 
     const [nickname, setNickname] = useState('');
     const [isNicknameValid, setIsNicknameValid] = useState(false);
+
+    const [korName, setKorName] = useState('');
 
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
@@ -62,6 +65,10 @@ const Signup = () => {
           alert("닉네임을 확인해 주세요.");
           return;
         }
+        if(korName === ""){
+          alert("이름을 입력해주세요.")
+          return;
+        }
         if(!isPasswordValid){
           alert("비밀번호를 확인해 주세요.");
           return;
@@ -76,6 +83,7 @@ const Signup = () => {
             body: JSON.stringify({
               "userEmail": email,
               "userNickname": nickname,
+              "userKorName": korName,
               "userPassword": password,
             })
           }).then((res) => {
@@ -125,6 +133,10 @@ const Signup = () => {
                   nickname={nickname}
                   setNickname={setNickname}
                   setIsNicknameValid={setIsNicknameValid}
+                />
+                <SignUpKorName
+                  korName={korName}
+                  setKorName={setKorName}
                 />
                 <SignUpPassword
                   setPassword={setPassword}
