@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { Link, useNavigate,useParams } from 'react-router-dom';
 import CountdownTimer from './CountdownTimer';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
-
+import '../../styles/and/AndDetail.css';
 const AndComponent = ({ }) => {
     const params = useParams();
   const andId = params.andId;

@@ -6,9 +6,10 @@
     width: 35vw;
     margin:3vh 28%;
 }
+#and-title-box{
+    width: 50%;
+}
 #and-feed-title{
-    width: 15vw;
-    margin-right:1vw;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 28px;
     font-weight: 700;
@@ -34,19 +35,19 @@
     padding-right: 1vw;
 }
 #main-img{
-    width:65%;
+    width:68%;
     border-radius: 10px;
 }
 #main-img-box{
-    margin-top: 1%;
-    margin-left: 40vh;
+    margin-top: 2%;
+    margin-left: 27%;
     margin-bottom: 2vh;
 }
 #follow{
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
     font-weight: 500;
-    width: 15%;
+    width: 20%;
     height: 5vh;
     background-color: white;
     color: #00D337;
@@ -57,7 +58,7 @@
     margin-right: 10px;
 }
 #showmore-button-box{
-    margin-left: 10%;
+    margin-left: 7%;
     height:35%;
 }
 #follow:hover{
@@ -177,8 +178,8 @@
 }
 #and-role-box{
     display: flex;
-    margin-left: 20vw;
-    width: 27vw;
+    margin-left: 27%;
+    width: 45%;
     flex-wrap: wrap; 
 }
 #and-role{

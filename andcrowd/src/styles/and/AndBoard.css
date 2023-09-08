@@ -1,9 +1,11 @@
 #board-container{
     display: flex;
-    
 }
 #board-box{
     display: flex;
+}
+#board-content{
+    min-width: 55%;
 }
 #and-board-tag{
     font-family: 'Noto Sans KR', sans-serif;
@@ -17,13 +19,4 @@
     font-size: 20px;
     color: #000000;
     font-weight: 700;
-}
-#time-text{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
-    color: #818181;
-    font-weight: 500;
-}
-#and-board-line{
-    width: 38.5vw;
 }

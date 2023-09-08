@@ -219,7 +219,7 @@ const navigateToAndCreate = () => {
               <div id='img-box'>
                 <img id='profile-img' src={profileImg} alt="profileImg" /> 
               </div>
-              <div>
+              <div id='and-title-box'>
                 <Typography id='and-feed-title'>{item.andTitle}</Typography>
                 <div>
                 <Typography id='and-end-date'>

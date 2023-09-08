@@ -12,3 +12,92 @@
     padding: 15px;
     background-color: rgb(241, 241, 241);
 }
+#like-icon{
+    width: 7vh;
+    height: 7vh;
+    margin-top: 5%;
+    margin-left:17%;
+    margin-right: 1.1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#like-and-button{
+    display: flex;
+}
+#go-and{
+    float: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #00D337;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 50%;
+    margin-top: 5%;
+    height: 7vh;
+    border-radius: 7px;
+}
+#go-and:hover{
+    background-color: #24c44f;
+}
+#go-chat{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #00D337;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 65%;
+    margin-left: 20%;
+    margin-top: 3%;
+    height: 7vh;
+    border-radius: 7px;
+}
+#go-chat:hover{
+    background-color: #24c44f;
+}
+#and-content{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+#heart-icon{
+    color: #00D337;
+    cursor: pointer;
+}
+#remain{
+    margin-top: 15%;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+#linear-div{
+    display: flex;
+}
+#remain{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 2vw;
+}
+#go-member{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: white;
+    border: none;
+    color: #00D337;
+    cursor: pointer;
+    width: 65%;
+    margin-left: 35%;
+    margin-top: 5%;
+    height: 7vh;
+    border-radius: 7px;
+}
+#right-top-box{
+    width: 30vw;
+    height: 70vh;
+}

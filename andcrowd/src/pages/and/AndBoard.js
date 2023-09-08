@@ -35,8 +35,8 @@ const AndBoard = () => {
   return (
     <div>
        <AndToolBar andId={andId} />
-      <div id='board-container'>
-          <div>
+      <div id='and-board-container'>
+          <div id='and-board-content'>
           {sortedAndBoardList.map((andBoard) => (
           <Typography key={andBoard.andBoardId}>
           <Typography id='and-board-tag' >
@@ -55,7 +55,6 @@ const AndBoard = () => {
 
           <Link to={`/and/${andId}/board/create`}>글 작성</Link>
           </div>
-          <div id='board-right-box'><AndRightBox /></div>
       </div>
     </div>
     

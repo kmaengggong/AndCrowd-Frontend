@@ -6,11 +6,12 @@
     padding-top: 10vh;
     padding-left: 6vw;
 }
+#and-detail-container{
+    display: flex;
+}
 #right-top-box{
-    width: 30vw;
+    min-width: 35%;
     height: 70vh;
-    float: right;
-
 }
 #end-date{
     font-family: 'Noto Sans KR', sans-serif;
@@ -23,20 +24,7 @@
 #left-main-box{
     background-color: yellow;
     height: 1300px;
-    width: 60%;
-}
-#like-icon{
-    width: 7vh;
-    height: 7vh;
-    margin-top: 5%;
-    margin-left: 6vw;
-    margin-right: 1.1vw;
-    display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#like-and-button{
-    display: flex;
+    width: 65%;
 }
 #go-and{
     float: center;
@@ -64,10 +52,9 @@
     color: white;
     cursor: pointer;
     width: 65%;
-    margin-left: 20%;
     margin-top: 3%;
     height: 7vh;
-    border-radius: 7px;
+    border-radius: 7px;    
 }
 #go-chat:hover{
     background-color: #24c44f;
@@ -82,10 +69,11 @@
     cursor: pointer;
 }
 #remain{
-    margin-top: 15%;
+    margin-top: 25%;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 18px;
     font-weight: 500;
+    margin-right: 10%;
 }
 #linear-div{
     display: flex;
@@ -95,6 +83,7 @@
     font-size: 18px;
     font-weight: 500;
     margin-left: 2vw;
+    margin-top: 20vw
 }
 #go-member{
     font-family: 'Noto Sans KR', sans-serif;

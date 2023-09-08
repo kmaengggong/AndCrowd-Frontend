@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import CkEditor from "../../components/CkEditor";
 
 const AndCreate = () => {
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 페이지 이동 함수를 가져옵니다.
@@ -83,6 +84,7 @@ const AndCreate = () => {
 
   return (
     <>
+    <CkEditor></CkEditor>
       <form onSubmit={handleNextButtonClick}>
         <div>
                 <input type="text" name="userId" value={userId} readOnly />

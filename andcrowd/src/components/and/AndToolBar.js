@@ -20,7 +20,7 @@ const AndToolBar = ({ andId }) => {
         variant="nonlined"
         size="small"
       >
-        공지사항
+       게시판
       </Link>
       <Link
         id="and-navText"

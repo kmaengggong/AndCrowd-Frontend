@@ -73,8 +73,7 @@ const AndDetail = () => {
   return (
     <div>
       <AndToolbar andId={and.andId} />
-      <div> 
-       <AndRightBox/>
+      <div id ='and-detail-container'> 
         <Box id ='left-main-box'>
         <Typography id ='and-content'>{and.andContent}</Typography>
         <button onClick={() => updateAnd(and.andId)}>edit</button>
@@ -86,6 +85,7 @@ const AndDetail = () => {
         <button onClick={() => andChat(and.andId)}>CHAT</button>
         <br />
         </Box>
+        <AndRightBox/>
       </div>
       
     </div>
