@@ -11,9 +11,13 @@ const AndApplicantCreate = () => {
 
     const [userId, setUserId] = useState("");
 
+    const [andApplyFile, setAndApplyFile] = useState("");
+    const [isUploading, setIsUploading] = useState(false); // 파일 업로드 상태
+
     const [formData, setFormData] = useState({
         andId: andId,
         andRoleId: "",
+        andApplyTitle:"",
         andApplyContent: "",
     });
 
@@ -54,6 +58,7 @@ const AndApplicantCreate = () => {
     const updatedFormData = {
       ...formData,
       userId: userId,
+      andApplyFile: andApplyFile,
     };  
 
     const handleSubmit = async (event) => {
@@ -61,6 +66,8 @@ const AndApplicantCreate = () => {
 
         console.log("formdata:", formData);
 
+        // 파일이 업로드되었는지 확인
+        if (andApplyFile) {
             const response = await fetch(`/and/${andId}/applicant/create`, {
                 method: "POST",
                 headers: {
@@ -69,9 +76,52 @@ const AndApplicantCreate = () => {
                 body: JSON.stringify(updatedFormData),
             });
 
-            navigate(`/and/${andId}/applicant/list`);
+            if (response.ok) {
+                navigate(`/and/${andId}/applicant/list`);
+            } else {
+                console.error(`Request failed with status ${response.status}`);
+            }
+        } else {
+            console.error("파일이 업로드되지 않았습니다.");
+        }
     };
 
+    const handleFileChange = async (event) => {
+      const file = event.target.files[0]; // 선택한 파일 가져오기  
+      const formData = new FormData();
+      formData.append("andId", andId); 
+      formData.append("file", file); 
+      formData.append("fileType", "applyFile");
+
+      setIsUploading(true); // 파일 업로드 상태를 true로 설정
+    
+      try {
+        const response = await fetch("/and/s3/upload", {
+          method: "POST",
+          body: formData,
+          headers: {
+            ACL: "public-read", // ACL 헤더 설정
+          },
+        });
+    
+        if (response.ok) {
+          console.log("File uploaded successfully");
+          
+          const responseData = await response.json();
+          
+          const fileUrl = responseData.uploadFileUrl;
+          console.log("Uploaded File URL:", fileUrl);
+          setAndApplyFile(fileUrl);
+        } else {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      } finally {
+        setIsUploading(false); // 파일 업로드가 완료되면 상태를 false로 설정
+      }
+    };
+  
 
     return (
         <>
@@ -79,10 +129,18 @@ const AndApplicantCreate = () => {
                 <div>
                     <input type="text" name="userId" value={userId} readOnly />
                     <input type="text" name="andRoleId" value={formData.andRoleId} onChange={handleInputChange} placeholder="역할 번호" />
+                    <input type="text" name="andApplyTitle" value={formData.andApplyTitle} onChange={handleInputChange} placeholder="제목" />
                     <input type="text" name="andApplyContent" value={formData.andApplyContent} onChange={handleInputChange} placeholder="내용" />
-                </div>
-                <div id="submit_btn">
-                    <button type="submit">저장</button>
+                    <input
+                        type="file"
+                        name="andApplyFile"
+                        onChange={handleFileChange} // 파일 선택 시 handleFileChange 함수 호출
+                    />
+                    {isUploading ? (
+                      <p>파일 첨부 중...</p>
+                    ) : (
+                      <button type="submit">제출</button>
+                    )}
                 </div>
             </form>
 
