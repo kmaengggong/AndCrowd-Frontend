@@ -60,6 +60,7 @@ import CrowdCreate from './pages/crowd/CrowdCreate';
 import LoginRoute from './components/route/LoginRoute';
 import UserInfoEdit from './pages/user/UserInfoEdit';
 import Logout from './components/sign/Logout';
+import UserPasswordChange from './pages/user/UserPasswordChange';
 
 
 const sections = [
@@ -167,7 +168,8 @@ function App() {
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
                 {/* User 관련 */}
-                <Route path="/user/update" element={<UserInfoEdit />} /> 
+                <Route path="/user/update" element={<UserInfoEdit />} />
+                <Route path="/user/passwordChange" element={<UserPasswordChange />} />
 
                 {/* And 관련 */}
                 <Route path="/and/create" element={<AndCreate />} />

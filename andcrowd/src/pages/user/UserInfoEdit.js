@@ -129,6 +129,10 @@ const UserInfoEdit = () => {
         }
     }
 
+    const onClickPasswordChangeButton = () => {
+        navigate("/user/passwordChange");
+    }
+
     const onClickResignYesButton = () => {
         try{
             fetch(`/user/${userId}`, {
@@ -146,6 +150,14 @@ const UserInfoEdit = () => {
         } catch(error){
             console.error("onClickResignYesButton: " + error);
         }
+    }
+
+    const onClickSubmitButton = () => {
+
+    }
+
+    const onClickCancleButton = () => {
+        navigate(-1);
     }
 
     return (
@@ -203,12 +215,12 @@ const UserInfoEdit = () => {
                     </Button>
                 </Grid>  
             </Grid>
-            <img src={profileImg} alt="fuck"/>
-            <button>프로필 사진 올리기</button>
-            <button>비밀번호 변경</button>
-            <button onClick={handleOpenResignModal}>회원 탈퇴</button>
-            <button>변경</button>
-            <button>취소</button>
+            <img src={profileImg} alt="프로필 사진 미리보기"/>
+            <Button onClick={onClickPasswordChangeButton}>비밀번호 변경</Button>
+            <Button onClick={handleOpenResignModal}>회원 탈퇴</Button>
+            <Button onClick={onClickSubmitButton}>변경</Button>
+            <Button onClick={onClickCancleButton}>취소</Button>
+
             <Modal
                 open={openResignModal}
                 onClose={handleCloseResignModal}
