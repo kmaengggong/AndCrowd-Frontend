@@ -2,7 +2,6 @@
     margin-left: 4vh;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 15px;
-    background-color: transparent;
     color: #2D2D2D;
     text-decoration: none;
 }
@@ -11,7 +10,6 @@
     margin-left: 2vh;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 15px;
-    background-color: transparent;
     color: #2D2D2D;
     text-decoration: none;
     margin-right: 0px;
@@ -37,4 +35,5 @@
     position: sticky;
     top: 0;
     background-color: white;
+    z-index: 1000;
 }

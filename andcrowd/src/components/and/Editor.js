@@ -1,10 +1,18 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-
+import '../../styles/Editor.css'
 const Editor = ({ htmlStr, setHtmlStr }) => {
   const quillRef = useRef(null);
+  const viewContainerRef = useRef(null);
+
+  useEffect(() => {
+    if (viewContainerRef.current) {
+      viewContainerRef.current.innerHTML = '<h2>html 코드를 이용하여 만들어지는 View</h2>';
+      viewContainerRef.current.innerHTML += htmlStr;
+    }
+  }, [htmlStr]);
 
   const imageHandler = () => {
     const input = document.createElement('input');
@@ -60,14 +68,18 @@ const Editor = ({ htmlStr, setHtmlStr }) => {
   ]
 
   return (
-    <ReactQuill
-      ref={quillRef}
-      theme="snow"
-      modules={modules}
-      formats={formats}
-      value={htmlStr}
-      placeholder='내용을 입력하세요.'
-      onChange={(content, delta, source, editor) => setHtmlStr(editor.getHTML())} />
+    <>
+      <ReactQuill
+        ref={quillRef}
+        theme="snow"
+        modules={modules}
+        formats={formats}
+        value={htmlStr}
+        placeholder='내용을 입력하세요.'
+        onChange={(content, delta, source, editor) => setHtmlStr(editor.getHTML())} />
+
+      <div ref={viewContainerRef} id='test-div'/>
+    </>
   )
 }
 
