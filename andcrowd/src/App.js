@@ -5,6 +5,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import { IsLoginProvider } from './context/isLoginContext';
 import PublicRoute from './components/route/PublicRoute';
 import PrivateRoute from './components/route/PrivateRoute';
+import SignRoute from './components/route/SignRoute';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -61,6 +62,7 @@ import LoginRoute from './components/route/LoginRoute';
 import UserInfoEdit from './pages/user/UserInfoEdit';
 import Logout from './components/sign/Logout';
 import UserPasswordChange from './pages/user/UserPasswordChange';
+import UserResign from './pages/user/UserResign';
 
 
 const sections = [
@@ -168,8 +170,11 @@ function App() {
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
                 {/* User 관련 */}
-                <Route path="/user/update" element={<UserInfoEdit />} />
-                <Route path="/user/passwordChange" element={<UserPasswordChange />} />
+                <Route element={<SignRoute />}>
+                  <Route path="/user/update" element={<UserInfoEdit />} />
+                  <Route path="/user/passwordChange" element={<UserPasswordChange />} />
+                  <Route path="/user/delete" element={<UserResign />} />
+                </Route>
 
                 {/* And 관련 */}
                 <Route path="/and/create" element={<AndCreate />} />

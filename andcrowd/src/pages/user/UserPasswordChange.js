@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { GetUserId } from "../../components/user/GetUserId";
 
 const UserPasswordChange = () => {
-    const [userId, setUserId] = useState(0);
+    const [userId, setUserId] = useState(null);
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [isPasswordEqual, setIsPasswordEqual] = useState(true);

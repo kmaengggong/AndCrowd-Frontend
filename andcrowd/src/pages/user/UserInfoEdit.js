@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { GetUserId } from "../../components/user/GetUserId";
-import { Box, Button, Grid, Input, Modal, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Input, Modal, TextField, Typography } from "@mui/material";
 import { GetUserInfo } from "../../components/user/GetUserInfo";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -8,46 +8,34 @@ import { isLoginContext } from "../../context/isLoginContext";
 import Logout from "../../components/sign/Logout";
 
 const UserInfoEdit = () => {
-    const navigate = useNavigate();
     const {setIsLogin} = useContext(isLoginContext);
-    const [userId, setUserId] = useState(0);
+    const [userId, setUserId] = useState(null);
     const [userInfo, setUserInfo] = useState([]);
-    const [nickname, setNickname] = useState('');
-    const [isNicknameValid, setIsNicknameValid] = useState(false);
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [profileImg, setProfileImg] = useState('');
-    const [openResignModal, setOpenResignModal] = useState(false);
-    const handleOpenResignModal = () => setOpenResignModal(true);
-    const handleCloseResignModal = () => setOpenResignModal(false);
 
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
-        p: 4,
-      };
+    const [originNickname, setOriginNickname] = useState(null);
+    const [nickname, setNickname] = useState('');
+    const [isNicknameValid, setIsNicknameValid] = useState(true);
+
+    const [phoneNumber, setPhoneNumber] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         setUserId(GetUserId());
     }, []);
 
     useEffect(() => {
-        console.log(1);
-        if(userId !== 0){
+        if(userId !== null){
             GetUserInfo(userId, setUserInfo);
         }
     }, [userId]);
 
     useEffect(() => {
-        console.log(2);
+        setOriginNickname(userInfo.userNickname);
         setNickname(userInfo.userNickname);
     }, [userInfo]);
 
     useEffect(() => {
-        console.log(phoneNumber);
         if(phoneNumber.length === 10){
             setPhoneNumber(phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'));
         }
@@ -68,17 +56,6 @@ const UserInfoEdit = () => {
         if(regex.test(event.target.value)){
             setPhoneNumber(event.target.value);
         }
-    }
-
-    const onProfileImgChange = (event) => {
-        // const file = event.target.files[0];
-        // const imageUrl = URL.createObjectURL(file);
-        // setProfileImg(imageUrl);
-        // setProfileImg(Array.from(event.target.files));
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append("file", event.target.files[0]);
-        setProfileImg(formData);
     }
 
     const onNicknameCheckClick = async (event) => {
@@ -106,54 +83,52 @@ const UserInfoEdit = () => {
         }
     };
 
-    const uploadProfileImg = (event) => {
-        event.preventDefault();
-        // const formData = new FormData();
-        // profileImg.map((file) => {
-        //     formData.append("files", file);
-        // });
-        // console.log(Array.from(formData));
-
-        try{
-            // fetch('http://localhost:3000/file/uploads', {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": 'multipart/form-data'
-            //     },
-            //     body: formData
-            // }).then((res) => {
-            //     console.log(res.data);
-            // })
-        } catch(error){
-            console.error("uploadProfileimg: " + error);
+    const onClickSubmitButton = () => {
+        if(!isNicknameValid){
+            alert("닉네임을 확인해주세요.");
+            return;
         }
-    }
 
-    const onClickPasswordChangeButton = () => {
-        navigate("/user/passwordChange");
-    }
+        if(phoneNumber === '' && nickname === originNickname){
+            alert("수정사항이 없습니다.");
+        }
 
-    const onClickResignYesButton = () => {
+        console.log("nick " + nickname);
+        console.log("origin: " + originNickname);
+        console.log("phone: " + phoneNumber);
+
+        let updateNickname = null;
+        let updatePhone = null;
+        if(nickname !== originNickname){
+            updateNickname = nickname;
+        }
+        if(phoneNumber !== ''){
+            updatePhone = phoneNumber;
+        }
+
         try{
             fetch(`/user/${userId}`, {
-                method: "DELETE",
-                headers: {
+                method: "PATCH",
+                headers:{
                     'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
                     'Content-Type': 'application/json; text=utf-8'
-                }
+                },
+                body: JSON.stringify({
+                    "userNickname": updateNickname,
+                    "userPhone": updatePhone
+                })
             }).then(res => {
                 if(res.ok){
-                    Logout();
-                    alert("회원 탈퇴가 완료되었습니다.");
+                    alert("정보 수정이 완료되었습니다.");
+                    navigate(-1);
+                }
+                else{
+                    alert("다시 시도해주세요.");
                 }
             })
         } catch(error){
-            console.error("onClickResignYesButton: " + error);
+            console.error("onClickSubmitButton: ;" + error)
         }
-    }
-
-    const onClickSubmitButton = () => {
-
     }
 
     const onClickCancleButton = () => {
@@ -162,7 +137,15 @@ const UserInfoEdit = () => {
 
     return (
         <>
-            <Grid container spacing={2}>
+            <Box
+                sx={{
+                    marginTop: 5,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                  }}
+            >
+            <Grid container spacing={2} maxWidth={'sm'}>
                 <Grid item xs={12} sm={9}>
                     <TextField
                         fullWidth
@@ -195,50 +178,28 @@ const UserInfoEdit = () => {
                         onChange={onPhoneNumberKeyDown}
                     />
                 </Grid>
-                <Grid item xs={12} sm={9}>
-                    <TextField
-                        type="file"
-                        fullWidth
-                        name=""
-                        onChange={onProfileImgChange}
-                    />
-                </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={6}>
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 1, mb: 1 }}
-                        onClick={uploadProfileImg}
+                        onClick={onClickSubmitButton}
                     >
-                        프로필 사진 올리기
+                        변경
                     </Button>
-                </Grid>  
+                </Grid>
+                <Grid item xs={6}>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 1, mb: 1 }}
+                        onClick={onClickCancleButton}
+                    >
+                        취소
+                    </Button>
+                </Grid>
             </Grid>
-            <img src={profileImg} alt="프로필 사진 미리보기"/>
-            <Button onClick={onClickPasswordChangeButton}>비밀번호 변경</Button>
-            <Button onClick={handleOpenResignModal}>회원 탈퇴</Button>
-            <Button onClick={onClickSubmitButton}>변경</Button>
-            <Button onClick={onClickCancleButton}>취소</Button>
-
-            <Modal
-                open={openResignModal}
-                onClose={handleCloseResignModal}
-                aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        회원 탈퇴
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        정말로 탈퇴하시겠습니까?
-                    </Typography>
-                    <Button onClick={onClickResignYesButton}>예</Button>
-                    <Button onClick={handleCloseResignModal}>아니오</Button>
-                </Box>
-        </Modal>
-
+            </Box>
         </>
     );
 }
