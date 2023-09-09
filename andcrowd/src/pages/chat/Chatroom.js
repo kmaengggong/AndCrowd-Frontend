@@ -1,7 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+import '../../styles/and/Chatroom.css';
+import { IconButton, Avatar, Typography, Paper } from '@mui/material';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import SimCardDownloadRoundedIcon from '@mui/icons-material/SimCardDownloadRounded';
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import AttachFileRoundedIcon from '@mui/icons-material/AttachFileRounded';
+import FiberManualRecordRoundedIcon from '@mui/icons-material/FiberManualRecordRounded';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 
 function formatTimestamp(timestamp) {
   const options = {
@@ -25,7 +34,7 @@ function getFileExtension(fileName) {
   return fileName.split('.').pop();
 }
 
-function ChatRoom({ roomData, nickname, andId }) {
+const ChatRoom = ({ roomData, nickname, andId }) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [stompClient, setStompClient] = useState(null);
@@ -37,6 +46,20 @@ function ChatRoom({ roomData, nickname, andId }) {
   const [previousPrivateMessages, setPreviousPrivateMessages] = useState([]); 
 
   const navigate = useNavigate();
+
+  const messagesContainerRef = useRef(null);
+
+  // 스크롤을 항상 가장 아래로 이동시키는 함수
+  const scrollToBottom = () => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  };
+
+  // messages가 업데이트될 때마다 스크롤을 아래로 이동
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, privateChats]);
 
   useEffect(() => {
     const socket = new SockJS('http://localhost:8080/ws');
@@ -277,166 +300,267 @@ function ChatRoom({ roomData, nickname, andId }) {
 
   useEffect(() => {
     loadPreviousPrivateMessages(roomData.roomId, nickname, tab);
+    
   }, [tab, roomData.roomId, nickname]);
 
   return (
-    <div>
-      
+    <div className='chatroom-container'>
+
+      <div className='chatroom-left'>
         {/* 채팅방 이름 조회 및 출력 */}
-        <div>
-          <span
+        <div className='chatroom-group'>
+          <Avatar sx={{ background: "#1ac948", mt:2, ml:1, width:37, height:37 }}><span id='bold'>&</span></Avatar>
+          <p
+            id='and-name'
             onClick={handleChatRoomClick}
-            style={{ marginRight: '10px', fontWeight: 'bold', fontSize: 20 }}
             className={`member ${tab === 'CHATROOM' && 'active'}`}
-          >          Chat Room: {roomData.name}
-          </span>
-          <button onClick={() => updateChatroom(roomData.roomId)}>이름 수정</button>
+          >          {roomData.name}
+          </p>
+          <div id='edit-icon'>
+          <IconButton aria-label="edit" size="small" onClick={() => updateChatroom(roomData.roomId)}>
+            <MoreVertIcon sx={{ fontSize: 18 }} />
+          </IconButton>
+          </div>
         </div>
 
-
         {/* 모임 참여자 목록 */}
-        <div>
-          <h3>Chat Members: 닉네임(이름)</h3>
+        <div className='chatroom-member'>
+          {/* <span>Chat Members: 닉네임(이름)</span> */}
           {members.map((member, index) => (
             <div 
+              id='member-list'
               key={index} 
               onClick={() => handleMemberClick(member.userNickname)}
               className={`member ${tab===member.userNickname && "active"}`}>
-              <span>{member.userNickname}</span>
-              <span>({member.userKorName})</span>
-              {connectedList && connectedList.includes(member.userNickname) && (
-                <span> - Online</span>
-              )}
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Avatar sx={{ mt:1, ml:1, width:35, height:36 }}><PersonRoundedIcon /></Avatar>
+                  <p id='member-nickname'>{member.userNickname}</p>
+                  {member.userKorName && <p id='member-nickname'>({member.userKorName})</p>}              
+                  {connectedList && connectedList.includes(member.userNickname) && (
+                    <div id='online'> <FiberManualRecordRoundedIcon sx={{ fontSize: 14, color: "#99f76d" }} /></div>
+                  )}
+                </div>
             </div>
           ))}
         </div>
-        <hr />
+
+        {/* 로그인 유저 */}
+        <div className='login-user' style={{ display: 'flex', alignItems: 'center' }}>
+          <Avatar sx={{ background: "#72a4f7", ml:1 }}><PersonRoundedIcon /></Avatar>
+          <span id='login-nickname'>{nickname}</span>
+        </div>
+
+      </div>
         
         {tab==="CHATROOM" &&
-        <div>
+        <div className='chatroom-right'>
+        <div className='chatroom-name'>
+          <div id='chat-title' style={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar sx={{ background: "#1ac948" }}><span id='bold'>&</span></Avatar>
+            <Typography variant="subtitle1" sx={{ ml: 1}}>
+              <span id='font-name'>{roomData.name}</span>
+            </Typography>
+          </div>
+        </div>
+        <div className='chatroom-public' ref={messagesContainerRef}>
           <div>
             {/* DB에 저장된 메세지 출력 */}
             {previousMessages.map((msg, index) => (
-            <div key={index}>
-              <span>{msg.senderName}: </span>
+              <div key={index} className={msg.senderName === nickname ? 'message-sent' : 'message-received'}>
+                {msg.senderName !== nickname && <div id="message-name">{msg.senderName} </div>}
+
+                {/* 시간 출력 */}
+                {msg.senderName === nickname && <span id='message-time'>{formatTimestamp(msg.publishedAt)}</span>}
+
+                {msg.s3DataUrl && (
+                  <span id='message-file'>
+                    {isImageFile(msg.fileName) ? (
+                      <span>
+                        <IconButton aria-label="imgdown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          {msg.senderName === nickname && <FileDownloadOutlinedIcon fontSize='small'/>}
+                        </IconButton>
+                        <img src={msg.s3DataUrl} alt="file" width="100" />
+                        <IconButton aria-label="imgdown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          {msg.senderName !== nickname && <FileDownloadOutlinedIcon fontSize='small'/>}
+                        </IconButton>
+                      </span>
+                    ) : (
+                      <span>
+                        <IconButton aria-label="filedown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          {msg.senderName === nickname && <SimCardDownloadRoundedIcon fontSize='small'/>}
+                        </IconButton>
+
+                        {msg.fileName}
+                        <IconButton aria-label="filedown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          {msg.senderName !== nickname && <SimCardDownloadRoundedIcon fontSize='small'/>}
+                        </IconButton>
+                      </span>
+                    )}
+                  </span>
+                )}
+
+                {!msg.s3DataUrl && (
+                  <span id='message-content'>{msg.message} </span>
+                )}
+
+                {/* 시간 출력 */}
+                {msg.senderName !== nickname && <span id='message-time'>{formatTimestamp(msg.publishedAt)}</span>}
+              </div>
+            ))}
+            <hr />
+
+          {/* 접속 후의 메세지 출력 */}
+          {messages.map((msg, index) => (
+            msg.chatStatus === 'MESSAGE' && (
+              <div key={index} className={msg.senderName === nickname ? 'message-sent' : 'message-received'}>
+                {/* 이름 출력 여부 결정 */}
+                {msg.senderName !== nickname && <div id="message-name">{msg.senderName} </div>}
+                
+                {/* 시간 출력 */}
+                {msg.senderName === nickname && <span id='message-time'>{formatTimestamp(msg.publishedAt)}</span>}
+
+                {/* 메시지 내용 */}
+                {msg.s3DataUrl ? (
+                  <span id="message-file">
+                    {isImageFile(msg.fileName) ? (
+                      <span>
+                        <IconButton aria-label="imgdown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          {msg.senderName === nickname && <FileDownloadOutlinedIcon fontSize='small'/>}
+                        </IconButton>
+                        <img src={msg.s3DataUrl} alt="file" width="100" />
+                        <IconButton aria-label="imgdown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          {msg.senderName !== nickname && <FileDownloadOutlinedIcon fontSize='small'/>}
+                        </IconButton>
+                      </span>
+                    ) : (
+                      <span>
+                        <IconButton aria-label="filedown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          {msg.senderName === nickname && <SimCardDownloadRoundedIcon fontSize='small'/>}
+                        </IconButton>
+
+                        {msg.fileName}
+                        <IconButton aria-label="filedown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          {msg.senderName !== nickname && <SimCardDownloadRoundedIcon fontSize='small'/>}
+                        </IconButton>
+                      </span>
+                    )}
+                  </span>
+                ) : (
+                    <span id="message-content">{msg.message}</span>
+                )}
+                  {msg.senderName !== nickname && <span id='message-time'>{formatTimestamp(msg.publishedAt)}</span>}
+              </div>
+            )
+          ))}
+          </div>
+        </div>
+        <div className='chatroom-send'>
+          <div className='chatroom-input'>
+            <IconButton component="label" id='send-file-icon' onChange={handleFileChange} >
+              <AttachFileRoundedIcon sx={{ fontSize: 25, color: "#709CE6" }} />
+              <input hidden type="file" />
+            </IconButton>
+            <input type="text" id='send-text' value={message} onChange={(e) => setMessage(e.target.value)} />
+          </div>
+          <IconButton aria-label="send" id='send-message-icon' size="small" onClick={handleSendMessage}>
+            <SendRoundedIcon sx={{ fontSize: 25, color: "#5B96F7", ml:2 }} />
+          </IconButton>
+        </div>
+        </div>
+        }
+
+        {tab!=="CHATROOM" &&
+        <div className='chatroom-right'>
+        <div className='chatroom-name' style={{ display: 'flex', alignItems: 'center' }}>
+          <Avatar sx={{ mt:1, ml:1, mb:1, width:40, height:40 }}><PersonRoundedIcon /></Avatar>
+          <p id='private-name'>{tab}</p>
+        </div>
+      
+          <div className='chatroom-private' ref={messagesContainerRef}>
+            {/* DB에 저장된 메세지 출력 */}
+            {previousPrivateMessages.map((msg, index) => (
+            <div key={index} className={msg.senderName === nickname ? 'message-sent' : 'message-received'}>
+              {/* 이름 출력 여부 결정 */}
+              {msg.senderName !== nickname && <div id="message-name">{msg.senderName} </div>}
+              
+              {/* 시간 출력 */}
+              {msg.senderName === nickname && <span id='message-time'>{formatTimestamp(msg.publishedAt)}</span>}
+
               {msg.s3DataUrl && (
-                <div>
+                <span>
                   {isImageFile(msg.fileName) ? (
-                    <div>
-                      <img src={msg.s3DataUrl} alt="file" width="100" />
-                      <button onClick={() => downloadFile(msg.fileName, msg.fileDir)}>Download</button>
-                    </div>
+                    <span>
+                        <IconButton aria-label="imgdown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          {msg.senderName === nickname && <FileDownloadOutlinedIcon fontSize='small'/>}
+                        </IconButton>
+                        <img src={msg.s3DataUrl} alt="file" width="100" />
+                        <IconButton aria-label="imgdown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          <FileDownloadOutlinedIcon />
+                        </IconButton>
+                    </span>
                   ) : (
-                    <div>
+                    <span>
                       {msg.fileName}
-                      <button onClick={() => downloadFile(msg.fileName, msg.fileDir)}>Download</button>
-                    </div>
+                      <IconButton aria-label="filedown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                      <SimCardDownloadRoundedIcon /> </IconButton>
+                    </span>
                   )}
-                </div>
+                </span>
               )}
               {!msg.s3DataUrl && (
-                <span>{msg.message} </span>
+                <span id='message-content'>{msg.message} </span>
               )}
-              <span>{formatTimestamp(msg.publishedAt)}</span> 
+
+              {msg.senderName !== nickname && <span id='message-time'>{formatTimestamp(msg.publishedAt)}</span>}
+
             </div>
             ))}
             <hr />
 
-            {/* 접속 후의 메세지 출력 */}
-            {messages.map((msg, index) =>
-              msg.chatStatus === 'MESSAGE' && (
-                <div key={index}>
-                  <span>{msg.senderName}: </span>
-                  {msg.s3DataUrl ? (
-                    <div>
-                      {isImageFile(msg.fileName) ? (
-                        <div>
-                          <img src={msg.s3DataUrl} alt="file" width="100" />
-                          <button onClick={() => downloadFile(msg.fileName, msg.fileDir)}>Download</button>
-                        </div>
-                      ) : (
-                        <div>
-                          {msg.fileName}
-                          <button onClick={() => downloadFile(msg.fileName, msg.fileDir)}>Download</button>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <span>{msg.message} </span> 
-                  )}
-                  <span>{formatTimestamp(msg.publishedAt)}</span> 
-                </div>
-              )
-            )}
-          </div>
-          <div>
-            <input type="file" id="file" onChange={handleFileChange} />
-            <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
-            <button onClick={handleSendMessage}>Send</button>
-          </div>
-        </div>
-        }
-        {tab!=="CHATROOM" &&
-        <div>
-          <h4>{tab}과의 1:1 채팅</h4>
-          <div>
-            {/* DB에 저장된 메세지 출력 */}
-            {previousPrivateMessages.map((msg, index) => (
-            <div key={index}>
-              <span>{msg.senderName}: </span>
-              {msg.s3DataUrl && (
-                <div>
-                  {isImageFile(msg.fileName) ? (
-                    <div>
-                      <img src={msg.s3DataUrl} alt="file" width="100" />
-                      <button onClick={() => downloadFile(msg.fileName, msg.fileDir)}>Download</button>
-                    </div>
-                  ) : (
-                    <div>
-                      {msg.fileName}
-                      <button onClick={() => downloadFile(msg.fileName, msg.fileDir)}>Download</button>
-                    </div>
-                  )}
-                </div>
-              )}
-              {!msg.s3DataUrl && (
-                <span>{msg.message} </span>
-              )}
-              <span>{formatTimestamp(msg.publishedAt)}</span> 
-            </div>
-            ))}
-            <hr />
-            </div>
-          <div>
             {/* 1:1 채팅내역 로드 */}
-            <ul className="chat-messages">
-              {(privateChats[tab] || []).map((chat, index) => (
-              <div>
-                <li className={`message ${chat.senderName === nickname && "self"}`} key={index}>
-                  {chat.senderName !== nickname && 
-                  <div className="avatar">
-                    {chat.senderName}
-                  </div>}
-                  {chat.senderName === nickname && 
-                  <div className="avatar self">
-                    {chat.senderName}
-                  </div>}
-                  <div className="message-data">
-                    {chat.message}
-                  </div>
-                  <div className="message-data">
-                    {formatTimestamp(chat.publishedAt)}<br />
-                    <br />
-                  </div>
-                </li>
-                </div>
+            
+              {(privateChats[tab] || []).map((msg, index) => (
+              <div key={index} className={msg.senderName === nickname ? 'message-sent' : 'message-received'}>
+                {/* 이름 출력 여부 결정 */}
+                {msg.senderName !== nickname && <div id="message-name">{msg.senderName} </div>}
+                
+                {/* 시간 출력 */}
+                {msg.senderName === nickname && <span id='message-time'>{formatTimestamp(msg.publishedAt)}</span>}
+
+                {msg.s3DataUrl ? (
+                  <span id="message-file">
+                    {isImageFile(msg.fileName) ? (
+                      <span>
+                        <img src={msg.s3DataUrl} alt="file" width="100" />
+                        <IconButton aria-label="imgdown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          <FileDownloadOutlinedIcon />
+                        </IconButton>
+                      </span>
+                    ) : (
+                      <span>
+                        {msg.fileName}
+                        <IconButton aria-label="filedown" size="small" onClick={() => downloadFile(msg.fileName, msg.fileDir)}>
+                          <SimCardDownloadRoundedIcon />
+                        </IconButton>
+                      </span>
+                    )}
+                  </span>
+                ) : (
+                    <span id="message-content">{msg.message}</span>
+                )}
+
+                  {msg.senderName !== nickname && <span id='message-time'>{formatTimestamp(msg.publishedAt)}</span>}
+              </div>
               ))}
-            </ul>
           </div>
-          <div>
-            <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
-            <button onClick={handleSendPrivateMessage}>Send</button>
+        <div className='chatroom-send'>
+          <div className='chatroom-input'>
+            <input type="text" id='send-private' value={message} onChange={(e) => setMessage(e.target.value)} />
           </div>
+          <IconButton aria-label="send" size="small" onClick={handleSendPrivateMessage}>
+            <SendRoundedIcon sx={{ fontSize: 25, color: "#5B96F7", ml:2 }} />
+          </IconButton>
+        </div>
         </div>
         }
     </div>
