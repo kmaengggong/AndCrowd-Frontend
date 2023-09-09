@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, useParams,useNavigate } from "react-router-dom";
 import AndToolBar from "../../components/and/AndToolBar";
 
 const AndRole = () => {

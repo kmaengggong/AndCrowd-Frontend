@@ -26,6 +26,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useIsLoginState } from "../../context/isLoginContext";
 import { GetUserId } from "../../components/user/GetUserId";
 import profileImg from "../and/cat.jpg";
+import { Button } from "@mui/material";
 
 // const defaultTheme = createTheme();
 
@@ -206,6 +207,10 @@ const MyPage = () => {
         fetchGetDynamicUserLike();
     }, []);
 
+    const onUserInfoEditButtonClick = () => {
+        navigate(`/user/update`);
+    };
+
     const fetchIsUserExist = async () => {
         try{
             await fetch(`/user/${userId}`)
@@ -231,7 +236,7 @@ const MyPage = () => {
         } catch(error){
             console.error(`/user/${userId}/and: ${error}`);
         }
-    }
+    };
 
     const fetchGetDynamicUserOrder = async () => {
         try{
@@ -244,7 +249,7 @@ const MyPage = () => {
         } catch(error){
             console.error(`/user/${userId}/order: ${error}`);
         }
-    }
+    };
 
     const fetchGetDynamicUserLike = async () => {
         try{
@@ -257,7 +262,7 @@ const MyPage = () => {
         } catch(error){
             console.error(`/user/${userId}/like: ${error}`);
         }
-    }
+    };
 
     return (
         <>
@@ -266,8 +271,9 @@ const MyPage = () => {
             <br />
             {isOwner ?
                 <>
-                    <button>프로필 페이지 수정</button>
-                    <button>메이커 페이지</button>
+                    <Button>프로필 페이지 수정</Button>
+                    <Button>메이커 페이지</Button>
+                    <Button onClick={onUserInfoEditButtonClick}>회원 정보 관리</Button>
                 </>
                 :
                 <></>

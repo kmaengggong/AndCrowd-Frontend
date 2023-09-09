@@ -1,40 +1,37 @@
-import {useCookies} from "react-cookie";
-import jwt_decode from 'jwt-decode';
+import { useEffect, useState } from "react";
 import { GetUserId } from "../components/user/GetUserId";
+import { GetUserInfo } from "../components/user/GetUserInfo";
+import { useNavigate } from "react-router";
 
 const Test = () => {
-  const [cookie, setCookie] = useCookies(['refresh_token']);  
-  const onClickLogin = async () => {
-      
-      // console.log(localStorage.getItem("access_token"));
-      // console.log(cookie.refresh_token);
-      // console.log(jwt_decode(JSON.stringify(cookie)));
-      console.log("result: " + await GetUserId());
-        // fetch('/user/2/and', {
-        //     method: "GET"
-        //   }).then(res => {
-        //     console.log(res);
-        //     if(res.status === 401){
-        //       fetch('/api/token', {
-        //         method: "POST",
-        //         headers
-        //       })
-        //     }
-        //     if(res.status !== 200){
-        //         alert("로그인 실패");
-        //         return;
+  const [userId, setUserId] = useState('');
+  const [userInfo, setUserInfo] = useState([]);
+  const [userEmail, setUserEmail] = useState('');
+  const [userNickname, setUserNickname] = useState('');
+  const navigate = useNavigate();
 
-        //     }
-        //     alert("로그인 성공!!!!!!!!!!!!");
-        //     return res.json();
-        // }).then(data => console.log(data));
-    }
+  useEffect(() => {
+    setUserId(GetUserId());
+  }, []);
 
-    return (
-      <div>
-        <button type="button" onClick={onClickLogin}>테스트</button>
-      </div>  
-    );
+  useEffect(() => {
+    setUserEmail(userInfo.userEmail);
+    setUserNickname(userInfo.userNickname);
+  }, [userInfo]);
+
+  const onClickTestButton = () => {
+    window.location.href= 'http://localhost:8080/api/oauth/naver';
+    // GetUserInfo(userId, setUserInfo);
+  }
+
+  return (
+    <div>
+      <button type="button" onClick={onClickTestButton}>테스트</button>
+      <h1>로그인 된 유저 ID: {userId} </h1>
+      <h1>로그인 된 유저 E-mail: {userEmail} </h1>
+      <h1>로그인 된 유저 Nickname: {userNickname} </h1>
+    </div>  
+  );
 };
 
 export default Test;
