@@ -8,20 +8,22 @@ export const NaverLoginCallback = () => {
     const state = params.get('state');
     const navigate = useNavigate();
 
+    const grantType = "authorization_code";
+    const clientId = "VuPedkCMX9rG5c9njrEN";
+    const clientSecret = "BrOSKdntY6";
+
     useEffect(() => {
         try{
-            fetch('/api/oauth/naver', {
-                method: "POST",
-                headers:{
-                    "Content-Type":"application/json; charset=utf-8"
-                },
-                body: {
-                    "authorizationCode": code,
-                    "state": state
+            console.log("authorizationCode: " + code);
+            console.log("state: " + state);
+            fetch(`https://nid.naver.com/oauth2.0/token?grant_type=${grantType}&client_id=${clientId}&client_secret=${clientSecret}&code=${code}&state=${state}`, {
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
                 }
             }).then(res => {
                 console.log(res);
-                localStorage.setItem("accessToken", res.headers.accessToken);
+                console.log(res.json());
+                // localStorage.setItem("access_token", res.headers.accessToken);
                 navigate("/");
             })
         } catch(error){

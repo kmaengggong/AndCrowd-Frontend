@@ -48,6 +48,9 @@ const AndApplicantDetail = () => {
       const acceptAndApply = (andId, andApplyId) => {
         navigate(`/and/${andId}/applicant/${andApplyId}/admin`);
       };
+      
+      // 파일 확장자 추출
+      const fileExtension = andApplicant.andApplyFile.substring(andApplicant.andApplyFile.lastIndexOf("."));
 
     return (
         <>
@@ -55,7 +58,14 @@ const AndApplicantDetail = () => {
                 <h4>신청 번호: {andApplicant.andApplyId}</h4>
                 <p>회원번호: {andApplicant.userId}</p>
                 <p>역할번호: {andApplicant.andRoleId}</p>
+                <p>제목: {andApplicant.andApplyTitle}</p>
                 <p>신청서: {andApplicant.andApplyContent}</p>
+                파일: {andApplicant.andApplyFile && (
+                  <a href={andApplicant.andApplyFile} target="_blank" rel="noopener noreferrer"
+                  style={{ backgroundColor: 'green', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' }}                  >
+                    {fileExtension} 파일 (새 탭에서 열기)
+                  </a>
+                )}
                 <p>신청 현황: {andApplicant.andApplyStatus}</p>
                 <p>(0: new / 1: 합격 / 2: 보류 / 3: 탈락)</p>
                 <br />

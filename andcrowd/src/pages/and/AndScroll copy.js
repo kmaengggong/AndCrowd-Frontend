@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import {MenuItem, Popover, List, ListItem } from '@mui/material';
 import { Navigate ,useNavigate } from 'react-router-dom';
 import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
+import debounce from 'lodash/debounce';
+
 
 const 
 AndScroll = () => {
@@ -20,11 +22,12 @@ AndScroll = () => {
   const [sortField, setSortField] = useState('publishedAt');
   const [andStatus, setAndStatus] = useState('');
   const [sortOrder, setSortOrder] = useState('');
-  const [searchKeyword, setSearchKeyword] = useState('');
   const navigate = useNavigate();
   
   const [isClicked, setIsClicked] = useState(false);
   const [rolesData, setRolesData] = useState({});
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [isFetching, setIsFetching] = useState(false);
 
   const handleClick = () => {
     setIsClicked(!isClicked);
@@ -34,7 +37,7 @@ AndScroll = () => {
     try {
       const response = await fetch(`/and/${id}/role/list`);
       const jsonData = await response.json();
-      // console.log(jsonData);
+      // console.log("fetchAndRoles: ",jsonData);
       setRolesData(prevState => ({ ...prevState, [id]: jsonData }));
     } catch (error) {
       console.error('Error fetching and roles:', error);
@@ -50,35 +53,77 @@ AndScroll = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [pageNumber, categoryId, andStatus, sortField, sortOrder]);
-  const fetchData = async () => {
+
+  useEffect(() => {
+    fetchData();
+  }, [pageNumber, categoryId]);
+  
+
+  useEffect(() => {
+    // setIsLastPage를 업데이트할 때 로그를 찍습니다.
+    console.log("useEffect isLastPage: ", isLastPage);
+  }, [isLastPage]); // isLastPage가 변경될 때만 실행
+
+  const fetchData = async (newQueryParams = {}) => {
     try {
+      const newPageNumber = newQueryParams.page || pageNumber;
+      const newCategoryId = newQueryParams.categoryId || categoryId;
+
       const params = new URLSearchParams({
-        page: pageNumber,
+        page: newQueryParams.page || pageNumber,
         size: pageSize,
         andCategoryId: categoryId,
         andStatus: andStatus,
         sortField: sortField,
-        sortOrder: "desc",
+        sortOrder: sortOrder,
         searchKeyword: searchKeyword,
+        ...newQueryParams,
       });
 
-      console.log("params: ", params.toString());
-      const response = await fetch(`/and/scroll?${params.toString()}`);
-      console.log("response: ", response);
+      console.log("params: ",params.toString())
 
+      if (isFetching) {
+        // 이미 요청 중인 경우, 추가 요청을 방지합니다.
+        return;
+      }
+  
+      setIsFetching(true); // 데이터 요청 시작
+
+      const response = await fetch(`http://localhost:8080/and/scroll?${params.toString()}`);
+      console.log("response: ", response)
       const jsonData = await response.json();
 
       console.log('jsonData:', jsonData);
-
-      // 다음 페이지가 있는지 여부를 업데이트
+      console.log('jsonData.last:', jsonData.last);
       
+      // // 검색 기준이 변경되었을 때, 기존 데이터 초기화
+      // if (newPageNumber === 0) {
+      //   setData(jsonData.content);
+      // } else {
+      //   setData(prevData => [...prevData, ...jsonData.content]);
+      // }
+
       // 검색 기준이 변경되었을 때, 기존 데이터 초기화
-      if (pageNumber === 0) {
+      if (newPageNumber === 0) {
         setData(jsonData.content);
       } else {
-        setData(prevData => [...prevData, ...jsonData.content]);
+        setData(prevData => {
+          const uniqueData = prevData.concat(jsonData.content.filter(item => !prevData.some(existingItem => existingItem.andId === item.andId)));
+          return uniqueData;
+        });
       }
+
+      // 다음 페이지가 있는지 여부를 업데이트
       setIsLastPage(jsonData.last);
+      console.log("isLastPage: ", isLastPage)
+      
+      // 페이지 번호 업데이트 (데이터 처리 이후에 업데이트)
+      setPageNumber(newPageNumber);
+      console.log("pageNumber: ", pageNumber)
+      setCategoryId(newCategoryId);
+      
+      // 데이터 요청 완료 후 isFetching 상태를 false로 설정
+      setIsFetching(false);
     } catch (error) {
     console.error('Error fetching data:', error);
     }
@@ -86,31 +131,23 @@ AndScroll = () => {
   };
 
   const handleLoadMore = () => {
-    if (!isLastPage) {
+    if (!isLastPage && !isFetching) {
       setPageNumber(pageNumber + 1);
-      console.log("페이지 ", pageNumber)
     }
   };
 
-  const handleSearch = () => {
-    // 검색어가 비어있지 않은 경우에만 검색 요청을 보냅니다.
-    if (searchKeyword) {
-      setIsLastPage(false);
-      setPageNumber(0);
-      setSearchKeyword(searchKeyword.trim()); 
-      // 검색 요청을 서버로 보내고 검색 결과를 업데이트합니다.
-      fetchData({ searchKeyword });
-    }
-  };  
-
   const handleCategoryChange = (newCategoryId) => {
+    const newQueryParams = {
+      categoryId: newCategoryId,
+      page: 0, // 페이지 번호 초기화
+    };
     setCategoryId(newCategoryId);
     setIsLastPage(false);
     setPageNumber(0); // 페이지 번호 초기화
     setData([]); // 기존 데이터 초기화
-    fetchData(); // 새로운 정렬 기준으로 데이터 불러오기
+    fetchData(newQueryParams); // 새로운 카테고리로 데이터 불러오기
   };
-
+  
   const handleSortFieldChange = (newSortField) => {
     setSortField(newSortField);
     setPageNumber(0);
@@ -125,14 +162,36 @@ AndScroll = () => {
     fetchData(); 
   };
   
-  const handleScroll = () => {
+  // const handleScroll = () => {
+  //   if (
+  //     window.innerHeight + window.scrollY >=
+  //     document.body.offsetHeight - 100
+  //   ) {
+  //     handleLoadMore();
+  //   }
+  // };
+
+  // 스크롤 이벤트 핸들러를 debounce로 감싸서 딜레이를 적용
+  const handleScroll = debounce(() => {
     if (
       window.innerHeight + window.scrollY >=
       document.body.offsetHeight - 100
     ) {
-        handleLoadMore();
+      handleLoadMore();
     }
-  };
+  }, 300); // 300 밀리초의 딜레이 적용 (원하는 값을 설정하세요)
+
+  // useEffect에 스크롤 이벤트 핸들러 등록
+  useEffect(() => {
+    fetchData();
+    data.forEach(item => fetchAndRoles(item.andId));
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [pageNumber, categoryId, andStatus, sortField, sortOrder]);
+
+
   const [anchorEl1, setAnchorEl1] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
 
@@ -152,6 +211,17 @@ AndScroll = () => {
     setAnchorEl2 (null);
   };
 
+  const handleSearch = () => {
+    // 검색어가 비어있지 않은 경우에만 검색 요청을 보냅니다.
+    if (searchKeyword) {
+      setIsLastPage(false);
+      setPageNumber(0);
+      setSearchKeyword(searchKeyword.trim()); 
+      // 검색 요청을 서버로 보내고 검색 결과를 업데이트합니다.
+      fetchData({ searchKeyword });
+    }
+  };  
+
   function calculateRemainingDays(andEndDate) {
     const now = new Date();
     const end = new Date(andEndDate);
@@ -167,7 +237,7 @@ const navigateToAndCreate = () => {
   
   return (
     <div>
-      <div id='feed-top'>
+      <div id='feed-head'>
       <Typography className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
         onClick={() => handleSortFieldChange('publishedAt')}
       >
@@ -230,13 +300,13 @@ const navigateToAndCreate = () => {
           type="search"
           id="search"
           name="search"
-          placeholder="모임 검색"
+          placeholder="검색어 입력"
           onChange={(e) => setSearchKeyword(e.target.value)}
         />
         <button onClick={handleSearch}>검색</button>
-      </div>
     </div>
-    
+
+    </div>
 
       {data ? (
         data.map(item => (
@@ -246,16 +316,15 @@ const navigateToAndCreate = () => {
               <div id='img-box'>
                 <img id='profile-img' src={profileImg} alt="profileImg" /> 
               </div>
-              <div id='and-title-box'>
-                <Typography id='and-feed-title'>{item.andTitle}</Typography>
-                <div>
+              <div>
+                <Typography id='and-title'>{item.andTitle}</Typography>
+                <Typography id='user-id'>@{item.userId}</Typography>
+              </div>
+              <div>
                 <Typography id='and-end-date'>
                   {calculateRemainingDays(item.andEndDate)}
                 </Typography>
               </div>
-                <Typography id='user-id'>@{item.userId}</Typography>
-              </div>
-              
               <div id='showmore-button-box'>
               <button id='follow'>팔로우</button>
               <img id='show-more-img' src={showMoreImg} alt="showMoreImg" aria-controls="simple-menu" aria-haspopup="true" 

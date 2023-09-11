@@ -8,6 +8,7 @@ import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
 import CountdownTimer from "../../components/and/CountdownTimer";
 import Box from '@mui/material/Box';
 import '../../styles/and/AndDetail.css';
+import AndRightBox from "../../components/and/AndRightBox"
 
 const AndDetail = () => {
   const params = useParams();
@@ -16,9 +17,6 @@ const AndDetail = () => {
   const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(false);
   const [and, setAnd] = useState({});
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-  };
   useEffect(() => {
     fetchData();
   }, [andId]);
@@ -79,26 +77,7 @@ const AndDetail = () => {
   return (
     <div>
       <AndToolbar andId={and.andId} />
-      <div> 
-       <Box id='right-top-box'>
-          <Typography id ='and-title'>{and.andTitle}</Typography>
-          <CountdownTimer publishedAt={and.publishedAt} andEndDate={and.andEndDate} />
-          <hr style={{ margin: '20px auto', width: '70%' }}></hr>
-          <Box id='like-and-button'>
-            <Box id ='like-icon' onClick={handleClick}> 
-            {isClicked ? <AiFillHeart id='heart-icon' size={"30"}/> : <AiOutlineHeart id='heart-icon' size={"30"}/>}
-            </Box>
-            <button id='go-and'>
-              모임 참가하기
-            </button>
-            </Box>
-          <button id='go-chat'>
-            채팅방으로 이동하기
-          </button>
-          <Typography id ='go-member'>
-            모임에 참여중인 멤버 보기
-          </Typography>
-        </Box>
+      <div id ='and-detail-container'> 
         <Box id ='left-main-box'>
         <Typography id ='and-content'>{and.andContent}</Typography>
         <button onClick={() => updateAnd(and.andId)}>edit</button>
@@ -113,6 +92,7 @@ const AndDetail = () => {
         <hr />
         <br />
         </Box>
+        <AndRightBox/>
       </div>
       
     </div>

@@ -14,6 +14,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Header.css';
 import logo from '../logo.svg' 
+import Logout from './sign/Logout';
 
 const Header = (props) => {
   const { sections, title } = props;
@@ -22,12 +23,13 @@ const Header = (props) => {
   const navigate = useNavigate();
 
   const onClickLogoutButton = () => {
-    localStorage.removeItem('access_token');
-    removeCookie("refresh_token");
-    removeCookie("refresh_token");
-    setIsLogin(false);
-    alert("로그아웃 되었습니다.");
-    navigate("/");
+    navigate("/logout");
+    // localStorage.removeItem('access_token');
+    // removeCookie("refresh_token");
+    // removeCookie("refresh_token");
+    // setIsLogin(false);
+    // alert("로그아웃 되었습니다.");
+    // navigate("/");
   }
 
   return (
