@@ -57,6 +57,7 @@ import AndManage from './pages/and/AndManage';
 import CrowdDetail from './pages/crowd/CrowdDetail';
 import CrowdList from './pages/CrowdList';
 import CrowdCreate from './pages/crowd/CrowdCreate';
+import CrowdCreateImg from './pages/crowd/CrowdCreateImg';
 import LoginRoute from './components/route/LoginRoute';
 import UserInfoEdit from './pages/user/UserInfoEdit';
 import Logout from './components/sign/Logout';
@@ -156,8 +157,9 @@ function App() {
               <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
 
               {/* Crowd 관련 */}
-              <Route path="/crowd/list" element={<Login />} />
-              <Route path="/crowd/create" element={<Login />} />
+              <Route path="/crowd/list" element={<CrowdList />} /> {/* 수정 */}
+              <Route path="/crowd/create" element={<CrowdCreate />} /> {/* 수정 */}
+              <Route path="/crowd/:crowdId/img/create" element={<CrowdCreateImg />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
               <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
               <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
@@ -185,7 +187,8 @@ function App() {
                 <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
                 
                 {/* Crowd 관련 */}
-                <Route path="/crowd/create" element={<CrowdCreate />} />
+                {/* <Route path="/crowd/create" element={<CrowdCreate />} /> */}
+                {/* <Route path="/crowd/:crowdId/img/create" element={<CrowdCreateImg />} /> */}
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
               </Route>
               

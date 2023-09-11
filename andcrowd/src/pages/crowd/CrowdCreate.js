@@ -11,7 +11,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { NumericFormat } from 'react-number-format';
 import { InputAdornment } from '@mui/material';
 import Cookies from 'js-cookie';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CrowdRewardCreate from '../crowd/CrowdRewardCreate';
+import dayjs from 'dayjs';
 
 const CrowdCreate = () => {
   const navigate = useNavigate();
@@ -27,6 +32,16 @@ const CrowdCreate = () => {
     crowdGoal: "",
     crowdEndDate: ""
   })
+
+  const [value, setValue] = React.useState(null);
+  // endDate를 업데이트하는 함수
+  const handleEndDateChange = (newValue) => {
+    setValue(newValue);
+    setFormData({
+      ...formData,
+      crowdEndDate: newValue.toISOString(), // 날짜를 ISO 문자열로 변환하여 crowdEndDate 필드에 업데이트
+    });
+  };
 
   const userAccessToken = Cookies.get('refresh_token');
   // userId를 백엔드로부터 가져오는 로직
@@ -181,6 +196,14 @@ const CrowdCreate = () => {
                 onChange={handleInputChange}
                 placeholder="예) OOO한 내용을 기획/개발해 &Crowd에 최초 공개하고자 합니다."
               />
+            </Grid>
+            {/* 마감일자 선택 */}
+            <Grid item xs={12} sm={9}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['DatePicker']}>
+                    <DatePicker value={value} onChange={handleEndDateChange} />
+                  </DemoContainer>
+              </LocalizationProvider>
             </Grid>
             {/* 목표금액 설정구문 */}
             <Grid item xs={12} sm={9}>
