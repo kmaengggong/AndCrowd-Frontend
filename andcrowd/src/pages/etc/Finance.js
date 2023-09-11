@@ -4,9 +4,9 @@ export const formatMoney = price =>
 // export const getAchievedRate = (achievedAmount, goalAmount) =>
 //   Math.round((achievedAmount / goalAmount) * 100); // 목표금액 달성률
 
-export const getDaysBetweenDate = (openDate, endDate) => {
-  const start = new Date(openDate);
-  const end = new Date(endDate);
+export const getDaysBetweenDate = (publishedAt, crowdEndDate) => {
+  const start = new Date(publishedAt);
+  const end = new Date(crowdEndDate);
 
   const dDay = end.getTime() - start.getTime();
   const diff = Math.floor(dDay / (1000 * 60 * 60 * 24));
@@ -14,12 +14,12 @@ export const getDaysBetweenDate = (openDate, endDate) => {
   return diff;
 }; // 펀딩 일수 계산 함수
 
-export function calculateAchievedRate(currentAmount, totalAmount) {
-    if (totalAmount <= 0) {
+export function calculateAchievedRate(currentAmount, crowdGoal) {
+    if (crowdGoal <= 0) {
       return 0; // 총 금액이 0 이하일 경우 0을 반환하여 나누기 오류를 방지합니다.
     }
     
-    const rate = (currentAmount / totalAmount) * 100;
+    const rate = (currentAmount / crowdGoal) * 100;
     return Math.min(rate, 100); // 최대값을 100으로 제한합니다.
 }// 달성률 구하는 함수
 

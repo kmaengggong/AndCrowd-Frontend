@@ -20,12 +20,12 @@ const CrowdUpdate = () => {
     });
 
     useEffect(() =>{
-        fetchDate();
+        fetchData();
     }, []);
 
     const fetchData = async () => {
         try{
-            const response = await fetch(`/crowd/${crowdId}`);
+            const response = await fetch(`/crowd/detail/${crowdId}`);
 
             if(response.ok) {
                 const data = await response.json();

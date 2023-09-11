@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 import styles from '../../styles/crowd/CrowdDetail.module.css';
 import {formatMoney, getDaysBetweenDate, calculateAchievedRate, calculateRaisedAmount, countSponsors} from '../etc/Finance.js';
@@ -10,28 +10,43 @@ const CrowdDetail = () => {
     const params = useParams();
     const crowdId = params.crowdId;
     const [crowd, setCrowd] = useState({});
-    // const [data, setData] = useState([]);
+    
     const [isOpened, setIsOpened] = useState(false);
     const [number, setNumber] = useState(0);
+    const navigate = useNavigate();
 
-    useEffect(() => { // useEffect 내부에서 fetchData 함수를 호출하여 crowd 정보 가져오기
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`/crowd/${crowdId}`);
-                if (response.status === 200) {
-                    setCrowd(response.data);
-                } else {
-                    throw new Error(`HTTP Error: ${response.status}`);
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        };
+    useEffect(() => { 
         fetchData();
     }, [crowdId]);
 
-    
+    const fetchData = async () => {
+        try {
+            const response = await fetch(`/crowd/${crowdId}`);
+            if (response.ok) {
+                const data = await response.json();
+                setCrowd(data);
+            } else {
+                throw new Error(`HTTP Error: ${response.status}`);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
+    const updateCrowd = (crowdId) => {
+        navigate(`/crowd/${crowdId}/update`);
+    };
+
+    const deleteCrowd = async (crowdId) => {
+        try{
+            await axios.delete(`/crowd/${crowdId}/delete`);
+            console.log(crowdId, "정상삭제");
+            navigate(`/crowd/list`);
+        } catch(error) {
+            console.error(error);
+        }
+    };
+    
     const handleCopyClipBoard = async (text) => { // 공유시 url복사
         try {
             await navigator.clipboard.writeText(text);
@@ -134,17 +149,19 @@ const CrowdDetail = () => {
                 </div>
                 <div className={styles.rightSide}>
                     <span>{crowd.crowdCategory}</span>
+                    <button onClick={() => updateCrowd(crowd.crowdId)}>edit</button>
+                    <button onClick={() => deleteCrowd(crowd.crowdId)}>delete</button>
                     <span className="shareBtn" onClick={() => handleCopyClipBoard(`${window.location.origin}${window.location.pathname}`)}>
                         [공유]
                     </span>
                     <hr />
                     <p>마감일:{crowd.crowdEndDate}</p>
                     <span>{calculateAchievedRate(crowd.currentAmount, crowd.totalAmount)}% 달성 | </span>
-                    <span>{getDaysBetweenDate(crowd.crowdStartDate, crowd.crowdEndDate)}일 남음</span>
+                    <span>{getDaysBetweenDate(crowd.publishedAt, crowd.crowdEndDate)}일 남음</span>
                     <br />
                     <div>
                         모인금액 : 
-                        <span>{formatMoney(calculateRaisedAmount(crowd.totalAmount, crowd.currentAmount))}원</span>
+                        <span>{formatMoney(calculateRaisedAmount(crowd.crowdGoal, crowd.currentAmount))}원</span>
                     </div>
                     <span>{countSponsors(crowd.crowdSponsor)}명 참여</span>
                     <hr />
