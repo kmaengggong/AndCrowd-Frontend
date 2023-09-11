@@ -50,6 +50,14 @@ const AndQna = () => {
         console.error("Error fetching And data:", error);
       }
     };
+    const formatDate = (dateTimeString) => {
+      if (!dateTimeString) return ""; 
+    
+      const formattedString = dateTimeString.replace("T", " ");
+    
+      return formattedString;
+    };
+
     return (
       <div id='qna-container'>
         <div id='qna-box'>
@@ -66,27 +74,24 @@ const AndQna = () => {
                   {andQna.andQnaTitle}
                 </div>
               </Typography>
-              <Typography>{andQna.updatedAt}</Typography>
+              <Typography id='time-text-qna'>{formatDate(andQna.updatedAt)}</Typography>
+              <hr id='and-qna-line'></hr>
               {selectedQnaId === andQna.andQnaId && (
                 <div id='qna-div'
                   style={{
                     cursor: 'pointer'
                   }}>
                   <h2 id='qna-content'>{andQna.andQnaContent}</h2>
-                  <p>andQnaId: {andQna.andQnaId}</p>
                 </div>
               )}
               {selectedQnaId === andQna.andQnaId && (
                 <div id='qna-div'>
                   <hr id='and-qna-line'></hr>
-                  <h3>답변 목록</h3>
                   {andReplyList.length > 0 ? (
                     andReplyList.map(comment => (
                       <div key={comment.andReplyId}>
-                        <p>답변번호: {comment.andReplyId}</p>
-                        <p>답변내용: {comment.andReplyContent}</p>
-                        <p>답변자: {comment.userId}</p>
-                        <p>마지막시간: {comment.updatedAt}</p>
+                        <p>답변: {comment.andReplyContent}</p>
+                        <p>{formatDate(comment.updatedAt)}</p>
                       </div>
                     ))
                   ) : (

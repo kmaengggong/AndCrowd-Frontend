@@ -12,11 +12,33 @@ export const SignUpEmail = ({
         setEmail(event.currentTarget.value.trim());
         setIsEmailValid(false);
         setAuthNumber('');
-        console.log("email: " + email);
     };
 
     const onGetAuthButtonClick = async (event) => {
         event.preventDefault();
+        try{
+            fetch("/isEmailExists", {
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json; charset=utf-8"
+                },
+                body: JSON.stringify({
+                    "userEmail": email
+                })
+            }).then(res => {
+                if(!res.ok){
+                    fetchMailAuth();
+                }
+                else{
+                    alert("이미 존재하는 이메일입니다.");
+                }
+            })
+        } catch(error){
+            console.error("")
+        }
+    };
+
+    const fetchMailAuth = async () => {
         try{
             await fetch('/mailAuth', {
                 method: "POST",
@@ -28,28 +50,20 @@ export const SignUpEmail = ({
                 })
             }).then((res) => {
                 if(res.status !== 200){
-                    if(res.status === 400){
-                        alert("이미 존재하는 이메일입니다.");
-                    }
-                    else{
-                        alert("이메일을 확인해 주세요.");
-                    }
-                    return;
+                    alert("이메일을 확인해 주세요.");
+                    return null;
                 }
                 return res.json();
             }).then((data) => {
-                if(data === undefined) return;
+                if(data === null) return;
                 setIsEmailValid(true);
                 setAuthNumber(data);
-                console.log(data);
-                console.log("email: " + email);
                 alert("이메일 인증번호가 전송되었습니다.");
             });
         } catch(error){
-            console.log("Fuck");
             console.error(error);
         }
-    };
+    }
 
     return (
         <>

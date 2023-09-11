@@ -13,6 +13,7 @@ import '../../styles/Login.css';
 import { isLoginContext } from '../../context/isLoginContext';
 import NaverLogin from '../../components/sign/NaverLogin';
 import { useCookies } from 'react-cookie';
+import { Stack } from '@mui/material';
 
 const defaultTheme = createTheme();
 
@@ -162,10 +163,84 @@ const Login = () => {
     }
 
   return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
+    // <ThemeProvider theme={defaultTheme}>
+    <>
+      <Box
+         sx={{
+          marginTop: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Grid container spacing={2} maxWidth='sm'>
+          <Grid item xs={12} marginY={3}>
+            <Typography id='login-text' textAlign={'center'}>
+              로그인
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField className="login"
+              required
+              fullWidth
+              id="email"
+              placeholder="이메일을 입력해주세요"
+              name="email"
+              autoComplete="email"
+              onChange={onChangeEmail}
+              autoFocus
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField className="login"
+              required
+              fullWidth
+              name="password"
+              placeholder="비밀번호를 입력해주세요"
+              type="password"
+              id="password"
+              onChange={onChangePassword}
+              autoComplete="current-password"
+            />
+          </Grid>
+          <Grid item xs={12} textAlign={'center'} marginTop={3}>
+            <Link id='find-login-info' href="/findIdOrPassword" variant="body2">
+              로그인 정보를 잊으셨나요?
+            </Link>
+          </Grid>
+          <Grid item xs={12} textAlign={'center'} margin={'auto'}>
+            <Button
+              id="login-button"
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{ mb: 2, maxWidth: 500}}
+              onClick={onClickLoginButton}
+            >
+              로그인
+            </Button>
+          </Grid>
+          
+          <Grid item xs={12}>
+            <NaverLogin />
+          </Grid>
+
+          <Grid item xs={12} marginY={5}>
+            <Stack direction={'row'} spacing={2}>
+              <Typography id='signup-text' textAlign={'center'}>
+                &Crowd가 처음이신가요?
+              </Typography>
+              <Link id='to-signup' href="/signup" variant="body2" textAlign={'center'}>
+                회원가입
+              </Link>
+            </Stack>
+          </Grid>
+
+        </Grid>
+      </Box>
+      {/* <Container component="main" maxWidth="xs"> */}
+        {/* <CssBaseline /> */}
+        {/* <Box
           sx={{
             marginTop: 5,
             display: 'flex',
@@ -173,14 +248,14 @@ const Login = () => {
             alignItems: 'center',
           }}
         >
-          {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar> */}
-          
+          <Grid container spacing={2} maxWidth={'sm'}>
           <Typography id='login-text'>
             로그인
           </Typography>
+          
+          <Grid item xs={12}>
           <Box id='form-box' component="form" noValidate sx={{ mt: 1 }}>
+            <Grid item xs={12}>
             <TextField className="login"
               margin="normal"
               required
@@ -192,6 +267,8 @@ const Login = () => {
               onChange={onChangeEmail}
               autoFocus
             />
+            </Grid>
+            <Grid item xs={12}>
             <TextField className="login"
               margin="normal"
               required
@@ -203,12 +280,17 @@ const Login = () => {
               onChange={onChangePassword}
               autoComplete="current-password"
             />
+            </Grid>
+            <Grid item xs={12}>
             <Link id='find-login-info' href="#" variant="body2">
                   로그인 정보를 잊으셨나요?
             </Link>
+            </Grid>
+            <Grid item xs={12}>
             <Button id='login-button' type="button" onClick={onClickLoginButton}>
               로그인
             </Button>
+            </Grid>
             <NaverLogin />
             <button onClick={onClickNaverLoginButton}>ㅁㄴㅇㄹ</button>
             <Grid container id='signup-container'>
@@ -225,9 +307,12 @@ const Login = () => {
               </Grid>
             </Grid>
           </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
+          </Grid>
+          </Grid>
+        </Box> */}
+      {/* </Container> */}
+    {/* </ThemeProvider> */}
+    </>
   );
 };
 

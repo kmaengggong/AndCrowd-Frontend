@@ -1,10 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
 import {React, useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { IsLoginProvider } from './context/isLoginContext';
 import PublicRoute from './components/route/PublicRoute';
 import PrivateRoute from './components/route/PrivateRoute';
+import SignRoute from './components/route/SignRoute';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -57,11 +57,15 @@ import AndManage from './pages/and/AndManage';
 import CrowdDetail from './pages/crowd/CrowdDetail';
 import CrowdList from './pages/CrowdList';
 import CrowdCreate from './pages/crowd/CrowdCreate';
-import CrowdCreateImg from './pages/crowd/CrowdCreateImg';
 import LoginRoute from './components/route/LoginRoute';
 import UserInfoEdit from './pages/user/UserInfoEdit';
 import Logout from './components/sign/Logout';
-
+import UserPasswordChange from './pages/user/UserPasswordChange';
+import UserResign from './pages/user/UserResign';
+import FindIdOrPassword from './pages/user/FindIdOrPassword';
+import FindId from './pages/user/FindId';
+import FindPassword from './pages/user/FindPassword';
+import CrowdCreateImg from './pages/crowd/CrowdCreateImg';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -107,7 +111,7 @@ function App() {
                 <Route path="/oauth/redirected/naver/*" element={<NaverLoginCallback />} />
               </Route>
 
-              {/* 누구나 접근 가능 */}
+              {/* 누구라 접근 가능 */}
               {/* Etc */}
               <Route path="/team" element={<Login />} />
               <Route path="/help" element={<Login />} />
@@ -157,8 +161,8 @@ function App() {
               <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
 
               {/* Crowd 관련 */}
-              <Route path="/crowd/list" element={<CrowdList />} /> 
-              <Route path="/crowd/create" element={<CrowdCreate />} /> 
+              <Route path="/crowd/list" element={<Login />} />
+              <Route path="/crowd/create" element={<Login />} />
               <Route path="/crowd/:crowdId/img/create" element={<CrowdCreateImg />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
               <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
@@ -169,7 +173,11 @@ function App() {
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
                 {/* User 관련 */}
-                <Route path="/user/update" element={<UserInfoEdit />} /> 
+                <Route element={<SignRoute />}>
+                  <Route path="/user/update" element={<UserInfoEdit />} />
+                  <Route path="/user/passwordChange" element={<UserPasswordChange />} />
+                  <Route path="/user/delete" element={<UserResign />} />
+                </Route>
 
                 {/* And 관련 */}
                 <Route path="/and/create" element={<AndCreate />} />

@@ -34,6 +34,11 @@ const Signup = () => {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [isPasswordEqual, setIsPasswordEqual] = useState(true);
     const [isPasswordValid, setIsPasswordValid] = useState(false);
+
+    const [allowTos, setAllowTos] = useState(0);
+    const [allowPrivacy, setAllowPrivacy] = useState(0);
+    const [allowMarketing, setAllowMarketing] = useState(0);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -50,6 +55,22 @@ const Signup = () => {
         setIsPasswordValid(true);
       }
     }, [isPasswordEqual, password]);
+
+    const onChangeAllowTos = (event) => {
+      event.preventDefault();
+      if(event.target.checked) setAllowTos(1);
+      else setAllowTos(0);
+    }
+    const onChangeAllowPrivacy = (event) => {
+      event.preventDefault();
+      if(event.target.checked) setAllowPrivacy(1);
+      else setAllowPrivacy(0);
+    }
+    const onChangeAllowMarketing = (event) => {
+      event.preventDefault();
+      if(event.target.checked) setAllowMarketing(1);
+      else setAllowMarketing(0);
+    }
 
     const onFormSubmit = async (event) => {
         event.preventDefault();
@@ -73,6 +94,10 @@ const Signup = () => {
           alert("비밀번호를 확인해 주세요.");
           return;
         }
+        if(!(allowTos && allowPrivacy)){
+          alert("필수 동의 약관에 동의해주세요.");
+          return;
+        }
 
         try{
           await fetch('/signup',{
@@ -85,6 +110,9 @@ const Signup = () => {
               "userNickname": nickname,
               "userKorName": korName,
               "userPassword": password,
+              "userTos": allowTos,
+              "userPrivacy": allowPrivacy,
+              "userMarketing": allowMarketing
             })
           }).then((res) => {
             console.log(res);
@@ -93,9 +121,6 @@ const Signup = () => {
           console.error(error);
           alert("회원가입 실패. 다시 시도해주세요.");
         }
-        console.log(email);
-        console.log(nickname);
-        console.log(password);
         alert("회원가입 완료");
         navigate("/");
     };
@@ -146,19 +171,19 @@ const Signup = () => {
                 />
                 <Grid item xs={12}>
                   <FormControlLabel
-                    control={<Checkbox value="allowExtraEmails" color="primary" />}
+                    control={<Checkbox value="allowTOS" color="primary" onChange={onChangeAllowTos}/>}
                     label="(필수) 서비스 이용약관 동의"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <FormControlLabel
-                    control={<Checkbox value="allowExtraEmails" color="primary" />}
+                    control={<Checkbox value="allowPrivacy" color="primary" onChange={onChangeAllowPrivacy} />}
                     label="(필수) 개인정보 동의"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <FormControlLabel
-                    control={<Checkbox value="allowExtraEmails" color="primary" />}
+                    control={<Checkbox value="allowMarketing" color="primary" onChange={onChangeAllowMarketing} />}
                     label="(선택) 마케팅 동의"
                   />
                 </Grid>

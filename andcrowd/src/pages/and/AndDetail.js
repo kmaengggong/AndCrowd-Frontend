@@ -83,10 +83,7 @@ const AndDetail = () => {
         <button onClick={() => updateAnd(and.andId)}>edit</button>
         <button onClick={() => deleteAnd(and.andId)}>delete</button>
         <br />
-        <button onClick={() => applyAnd(and.andId)}>apply</button>
         <button onClick={() => applicantList(and.andId)}>apply List</button>
-        <br />
-        <button onClick={() => andChat(and.andId)}>CHAT</button>
         <br />
         <button onClick={() => manageAnd(and.andId)}>모임 관리</button>
         <hr />

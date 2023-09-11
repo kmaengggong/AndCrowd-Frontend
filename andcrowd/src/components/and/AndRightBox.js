@@ -4,6 +4,7 @@ import { Link, useNavigate,useParams } from 'react-router-dom';
 import CountdownTimer from './CountdownTimer';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import '../../styles/and/AndDetail.css';
+
 const AndComponent = ({ }) => {
     const params = useParams();
   const andId = params.andId;
@@ -32,7 +33,18 @@ const AndComponent = ({ }) => {
   const handleClick = () => {
     setIsClicked(!isClicked);
   };
+  const andChat = (andId) => {
+    
+    navigate(`/and/${andId}/chat`);
+  };
+  const applyAnd = (andId) => {
+    navigate(`/and/${andId}/applicant/create`);
+  };
+  const applicantList = (andId) => {
+    navigate(`/and/${andId}/applicant/list`);
+  };
   const [isClicked, setIsClicked] = useState(false);
+
   return (
     <Box id='right-top-box'>
       <Typography id='and-title'>{and.andTitle}</Typography>
@@ -46,11 +58,11 @@ const AndComponent = ({ }) => {
             <AiOutlineHeart id='heart-icon' size={'30'} />
           )}
         </Box>
-        <button id='go-and'>모임 참가하기</button>
+        <button id='go-and' onClick={() => applyAnd(and.andId)}>모임 참가하기</button>
       </Box>
       
-      <button id='go-chat'>채팅방으로 이동하기</button>
-      <Typography id ='go-member'>모임에 참여중인 멤버 보기</Typography>
+      <button id='go-chat' onClick={() => andChat(and.andId)}>채팅방으로 이동하기</button>
+      <Typography id ='go-member' onClick={() => applicantList(and.andId)}>모임에 참여중인 멤버 보기</Typography>
     </Box>
   );
 };
