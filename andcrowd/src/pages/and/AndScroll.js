@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import {MenuItem, Popover, List, ListItem } from '@mui/material';
 import { Navigate ,useNavigate } from 'react-router-dom';
 import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
+import SearchIcon from '@mui/icons-material/Search';
 
 const 
 AndScroll = () => {
@@ -225,18 +226,18 @@ const navigateToAndCreate = () => {
 
       </div>
       <button id ='write' type="button" onClick={navigateToAndCreate}>글쓰기</button>
-      <div>
+      
+    </div>
+    <div id='and-search-bar'>
         <input
           type="search"
-          id="search"
+          id="and-search"
           name="search"
           placeholder="모임 검색"
           onChange={(e) => setSearchKeyword(e.target.value)}
         />
-        <button onClick={handleSearch}>검색</button>
+        <button  id='and-search-button' onClick={handleSearch}><SearchIcon id='search-icon' /></button>
       </div>
-    </div>
-    
 
       {data ? (
         data.map(item => (
