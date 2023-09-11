@@ -103,9 +103,6 @@ const SignRoute = ({}) => {
         }
         </>
     )
-    // return(
-    //     !isLogin ? <Navigate to="/" /> : link
-    // );
 }
 
 export default SignRoute;
