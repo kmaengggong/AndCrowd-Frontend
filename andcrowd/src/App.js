@@ -123,7 +123,6 @@ function App() {
               <Route path="/test" element={<Test />} />
 
               {/* User 관련 */}
-              <Route path="/user/2/and" element={<Test />} />
               <Route path="/user/:userId" element={<MyPage />} />
 
               {/* And 관련 */}

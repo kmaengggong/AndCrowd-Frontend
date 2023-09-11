@@ -24,12 +24,14 @@ const Header = () => {
   const open = Boolean(anchorEl);
 
   useEffect(() => {
-    setUserId(GetUserId());
+    if(isLogin){
+      setUserId(GetUserId());
+    }
   }, []);
 
   useEffect(() => {
-    if(userId !== null){
-        GetUserInfo(userId, setUserInfo);
+    if(isLogin && userId !== null){
+      GetUserInfo(userId, setUserInfo);
     }
 }, [userId]);
 
