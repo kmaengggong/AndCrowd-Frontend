@@ -56,6 +56,7 @@ const Header = () => {
   return (
     <Fragment>
       <Toolbar id ='mainTool' sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <div id='nav-box'>
         <Link id='navText' href="/" variant="nonlined" size="small" sx={{ml:1, mr:1}}>
           홈
         </Link>
@@ -71,7 +72,7 @@ const Header = () => {
         <Link id='navText' href="/help" variant="nonlined" size="small">
           도움말
         </Link>
-
+        </div>
          <Link id='logo' href="/">
           <img id ='logoimg' src={logo} alt="Logo" /> 
          </Link>

@@ -9,14 +9,33 @@
 }
 #and-board-tag{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     color: #555555;
     font-weight: 700;
     margin-bottom: 1%;
 }
 #and-board-title{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     color: #000000;
     font-weight: 700;
+}
+#time-text{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    color: #000000;
+    font-weight: 400;
+}
+.notice{
+    background-color: #EEEEEE;
+}
+#board-write{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    font-weight: 400;
+    float: right;
+    margin-bottom: 5%;
+    margin-top: 2%;
+    margin-right: 2%;
 }

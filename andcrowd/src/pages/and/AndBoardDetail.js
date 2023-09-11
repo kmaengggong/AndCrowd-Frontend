@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
+import Typography from '@mui/material/Typography';
+import AndToolBar from "../../components/and/AndToolBar";
+import '../../styles/and/AndBoardDetail.css';
 
 const AndBoardDetail = () => {
   const params = useParams();
@@ -45,17 +48,47 @@ const AndBoardDetail = () => {
   const updateAndBoard = (andId, andBoardId) => {
     navigate(`/and/${andId}/board/${andBoardId}/update`);
   };
+  const formatDate = (dateTimeString) => {
+    if (!dateTimeString) return ""; 
+  
+    const formattedString = dateTimeString.replace("T", " ");
+  
+    return formattedString;
+  };
 
   return (
     <div>
-      <div> 
-        <h4>제목: {andBoard.andBoardTitle}</h4>
-        <p>내용: {andBoard.andBoardContent}</p>
-        <br />
-        <button onClick={() => deleteAndBoard(andId, andBoardId)}>삭제</button>
-        <button onClick={() => updateAndBoard(andId, andBoardId)}>수정</button>
-      </div>
+      <AndToolBar andId={andId} />
+  <div>
+    <div id='board-detail-box'>
+      <Typography id='and-board-tag-dt' >
+        {andBoard.andBoardTag === 0 ? '공지사항' : '소식'}
+      </Typography>
+      <Typography id='and-board-title-dt' >{andBoard.andBoardTitle}</Typography>
+      <Typography id='and-board-updatedAt-dt' >
+        {formatDate(andBoard.updatedAt)}
+      </Typography>
+      <Typography id='board-detail-upde'
+      onClick={() => updateAndBoard(andId, andBoardId)}
+    >
+      수정
+    </Typography>
+      <Typography id='board-detail-upde'
+      onClick={() => deleteAndBoard(andId, andBoardId)}
+    >
+      삭제
+    </Typography>
     </div>
+    <hr id='and-board-line-dt'></hr>
+    <div id='board-content-box'>
+      <Typography id='and-board-content-dt' >{andBoard.andBoardContent}</Typography>
+    </div>
+    <hr id='and-board-line-dt'></hr>
+    <br />
+    
+  </div>
+</div>
+
   );
 };
 

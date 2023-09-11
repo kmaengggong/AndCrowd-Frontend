@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {React, useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
@@ -115,8 +114,6 @@ function App() {
             </Route>
             
             <Route element={<LoginRoute />}>
-              
-              
               {/* 누구라도 접근 가능 */}
               {/* Etc */}
               <Route path="/team" element={<Login />} />
@@ -167,8 +164,8 @@ function App() {
               <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
 
               {/* Crowd 관련 */}
-              <Route path="/crowd/list" element={<Login />} />
-              <Route path="/crowd/create" element={<Login />} />
+              <Route path="/crowd/list" element={<CrowdList />} />
+              <Route path="/crowd/create" element={<CrowdCreate />} />
               <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
               <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
               <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
@@ -200,7 +197,6 @@ function App() {
                 <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
                 
                 {/* Crowd 관련 */}
-                <Route path="/crowd/create" element={<CrowdCreate />} />
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
               </Route>
               
