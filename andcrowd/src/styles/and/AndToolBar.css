@@ -1,11 +1,13 @@
 #and-navText{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     color: #000000;
-    margin: 0 1vw;
+    margin: 0 1.5vw;
     text-decoration: none;
 }
 #and-tool{
-    padding-left: 40%;
+    padding-left: 39%;
     cursor: pointer;
+    min-height: 38px;
+    background-color: white;
 }
