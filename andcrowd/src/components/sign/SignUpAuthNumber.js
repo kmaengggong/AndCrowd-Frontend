@@ -15,8 +15,6 @@ export const SignUpAuthNumber = ({
 
     const onAuthNumberCheckButtonClick = (event) => {
         event.preventDefault();
-        console.log(authNumber);
-        console.log(inputAuthNumber);
         if(inputAuthNumber.match(authNumber)){
             alert("인증 성공!");
             setIsAuthNumberValid(true);
