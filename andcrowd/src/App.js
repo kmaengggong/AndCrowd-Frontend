@@ -63,6 +63,9 @@ import UserInfoEdit from './pages/user/UserInfoEdit';
 import Logout from './components/sign/Logout';
 import UserPasswordChange from './pages/user/UserPasswordChange';
 import UserResign from './pages/user/UserResign';
+import FindIdOrPassword from './pages/user/FindIdOrPassword';
+import FindId from './pages/user/FindId';
+import FindPassword from './pages/user/FindPassword';
 
 
 const sections = [
@@ -100,15 +103,20 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/logout" element={<Logout />} />
+
+            {/* 로그인되지 않은 상태에서만 접근 가능 */}
+            <Route element={<PublicRoute />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/oauth/redirected/naver/*" element={<NaverLoginCallback />} />
+              <Route path="/findIdOrPassword" element={<FindIdOrPassword />} />
+              <Route path="/findId" element={<FindId />} />
+              <Route path="/findPassword" element={<FindPassword />} />
+            </Route>
             
             <Route element={<LoginRoute />}>
-              {/* 로그인되지 않은 상태에서만 접근 가능 */}
-              <Route element={<PublicRoute />}>
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/oauth/redirected/naver/*" element={<NaverLoginCallback />} />
-              </Route>
-
+              
+              
               {/* 누구라 접근 가능 */}
               {/* Etc */}
               <Route path="/team" element={<Login />} />

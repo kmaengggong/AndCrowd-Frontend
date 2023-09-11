@@ -204,7 +204,7 @@ const Login = () => {
             />
           </Grid>
           <Grid item xs={12} textAlign={'center'} marginTop={3}>
-            <Link id='find-login-info' href="#" variant="body2">
+            <Link id='find-login-info' href="/findIdOrPassword" variant="body2">
               로그인 정보를 잊으셨나요?
             </Link>
           </Grid>
