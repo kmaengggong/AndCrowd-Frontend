@@ -74,7 +74,7 @@ const MakerPage = () => {
 
     return (
         <>
-            <Typography sx={{fontSize:30, marginTop:5, marginBottom:2, textAlign:'center', fontWeight:700, color:'gray'}}><Typography sx={{color:'#00D337'}}>{userInfo.userNickname}</Typography> 님의 메이커 페이지입니다</Typography>
+            <Typography sx={{fontSize:30, marginTop:5, marginBottom:3, textAlign:'center', fontWeight:700, color:'gray'}}><Typography sx={{color:'#00D337'}}>{userInfo.userNickname}</Typography> 님의 메이커 페이지입니다</Typography>
 
             <Grid container spacing={3}>
                 
@@ -100,40 +100,53 @@ const MakerPage = () => {
                     <Grid item xs={10}>
                         <h2>모임</h2>
                     </Grid>
+                    {userMakerAnd.length === 0 ? <></> : 
                     <Grid item xs={2}>
                         <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
                     </Grid>
+                    }
                 </Grid>
-                {userMakerAnd.length === 0 ?
-                    <Grid container spacing={1} marginBottom={5}>
-                        <MyPageEmtpyCard type={"makerAnd"}/>
-                    </Grid>
-                    :
-                    <Grid container spacing={1} marginBottom={5}>
-                        {userMakerAnd.map((project) => (
-                            <MyPageCard project={project} type={"like"} />
-                        ))}
-                    </Grid>
-                }
+                <Grid container spacing={1} marginBottom={5}>
+                    {userMakerAnd.length === 0 ?
+                        <Grid item md={4} sm={12} xs={12}>
+                            <MyPageEmtpyCard type={"makerAnd"}/>
+                        </Grid>
+                        :
+                        <>
+                            {userMakerAnd.map((project) => (
+                                <Grid item md={4} sm={12} xs={12}>
+                                    <MyPageCard project={project} type={"like"} />
+                                </Grid>
+                            ))}
+                        </>
+                    }
+                </Grid>
+
                 <Grid container direction="row" alignItems="center">
                     <Grid item xs={10}>
                         <h2>펀딩</h2>
                     </Grid>
+                    {userMakerCrowd.length === 0 ? <></> : 
                     <Grid item xs={2}>
                         <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
                     </Grid>
+                    }
                 </Grid>
-                {userMakerCrowd.length === 0 ?
-                    <Grid container spacing={1} marginBottom={5}>
-                        <MyPageEmtpyCard type={"makerCrowd"}/>
-                    </Grid>
-                    :
-                    <Grid container spacing={1} marginBottom={5}>
-                        {userMakerCrowd.map((project) => (
-                            <MyPageCard project={project} type={"like"} />
-                        ))}
-                    </Grid>
-                }
+                <Grid container spacing={1} marginBottom={5}>
+                    {userMakerCrowd.length === 0 ?
+                        <Grid item md={4} sm={12} xs={12}>
+                            <MyPageEmtpyCard type={"makerCrowd"}/>
+                        </Grid>
+                        :
+                        <>
+                            {userMakerCrowd.map((project) => (
+                                <Grid item md={4} sm={12} xs={12}>
+                                    <MyPageCard project={project} type={"like"} />
+                                </Grid>
+                            ))}
+                        </>
+                    }
+                </Grid>
             </Grid>
 
             </Grid>

@@ -11,67 +11,65 @@ import { Grid } from '@mui/material';
 const MyPageCard = ({project, type}) => {
     const projectId = {
         and: project.andId,
-        crowd: project.crowdId,
+        order: project.crowdId,
         like: project.projectId,
     };
     const projectImg = {
         and: project.andHeaderImg,
-        crowd: project.crowdHeaderImg,
+        order: project.crowdHeaderImg,
         like: project.projectHeaderImg,
     };
     const projectTitle = {
         and: project.andTitle,
-        crowd: project.crowdTitle,
+        order: project.crowdTitle,
         like: project.projectTitle,
     };
     const projectContent = {
         and: project.andContent,
-        crowd: project.crowdContent,
+        order: project.crowdContent,
         like: '',
     };
     const types = {
         and: 'and',
-        crowd: 'crowd',
+        order: 'crowd',
         like: project.projectType === 0 ? 'and' : 'crowd',
     };
     
     return (
-        <Grid item md={4} sm={12} xs={12}>
-            <Card sx={{ maxWidth: '100%', boxShadow: 'lg' }}>
-                <CardOverflow>
-                    <AspectRatio>
-                    {project[type] !== null ?
-                        <img src={projectImg[type]} alt="헤더 이미지" loading="lazy"/>
-                    :
-                        <img src="https://picsum.photos/id/2/600/400" alt="임시 이미지" loading="lazy"/>
-                    }
-                    </AspectRatio>
-                </CardOverflow>
-                <CardContent>
-                    <Chip component="span" size="sm" variant="soft" color="success">
-                        {/* (마감일자 - 현재일자)자료 불러오기 */}
-                        <b>10</b> 일 남음
-                    </Chip>
-                    <Link
-                        href={`/${types[type]}/` + projectId[type]}
-                        fontWeight="md"
-                        color="neutral"
-                        textColor="text.primary"
-                        overlay
-                        endDecorator={<ArrowOutwardIcon />}
-                        sx={{overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'inline-block'}}
-                    >
-                        {projectTitle[type]}
-                    </Link>
-                    <Typography
-                        level="title-lg"
-                        sx={{ mt: 1, fontWeight: 'xl', overflow:'hidden', textOverflow:'ellipsis', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' }}
-                    >
-                        {projectContent[type]}
-                    </Typography>
-                </CardContent>
-            </Card>
-        </Grid>
+        <Card sx={{ maxWidth: '100%', boxShadow: 'lg' }}>
+            <CardOverflow>
+                <AspectRatio>
+                {project[type] !== null ?
+                    <img src={projectImg[type]} alt="헤더 이미지" loading="lazy"/>
+                :
+                    <img src="https://picsum.photos/id/2/600/400" alt="임시 이미지" loading="lazy"/>
+                }
+                </AspectRatio>
+            </CardOverflow>
+            <CardContent>
+                <Chip component="span" size="sm" variant="soft" color="success">
+                    {/* (마감일자 - 현재일자)자료 불러오기 */}
+                    <b>10</b> 일 남음
+                </Chip>
+                <Link
+                    href={`/${types[type]}/` + projectId[type]}
+                    fontWeight="md"
+                    color="neutral"
+                    textColor="text.primary"
+                    overlay
+                    endDecorator={<ArrowOutwardIcon />}
+                    sx={{overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'inline-block'}}
+                >
+                    {projectTitle[type]}
+                </Link>
+                <Typography
+                    level="title-lg"
+                    sx={{ mt: 1, fontWeight: 'xl', overflow:'hidden', textOverflow:'ellipsis', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' }}
+                >
+                    {projectContent[type]}
+                </Typography>
+            </CardContent>
+        </Card>
     );
 }
 
