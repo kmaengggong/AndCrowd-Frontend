@@ -1,0 +1,144 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useIsLoginState } from "../../context/isLoginContext";
+import { GetUserId } from "../../components/user/GetUserId";
+import profileImg from "../and/cat.jpg";
+import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField} from "@mui/material";
+import Logout from "../../components/sign/Logout";
+import { GetUserInfo } from "../../components/user/GetUserInfo";
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import CardOverflow from '@mui/joy/CardOverflow';
+import Chip from '@mui/joy/Chip';
+import Link from '@mui/joy/Link';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import AspectRatio from '@mui/joy/AspectRatio';
+import Typography from '@mui/joy/Typography';
+import MyPageCard from "../../components/user/MyPageCard";
+import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";
+
+const MakerPage = () => {
+    const [userId, setUserId] = useState(null);
+    const [userInfo, setUserInfo] = useState([]);
+    const [userNickname, setUserNickname] = useState(null);
+    const [userMakerAnd, setUserMakerAnd] = useState([]);
+    const [userMakerCrowd, setUserMakerCrowd] = useState([]);
+
+    const navigate = useNavigate();
+    
+    useEffect(() => {
+        setUserId(GetUserId());
+    }, []);
+
+    useEffect(() => {
+        if(userId !== null){
+            GetUserInfo(userId, setUserInfo);
+            fetchGetDynamicUserMakerAnd();
+            fetchGetDynamicUserMakerCrowd();
+        }
+    }, [userId]);
+
+    useEffect(() => {
+        setUserNickname(userInfo.userNickname);
+    }, [userInfo]);
+
+    const onClickMyPageButton = () => {
+        navigate(`/user/${userId}`);
+    }
+
+    const fetchGetDynamicUserMakerAnd = async () => {
+        try{
+            await fetch(`/user/${userId}/maker/0`)
+            .then(res => {
+                return res.json();
+            }).then(data => {
+                setUserMakerAnd(data);
+            })
+        } catch(error){
+            console.error(error);
+        }
+    };
+
+    const fetchGetDynamicUserMakerCrowd = async () => {
+        try{
+            await fetch(`/user/${userId}/maker/1`)
+            .then(res => {
+                return res.json();
+            }).then(data => {
+                setUserMakerCrowd(data);
+            })
+        } catch(error){
+            console.error(error);
+        }
+    };
+
+    return (
+        <>
+            <Typography sx={{fontSize:30, marginTop:5, marginBottom:2, textAlign:'center', fontWeight:700, color:'gray'}}><Typography sx={{color:'#00D337'}}>{userInfo.userNickname}</Typography> 님의 메이커 페이지입니다</Typography>
+
+            <Grid container spacing={3}>
+                
+            <Grid item xs={2} textAlign={'center'}>
+                <Grid container direction="row">
+
+                <Grid item xs={12} marginLeft={0.3}>
+                    <IconButton href={userInfo.userProfileImg}>
+                    <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 100, height: 100 }} />
+                    </IconButton>
+                </Grid>
+                <Grid item xs={12}>
+                <h3>{userNickname}</h3>
+                <hr />
+                </Grid>
+                <Button fullWidth variant="solid" onClick={onClickMyPageButton}>마이 페이지</Button>
+
+                </Grid>
+            </Grid>
+
+            <Grid item xs={10}>
+                <Grid container direction="row" alignItems="center">
+                    <Grid item xs={10}>
+                        <h2>모임</h2>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
+                    </Grid>
+                </Grid>
+                {userMakerAnd.length === 0 ?
+                    <Grid container spacing={1} marginBottom={5}>
+                        <MyPageEmtpyCard type={"makerAnd"}/>
+                    </Grid>
+                    :
+                    <Grid container spacing={1} marginBottom={5}>
+                        {userMakerAnd.map((project) => (
+                            <MyPageCard project={project} type={"like"} />
+                        ))}
+                    </Grid>
+                }
+                <Grid container direction="row" alignItems="center">
+                    <Grid item xs={10}>
+                        <h2>펀딩</h2>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
+                    </Grid>
+                </Grid>
+                {userMakerCrowd.length === 0 ?
+                    <Grid container spacing={1} marginBottom={5}>
+                        <MyPageEmtpyCard type={"makerCrowd"}/>
+                    </Grid>
+                    :
+                    <Grid container spacing={1} marginBottom={5}>
+                        {userMakerCrowd.map((project) => (
+                            <MyPageCard project={project} type={"like"} />
+                        ))}
+                    </Grid>
+                }
+            </Grid>
+
+            </Grid>
+        </>
+    );
+}
+
+export default MakerPage;

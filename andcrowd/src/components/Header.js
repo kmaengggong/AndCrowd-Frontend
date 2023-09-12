@@ -90,7 +90,7 @@ const Header = () => {
             aria-expanded={open ? 'true' : undefined}
             onClick={onClickProfileButton}
           >
-            <Avatar src={userInfo.userProfileImg} sx={{width: 50, height: 50}} />
+            <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 50, height: 50, marginLeft:1}} />
           </IconButton>
           <Menu
             id="fade-menu"

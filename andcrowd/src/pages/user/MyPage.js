@@ -63,6 +63,10 @@ const MyPage = () => {
         navigate("/user/passwordChange");
     }
 
+    const onClickMakerPageButton = () => {
+        navigate("/user/maker");
+    }
+
     const fetchIsUserExist = async () => {
         try{
             await fetch(`/user/${userId}`)
@@ -117,14 +121,20 @@ const MyPage = () => {
 
     return (
         <>
-            <Grid container spacing={5} marginTop={8}>
+            {isOwner ?
+                <Typography sx={{fontSize:30, marginTop:5, marginBottom:2, textAlign:'center', fontWeight:700, color:'gray'}}>좋은 하루입니다, <Typography sx={{color:'#00D337'}}>{userInfo.userNickname}</Typography> 님!</Typography>
+                :
+                <Typography sx={{fontSize:30, marginTop:5, marginBottom:2, textAlign:'center', fontWeight:700, color:'gray'}}><Typography sx={{color:'#00D337'}}>{userInfo.userNickname}</Typography> 님의 마이페이지입니다</Typography>
+            }
+
+            <Grid container spacing={3}>
                 
-            <Grid item xs={3} textAlign={'center'}>
+            <Grid item xs={2} textAlign={'center'}>
                 <Grid container direction="row">
 
                 <Grid item xs={12} marginLeft={0.3}>
-                    <IconButton>
-                    <Avatar src={userInfo.userProfileImg} sx={{width: 100, height: 100 }} />
+                    <IconButton href={userInfo.userProfileImg}>
+                    <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 100, height: 100 }} />
                     </IconButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -133,10 +143,10 @@ const MyPage = () => {
                 </Grid>
                 {isOwner ?
                     <>
-                        <Button fullWidth variant="solid">메이커 페이지</Button>
-                        <Button fullWidth variant="solid"onClick={onClickProfileImgEditButton}>프로필 사진 수정</Button>
-                        <Button fullWidth variant="solid"onClick={onClickUserInfoEditButtonButton}>회원 정보 수정</Button>
-                        <Button fullWidth variant="solid"onClick={onClickPasswordChangeButton}>비밀번호 변경</Button>
+                        <Button fullWidth variant="solid" onClick={onClickMakerPageButton}>메이커 페이지</Button>
+                        <Button fullWidth variant="solid" onClick={onClickProfileImgEditButton}>프로필 사진 수정</Button>
+                        <Button fullWidth variant="solid" onClick={onClickUserInfoEditButtonButton}>회원 정보 수정</Button>
+                        <Button fullWidth variant="solid" onClick={onClickPasswordChangeButton}>비밀번호 변경</Button>
                     </>
                     :
                     <></>
@@ -145,13 +155,13 @@ const MyPage = () => {
                 </Grid>
             </Grid>
 
-            <Grid item xs={9}>
+            <Grid item xs={10}>
             <Grid container direction="row" alignItems="center">
                 <Grid item xs={10}>
                     <h2>참여한 모임</h2>
                 </Grid>
                 <Grid item xs={2}>
-                    <Button variant="outlined">자세히</Button>
+                    <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
                 </Grid>
             </Grid>
             {userAnd.length === 0 ?
@@ -170,7 +180,7 @@ const MyPage = () => {
                     <h2>후원한 펀딩</h2>
                 </Grid>
                 <Grid item xs={2}>
-                    <Button variant="outlined">자세히</Button>
+                    <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
                 </Grid>
             </Grid>
             {userOrder.length === 0 ?
@@ -189,7 +199,7 @@ const MyPage = () => {
                     <h2>찜한 목록</h2>
                 </Grid>
                 <Grid item xs={2}>
-                    <Button variant="outlined">자세히</Button>
+                    <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
                 </Grid>
             </Grid>
             {userLike.length === 0 ?

@@ -65,6 +65,7 @@ import FindIdOrPassword from './pages/user/FindIdOrPassword';
 import FindId from './pages/user/FindId';
 import FindPassword from './pages/user/FindPassword';
 import ProfileImgEdit from './pages/user/ProfileImgEdit';
+import MakerPage from './pages/user/MakerPage';
 
 
 const sections = [
@@ -175,6 +176,9 @@ function App() {
               <Route element={<PrivateRoute />}>
                 {/* User 관련 */}
                 <Route path="/user/profileImgEdit" element={<ProfileImgEdit />} />
+                <Route path="/user/maker" element={<MakerPage />} />
+
+                {/* 비밀번호 확인을 통해 접근 가능 */}
                 <Route element={<SignRoute />}>
                   <Route path="/user/update" element={<UserInfoEdit />} />
                   <Route path="/user/passwordChange" element={<UserPasswordChange />} />

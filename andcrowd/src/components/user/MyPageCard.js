@@ -12,43 +12,46 @@ const MyPageCard = ({project, type}) => {
     const projectId = {
         and: project.andId,
         crowd: project.crowdId,
-        like: project.projectId
+        like: project.projectId,
     };
     const projectImg = {
         and: project.andHeaderImg,
         crowd: project.crowdHeaderImg,
-        like: project.projectHeaderImg
+        like: project.projectHeaderImg,
     };
     const projectTitle = {
         and: project.andTitle,
         crowd: project.crowdTitle,
-        like: project.projectTitle
+        like: project.projectTitle,
     };
     const projectContent = {
         and: project.andContent,
         crowd: project.crowdContent,
-        like: ''
+        like: '',
     };
     const types = {
         and: 'and',
         crowd: 'crowd',
-        like: project.projectType === 0 ? 'and' : 'crowd'
+        like: project.projectType === 0 ? 'and' : 'crowd',
     };
     
     return (
-        <Grid item xs={4}>
+        <Grid item md={4} sm={12} xs={12}>
             <Card sx={{ maxWidth: '100%', boxShadow: 'lg' }}>
                 <CardOverflow>
-                    <AspectRatio sx={{ minWidth: 200 }}>
+                    <AspectRatio>
                     {project[type] !== null ?
-                        <img src={projectImg[type]} alt="헤더 이미지" width={600} loading="lazy"/>
+                        <img src={projectImg[type]} alt="헤더 이미지" loading="lazy"/>
                     :
                         <img src="https://picsum.photos/id/2/600/400" alt="임시 이미지" loading="lazy"/>
                     }
                     </AspectRatio>
                 </CardOverflow>
                 <CardContent>
-                    <Typography level="body-xs">Bluetooth Headset</Typography>
+                    <Chip component="span" size="sm" variant="soft" color="success">
+                        {/* (마감일자 - 현재일자)자료 불러오기 */}
+                        <b>10</b> 일 남음
+                    </Chip>
                     <Link
                         href={`/${types[type]}/` + projectId[type]}
                         fontWeight="md"
@@ -56,18 +59,13 @@ const MyPageCard = ({project, type}) => {
                         textColor="text.primary"
                         overlay
                         endDecorator={<ArrowOutwardIcon />}
+                        sx={{overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'inline-block'}}
                     >
                         {projectTitle[type]}
                     </Link>
                     <Typography
                         level="title-lg"
-                        sx={{ mt: 1, fontWeight: 'xl' }}
-                        endDecorator={
-                        <Chip component="span" size="sm" variant="soft" color="success">
-                            {/* (마감일자 - 현재일자)자료 불러오기 */}
-                            <b>10</b> 일 남음
-                        </Chip>
-                        }
+                        sx={{ mt: 1, fontWeight: 'xl', overflow:'hidden', textOverflow:'ellipsis', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' }}
                     >
                         {projectContent[type]}
                     </Typography>
