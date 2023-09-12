@@ -31,7 +31,7 @@ const CrowdCreate = () => {
 
   // endDate를 업데이트하는 함수
   const handleEndDateChange = (newValue) => {
-    setValue(newValue);
+    // setValue(newValue);
     setFormData({
       ...formData,
       crowdEndDate: newValue.toISOString(), // 날짜를 ISO 문자열로 변환하여 crowdEndDate 필드에 업데이트
@@ -96,7 +96,7 @@ const CrowdCreate = () => {
         const responseData = await response.json();
         const crowdId = responseData; // 응답 데이터에서 andId 값을 추출
         console.log("Created crowdId:", crowdId);
-        navigate(`/crowd/${crowdId}/img/create`, { state: { formData: updatedFormData }});
+        navigate(`/crowd/${crowdId}/img/create`);//, { state: { formData: updatedFormData }});
       } else {
         throw new Error(`Request failed with status ${response.status}`);
       }

@@ -5,11 +5,14 @@ import styles from '../../styles/crowd/CrowdDetail.module.css';
 import {formatMoney, getDaysBetweenDate, calculateAchievedRate, calculateRaisedAmount, countSponsors} from '../etc/Finance.js';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+import CrowdBoardList from "./CrowdBoardList";
+import CrowdQnaList from "./CrowdQnaList";
 
 const CrowdDetail = () => {
     const params = useParams();
     const crowdId = params.crowdId;
     const [crowd, setCrowd] = useState({});
+    const [selectedSection, setSelectedSection] = useState('crowdBoard');
     
     const [isOpened, setIsOpened] = useState(false);
     const [number, setNumber] = useState(0);
@@ -33,6 +36,15 @@ const CrowdDetail = () => {
         }
     };
 
+    const handleSectionChange = (section) => { // 상세페이지 내부에서 board, qna 게시판 조회
+        setSelectedSection(section);
+        if (section === 'board') {
+            navigate(`/crowd/${crowdId}/board/all`);
+        } else if (section === 'qna') {
+            navigate(`/crowd/${crowdId}/qna/all`);
+        }
+    };      
+
     const updateCrowd = (crowdId) => {
         navigate(`/crowd/${crowdId}/update`);
     };
@@ -41,6 +53,7 @@ const CrowdDetail = () => {
         try{
             await axios.delete(`/crowd/${crowdId}/delete`);
             console.log(crowdId, "정상삭제");
+            alert("펀딩글이 삭제되었습니다.");
             navigate(`/crowd/list`);
         } catch(error) {
             console.error(error);
@@ -60,29 +73,29 @@ const CrowdDetail = () => {
     const [selectedReward, setSelectedReward] = useState(null);
     const [rewards, setRewards] = useState([]);
 
-    const toggleOptionMenu = () => {
-        setIsOpened(!isOpened);
-        };
+    // const toggleOptionMenu = () => {
+    //     setIsOpened(!isOpened);
+    //     };
     
-        const Increase5000 = () => {
-        setNumber(number + 5000);
-        };
+    //     const Increase5000 = () => {
+    //     setNumber(number + 5000);
+    //     };
     
-        const Increase10000 = () => {
-        setNumber(number + 10000);
-        };
+    //     const Increase10000 = () => {
+    //     setNumber(number + 10000);
+    //     };
     
-        const Increase50000 = () => {
-        setNumber(number + 50000);
-        };
+    //     const Increase50000 = () => {
+    //     setNumber(number + 50000);
+    //     };
     
-        const Increase100000 = () => {
-        setNumber(number + 100000);
-        };
+    //     const Increase100000 = () => {
+    //     setNumber(number + 100000);
+    //     };
     
-        const handleAlert = () => {
-        alert('후원해주셔서 감사합니다!🥳');
-    };
+    //     const handleAlert = () => {
+    //     alert('후원해주셔서 감사합니다!🥳');
+    // };
     
     useEffect(() => {
         // Crowd의 리워드 목록을 가져오는 HTTP 요청
@@ -122,12 +135,8 @@ const CrowdDetail = () => {
                 <Link to={`/crowd/detail/${crowd.crowdId}`}>{/* 링크에 crowdId추가 */}
                 <button>상세정보</button>
                 </Link>
-                <Link to={`/crowd/${crowd.crowdId}/board/all`}>
-                <button>게시판</button>
-                </Link>
-                <Link to={`/crowd/${crowd.crowdId}/qna`}>
-                <button>QnA</button>
-                </Link>
+                <button onClick={() => handleSectionChange('board')}>게시판</button>
+                <button onClick={() => handleSectionChange('qna')}>QnA</button>
                 <hr />
                 {crowd.crowdTitle && ( // crowd.crowdTitle이 존재할 때만 출력
                     <h1>제목{crowd.crowdTitle}</h1>
@@ -139,6 +148,10 @@ const CrowdDetail = () => {
                 </div>
             </div>
             <div className={styles.middleBar}>
+                <div>
+                {selectedSection === 'board' && <CrowdBoardList crowdId={crowdId} />} {/* BoardSection을 렌더링합니다 */}
+                {selectedSection === 'qna' && <CrowdQnaList crowdId={crowdId} />} {/* QnaSection을 렌더링합니다 */}
+                </div>
                 <div className={styles.imgContainer}>
                     <img src={crowd.headerImg} />1
                     <img src={crowd.crowdImg1} />2
@@ -177,7 +190,7 @@ const CrowdDetail = () => {
                                 value={contributionAmount}
                                 onChange={(e) => setContributionAmount(Number(e.target.value))}
                             />
-                            <Grid xs="auto">
+                            <Grid item xs="auto">
                                 <Button onClick={() => setContributionAmount(contributionAmount + 5000)}>+5,000</Button>
                                 <Button onClick={() => setContributionAmount(contributionAmount + 10000)}>+10,000</Button><br />
                                 <Button onClick={() => setContributionAmount(contributionAmount + 50000)}>+50,000</Button>

@@ -13,7 +13,7 @@ const CrowdRewardCreate = ({ onRewardAdd }) => {
     rewardTitle: "",
     rewardContent: "",
     rewardAmount: 0,
-    rewardLimit: 0,
+    rewardLimit: 10,
   });
 
   const handleInputChange = (event) => {
@@ -28,7 +28,7 @@ const CrowdRewardCreate = ({ onRewardAdd }) => {
     setReward({
       rewardTitle: "",
       rewardContent: "",
-      rewardAmount: 0,
+      rewardAmount: 1000,
       rewardLimit: 10,
     });
   };

@@ -161,8 +161,8 @@ function App() {
               <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
 
               {/* Crowd 관련 */}
-              <Route path="/crowd/list" element={<Login />} />
-              <Route path="/crowd/create" element={<Login />} />
+              <Route path="/crowd/list" element={<CrowdList />} />
+              <Route path="/crowd/create" element={<CrowdCreate />} />
               <Route path="/crowd/:crowdId/img/create" element={<CrowdCreateImg />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
               <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
