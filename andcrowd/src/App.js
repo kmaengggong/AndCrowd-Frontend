@@ -61,11 +61,12 @@ import LoginRoute from './components/route/LoginRoute';
 import UserInfoEdit from './pages/user/UserInfoEdit';
 import Logout from './components/sign/Logout';
 import UserPasswordChange from './pages/user/UserPasswordChange';
-import UserResign from './pages/user/UserResign';
 import FindIdOrPassword from './pages/user/FindIdOrPassword';
 import FindId from './pages/user/FindId';
 import FindPassword from './pages/user/FindPassword';
+import ProfileImgEdit from './pages/user/ProfileImgEdit';
 import CrowdCreateImg from './pages/crowd/CrowdCreateImg';
+
 
 const sections = [
   { title: '홈', url: '/' },
@@ -102,16 +103,19 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/logout" element={<Logout />} />
+
+            {/* 로그인되지 않은 상태에서만 접근 가능 */}
+            <Route element={<PublicRoute />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/oauth/redirected/naver/*" element={<NaverLoginCallback />} />
+              <Route path="/findIdOrPassword" element={<FindIdOrPassword />} />
+              <Route path="/findId" element={<FindId />} />
+              <Route path="/findPassword" element={<FindPassword />} />
+            </Route>
             
             <Route element={<LoginRoute />}>
-              {/* 로그인되지 않은 상태에서만 접근 가능 */}
-              <Route element={<PublicRoute />}>
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/oauth/redirected/naver/*" element={<NaverLoginCallback />} />
-              </Route>
-
-              {/* 누구라 접근 가능 */}
+              {/* 누구라도 접근 가능 */}
               {/* Etc */}
               <Route path="/team" element={<Login />} />
               <Route path="/help" element={<Login />} />
@@ -120,7 +124,6 @@ function App() {
               <Route path="/test" element={<Test />} />
 
               {/* User 관련 */}
-              <Route path="/user/2/and" element={<Test />} />
               <Route path="/user/:userId" element={<MyPage />} />
 
               {/* And 관련 */}
@@ -173,10 +176,10 @@ function App() {
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
                 {/* User 관련 */}
+                <Route path="/user/profileImgEdit" element={<ProfileImgEdit />} />
                 <Route element={<SignRoute />}>
                   <Route path="/user/update" element={<UserInfoEdit />} />
                   <Route path="/user/passwordChange" element={<UserPasswordChange />} />
-                  <Route path="/user/delete" element={<UserResign />} />
                 </Route>
 
                 {/* And 관련 */}
