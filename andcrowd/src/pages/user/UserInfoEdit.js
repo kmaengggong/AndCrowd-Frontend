@@ -18,6 +18,10 @@ const UserInfoEdit = () => {
 
     const [phoneNumber, setPhoneNumber] = useState('');
 
+    const [openResignModal, setOpenResignModal] = useState(false);
+    const handleOpenResignDialog = () => setOpenResignModal(true);
+    const handleCloseResignDialog = () => setOpenResignModal(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -135,6 +139,25 @@ const UserInfoEdit = () => {
         navigate(-1);
     }
 
+    const onClickResignYesButton = () => {
+        try{
+            fetch(`/user/${userId}`, {
+                method: "DELETE",
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+                    'Content-Type': 'application/json; text=utf-8'
+                }
+            }).then(res => {
+                if(res.ok){
+                    navigate("/logout");
+                    alert("회원 탈퇴가 완료되었습니다.");
+                }
+            })
+        } catch(error){
+            console.error("onClickResignYesButton: " + error);
+        }
+    }
+
     return (
         <>
             <Box
@@ -198,8 +221,38 @@ const UserInfoEdit = () => {
                         취소
                     </Button>
                 </Grid>
+                <Grid item xs={12}>
+                <Button
+                    fullWidth
+                    variant="outlined"
+                    sx={{ mt: 1, mb: 1 }}
+                    onClick={handleOpenResignDialog}
+                >
+                    회원 탈퇴
+                </Button>
+                </Grid>
             </Grid>
             </Box>
+
+            <Dialog
+                open={openResignModal}
+                onClose={handleCloseResignDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        회원 탈퇴
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            정말로 탈퇴하시겠습니까?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={onClickResignYesButton}>예</Button>
+                        <Button onClick={handleCloseResignDialog}>아니오</Button>
+                    </DialogActions>
+            </Dialog>
         </>
     );
 }

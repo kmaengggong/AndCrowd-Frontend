@@ -12,18 +12,28 @@ import '../styles/Header.css';
 import logo from '../logo.svg' 
 import Logout from './sign/Logout';
 import { GetUserId } from './user/GetUserId';
+import { GetUserInfo } from './user/GetUserInfo';
 
 const Header = () => {
   const isLogin = useIsLoginState();
   const navigate = useNavigate();
   const [userId, setUserId] = useState(null);
+  const [userInfo, setUserInfo] = useState([]);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   useEffect(() => {
-    setUserId(GetUserId());
+    if(isLogin){
+      setUserId(GetUserId());
+    }
   }, []);
+
+  useEffect(() => {
+    if(isLogin && userId !== null){
+      GetUserInfo(userId, setUserInfo);
+    }
+}, [userId]);
 
   const onClickProfileButton = (event) => {
     setAnchorEl(event.currentTarget);
@@ -80,7 +90,7 @@ const Header = () => {
             aria-expanded={open ? 'true' : undefined}
             onClick={onClickProfileButton}
           >
-            <Avatar></Avatar>
+            <Avatar src={userInfo.userProfileImg} sx={{width: 50, height: 50}} />
           </IconButton>
           <Menu
             id="fade-menu"
