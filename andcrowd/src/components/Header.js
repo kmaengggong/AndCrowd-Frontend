@@ -1,38 +1,64 @@
-import * as React from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
-import Android from '@mui/icons-material/Android';
-import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import '../styles/Header.css';
 import SearchBar from './SearchBar';
-import { isLoginContext } from '../context/isLoginContext';
-import { Button } from '@mui/material';
-import { useCookies } from 'react-cookie';
+import { useIsLoginState } from '../context/isLoginContext';
+import { Avatar, Button, Divider, Fade, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Header.css';
 import logo from '../logo.svg' 
+import Logout from './sign/Logout';
+import { GetUserId } from './user/GetUserId';
+import { GetUserInfo } from './user/GetUserInfo';
 
-const Header = (props) => {
-  const { sections, title } = props;
-  const {isLogin, setIsLogin} = React.useContext(isLoginContext);
-  const [, , removeCookie] = useCookies(['refresh_token']);
+const Header = () => {
+  const isLogin = useIsLoginState();
   const navigate = useNavigate();
+  const [userId, setUserId] = useState(null);
+  const [userInfo, setUserInfo] = useState([]);
 
-  const onClickLogoutButton = () => {
-    localStorage.removeItem('access_token');
-    removeCookie("refresh_token");
-    removeCookie("refresh_token");
-    setIsLogin(false);
-    alert("로그아웃 되었습니다.");
-    navigate("/");
-  }
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    if(isLogin){
+      setUserId(GetUserId());
+    }
+  }, []);
+
+  useEffect(() => {
+    if(isLogin && userId !== null){
+      GetUserInfo(userId, setUserInfo);
+    }
+}, [userId]);
+
+  const onClickProfileButton = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const onClickProfileViewButton = () => {
+    navigate(`/user/${userId}`);
+  };
+
+  const onClickUserInfoButton = () => {
+    navigate("/user/update");
+  };
+
+  const onClickLooutbutton = () => {
+    navigate("/logout");
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
-    <React.Fragment>
+    <Fragment>
       <Toolbar id ='mainTool' sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <div id='nav-box'>
         <Link id='navText' href="/" variant="nonlined" size="small" sx={{ml:1, mr:1}}>
           홈
         </Link>
@@ -48,14 +74,39 @@ const Header = (props) => {
         <Link id='navText' href="/help" variant="nonlined" size="small">
           도움말
         </Link>
-
+        </div>
          <Link id='logo' href="/">
           <img id ='logoimg' src={logo} alt="Logo" /> 
          </Link>
          <SearchBar />
 
+        
         {isLogin ?
-        <Button id='logout' onClick={onClickLogoutButton}>로그아웃</Button>
+        <>
+          <IconButton
+            id="fade-button"
+            aria-controls={open ? 'fade-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={onClickProfileButton}
+          >
+            <Avatar src={userInfo.userProfileImg} sx={{width: 50, height: 50}} />
+          </IconButton>
+          <Menu
+            id="fade-menu"
+            MenuListProps={{
+              'aria-labelledby': 'fade-button',
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            TransitionComponent={Fade}
+          >
+            <MenuItem onClick={onClickProfileViewButton}>프로필</MenuItem>
+            <MenuItem onClick={onClickUserInfoButton}>정보 수정</MenuItem>
+            <MenuItem onClick={onClickLooutbutton}>로그아웃</MenuItem>
+          </Menu>
+        </>
         :
         <>
          <Link id='login' href="/login">
@@ -67,8 +118,7 @@ const Header = (props) => {
         </>
         }
       </Toolbar>
-     
-    </React.Fragment>
+    </Fragment>
   );
 }
 

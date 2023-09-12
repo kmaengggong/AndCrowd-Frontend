@@ -77,6 +77,7 @@ const AndBoardCreate = () => {
             <form onSubmit={handleSubmit}>
                 <div>
                     <input type="text" name="userId" value={userId} readOnly />
+                    <input type="text" name="andBoardTag" value={formData.andBoardTag} onChange={handleInputChange} placeholder="태그"></input>
                     <input type="text" name="andBoardTitle" value={formData.andBoardTitle} onChange={handleInputChange} placeholder="제목" />
                     <input type="text" name="andBoardContent" value={formData.andBoardContent} onChange={handleInputChange} placeholder="내용"></input>
                     <input type="text" name="andImg" value={formData.andImg} onChange={handleInputChange} placeholder="대표 이미지" />

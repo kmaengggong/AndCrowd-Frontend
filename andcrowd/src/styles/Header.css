@@ -24,11 +24,14 @@
     color: #000000;
     margin: 20px;
     font-weight: 700;
+    min-width: 1%;
     text-decoration: none;
 }
 #logo{
-    margin-left: 10%;
+    margin-left: 4%;
     margin-right: 6%;
+    display: flex;
+    justify-content: center;
 }
 #logoimg{
     height: 4vh;
@@ -37,4 +40,6 @@
     position: sticky;
     top: 0;
     background-color: white;
+    display: flex;
+    justify-content: center;
 }

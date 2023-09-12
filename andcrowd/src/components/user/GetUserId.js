@@ -5,6 +5,5 @@ export const GetUserId = () => {
         return jwtDecode(localStorage.getItem("access_token")).userId;
     } catch(error){
         console.error("GetUserId: " + error);
-        return null;
     }
 };
