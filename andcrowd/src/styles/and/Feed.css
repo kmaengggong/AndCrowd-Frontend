@@ -49,13 +49,20 @@
     font-weight: 500;
     width: 20%;
     height: 5vh;
-    background-color: white;
-    color: #00D337;
     border:1px solid #00D337;
     border-radius: 10px;
     margin-top: 2vh;
     flex-wrap: wrap; 
     margin-right: 10px;
+}
+.follow-button {
+    background-color: white;
+    color: #00D337;
+}
+  
+  .following-button {
+    background-color: #00D337;
+    color: white;
 }
 #showmore-button-box{
     margin-left: 7%;

@@ -27,8 +27,9 @@ AndScroll = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [rolesData, setRolesData] = useState({});
 
-    const [userId, setUserId] = useState('');
-    const [isLiked, setIsLiked] = useState(null);
+  const [isLiked, setIsLiked] = useState(null);
+
+  const [isFollowed, setIsFollowed] = useState(null);
 
   const fetchIsLiked = async (andId) => {
     try {
@@ -45,6 +46,23 @@ AndScroll = () => {
       return null; // 에러 발생 시 null 반환
     }
   }
+
+  const fetchIsFollowed = async (userId) => {
+    try {
+      const myId = GetUserId();
+      const response = await fetch(`/and/${myId}/follow/${userId}`);  
+      if (response.ok) {
+        const data = await response.json();
+        return data; // 데이터 반환
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return null; // 에러 발생 시 null 반환
+    }
+  }
+
   
   const fetchLike = async (andId) => {
     try {
@@ -80,8 +98,34 @@ AndScroll = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-
   }
+
+  const fetchFollow = async (userId) => {
+    try {
+      const myId = GetUserId();
+      const response = await fetch(`/and/${myId}/follow/${userId}`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        const newIsFollowed = await fetchIsFollowed(userId); 
+        if (newIsFollowed !== null) {
+          setIsFollowed(prevIsFollowed => ({
+            ...prevIsFollowed,
+            [userId]: newIsFollowed,
+          }));
+        }
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
 
   const fetchAndRoles = async (id) => {
     try {
@@ -119,6 +163,24 @@ AndScroll = () => {
   
     fetchDataAndSetIsLiked(); // 데이터 가져와서 업데이트하는 함수 호출
   }, [data]);
+
+  useEffect(() => {
+    const fetchDataAndSetIsFollowed = async () => {
+      const newIsFollowedData = {}; // 새로운 데이터 객체 생성
+  
+      for (const item of data) {
+        const newData = await fetchIsFollowed(item.userId);
+        if (newData !== null) {
+          newIsFollowedData[item.userId] = newData; // 데이터 업데이트
+        }
+      }
+  
+      setIsFollowed(newIsFollowedData); // 데이터 한꺼번에 업데이트
+    };
+  
+    fetchDataAndSetIsFollowed(); // 데이터 가져와서 업데이트하는 함수 호출
+  }, [data]);
+
 
   const fetchData = async () => {
     try {
@@ -229,7 +291,7 @@ AndScroll = () => {
     
     const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000));
 
-    return diffInDays >= 0 ? 'D - '+ diffInDays : '기간 만료';
+    return diffInDays >= 0 ? 'D - '+ diffInDays : '모집 마감';
 }
 const navigateToAndCreate = () => {
   navigate("/and/create");
@@ -327,7 +389,14 @@ const navigateToAndCreate = () => {
               </div>
               
               <div id='showmore-button-box'>
-              <button id='follow'>팔로우</button>
+              <button id='follow' onClick={() => fetchFollow(item.userId)}
+                className={isFollowed[item.userId] ? 'following-button' : 'follow-button'}>
+                {isFollowed[item.userId] ? (
+                  <div>팔로잉</div>
+                ) : (
+                  <div>팔로우</div>
+                  )}
+              </button>
               <img id='show-more-img' src={showMoreImg} alt="showMoreImg" aria-controls="simple-menu" aria-haspopup="true" 
                 onClick={handleClick1} />
               </div>
