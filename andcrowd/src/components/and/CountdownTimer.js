@@ -19,7 +19,7 @@ const CountdownTimer = ({ publishedAt, andEndDate }) => {
     <div id ='linear-div'>
       <LinearProgress variant="determinate" value={progressValue} sx={{ 
           backgroundColor: 'white',
-          marginTop:'10vh',
+          marginTop:'17%',
           marginLeft:'16%',
           marginBottom:'2vh',
           width: '11vw', 
@@ -30,7 +30,7 @@ const CountdownTimer = ({ publishedAt, andEndDate }) => {
             backgroundColor: '#00D337'
           }
         }} />
-      <Typography id='remain' style={{ color: remainingDays <= 3 ? 'red' : 'inherit',marginTop:'20%' }}>
+      <Typography id='and-remain-day' style={{ color: remainingDays <= 3 ? 'red' : 'inherit '}}>
         {`${remainingDays}일`} 남음
       </Typography>
     </div>

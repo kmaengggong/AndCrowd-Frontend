@@ -3,16 +3,11 @@ import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import '../../styles/Editor.css'
+
 const Editor = ({ htmlStr, setHtmlStr }) => {
   const quillRef = useRef(null);
   const viewContainerRef = useRef(null);
 
-  useEffect(() => {
-    if (viewContainerRef.current) {
-      viewContainerRef.current.innerHTML = '<h2>html 코드를 이용하여 만들어지는 View</h2>';
-      viewContainerRef.current.innerHTML += htmlStr;
-    }
-  }, [htmlStr]);
 
   const imageHandler = async () => {
     const input = document.createElement('input');
@@ -72,7 +67,7 @@ const Editor = ({ htmlStr, setHtmlStr }) => {
 
   return (
     <>
-      <ReactQuill
+      <ReactQuill id='editer-div'
         ref={quillRef}
         theme="snow"
         modules={modules}
@@ -81,7 +76,6 @@ const Editor = ({ htmlStr, setHtmlStr }) => {
         placeholder='내용을 입력하세요.'
         onChange={(content, delta, source, editor) => setHtmlStr(editor.getHTML())} />
 
-      <div ref={viewContainerRef} id='test-div'/>
     </>
   )
 }

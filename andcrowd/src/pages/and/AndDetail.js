@@ -45,7 +45,7 @@ const AndDetail = () => {
     try {
       await axios.delete(`/and/${andId}/delete`);
       console.log("Deleted and with ID:", andId);
-      navigate(`/and/list`);
+      navigate(`/and/scroll`);
     } catch (error) {
       console.error("error in deleting and:", error);
     }

@@ -163,7 +163,7 @@ AndScroll = () => {
     return diffInDays >= 0 ? 'D - '+ diffInDays : '기간 만료';
 }
 const navigateToAndCreate = () => {
-  navigate("/and/create");
+  navigate("/and/create1");
 };
   
   return (
@@ -194,7 +194,7 @@ const navigateToAndCreate = () => {
       </Typography>
 
       <div>
-        <Typography id ='category' onClick={handleClick2} style={{cursor: "pointer"}}>
+        {/*<Typography id ='category' onClick={handleClick2} style={{cursor: "pointer"}}>
           카테고리
         </Typography>
         
@@ -222,13 +222,13 @@ const navigateToAndCreate = () => {
               </ListItem>
             ))}
           </List>
-        </Popover> 
+              </Popover> */}
 
       </div>
       <button id ='write' type="button" onClick={navigateToAndCreate}>글쓰기</button>
       
     </div>
-    <div id='and-search-bar'>
+    {/*<div id='and-search-bar'>
         <input
           type="search"
           id="and-search"
@@ -237,7 +237,7 @@ const navigateToAndCreate = () => {
           onChange={(e) => setSearchKeyword(e.target.value)}
         />
         <button  id='and-search-button' onClick={handleSearch}><SearchIcon id='search-icon' /></button>
-      </div>
+            </div> */}
 
       {data ? (
         data.map(item => (

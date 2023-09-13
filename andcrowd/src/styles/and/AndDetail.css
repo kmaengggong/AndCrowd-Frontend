@@ -68,22 +68,16 @@
     color: #00D337;
     cursor: pointer;
 }
-#remain{
-    margin-top: 25%;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    margin-right: 10%;
-}
 #linear-div{
     display: flex;
 }
-#remain{
+#and-remain-day{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
-    margin-left: 2vw;
-    margin-top: 20vw
+    margin-top: 17%;
+    margin-left: 3%;
+
 }
 #go-member{
     font-family: 'Noto Sans KR', sans-serif;
@@ -94,7 +88,7 @@
     color: #00D337;
     cursor: pointer;
     width: 65%;
-    margin-left: 35%;
+    margin-left: 36%;
     margin-top: 5%;
     height: 7vh;
     border-radius: 7px;
