@@ -79,8 +79,9 @@ const AndDetail = () => {
       <AndToolbar andId={and.andId} />
       <div id ='and-detail-container'> 
         <Box id ='left-main-box'>
-        <Typography id ='and-content'>{and.andContent}</Typography>
-        <button onClick={() => updateAnd(and.andId)}>edit</button>
+          <div id='and-content-div' dangerouslySetInnerHTML={{ __html :  and.andContent  }} style={{ maxWidth: '100%', overflowX: 'auto' }}/>
+        <Typography id ='and-content'></Typography>
+        <button onClick={() => updateAnd(and.andId)}>edit</button>  
         <button onClick={() => deleteAnd(and.andId)}>delete</button>
         <br />
         <button onClick={() => applicantList(and.andId)}>apply List</button>

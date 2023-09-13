@@ -39,6 +39,19 @@ const AndCreate = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+      try {
+        const response = await fetch(`/and/${andId}`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          setFormData(data); // 기존 데이터를 모두 할당
+        } else {
+          throw new Error(`Fetching and data failed with status ${response.status}.`);
+        }
+  
+      } catch (error) {
+        console.error("Error fetching And data:", error);
+      }
   };
 
   useEffect(() => {
@@ -70,13 +83,13 @@ const AndCreate = () => {
         },
         body: JSON.stringify({ ...updatedFormData, andContent: htmlStr }),
       });
-      
+      navigate(`/and/${andId}`);
       if (response.ok) {
         const responseData = await response.json();
         const andId = responseData;
         console.log("Created andId:", andId);
   
-        navigate(`/and/${andId}/role/create`);
+        navigate(`/and/${andId}`);
       } else {
         throw new Error(`Request failed with status ${response.status}`);
       }
@@ -96,10 +109,11 @@ const AndCreate = () => {
           </Typography>
           <input
             type="text"
-            name="title"
-            value={formData.andLink}
+            name="andTitle"
             placeholder="제목 입력"
             id='create-and-title'
+            
+            onChange={handleInputChange}
           />
           <Typography id='and-title-text'>
             모임글의 내용을 적어주세요

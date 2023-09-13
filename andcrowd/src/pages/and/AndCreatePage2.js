@@ -88,6 +88,7 @@ const AndCreate = () => {
           ...updatedFormData,
         }),
       });
+      navigate(`/and/${andId}/create/editer`);
       if (response.ok) {
         const responseData = await response.json();
         const andId = responseData;
