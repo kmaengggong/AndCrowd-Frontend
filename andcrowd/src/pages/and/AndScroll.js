@@ -6,10 +6,23 @@ import mainImg from './shoes-8026038.jpg'
 import showMoreImg from './free-icon-show-more-button-with-three-dots-61140.png' 
 import Menu from '@mui/material/Menu';
 import { Link } from 'react-router-dom';
-import {MenuItem, Popover, List, ListItem } from '@mui/material';
+import {MenuItem, Popover, List, ListItem, Box, TextField, Button, Modal, IconButton } from '@mui/material';
 import { Navigate ,useNavigate } from 'react-router-dom';
 import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
 import { GetUserId } from '../../components/user/GetUserId';
+import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 const 
 AndScroll = () => {
@@ -30,6 +43,19 @@ AndScroll = () => {
   const [isLiked, setIsLiked] = useState(null);
 
   const [isFollowed, setIsFollowed] = useState(null);
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const [openModalItemId, setOpenModalItemId] = useState(null);
+  const [reportContent, setReportContent] = useState("");
+  const [reportData, setReportData] = useState({
+    itemId: null,
+    itemTitle: "",
+  });
+  
+  const myId = GetUserId();
 
   const fetchIsLiked = async (andId) => {
     try {
@@ -118,6 +144,46 @@ AndScroll = () => {
             [userId]: newIsFollowed,
           }));
         }
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  const handleOpenReportModal = (itemId) => {
+    setOpenModalItemId(itemId);
+  };
+
+  const handleCloseReportModal = () => {
+    setOpenModalItemId(null);
+    setReportContent(''); // 모달이 닫힐 때 신고 내용 초기화
+  };
+
+  const fetchReport = async (andId, reportContent) => {
+    try {
+      const myId = GetUserId();
+      const requestBody = {
+        userId: myId,
+        projectId: andId,
+        projectType: 0,
+        reportContent: reportContent,
+        reportStatus: 0
+      };
+      console.log("requestBody: ",requestBody);
+  
+      const response = await fetch(`/and/report`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });      
+      if (response.ok) {
+        console.log("response.ok: ", response.ok)
+        setOpen(false);
+        setReportContent('');
       } else {
         throw new Error(`Fetching and data failed with status ${response.status}.`);
       }
@@ -268,8 +334,9 @@ AndScroll = () => {
   const [anchorEl1, setAnchorEl1] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
 
-  const handleClick1 = (event) => {
+  const handleClick1 = (event, itemId) => {
     setAnchorEl1(event.currentTarget);
+    setOpenModalItemId(itemId);
   };
 
   const handleClose1 = () => {
@@ -398,23 +465,28 @@ const navigateToAndCreate = () => {
                   )}
               </button>
               <img id='show-more-img' src={showMoreImg} alt="showMoreImg" aria-controls="simple-menu" aria-haspopup="true" 
-                onClick={handleClick1} />
+                onClick={() => handleOpenReportModal(item.andId)} />
               </div>
-              <Menu
-              id="simple-menu"
+              {/* <Menu
+                id="simple-menu"
                 anchorEl={anchorEl1}
-              keepMounted
-              open={Boolean(anchorEl1)}
-              onClose={handleClose1}
-              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-              transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-              elevation={0}
+                keepMounted
+                open={Boolean(anchorEl1)}
+                onClose={handleClose1}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+                elevation={0}
               >
-              <div id='menu-box'>
-              <MenuItem class ='menu' id='report-menu' onClick={handleClose1}>신고하기</MenuItem>
-              <MenuItem class ='menu' id='share-menu' onClick={handleClose1}>공유하기</MenuItem>
-              </div>
-              </Menu>
+                <div id='menu-box'>
+                  <MenuItem 
+                    className='menu' 
+                    id='report-menu' 
+                    onClick={() => handleOpenReportModal(item.andId)}
+                  >{item.andId}번 글 신고하기</MenuItem>
+                  {console.log("item.andId::: ", item.andId)}
+                  <MenuItem className='menu' id='share-menu' onClick={handleClose1}>공유하기</MenuItem>
+                </div>
+              </Menu> */}
             </div>
             <div id='main-img-box'>
             <Link to={`/and/${item.andId}`}>
@@ -442,6 +514,41 @@ const navigateToAndCreate = () => {
       ) : (
         <div>데이터가 없습니다.</div>
       )}
+
+      {data.map(item => (
+      <Modal
+        key={item.andId} // 각 항목에 대한 고유한 모달을 위한 key
+        open={openModalItemId === item.andId} // 해당 항목의 모달만 열린 상태
+        onClose={handleCloseReportModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+          {`신고`}
+          </Typography>
+          <Box sx={{
+              width: 500,
+              maxWidth: '100%',
+            }}>
+          <TextField
+            fullWidth
+            id="standard-multiline-static"
+            label="신고 사유"
+            multiline
+            rows={3}
+            variant="standard"
+            size="small"
+            margin="normal"
+            value={reportContent}
+            onChange={(e) => setReportContent(e.target.value)}
+          />
+          </Box>
+          <Button variant="outlined" color="error" sx={{ mt:2 }}
+            onClick={() => fetchReport(item.andId, reportContent)}>제출</Button>
+        </Box>
+      </Modal>
+      ))}
     
       {isLastPage && (
         <div style={{ textAlign: 'center', margin: '20px' }}>
