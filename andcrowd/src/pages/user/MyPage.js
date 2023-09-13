@@ -33,7 +33,7 @@ const MyPage = () => {
     }, [userInfo]);
 
     useEffect(() => {
-        fetchIsUserExist();
+        fetchIsNotAdmin();
         if(isLogin){
             if(parseInt(GetUserId()) === parseInt(userId)) setIsOwner(true);
         }
@@ -63,6 +63,23 @@ const MyPage = () => {
     const onClickMakerPageButton = () => {
         navigate("/user/maker");
     }
+
+    const fetchIsNotAdmin = async () => {
+        try{
+            await fetch(`/user/${userId}/isNotAdmin`)
+            .then(res => {
+                console.log(res);
+                if(res.ok){
+                    fetchIsUserExist();
+                }
+                else{
+                    navigate("/NotFound");
+                }
+            })
+        } catch(error){
+            console.error(error);
+        }
+    };
 
     const fetchIsUserExist = async () => {
         try{
@@ -135,7 +152,7 @@ const MyPage = () => {
                     </IconButton>
                 </Grid>
                 <Grid item xs={12}>
-                <h3>{userNickname}</h3>
+                <Typography sx={{fontSize:20, fontWeight:700, color:'#00D337', marginTop:1}}>{userNickname}</Typography>
                 <hr />
                 </Grid>
                 {isOwner ?

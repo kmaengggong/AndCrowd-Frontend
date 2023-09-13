@@ -41,7 +41,7 @@ const MyPageCardsDetailPage = () => {
 
             <Grid container spacing={3} marginTop={7}>
                 {projectLen === 0 ?
-                <h2>비어있습니다 X(</h2>
+                <></>
                 :
                 <Grid container spacing={1} marginBottom={5}>
                     {projects.map((project) => (

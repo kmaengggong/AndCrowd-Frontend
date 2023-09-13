@@ -87,7 +87,7 @@ const MakerPage = () => {
                     </IconButton>
                 </Grid>
                 <Grid item xs={12}>
-                <h3>{userNickname}</h3>
+                <Typography sx={{fontSize:20, fontWeight:700, color:'#00D337', marginTop:1}}>{userNickname}</Typography>
                 <hr />
                 </Grid>
                 <Button fullWidth variant="solid" onClick={onClickMyPageButton}>마이 페이지</Button>

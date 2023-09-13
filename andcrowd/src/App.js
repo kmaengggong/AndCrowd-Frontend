@@ -69,6 +69,7 @@ import MakerPage from './pages/user/MakerPage';
 import MyPageCardsDetailPage from './pages/user/MyPageCardsDetailPage';
 import Team from './pages/etc/Team';
 import Help from './pages/etc/Help';
+import SignupAdmin from './pages/user/SignupAdmin';
 
 
 const sections = [
@@ -81,6 +82,7 @@ const sections = [
 
 function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const ADMIN = process.env.REACT_APP_ADMIN_URL;
 
   useEffect(() => {
     const handleResize = () => {
@@ -115,6 +117,7 @@ function App() {
               <Route path="/findIdOrPassword" element={<FindIdOrPassword />} />
               <Route path="/findId" element={<FindId />} />
               <Route path="/findPassword" element={<FindPassword />} />
+              <Route path={`/${ADMIN}`} element={<SignupAdmin />} />
             </Route>
             
             <Route element={<LoginRoute />}>

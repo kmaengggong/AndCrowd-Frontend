@@ -3,7 +3,6 @@ import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Chip from '@mui/joy/Chip';
 import Link from '@mui/joy/Link';
-import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Typography from '@mui/joy/Typography';
 import { Grid } from '@mui/material';
@@ -57,14 +56,14 @@ const MyPageCard = ({project, type}) => {
                     color="neutral"
                     textColor="text.primary"
                     overlay
-                    endDecorator={<ArrowOutwardIcon />}
                     sx={{overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'inline-block'}}
                 >
                     {projectTitle[type]}
                 </Link>
                 <Typography
-                    level="title-lg"
-                    sx={{ mt: 1, fontWeight: 'xl', overflow:'hidden', textOverflow:'ellipsis', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' }}
+                    level="title-md"
+                    sx={{ mt: 1, fontWeight: 'xl', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'inline-block'}}
+                    // sx={{ mt: 1, fontWeight: 'xl', overflow:'hidden', textOverflow:'ellipsis', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' }}
                 >
                     {projectContent[type]}
                 </Typography>
