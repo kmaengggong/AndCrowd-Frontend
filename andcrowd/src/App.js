@@ -69,6 +69,7 @@ import CrowdCreateImg from './pages/crowd/CrowdCreateImg';
 import CrowdReward from './pages/crowd/CrowdReward';
 import CrowdQnaList from './pages/crowd/CrowdQnaList';
 import CrowdQnaCreate from './pages/crowd/CrowdQnaCreate';
+import CrowdUpdate from './pages/crowd/CrowdUpdate';
 
 
 const sections = [
@@ -206,6 +207,7 @@ function App() {
                 
                 {/* Crowd 관련 */}
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
+                <Route path='/crowd/:crowdId/update' element={<CrowdUpdate />} /> {/* 추가 */}
               </Route>
               
               <Route path="*" element={<NotFound />} />

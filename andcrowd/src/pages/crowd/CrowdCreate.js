@@ -14,8 +14,43 @@ import Cookies from 'js-cookie';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import CrowdRewardCreate from '../crowd/CrowdRewardCreate';
+
+const categories = [
+  {
+    name: '1',
+    text: '문화 예술'
+  },
+  {
+    name: '2',
+    text: '액티비티 스포츠'
+  },
+  {
+    name: '3',
+    text: '태크 가전'
+  },
+  {
+    name: '4',
+    text: '푸드'
+  },
+  {
+    name: '5',
+    text: '언어'
+  },
+  {
+    name: '6',
+    text: '여행'
+  },
+  {
+    name: '7',
+    text: '반려동물'
+  },
+  {
+    name: '8',
+    text: '기타'
+  },
+];
 
 const CrowdCreate = () => {
   const navigate = useNavigate();
@@ -81,6 +116,20 @@ const CrowdCreate = () => {
     userId: userId,
   }
 
+  const handleRewardAdd = (newReward) => { // 리워드 추가하는 버튼
+    setRewards([...rewards, newReward]);
+  };
+
+  const handleRewardDelete = (index) => { // 리워드 삭제하는 버튼
+    const updatedRewards = rewards.filter((_, i) => i !== index);
+    setRewards(updatedRewards);
+  };
+
+  const handleUploadCancel = () => {
+    alert("작성이 취소되었습니다.");
+    navigate('/crowd/list'); // 업로드 취소 버튼 클릭 시 페이지 전환
+  };
+
   const handleNextButtonClick = async () => {
     try {
       const response = await fetch("/crowd/create", {
@@ -88,7 +137,11 @@ const CrowdCreate = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedFormData),
+        body: JSON.stringify({
+          ...formData,
+          userId: userId,
+          rewards: rewards,
+        }),
       });
       if (response.ok) {
         // 성공적으로 데이터 전송 및 처리되었을 때의 코드
@@ -105,28 +158,13 @@ const CrowdCreate = () => {
     }
   };
 
-  const handleRewardAdd = (newReward) => { // 리워드 추가하는 버튼
-    setRewards([...rewards, newReward]);
-  };
-
-  const handleRewardDelete = (index) => { // 리워드 삭제하는 버튼
-    const updatedRewards = rewards.filter((_, i) => i !== index);
-    setRewards(updatedRewards);
-  };
-
-  const handleUploadCancel = () => {
-    alert("작성이 취소되었습니다.");
-    navigate('/crowd/list'); // 업로드 취소 버튼 클릭 시 페이지 전환
-  };
-
   const handleCategoryChange = (event) => { // 카테고리 선택 함수
     const crowdCategoryId = event.target.value;
-      setFormData({
-        ...formData,
-        crowdCategoryId: crowdCategoryId,
+    setFormData({
+      ...formData,
+      crowdCategoryId: crowdCategoryId,
     });
-    fetchCrowdByCategory(crowdCategoryId);
-  }
+  };
 
   const fetchCrowdByCategory = async (crowdCategoryId) => {
     try {
@@ -194,12 +232,11 @@ const CrowdCreate = () => {
                   onChange={handleInputChange}
                 >
                   <MenuItem value="">--카테고리 선택--</MenuItem>
-                  <MenuItem value="1">카테고리 1</MenuItem>
-                  <MenuItem value="2">카테고리 2</MenuItem>
-                  <MenuItem value="3">카테고리 3</MenuItem>
-                  <MenuItem value="4">카테고리 4</MenuItem>
-                  <MenuItem value="5">카테고리 5</MenuItem>
-                  <MenuItem value="6">카테고리 6</MenuItem>
+                  {categories.map((category) => (
+                    <MenuItem key={category.name} value={category.name}>
+                      {category.text}
+                    </MenuItem>
+                  ))}
                 </TextField>
               </Grid>
               <Grid item xs={12} sm={9}>
@@ -229,10 +266,10 @@ const CrowdCreate = () => {
                 />
               </Grid>
               {/* 마감일자 선택 */}
-              <Grid item xs={12} sm={9}>
+              <Grid item xs={12} sm={10}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['DatePicker']}>
-                      <DatePicker value={formData.crowdEndDate} onChange={handleEndDateChange} />
+                      <DateTimePicker value={formData.crowdEndDate} label="펀딩 마감 일자" onChange={handleEndDateChange}/>
                     </DemoContainer>
                 </LocalizationProvider>
               </Grid>
@@ -267,7 +304,7 @@ const CrowdCreate = () => {
                 {/* 리워드 설정 버튼  */}
                 <h3>프로젝트 리워드 설계</h3>
                 <span>서포터님들에게 제공할 리워드를 입력해 주세요.</span>
-                <CrowdRewardCreate onRewardAdd={handleRewardAdd} />
+                <CrowdRewardCreate onRewardAdd={handleRewardAdd} onChange={handleInputChange} />
                 <div>
                   <h4>입력된 리워드</h4>
                   <ul>

@@ -13,6 +13,7 @@ import Link from '@mui/joy/Link';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import { formatMoney, calculateRaisedAmount, getDaysBetweenDate } from '../pages/etc/Finance';
 import { Container } from "@mui/material";
+import CrowdCategoryList from "./crowd/CrowdCategoryList";
 
 const CrowdList = () => {
   const [data, setData] = useState([]);
@@ -133,7 +134,7 @@ const CrowdList = () => {
       const params = new URLSearchParams({
         page: 0, // 페이지 번호를 0으로 초기화
         size: pageSize,
-        crowdCategoryId: categoryId,
+        crowdCategoryName: categoryId,
         crowdStatus: crowdStatus,
         sortField: newSortField, // 새로운 정렬 기준으로 설정
         sortOrder: sortOrder,
@@ -169,9 +170,12 @@ const CrowdList = () => {
   
   // 선택한 카테고리에 따라 게시글 필터링
   const filteredCrowdData = selectedCategory
-  ? data.filter((crowd) => crowd.crowdCategoryId === selectedCategory)
+  ? data.filter((crowd) => crowd.crowdCategoryName === selectedCategory)
   : data;
 
+  const handleCategorySelect = (crowdCategoryName) => { // 
+
+  }
 
   function calculateRemainingDays(crowdEndDate) { // 남은일수 표시
     const now = new Date();
@@ -205,46 +209,49 @@ const CrowdList = () => {
             />
           </AspectRatio>
         </Box>
-      </div>
-        <div className={styles.btnCategory}>{/* 카테고리 */}
-            <button onClick={() => handleCategoryClick('카테고리 1')}>카테고리 1</button>
-            <button onClick={() => handleCategoryClick('카테고리 2')}>카테고리 2</button>
-            <button onClick={() => handleCategoryClick('카테고리 3')}>카테고리 3</button>
-            <button onClick={() => handleCategoryClick('카테고리 4')}>카테고리 4</button>
-            <button onClick={() => handleCategoryClick('카테고리 5')}>카테고리 5</button>
-            <button onClick={() => handleCategoryClick('카테고리 6')}>카테고리 6</button>
+      </div>{/* 카테고리 */}
+        <div className={styles.btnCategory}>
+          <CrowdCategoryList onCategorySelect={handleCategorySelect} />
+            {/* <button onClick={() => handleCategoryClick('카테고리 1')}>문화 예술</button>
+            <button onClick={() => handleCategoryClick('카테고리 2')}>액티비티 스포츠</button>
+            <button onClick={() => handleCategoryClick('카테고리 3')}>테크 가전</button>
+            <button onClick={() => handleCategoryClick('카테고리 4')}>푸드</button>
+            <button onClick={() => handleCategoryClick('카테고리 5')}>언어</button>
+            <button onClick={() => handleCategoryClick('카테고리 6')}>여행</button>
+            <button onClick={() => handleCategoryClick('카테고리 6')}>반려동물</button>
+            <button onClick={() => handleCategoryClick('카테고리 6')}>기타</button> */}
         </div>
-        <Container className={styles.crowdListblock}>
+        <div className={styles.crowdListblock}>
           {/* 상태별분류 목록 */}
-          <Typography
+          <div
             className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
             onClick={() => handleSortFieldChange('publishedAt')}
             style={{ cursor: 'pointer', marginRight: '10px' }}
           >
             최신순
-          </Typography>
-          <Typography
+          </div>
+          <div
             className={`sortOption ${sortField === 'crowdViewCount' ? 'selected' : ''}`}
             onClick={() => handleSortFieldChange('crowdViewCount')}
             style={{ cursor: 'pointer', marginRight: '10px' }}
           >
             인기순
-          </Typography>
-          <Typography
+          </div>
+          <div
             className={`sortOption ${sortField === 'crowdEndDate' ? 'selected' : ''}`}
             onClick={() => handleSortFieldChange('crowdEndDate')}
             style={{ cursor: 'pointer', marginRight: '10px' }}
           >
             마감임박순
-          </Typography>
-          <Typography
+          </div>
+          <div
             className={`sortOption ${sortField === 'crowdLikeSum' ? 'selected' : ''}`}
             onClick={() => handleSortFieldChange('crowdLikeSum')}
             style={{ cursor: 'pointer' }}
           >
             좋아요순
-          </Typography>
-        </Container>
+          </div>
+        </div>
         <br />
         {/* <div className={styles.listContainer}>
           데이터를 매핑하여 화면에 게시물 목록을 표시하는 코드
@@ -261,7 +268,7 @@ const CrowdList = () => {
             {filteredCrowdData && filteredCrowdData.map((crowd) => (
               <Card
                 key={crowd.crowdId}
-                sx={{ width: 320, maxWidth: '100%', boxShadow: 'lg', cursor: 'pointer' }}
+                sx={{ width: '250px', maxWidth: '100%', boxShadow: 'lg', cursor: 'pointer' }}
                 onClick={() => navigateToDetail(crowd.crowdId)}
               >
                 <CardOverflow>

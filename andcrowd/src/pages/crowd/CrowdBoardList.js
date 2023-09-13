@@ -29,8 +29,8 @@ const CrowdBoardList = () => {
             <h2>{board.crowdBoardTitle}</h2>
             <p>{board.crowdBoardContent}</p>
             <img src={board.crowdImg} alt={board.crowdBoardTitle} />
-            <p>게시된 날짜: {board.publishedAt}</p>
-            <p>수정된 날짜: {board.updatedAt}</p>
+            <p>게시된 날짜: {formatDate(board.publishedAt)}</p>
+            <p>수정된 날짜: {formatDate(board.updatedAt)}</p>
             {board.isDeleted ? <p>이 글은 삭제되었습니다.</p> : null}
             <button onClick={() => handleEditClick(board.crowdBoardId)}>Edit</button>
         </li>
@@ -39,6 +39,14 @@ const CrowdBoardList = () => {
     const handleEditClick = async (e) => {
         navigate(`/crowd/${crowdId}/board/${crowdBoardId}/update`);
     }
+
+    const formatDate = (dateTimeString) => { // 날짜, 시간 사이의 TimeZone 표시 제거
+        if (!dateTimeString) return ""; 
+      
+        const formattedString = dateTimeString.replace("T", " ");
+      
+        return formattedString;
+    };
 
     return (
         <div>

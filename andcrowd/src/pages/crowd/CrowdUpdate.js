@@ -20,10 +20,10 @@ const CrowdUpdate = () => {
     });
 
     useEffect(() =>{
-        fetchData();
+        fetchCrowdData();
     }, []);
 
-    const fetchData = async () => {
+    const fetchCrowdData = async () => {
         try{
             const response = await fetch(`/crowd/${crowdId}`);
 
@@ -53,15 +53,15 @@ const CrowdUpdate = () => {
 
         try {
             const response = await fetch(`/crowd/${crowdId}/update`, {
-                method: [{PUT, PATCH}],
+                method: "PATCH",
                 headers: {
-                    "ContentType": "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(formData),
             });
 
             if(response.ok) {
-                navigate(`/crowd/detail/${crowdId}`);
+                navigate(`/crowd/${crowdId}`);
             } else {
                 throw new Error(`${response.status}`);
             }
@@ -70,24 +70,29 @@ const CrowdUpdate = () => {
         }
     };
 
+    const handleUploadCancel = () => {
+        alert("작성이 취소되었습니다.");
+        navigate('/crowd/list'); // 업로드 취소 버튼 클릭 시 페이지 전환
+    };
+
     return (
         <div className="container">
             <form onSubmit={handleSubmit}>
-                회원번호: <input type="text" id="userId" value={formData.userId} onChange={handleInputChange} placeholder="회원번호" />
-                카테고리: <input type="text" id="crowdCategoryId" value={formData.crowdCategoryId} onChange={handleInputChange} placeholder="카테고리" />
-                펀딩 제목: <input type="test" id="crowdTitle" value={formData.crowdTitle} onChange={handleInputChange} placeholder="펀딩제목" />
-                펀딩 본문: <input type="text" id="crowdContent" value={formData.crowdContent} onChange={handleInputChange} placeholder="펀딩본문" />
-                마감일자: <input type="datetime-local" id="crowdEndDate" value={formData.crowdEndDate} onChange={handleInputChange} placeholder="마감일자" />
-                헤더이미지: <input type="text" id="headerImg" value={formData.headerImg} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 헤더이미지" />
-                본문사진1: <input type="text" id="crowdImg1" value={formData.crowdImg1} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 본문사진1" />
-                본문사진2: <input type="text" id="crowdImg2" value={formData.crowdImg2} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 본문사진2" />
-                본문사진3: <input type="text" id="crowdImg3" value={formData.crowdImg3} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 본문사진3" />
-                본문사진4: <input type="text" id="crowdImg4" value={formData.crowdImg4} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 본문사진4" />
-                본문사진5: <input type="text" id="crowdImg5" value={formData.crowdImg5} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 본문사진5" />
-            </form>
-            <div id="submitBtn">
+                회원번호: <input type="text" name="userId" value={formData.userId} onChange={handleInputChange} placeholder="회원번호" readOnly/> <br/>
+                카테고리: <input type="text" name="crowdCategoryId" value={formData.crowdCategoryId} onChange={handleInputChange} placeholder="카테고리" /> <br/>
+                펀딩 제목: <input type="test" name="crowdTitle" value={formData.crowdTitle} onChange={handleInputChange} placeholder="펀딩제목" /> <br/>
+                펀딩 본문: <input type="text" name="crowdContent" value={formData.crowdContent} onChange={handleInputChange} placeholder="펀딩본문" /> <br/>
+                마감일자: <input type="datetime-local" name="crowdEndDate" value={formData.crowdEndDate} onChange={handleInputChange} placeholder="마감일자" /> <br/>
+                헤더이미지: <input type="text" name="headerImg" value={formData.headerImg} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 헤더이미지" /> <br/>
+                본문사진1: <input type="text" name="crowdImg1" value={formData.crowdImg1} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 본문사진1" /> <br/>
+                본문사진2: <input type="text" name="crowdImg2" value={formData.crowdImg2} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 본문사진2" /> <br/>
+                본문사진3: <input type="text" name="crowdImg3" value={formData.crowdImg3} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 본문사진3" /> <br/>
+                본문사진4: <input type="text" name="crowdImg4" value={formData.crowdImg4} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 본문사진4" /> <br/>
+                본문사진5: <input type="text" name="crowdImg5" value={formData.crowdImg5} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 본문사진5" /> <br/>
                 <button type="submit">수정하기</button>
-                <button>취소</button>
+            </form>
+            <div id="cancleBtn">
+                <button type="button" onClick={handleUploadCancel}>취소</button>
             </div>
         </div>
     );

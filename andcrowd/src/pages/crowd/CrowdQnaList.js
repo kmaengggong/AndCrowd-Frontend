@@ -52,7 +52,7 @@ const CrowdQnaList = () => {
         }
     };
 
-    const formatDate = (dateTimeString) => {
+    const formatDate = (dateTimeString) => { // 날짜, 시간 사이의 TimeZone 표시 제거
         if (!dateTimeString) return ""; 
       
         const formattedString = dateTimeString.replace("T", " ");

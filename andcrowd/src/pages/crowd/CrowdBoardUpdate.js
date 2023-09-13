@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"; // useEffect 추가
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CrowdBoardUpdate = () => {
     const [crowdBoardTag, setCrowdBoardTag] = useState("");
@@ -8,6 +8,7 @@ const CrowdBoardUpdate = () => {
     const [crowdBoardContent, setCrowdBoardContent] = useState("");
     const [crowdBoardImg, setCrowdBoardImg] = useState("");
     const { crowdId, crowdBoardId } = useParams(); // 두 변수를 한번에 가져오기
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,9 +45,14 @@ const CrowdBoardUpdate = () => {
             alert("공지사항 수정 완료");
         } catch (error) {
             console.error("There was an error!", error);
-            alert("수정 실패");
         }
     };
+
+    const handleUpdateCancleBtn = () => {
+        // 수정 취소 버튼을 클릭했을 때 이전 페이지로 이동
+        alert("수정하기가 취소되었습니다.")
+        navigate(`/crowd/${crowdId}/board/all`);
+    }
 
     return (
         <div>
@@ -75,6 +81,7 @@ const CrowdBoardUpdate = () => {
                 </div>
                 <button type="submit">수정하기</button>
             </form>
+            <button type="button" onClick={handleUpdateCancleBtn}>등록 취소</button>
         </div>
     );
 }

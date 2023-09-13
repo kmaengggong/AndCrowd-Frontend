@@ -24,10 +24,9 @@
 
 .crowdListblock {
     margin-top: 10px;
-    float: right;
     display: flex;
     flex-wrap: wrap;
-    /* font-size: 1rem; */
+    justify-content: flex-end;
 }
 
 .listContainer {
