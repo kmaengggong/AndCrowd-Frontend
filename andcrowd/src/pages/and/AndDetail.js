@@ -17,9 +17,11 @@ const AndDetail = () => {
   const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(false);
   const [and, setAnd] = useState({});
+
   useEffect(() => {
     fetchData();
   }, [andId]);
+
   const fetchData = async () => {
     try {
       const response = await fetch(`/and/${andId}`);
@@ -27,6 +29,14 @@ const AndDetail = () => {
       if (response.ok) {
         const data = await response.json();
         setAnd(data);
+        // 게시물 조회 이력 확인
+        const viewedPosts = localStorage.getItem("viewedPosts") || "";
+        if (!viewedPosts.includes(`[${andId}]`)) {
+          // 중복 조회를 방지하기 위해 조회수 증가 요청
+          await axios.put(`/and/${andId}/updateView`);
+          // 조회한 게시물 ID를 이력에 추가
+          localStorage.setItem("viewedPosts", viewedPosts + `[${andId}]`);
+        }
       } else {
         throw new Error(`Fetching and data failed with status ${response.status}.`);
       }

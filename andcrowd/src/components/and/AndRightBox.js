@@ -4,16 +4,25 @@ import { Link, useNavigate,useParams } from 'react-router-dom';
 import CountdownTimer from './CountdownTimer';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import '../../styles/and/AndDetail.css';
+import { GetUserId } from '../user/GetUserId'; 
+
 
 const AndComponent = ({ }) => {
-    const params = useParams();
+  const navigate = useNavigate();
+
+  const params = useParams();
   const andId = params.andId;
 
-  const navigate = useNavigate();
   const [and, setAnd] = useState({});
+  const [isLiked, setIsLiked] = useState(null);
+  const [userId, setUserId] = useState('');
+
   useEffect(() => {
+    setUserId(GetUserId());
+    fetchIsLiked();
     fetchData();
-  }, [andId]);
+  }, [andId, isLiked]);
+
   const fetchData = async () => {
     try {
       const response = await fetch(`/and/${andId}`);
@@ -30,20 +39,57 @@ const AndComponent = ({ }) => {
     }
   
   };
+
+  const fetchIsLiked = async () => {
+    try {
+      const userId = GetUserId();
+      const response = await fetch(`/and/${andId}/like/${userId}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setIsLiked(data);
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  const fetchLike = async () => {
+    try {
+      const response = await fetch(`/and/${andId}/like/${userId}`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        fetchIsLiked();
+     } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
+  }
+  
   const handleClick = () => {
-    setIsClicked(!isClicked);
+    fetchLike();
   };
   const andChat = (andId) => {
-    
     navigate(`/and/${andId}/chat`);
   };
+
   const applyAnd = (andId) => {
     navigate(`/and/${andId}/applicant/create`);
   };
+
   const applicantList = (andId) => {
     navigate(`/and/${andId}/applicant/list`);
   };
-  const [isClicked, setIsClicked] = useState(false);
 
   return (
     <Box id='right-top-box'>
@@ -52,11 +98,12 @@ const AndComponent = ({ }) => {
       <hr style={{ margin: '20px auto', width: '70%' }}></hr>
       <Box id='like-and-button'>
         <Box id='like-icon' onClick={handleClick}>
-          {isClicked ? (
+          {isLiked ? (
             <AiFillHeart id='heart-icon' size={'30'} />
           ) : (
             <AiOutlineHeart id='heart-icon' size={'30'} />
           )}
+          <Typography id='and-like'>{and.andLikeCount}</Typography>
         </Box>
         <button id='go-and' onClick={() => applyAnd(and.andId)}>모임 참가하기</button>
       </Box>

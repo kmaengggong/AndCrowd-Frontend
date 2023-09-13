@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ChatRoom from '../chat/Chatroom';
 import Cookies from 'js-cookie';
+import '../../styles/and/AndChat.css';
 
 const AndChat = () => {
   const params = useParams();
@@ -37,6 +38,8 @@ const AndChat = () => {
           const roomData = await roomResponse.json();
       
           setRoomData(roomData);
+          console.log(roomData);
+          console.log(roomData.name);
           setNickname(nickname);
           setJoined(true);
         } else {
@@ -59,15 +62,12 @@ const AndChat = () => {
 
   
     return (
-        <div>
+        <div className="container">
           {!joined ? (
-            <p>모임 멤버가 아닙니다</p>
+            <p>{nickname}님은 {roomData ? roomData.name : '모임'}의 멤버가 아닙니다. </p>
           ) : (
-            <div>
-              <h2>Welcome, {nickname}!</h2>
-              <ul>
+            <div className='chat-box'>
                   <ChatRoom roomData={roomData} nickname={nickname} andId={andId} />
-              </ul>
             </div>
           )}
         </div>
