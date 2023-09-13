@@ -1,5 +1,5 @@
 <!-- Header: Capsule Render -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=3&height=300&section=header&text=AndCrowd&animation=fadeIn&fontSize=72&desc=You%20And%20I%20Make%20a%20Crowd&descAlign=50" height=250/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=3&height=300&section=header&text=AndCrowd&animation=fadeIn&fontSize=72&desc=you%20And%20me%20make%20a%20Crowd&descAlign=50" height=250/>
 
 <!-- Contacts: Shields.io -->
 <p>
@@ -11,6 +11,9 @@
   </a>
   <a href="https://github.com/kmaengggong/AndCrowd-Backend/">
     <img src="https://img.shields.io/badge/Backend-181717?style=for-the-badge&logo=github&logoColor=white" />
+  </a>
+  <a href="https://kmaengggong.notion.site/Crowd-ba5011d9802e4dd4ae6755f25b5e1448?pvs=4">
+    <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white" />
   </a>
 </p><br/>
 
@@ -36,6 +39,32 @@
 > 
 > 일석이조란 이런 걸 두고 하는 말 아닐까요?
 >
+<br/>
+
+<!-- Teammates -->
+# Team
+<table>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/kmaengggong"><img src="https://avatars.githubusercontent.com/u/48409954?v=4" width="100px" alt=""/><br/></a></td>
+      <td><a href="https://github.com/songyoh"><img src="https://avatars.githubusercontent.com/u/129033321?v=4" width="100px" alt=""/><br/></a></td>
+      <td><a href="https://github.com/gyubee"><img src="https://avatars.githubusercontent.com/u/126438093?v=4" width="100px" alt=""/><br/></a></td>
+      <td><a href="https://github.com/Void-OvO"><img src="https://avatars.githubusercontent.com/u/125037243?v=4" width="100px" alt=""/><br/></a></td>
+    </tr>
+    <tr align="center">
+      <td><b>팀장 - 김명호</b></td>
+      <td><b>팀원 - 오송이</b></td>
+      <td><b>팀원 - 임규빈</b></td>
+      <td><b>팀원 - 양현성</b></td>
+    </tr>
+    <tr align="center">
+      <td>User 담당</td>
+      <td>Crowd 담당</td>
+      <td>And 담당</td>
+      <td>And 담당</td>
+    </tr>
+  </tbody>
+</table>
 <br/>
 
 <!-- Skills: Devicon -->
