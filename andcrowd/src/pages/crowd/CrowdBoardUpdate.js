@@ -12,9 +12,9 @@ const CrowdBoardUpdate = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/crowd/${crowdId}/board/${crowdBoardId}`);
+                const response = await axios.get(`/crowd/${crowdId}/board/${crowdBoardId}`);
                 const board = response.data;
-
+                console.log(board);
                 setCrowdBoardTag(board.crowdBoardTag);
                 setCrowdBoardTitle(board.crowdBoardTitle);
                 setCrowdBoardContent(board.crowdBoardContent);
@@ -40,7 +40,7 @@ const CrowdBoardUpdate = () => {
         };
 
         try {
-            const response = await axios.patch(`http://localhost:8080/crowd/${crowdId}/board/${crowdBoardId}`, boardData);
+            const response = await axios.patch(`/crowd/${crowdId}/board/${crowdBoardId}/update`, boardData);
             alert("공지사항 수정 완료");
         } catch (error) {
             console.error("There was an error!", error);

@@ -66,6 +66,9 @@ import FindId from './pages/user/FindId';
 import FindPassword from './pages/user/FindPassword';
 import ProfileImgEdit from './pages/user/ProfileImgEdit';
 import CrowdCreateImg from './pages/crowd/CrowdCreateImg';
+import CrowdReward from './pages/crowd/CrowdReward';
+import CrowdQnaList from './pages/crowd/CrowdQnaList';
+import CrowdQnaCreate from './pages/crowd/CrowdQnaCreate';
 
 
 const sections = [
@@ -170,8 +173,12 @@ function App() {
               <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
               <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
               <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
-              <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
+              <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
               <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
+              <Route path="/crowd/:crowdId/reward/all" element={<CrowdReward />} /> {/* 추가 */}
+              <Route path="/crowd/:crowdId/qna/all" element={<CrowdQnaList />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
 
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>

@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import styles from '../../styles/crowd/CrowdBoardList.module.css';
+import CrowdToolBar from "../../components/crowd/CrowdToolBar";
 
 
 const CrowdBoardList = () => {
     const [boards, setBoards] = useState([]);
     const { crowdId } = useParams();
+    const { crowdBoardId } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/crowd/${crowdId}/board/all`)
+        axios.get(`/crowd/${crowdId}/board/all`)
             .then(response => {
                 setBoards(response.data);
             })
@@ -29,20 +32,27 @@ const CrowdBoardList = () => {
             <p>게시된 날짜: {board.publishedAt}</p>
             <p>수정된 날짜: {board.updatedAt}</p>
             {board.isDeleted ? <p>이 글은 삭제되었습니다.</p> : null}
+            <button onClick={() => handleEditClick(board.crowdBoardId)}>Edit</button>
         </li>
     );
 
+    const handleEditClick = async (e) => {
+        navigate(`/crowd/${crowdId}/board/${crowdBoardId}/update`);
+    }
+
     return (
         <div>
-            <h3>crowdBoardTeg가 0인 게시판:</h3>
+            <CrowdToolBar crowdId = {crowdId} />
+            <h3>crowdBoardTeg가 0(새소식)인 게시판:</h3>
             <ul>
                 {teg0Boards.map(renderBoard)}
             </ul>
 
-            <h3>crowdBoardTeg가 1인 게시판:</h3>
+            <h3>crowdBoardTeg가 1(공지)인 게시판:</h3>
             <ul>
                 {teg1Boards.map(renderBoard)}
             </ul>
+            <Link to={`/crowd/${crowdId}/board`}>글 작성</Link>
         </div>
     );
 }

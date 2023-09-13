@@ -37,6 +37,7 @@ const CrowdRewardCreate = ({ onRewardAdd }) => {
     <Card>
       <CardContent>
         <TextField
+          required
           name="rewardTitle"
           label="리워드 제목"
           fullWidth
@@ -45,6 +46,7 @@ const CrowdRewardCreate = ({ onRewardAdd }) => {
         />
         <br/>
         <TextField
+          required
           name="rewardContent"
           label="리워드 본문"
           fullWidth
@@ -54,6 +56,7 @@ const CrowdRewardCreate = ({ onRewardAdd }) => {
         <br/>
         <Grid item xs={12} sm={9}>
             <NumericFormat
+            required
             label="리워드 금액"
             customInput={TextField}
             thousandSeparator={true}
@@ -82,6 +85,7 @@ const CrowdRewardCreate = ({ onRewardAdd }) => {
           <p style={{ color: "red" }}>{errorMessage}</p>
         )}
         <TextField
+          required
           name="rewardLimit"
           label="리워드 제한"
           fullWidth

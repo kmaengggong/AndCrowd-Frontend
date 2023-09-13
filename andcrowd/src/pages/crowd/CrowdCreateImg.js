@@ -45,11 +45,11 @@ const CrowdCreateImg = () => {
         setShowImages(newShowImages); // 미리보기 이미지 목록 업데이트
     
         try {
-            const response = await axios.post("/crowd_s3/uploads", {
+            const response = await axios.post("/_s3/upload", {
                 method: "POST",
                 body: newFormData,
                 headers: {
-                    "Content-Type": "multipart/form-data",
+                    "Content-Type": "/crowd/s3/uploads",
                     ACL: "public-read", // ACL 헤더를 설정합니다.
                 },
             });

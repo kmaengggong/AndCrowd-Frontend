@@ -7,6 +7,10 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import CrowdBoardList from "./CrowdBoardList";
 import CrowdQnaList from "./CrowdQnaList";
+import CrowdToolBar from "../../components/crowd/CrowdToolBar";
+import CrowdReward from "./CrowdReward";
+import { Container } from "@mui/material";
+import CrowdTimer from "../../components/crowd/CrowdTimer";
 
 const CrowdDetail = () => {
     const params = useParams();
@@ -28,6 +32,7 @@ const CrowdDetail = () => {
             if (response.ok) {
                 const data = await response.json();
                 setCrowd(data);
+                console.log(data);
             } else {
                 throw new Error(`HTTP Error: ${response.status}`);
             }
@@ -68,46 +73,7 @@ const CrowdDetail = () => {
             console.log(err);
         }
     };
-
-    const [contributionAmount, setContributionAmount] = useState(0);
-    const [selectedReward, setSelectedReward] = useState(null);
-    const [rewards, setRewards] = useState([]);
-
-    // const toggleOptionMenu = () => {
-    //     setIsOpened(!isOpened);
-    //     };
     
-    //     const Increase5000 = () => {
-    //     setNumber(number + 5000);
-    //     };
-    
-    //     const Increase10000 = () => {
-    //     setNumber(number + 10000);
-    //     };
-    
-    //     const Increase50000 = () => {
-    //     setNumber(number + 50000);
-    //     };
-    
-    //     const Increase100000 = () => {
-    //     setNumber(number + 100000);
-    //     };
-    
-    //     const handleAlert = () => {
-    //     alert('후원해주셔서 감사합니다!🥳');
-    // };
-    
-    useEffect(() => {
-        // Crowd의 리워드 목록을 가져오는 HTTP 요청
-        axios.get(`/crowd/${crowdId}/reward/list`)
-        .then(response => {
-            setRewards(response.data);
-        })
-        .catch(error => {
-            console.error('리워드를 불러오는 중 에러 발생:', error);
-        });
-    }, [crowdId]);
-
     const [sponsor, setSponsor] = useState([]);
 
     useEffect(() => {
@@ -131,27 +97,8 @@ const CrowdDetail = () => {
 
     return (
         <div className={styles.crowdDetailContainer} id="container">
-            <div className={styles.centerBar}>
-                <Link to={`/crowd/detail/${crowd.crowdId}`}>{/* 링크에 crowdId추가 */}
-                <button>상세정보</button>
-                </Link>
-                <button onClick={() => handleSectionChange('board')}>게시판</button>
-                <button onClick={() => handleSectionChange('qna')}>QnA</button>
-                <hr />
-                {crowd.crowdTitle && ( // crowd.crowdTitle이 존재할 때만 출력
-                    <h1>제목{crowd.crowdTitle}</h1>
-                )}
-                <div>
-                    {crowd.crowdContent && ( // crowd.crowdContent가 존재할 때만 출력
-                        <p>본문{crowd.crowdContent}</p>
-                    )}
-                </div>
-            </div>
-            <div className={styles.middleBar}>
-                <div>
-                {selectedSection === 'board' && <CrowdBoardList crowdId={crowdId} />} {/* BoardSection을 렌더링합니다 */}
-                {selectedSection === 'qna' && <CrowdQnaList crowdId={crowdId} />} {/* QnaSection을 렌더링합니다 */}
-                </div>
+            <CrowdToolBar crowdId={crowd.crowdId} />
+            <Container className='middleBar'>
                 <div className={styles.imgContainer}>
                     <img src={crowd.headerImg} />1
                     <img src={crowd.crowdImg1} />2
@@ -170,7 +117,7 @@ const CrowdDetail = () => {
                     <hr />
                     <p>마감일:{crowd.crowdEndDate}</p>
                     <span>{calculateAchievedRate(crowd.currentAmount, crowd.totalAmount)}% 달성 | </span>
-                    <span>{getDaysBetweenDate(crowd.publishedAt, crowd.crowdEndDate)}일 남음</span>
+                    <CrowdTimer publishedAt={crowd.publishedAt} crowdEndDate={crowd.crowdEndDate}/>
                     <br />
                     <div>
                         모인금액 : 
@@ -180,36 +127,10 @@ const CrowdDetail = () => {
                     <hr />
                     <div className={styles.rewardTitle}>
                         **리워드 목록**
-                    </div>
-                    <div>
-                        {/* rewardList */}
-                        <div>
-                            <h2>금액만 후원하고 싶다면?</h2>
-                            <input
-                                type="number"
-                                value={contributionAmount}
-                                onChange={(e) => setContributionAmount(Number(e.target.value))}
-                            />
-                            <Grid item xs="auto">
-                                <Button onClick={() => setContributionAmount(contributionAmount + 5000)}>+5,000</Button>
-                                <Button onClick={() => setContributionAmount(contributionAmount + 10000)}>+10,000</Button><br />
-                                <Button onClick={() => setContributionAmount(contributionAmount + 50000)}>+50,000</Button>
-                                <Button onClick={() => setContributionAmount(contributionAmount + 100000)}>+100,000</Button>
-                            </Grid>
-                        </div>
-                        <ul>
-                        {rewards.map((reward) => (
-                            <li key={reward.rewardId}>
-                            <h4>{reward.rewardAmount}</h4>
-                            <span>{reward.rewardTitle}</span>
-                            <span>{reward.rewardContent}</span>
-                            {/* 리워드 상세 정보를 보여주는 버튼 */}
-                            </li>
-                            ))}
-                        </ul>
-                    </div>    
+                        <CrowdReward rewardId={crowd.rewardId}/>
+                    </div>   
                 </div>
-            </div>
+            </Container>
         </div>
     );
 };

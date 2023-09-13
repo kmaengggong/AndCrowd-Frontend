@@ -1,17 +1,12 @@
-.centerBar {
-    float: inline-start;
-    /* display: flex; */
-}
-
 .imgContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* flex: 2; */
+    flex: 2;
 }
 
 .rightSide {
-    /* flex: 1; */
+    flex: 1;
     align-items: center;
     float: right;
 }

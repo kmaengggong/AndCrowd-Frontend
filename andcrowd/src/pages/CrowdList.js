@@ -5,6 +5,14 @@ import Box from '@mui/joy/Box';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Typography from '@mui/joy/Typography';
 import axios from 'axios';
+import Card from '@mui/joy/Card';
+import CardContent from '@mui/joy/CardContent';
+import CardOverflow from '@mui/joy/CardOverflow';
+import Chip from '@mui/joy/Chip';
+import Link from '@mui/joy/Link';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import { formatMoney, calculateRaisedAmount, getDaysBetweenDate } from '../pages/etc/Finance';
+import { Container } from "@mui/material";
 
 const CrowdList = () => {
   const [data, setData] = useState([]);
@@ -27,6 +35,10 @@ const CrowdList = () => {
 
   const handleCategoryClick = (category) => { // 카테고리 선택 시 호출되는 함수
     setSelectedCategory(category);
+    setIsLastPage(false);
+    setPageNumber(0);
+    setData([]);
+    fetchCrowdList();
   };
 
   const fetchCrowdRoles = async (id) => { // 크라우드 글 선택시 상세페이지로 넘어가주는 구문
@@ -66,7 +78,7 @@ const CrowdList = () => {
   //   };
   // }, [pageNumber, categoryId, crowdStatus, sortField, sortOrder]);
 
-  const fetchData = async () => {
+  const fetchCrowdList = async () => {
     try {
       const params = new URLSearchParams({
         page: pageNumber,
@@ -80,21 +92,25 @@ const CrowdList = () => {
       const response = await fetch(`/crowd/list?${params.toString()}`);
       const jsonData = await response.json();
 
-      console.log('jsonData:', jsonData);
+      // 내림차순으로 데이터 정렬
+      const sortedData = jsonData.content.sort((a, b) => {
+        const dateA = new Date(a.crowdEndDate);
+        const dateB = new Date(b.crowdEndDate);
+        return dateB - dateA;
+      });
 
       // 다음 페이지가 있는지 여부를 업데이트
-      
+      setIsLastPage(jsonData.last);
+
       // 검색 기준이 변경되었을 때, 기존 데이터 초기화
       if (pageNumber === 0) {
-        setData(jsonData.content);
+        setData(sortedData);
       } else {
-        setData(prevData => [...prevData, ...jsonData.content]);
+        setData(prevData => [...prevData, ...sortedData]);
       }
-      setIsLastPage(jsonData.last);
     } catch (error) {
-    console.error('Error fetching data:', error);
+      console.error('Error fetching data:', error);
     }
-    
   };
 
   const handleLoadMore = () => {
@@ -104,22 +120,14 @@ const CrowdList = () => {
   };
 
   const navigateToDetail = (crowdId) => {
-    navigate(`/crowd/detail/${crowdId}`);
+    navigate(`/crowd/${crowdId}`);
   }; // 펀딩글 클릭시 상세페이지 이동  
-
-  const handleCategoryChange = (newCategoryId) => {
-    setCategoryId(newCategoryId);
-    setIsLastPage(false);
-    setPageNumber(0); // 페이지 번호 초기화
-    setData([]); // 기존 데이터 초기화
-    fetchData(); // 새로운 정렬 기준으로 데이터 불러오기
-  };
 
   const handleSortFieldChange = async (newSortField) => {
     setSortField(newSortField);
     setPageNumber(0);
     setData([]);
-    fetchData();
+    fetchCrowdList();
 
     try {
       const params = new URLSearchParams({
@@ -143,26 +151,27 @@ const CrowdList = () => {
     }
   };
 
-  const handleSortOrderChange = (newSortOrder) => {
-    setSortOrder(newSortOrder);
-    setPageNumber(0);
-    setData([]); 
-    fetchData(); 
-  };
+  // const handleSortOrderChange = (newSortOrder) => {
+  //   setSortOrder(newSortOrder);
+  //   setPageNumber(0);
+  //   setData([]); 
+  //   fetchCrowdList(); 
+  // };
   
-  const handleScroll = () => {
-    if (
-      window.innerWidth + window.scrollX >=
-      document.body.offsetWidth - 100
-    ) {
-      handleLoadMore();
-    }
-  };
+  // const handleScroll = () => {
+  //   if (
+  //     window.innerWidth + window.scrollX >=
+  //     document.body.offsetWidth - 100
+  //   ) {
+  //     handleLoadMore();
+  //   }
+  // };
   
   // 선택한 카테고리에 따라 게시글 필터링
   const filteredCrowdData = selectedCategory
-    ? data.filter((crowd) => crowd.category === selectedCategory)
-    : data;
+  ? data.filter((crowd) => crowd.crowdCategoryId === selectedCategory)
+  : data;
+
 
   function calculateRemainingDays(crowdEndDate) { // 남은일수 표시
     const now = new Date();
@@ -197,59 +206,104 @@ const CrowdList = () => {
           </AspectRatio>
         </Box>
       </div>
-      <div className={styles.btnCategory}>{/* 카테고리 */}
-          <button onClick={() => handleCategoryClick('카테고리 1')}>카테고리 1</button>
-          <button onClick={() => handleCategoryClick('카테고리 2')}>카테고리 2</button>
-          <button onClick={() => handleCategoryClick('카테고리 3')}>카테고리 3</button>
-          <button onClick={() => handleCategoryClick('카테고리 4')}>카테고리 4</button>
-          <button onClick={() => handleCategoryClick('카테고리 5')}>카테고리 5</button>
-          <button onClick={() => handleCategoryClick('카테고리 6')}>카테고리 6</button>
-      </div>
-      <div className={styles.crowdListblock}>
-        {/* 상태별분류 목록 */}
-        <Typography
-          className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
-          onClick={() => handleSortFieldChange('publishedAt')}
-          style={{ cursor: 'pointer', marginRight: '10px' }}
-        >
-          최신순
-        </Typography>
-        <Typography
-          className={`sortOption ${sortField === 'crowdViewCount' ? 'selected' : ''}`}
-          onClick={() => handleSortFieldChange('crowdViewCount')}
-          style={{ cursor: 'pointer', marginRight: '10px' }}
-        >
-          인기순
-        </Typography>
-        <Typography
-          className={`sortOption ${sortField === 'crowdEndDate' ? 'selected' : ''}`}
-          onClick={() => handleSortFieldChange('crowdEndDate')}
-          style={{ cursor: 'pointer', marginRight: '10px' }}
-        >
-          마감임박순
-        </Typography>
-        <Typography
-          className={`sortOption ${sortField === 'crowdLikeSum' ? 'selected' : ''}`}
-          onClick={() => handleSortFieldChange('crowdLikeSum')}
-          style={{ cursor: 'pointer' }}
-        >
-          좋아요순
-        </Typography>
-      </div>
-      <br />
-        <div className={styles.listContainer}>
-          {/* 데이터를 매핑하여 화면에 게시물 목록을 표시하는 코드 */}
+        <div className={styles.btnCategory}>{/* 카테고리 */}
+            <button onClick={() => handleCategoryClick('카테고리 1')}>카테고리 1</button>
+            <button onClick={() => handleCategoryClick('카테고리 2')}>카테고리 2</button>
+            <button onClick={() => handleCategoryClick('카테고리 3')}>카테고리 3</button>
+            <button onClick={() => handleCategoryClick('카테고리 4')}>카테고리 4</button>
+            <button onClick={() => handleCategoryClick('카테고리 5')}>카테고리 5</button>
+            <button onClick={() => handleCategoryClick('카테고리 6')}>카테고리 6</button>
+        </div>
+        <Container className={styles.crowdListblock}>
+          {/* 상태별분류 목록 */}
+          <Typography
+            className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('publishedAt')}
+            style={{ cursor: 'pointer', marginRight: '10px' }}
+          >
+            최신순
+          </Typography>
+          <Typography
+            className={`sortOption ${sortField === 'crowdViewCount' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('crowdViewCount')}
+            style={{ cursor: 'pointer', marginRight: '10px' }}
+          >
+            인기순
+          </Typography>
+          <Typography
+            className={`sortOption ${sortField === 'crowdEndDate' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('crowdEndDate')}
+            style={{ cursor: 'pointer', marginRight: '10px' }}
+          >
+            마감임박순
+          </Typography>
+          <Typography
+            className={`sortOption ${sortField === 'crowdLikeSum' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('crowdLikeSum')}
+            style={{ cursor: 'pointer' }}
+          >
+            좋아요순
+          </Typography>
+        </Container>
+        <br />
+        {/* <div className={styles.listContainer}>
+          데이터를 매핑하여 화면에 게시물 목록을 표시하는 코드
           {filteredCrowdData && filteredCrowdData.map((crowd) => (
             <div key={crowd.crowdId} onClick={() => navigateToDetail(crowd.crowdId)}>
               <h2>{crowd.crowdTitle}</h2>
               <p>{crowd.crowdContent}</p>
               <p>{crowd.crowdCategory}</p>
-              {/* 다른 게시글 내용 표시 요소 추가 */}
+              다른 게시글 내용 표시 요소 추가
             </div>
           ))}
-        </div>
+        </div> */}
+        <div className={styles.listContainer} style={{ gap: '20px', marginLeft: '20px' }}>
+            {filteredCrowdData && filteredCrowdData.map((crowd) => (
+              <Card
+                key={crowd.crowdId}
+                sx={{ width: 320, maxWidth: '100%', boxShadow: 'lg', cursor: 'pointer' }}
+                onClick={() => navigateToDetail(crowd.crowdId)}
+              >
+                <CardOverflow>
+                  <AspectRatio sx={{ minWidth: 200 }}>
+                    <img
+                      src={crowd.headerImg}  
+                      srcSet={`${crowd.headerImg}?auto=format&fit=crop&w=286&dpr=2 2x`}
+                      loading="lazy"
+                      alt=""
+                    />
+                  </AspectRatio>
+                </CardOverflow>
+                <CardContent>
+                  <Typography level="body-xs">{crowd.crowdCategory}</Typography>
+                  <Link
+                    href="#product-card"
+                    fontWeight="md"
+                    color="neutral"
+                    textColor="text.primary"
+                    overlay
+                    endDecorator={<ArrowOutwardIcon />}
+                    to={`http://localhost:3000/crowd/detail/${crowd.crowdId}`} 
+                  >
+                    {crowd.crowdTitle}
+                  </Link>
+                  <Typography
+                    level="title-lg"
+                    sx={{ mt: 1, fontWeight: 'xl' }}
+                    endDecorator={
+                      <Chip component="span" size="sm" variant="soft" color="success">
+                        <b>{getDaysBetweenDate(crowd.publishedAt, crowd.crowdEndDate)} 일 남음 </b> 
+                      </Chip>
+                    }
+                  >
+                    {formatMoney(calculateRaisedAmount(crowd.crowdGoal, crowd.currentAmount))}원 달성!  
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         <br />
-      </div>
+    </div>
   )
 };
 

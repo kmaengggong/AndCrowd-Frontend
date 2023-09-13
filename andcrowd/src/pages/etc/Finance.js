@@ -7,12 +7,17 @@ export const formatMoney = price =>
 export const getDaysBetweenDate = (publishedAt, crowdEndDate) => {
   const start = new Date(publishedAt);
   const end = new Date(crowdEndDate);
+  const now = new Date(); // 현재 날짜와 시간 불러오기
 
-  const dDay = end.getTime() - start.getTime();
-  const diff = Math.floor(dDay / (1000 * 60 * 60 * 24));
-
-  return diff;
-}; // 펀딩 일수 계산 함수
+  // 만약 현재 날짜가 종료일보다 이전이라면 음수 값을 반환하지 않도록 처리
+  if (now < end) {
+    const dDay = end.getTime() - start.getTime();
+    const diff = Math.floor(dDay / (1000 * 60 * 60 * 24));
+    return diff;
+  } else {
+    return 0; // 현재 날짜가 종료일보다 이후면 0을 반환하여 마감으로 표시
+  }
+}; // 펀딩일수 계산 함수
 
 export function calculateAchievedRate(currentAmount, crowdGoal) {
     if (crowdGoal <= 0) {
@@ -23,11 +28,11 @@ export function calculateAchievedRate(currentAmount, crowdGoal) {
     return Math.min(rate, 100); // 최대값을 100으로 제한합니다.
 }// 달성률 구하는 함수
 
-export function calculateRaisedAmount(targetAmount, currentAmount) {
-    if (targetAmount < currentAmount) {
+export function calculateRaisedAmount(crowdGoal, currentAmount) {
+    if (crowdGoal < currentAmount) {
       return 0; // 현재 모인 금액이 목표 금액을 초과하는 경우 0으로 반환
     }
-    return targetAmount - currentAmount;
+    return crowdGoal - currentAmount;
 }
 
 export function countSponsors(crowdSponsor) {

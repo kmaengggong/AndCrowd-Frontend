@@ -20,6 +20,7 @@ import CrowdRewardCreate from '../crowd/CrowdRewardCreate';
 const CrowdCreate = () => {
   const navigate = useNavigate();
   const [rewards, setRewards] = useState([]);
+  const [crowdList, setCrowdList] = useState([]);
 
   const [formData, setFormData] = useState({
     crowdCategoryId: "",
@@ -67,7 +68,6 @@ const CrowdCreate = () => {
     fetchUserId();
   },[]);
 
-
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -105,14 +105,49 @@ const CrowdCreate = () => {
     }
   };
 
-  const handleRewardAdd = (newReward) => {
+  const handleRewardAdd = (newReward) => { // 리워드 추가하는 버튼
     setRewards([...rewards, newReward]);
+  };
+
+  const handleRewardDelete = (index) => { // 리워드 삭제하는 버튼
+    const updatedRewards = rewards.filter((_, i) => i !== index);
+    setRewards(updatedRewards);
   };
 
   const handleUploadCancel = () => {
     alert("작성이 취소되었습니다.");
     navigate('/crowd/list'); // 업로드 취소 버튼 클릭 시 페이지 전환
   };
+
+  const handleCategoryChange = (event) => { // 카테고리 선택 함수
+    const crowdCategoryId = event.target.value;
+      setFormData({
+        ...formData,
+        crowdCategoryId: crowdCategoryId,
+    });
+    fetchCrowdByCategory(crowdCategoryId);
+  }
+
+  const fetchCrowdByCategory = async (crowdCategoryId) => {
+    try {
+      const response = await fetch(`/crowdCategory/${crowdCategoryId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        const responseData = await response.json();
+        // responseData를 사용하여 조회된 글 목록을 업데이트합니다.
+        setCrowdList(responseData);
+      } else {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error fetching crowd by category:', error);
+    }
+  };  
 
   return ( // 화면단 입력 구문 시작
     <Container component="main" maxWidth="md">
@@ -145,9 +180,7 @@ const CrowdCreate = () => {
                   value={userId} // userId 상태를 TextField의 value로 설정
                   InputProps={{
                     readOnly: true,
-                  }}
-                />
-                {/* <input type="text" name="userId" value={userId} readOnly /> */}
+                  }}/>
               </Grid>
               <Grid item xs={12} sm={9}>
                 <TextField 
@@ -244,6 +277,7 @@ const CrowdCreate = () => {
                         <strong>리워드 본문:</strong> {reward.rewardContent}<br />
                         <strong>리워드 금액:</strong> {reward.rewardAmount}원<br />
                         <strong>리워드 제한:</strong> {reward.rewardLimit}개<br />
+                        <button onClick={() => handleRewardDelete(index)}>리워드 삭제</button>
                       </li>
                     ))}
                   </ul>
@@ -255,7 +289,6 @@ const CrowdCreate = () => {
                   type="submit"
                   variant="contained"
                   color="primary"
-                  onClick={handleNextButtonClick}
                 >
                   다음
                 </Button>
