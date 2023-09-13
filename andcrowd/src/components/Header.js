@@ -8,9 +8,7 @@ import SearchBar from './SearchBar';
 import { useIsLoginState } from '../context/isLoginContext';
 import { Avatar, Button, Divider, Fade, ListItemIcon, Menu, MenuItem, Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Header.css';
 import logo from '../logo.svg' 
-import Logout from './sign/Logout';
 import { GetUserId } from './user/GetUserId';
 import { GetUserInfo } from './user/GetUserInfo';
 
@@ -90,7 +88,7 @@ const Header = () => {
             aria-expanded={open ? 'true' : undefined}
             onClick={onClickProfileButton}
           >
-            <Avatar src={userInfo.userProfileImg} sx={{width: 50, height: 50}} />
+            <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 50, height: 50, marginLeft:1}} />
           </IconButton>
           <Menu
             id="fade-menu"
