@@ -4,7 +4,8 @@
     font-weight: 700;
     color: #000000;
     padding-top: 10vh;
-    padding-left: 6vw;
+    padding-left: 15%;
+    padding-right: 20%;
 }
 #and-detail-container{
     display: flex;
