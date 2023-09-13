@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Grid, IconButton} from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Typography from '@mui/joy/Typography';
 import Teammate from "../../components/etc/Teammate";
 

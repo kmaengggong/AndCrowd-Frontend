@@ -1,10 +1,10 @@
 import {React, useEffect, useState} from 'react';
 import { Box, Button, Container, Grid, TextField } from '@mui/material';
-import { SignUpEmail } from '../../components/sign/SingUpEmail';
-import { SignUpNickname } from '../../components/sign/SignUpNickname';
+import { SignUpEmail } from '../../../components/sign/SingUpEmail';
+import { SignUpNickname } from '../../../components/sign/SignUpNickname';
 import { useNavigate } from 'react-router-dom';
 
-const SignupAdmin = () => {
+const AdminSignup = () => {
     const [email, setEmail] = useState(null);
     const [isEmailValid, setIsEmailValid] = useState(false);
     const [nickname, setNickname] = useState('');
@@ -133,18 +133,17 @@ const SignupAdmin = () => {
                         setIsNicknameValid={setIsNicknameValid}
                     />
                     <Grid item xs={12}>
-                    <TextField
-                        required
-                        fullWidth
-                        name="password"
-                        label="비밀번호"
-                        type="password"
-                        id="password"
-                        autoComplete="new-password"
-                        onChange={onPasswordChange}
-                    />
-            </Grid>
-
+                        <TextField
+                            required
+                            fullWidth
+                            name="password"
+                            label="비밀번호"
+                            type="password"
+                            id="password"
+                            autoComplete="new-password"
+                            onChange={onPasswordChange}
+                        />
+                    </Grid>
                 </Grid>
                 <Button
                     type="submit"
@@ -159,4 +158,4 @@ const SignupAdmin = () => {
     );
 }
 
-export default SignupAdmin;
+export default AdminSignup;

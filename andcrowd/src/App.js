@@ -69,7 +69,9 @@ import MakerPage from './pages/user/MakerPage';
 import MyPageCardsDetailPage from './pages/user/MyPageCardsDetailPage';
 import Team from './pages/etc/Team';
 import Help from './pages/etc/Help';
-import SignupAdmin from './pages/user/SignupAdmin';
+import AdminSignup from './pages/user/admin/AdminSignup';
+import AdminRoute from './components/route/AdminRoute';
+import AdminMain from './pages/user/admin/AdminMain';
 
 
 const sections = [
@@ -82,7 +84,7 @@ const sections = [
 
 function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const ADMIN = process.env.REACT_APP_ADMIN_URL;
+  const ADMIN = process.env.REACT_APP_ADMIN_SIGN_UP_URL;
 
   useEffect(() => {
     const handleResize = () => {
@@ -96,7 +98,7 @@ function App() {
     };
   }, []);
 
-  const maxWidth = Math.min(1320, windowWidth * 0.7); // 최대 너비를 1320px 또는 창 너비의 90% 중 작은 값으로 설정
+  const maxWidth = Math.min(1320, windowWidth * 0.8); // 최대 너비를 1320px 또는 창 너비의 90% 중 작은 값으로 설정
 
   return (
     <IsLoginProvider>
@@ -117,9 +119,10 @@ function App() {
               <Route path="/findIdOrPassword" element={<FindIdOrPassword />} />
               <Route path="/findId" element={<FindId />} />
               <Route path="/findPassword" element={<FindPassword />} />
-              <Route path={`/${ADMIN}`} element={<SignupAdmin />} />
+              <Route path={`/${ADMIN}`} element={<AdminSignup />} />
             </Route>
             
+            {/* 토큰 재발급을 위한 로그인 판별 - 로그인 유뮤 상관x*/}
             <Route element={<LoginRoute />}>
               {/* 누구라도 접근 가능 */}
               {/* Etc */}
@@ -210,8 +213,14 @@ function App() {
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
               </Route>
               
-              <Route path="*" element={<NotFound />} />
+              
             </Route>
+            {/* 관리자 유저만 접근 가능 */}
+            <Route element={<AdminRoute />}>
+              <Route path="/iamtheadmin" element={<AdminMain />} />
+            </Route>
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>

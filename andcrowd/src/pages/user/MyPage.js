@@ -7,7 +7,7 @@ import { GetUserInfo } from "../../components/user/GetUserInfo";
 import Typography from '@mui/joy/Typography';
 import MyPageCard from "../../components/user/MyPageCard";
 import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";
-
+import { GetIsUserAdmin } from "../../components/user/GetIsUserAdmin";
 
 const MyPage = () => {
     const params = useParams();
@@ -19,6 +19,7 @@ const MyPage = () => {
     const [userAnd, setUserAnd] = useState([]);
     const [userOrder, setUserOrder] = useState([]);
     const [userLike, setUserLike] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const navigate = useNavigate();
     
@@ -33,10 +34,15 @@ const MyPage = () => {
     }, [userInfo]);
 
     useEffect(() => {
-        fetchIsNotAdmin();
+        if(isAdmin) navigate("/iamtheadmin");
+    }, [isAdmin])
+
+    useEffect(() => {
+        fetchIsUserExist();
         if(isLogin){
             if(parseInt(GetUserId()) === parseInt(userId)) setIsOwner(true);
         }
+        GetIsUserAdmin(setIsAdmin);
         fetchGetDynamicUserAnd();
         fetchGetDynamicUserOrder();
         fetchGetDynamicUserLike();
@@ -63,23 +69,6 @@ const MyPage = () => {
     const onClickMakerPageButton = () => {
         navigate("/user/maker");
     }
-
-    const fetchIsNotAdmin = async () => {
-        try{
-            await fetch(`/user/${userId}/isNotAdmin`)
-            .then(res => {
-                console.log(res);
-                if(res.ok){
-                    fetchIsUserExist();
-                }
-                else{
-                    navigate("/NotFound");
-                }
-            })
-        } catch(error){
-            console.error(error);
-        }
-    };
 
     const fetchIsUserExist = async () => {
         try{

@@ -155,7 +155,8 @@ const Login = () => {
         }).then(data => {
           localStorage.setItem('access_token', data.accessToken);
           setIsLogin(true);
-          navigate(-1);
+          navigate("/");
+          window.location.reload();
         })
       } catch(error){
         console.log(error);

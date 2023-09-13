@@ -18,9 +18,9 @@ const UserInfoEdit = () => {
 
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    const [openResignModal, setOpenResignModal] = useState(false);
-    const handleOpenResignDialog = () => setOpenResignModal(true);
-    const handleCloseResignDialog = () => setOpenResignModal(false);
+    const [openResignDialog, setOpenResignDialog] = useState(false);
+    const handleOpenResignDialog = () => setOpenResignDialog(true);
+    const handleCloseResignDialog = () => setOpenResignDialog(false);
 
     const navigate = useNavigate();
 
@@ -235,23 +235,23 @@ const UserInfoEdit = () => {
             </Box>
 
             <Dialog
-                open={openResignModal}
+                open={openResignDialog}
                 onClose={handleCloseResignDialog}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">
-                        회원 탈퇴
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            정말로 탈퇴하시겠습니까?
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={onClickResignYesButton}>예</Button>
-                        <Button onClick={handleCloseResignDialog}>아니오</Button>
-                    </DialogActions>
+            >
+                <DialogTitle id="alert-dialog-title">
+                    회원 탈퇴
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        정말로 탈퇴하시겠습니까?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={onClickResignYesButton}>예</Button>
+                    <Button onClick={handleCloseResignDialog}>아니오</Button>
+                </DialogActions>
             </Dialog>
         </>
     );
