@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import '../../styles/and/Chatroom.css';
-import { IconButton, Avatar, Typography, Paper } from '@mui/material';
+import { IconButton, Avatar, Typography, Modal, Box, TextField, Button } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import SimCardDownloadRoundedIcon from '@mui/icons-material/SimCardDownloadRounded';
@@ -11,6 +11,18 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import AttachFileRoundedIcon from '@mui/icons-material/AttachFileRounded';
 import FiberManualRecordRoundedIcon from '@mui/icons-material/FiberManualRecordRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 300,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 function formatTimestamp(timestamp) {
   const options = {
@@ -48,6 +60,42 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
   const navigate = useNavigate();
 
   const messagesContainerRef = useRef(null);
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const [newName, setNewName] = useState('');
+
+  const handleNameChange = (e) => {
+    setNewName(e.target.value);
+  };
+
+  const handleNameUpdate = async () => {
+    if (newName.trim() !== "") {
+      try {
+        const response = await fetch(`/and/${andId}/chat/room/${roomData.roomId}/name-update`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'text/plain', // Content-Type을 text/plain으로 설정
+          },
+          body: newName, // 일반 문자열로 데이터 보내기
+        });
+  
+        if (response.ok) {
+          setOpen(false);
+          roomData.name = newName;
+        } else {
+          console.error('Failed to update chat room name:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error updating chat room name:', error);
+      } finally {
+      }
+      navigate(`/and/${andId}/chat`);
+    }
+  };
+  
 
   // 스크롤을 항상 가장 아래로 이동시키는 함수
   const scrollToBottom = () => {
@@ -317,9 +365,30 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
           >          {roomData.name}
           </p>
           <div id='edit-icon'>
-          <IconButton aria-label="edit" size="small" onClick={() => updateChatroom(roomData.roomId)}>
+          <IconButton aria-label="edit" size="small" onClick={() => handleOpen(roomData.roomId)}>
             <MoreVertIcon sx={{ fontSize: 18 }} />
           </IconButton>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                채팅방 이름 수정
+              </Typography>
+              <TextField
+                id="standard-helperText"
+                placeholder={roomData.name}
+                variant="standard"
+                value={newName}
+                onChange={handleNameChange}
+                sx={{ mt:2, mr:2 }}
+              />
+              <Button variant="저장" sx={{ mt:1 }} onClick={handleNameUpdate} >저장</Button>
+            </Box>
+          </Modal>
           </div>
         </div>
 
