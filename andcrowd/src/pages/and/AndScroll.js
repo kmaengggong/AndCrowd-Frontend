@@ -525,7 +525,7 @@ const navigateToAndCreate = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-          {`신고`}
+          {`"${item.andTitle}"에 대한 신고`}
           </Typography>
           <Box sx={{
               width: 500,
