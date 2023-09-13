@@ -38,6 +38,32 @@
 >
 <br/>
 
+<!-- Teammates -->
+# Team
+<table>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/kmaengggong"><img src="https://avatars.githubusercontent.com/u/48409954?v=4" width="100px" alt=""/><br/></a></td>
+      <td><a href="https://github.com/songyoh"><img src="https://avatars.githubusercontent.com/u/129033321?v=4" width="100px" alt=""/><br/></a></td>
+      <td><a href="https://github.com/gyubee"><img src="https://avatars.githubusercontent.com/u/126438093?v=4" width="100px" alt=""/><br/></a></td>
+      <td><a href="https://github.com/Void-OvO"><img src="https://avatars.githubusercontent.com/u/125037243?v=4" width="100px" alt=""/><br/></a></td>
+    </tr>
+    <tr align="center">
+      <td><b>팀장 - 김명호</b></td>
+      <td><b>팀원 - 오송이</b></td>
+      <td><b>팀원 - 임규빈</b></td>
+      <td><b>팀원 - 양현성</b></td>
+    </tr>
+    <tr align="center">
+      <td>User 담당</td>
+      <td>Crowd 담당</td>
+      <td>And 담당</td>
+      <td>And 담당</td>
+    </tr>
+  </tbody>
+</table>
+<br/>
+
 <!-- Skills: Devicon -->
 # Skills
 ## 기술 스택
