@@ -103,6 +103,7 @@ const AndComponent = ({ }) => {
           ) : (
             <AiOutlineHeart id='heart-icon' size={'30'} />
           )}
+          <Typography id='and-like'>{and.andLikeCount}</Typography>
         </Box>
         <button id='go-and' onClick={() => applyAnd(and.andId)}>모임 참가하기</button>
       </Box>

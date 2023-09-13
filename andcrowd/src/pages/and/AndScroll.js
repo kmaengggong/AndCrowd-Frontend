@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import {MenuItem, Popover, List, ListItem } from '@mui/material';
 import { Navigate ,useNavigate } from 'react-router-dom';
 import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
+import { GetUserId } from '../../components/user/GetUserId';
 
 const 
 AndScroll = () => {
@@ -26,15 +27,66 @@ AndScroll = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [rolesData, setRolesData] = useState({});
 
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-  };
+    const [userId, setUserId] = useState('');
+    const [isLiked, setIsLiked] = useState(null);
+
+  const fetchIsLiked = async (andId) => {
+    try {
+      const userId = GetUserId();
+      const response = await fetch(`/and/${andId}/like/${userId}`);  
+      if (response.ok) {
+        const data = await response.json();
+        return data; // 데이터 반환
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return null; // 에러 발생 시 null 반환
+    }
+  }
+  
+  const fetchLike = async (andId) => {
+    try {
+      const userId = GetUserId();
+      const response = await fetch(`/and/${andId}/like/${userId}`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        const newIsLiked = await fetchIsLiked(andId); // fetchIsLiked 함수를 호출하여 새로운 isLiked 값을 가져옴
+        if (newIsLiked !== null) {
+          // 가져온 새로운 isLiked 값을 사용하여 해당 게시물의 좋아요 상태를 업데이트
+          setIsLiked(prevIsLiked => ({
+            ...prevIsLiked,
+            [andId]: newIsLiked,
+          }));
+
+          // andLikeCount 값을 업데이트
+          setData(prevData => prevData.map(item => {
+            if (item.andId === andId) {
+              // 해당 게시물의 andLikeCount 값을 업데이트
+              return { ...item, andLikeCount: newIsLiked ? item.andLikeCount + 1 : item.andLikeCount - 1 };
+            }
+            return item;
+          }));
+        }
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
+  }
 
   const fetchAndRoles = async (id) => {
     try {
       const response = await fetch(`/and/${id}/role/list`);
       const jsonData = await response.json();
-      // console.log(jsonData);
       setRolesData(prevState => ({ ...prevState, [id]: jsonData }));
     } catch (error) {
       console.error('Error fetching and roles:', error);
@@ -50,6 +102,24 @@ AndScroll = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [pageNumber, categoryId, andStatus, sortField, sortOrder]);
+
+  useEffect(() => {
+    const fetchDataAndSetIsLiked = async () => {
+      const newIsLikedData = {}; // 새로운 데이터 객체 생성
+  
+      for (const item of data) {
+        const newData = await fetchIsLiked(item.andId);
+        if (newData !== null) {
+          newIsLikedData[item.andId] = newData; // 데이터 업데이트
+        }
+      }
+  
+      setIsLiked(newIsLikedData); // 데이터 한꺼번에 업데이트
+    };
+  
+    fetchDataAndSetIsLiked(); // 데이터 가져와서 업데이트하는 함수 호출
+  }, [data]);
+
   const fetchData = async () => {
     try {
       const params = new URLSearchParams({
@@ -288,11 +358,14 @@ const navigateToAndCreate = () => {
               <Typography id='and-role' key={index}>#{roleObj.andRole}</Typography>
               ))}
             </div>
-            <div onClick={handleClick}>
-              {isClicked ? <AiFillHeart id='heart-icon' size={"25"}/> : <AiOutlineHeart id='heart-icon' size={"25"}/>}
+            <div onClick={() => fetchLike(item.andId)}>
+            {isLiked[item.andId] ? (
+                <AiFillHeart id='heart-icon' size={"25"}/>
+              ) : (
+                <AiOutlineHeart id='heart-icon' size={"25"}/>
+              )}
             </div>
             <Typography id='and-like'>{item.andLikeCount}</Typography>
-            
             </div>
             <div id='bottom-gap'></div>
           </div>
