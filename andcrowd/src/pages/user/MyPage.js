@@ -2,17 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useIsLoginState } from "../../context/isLoginContext";
 import { GetUserId } from "../../components/user/GetUserId";
-import profileImg from "../and/cat.jpg";
-import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField} from "@mui/material";
-import Logout from "../../components/sign/Logout";
+import { Avatar, Button, Grid, IconButton} from "@mui/material";
 import { GetUserInfo } from "../../components/user/GetUserInfo";
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Chip from '@mui/joy/Chip';
-import Link from '@mui/joy/Link';
-import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import AspectRatio from '@mui/joy/AspectRatio';
 import Typography from '@mui/joy/Typography';
 import MyPageCard from "../../components/user/MyPageCard";
 import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";
@@ -38,7 +29,7 @@ const MyPage = () => {
     }, [userId]);
 
     useEffect(() => {
-            setUserNickname(userInfo.userNickname);
+        setUserNickname(userInfo.userNickname);
     }, [userInfo]);
 
     useEffect(() => {
@@ -51,6 +42,12 @@ const MyPage = () => {
         fetchGetDynamicUserLike();
     }, []);
 
+    useEffect(() => {
+        if(userAnd.length > 3) setUserAnd(userAnd.slice(0, 3));
+        if(userOrder.length > 3) setUserOrder(userOrder.slice(0, 3));
+        if(userLike.length > 3) setUserLike(userLike.slice(0, 3));
+    }, [userAnd, userOrder, userLike]);
+
     const onClickProfileImgEditButton = () => {
         navigate(`/user/profileImgEdit`);
     }
@@ -61,6 +58,10 @@ const MyPage = () => {
 
     const onClickPasswordChangeButton = () => {
         navigate("/user/passwordChange");
+    }
+
+    const onClickMakerPageButton = () => {
+        navigate("/user/maker");
     }
 
     const fetchIsUserExist = async () => {
@@ -117,14 +118,20 @@ const MyPage = () => {
 
     return (
         <>
-            <Grid container spacing={5} marginTop={8}>
+            {isOwner ?
+                <Typography sx={{fontSize:30, marginTop:5, marginBottom:3, textAlign:'center', fontWeight:700, color:'gray'}}>좋은 하루입니다, <Typography sx={{color:'#00D337'}}>{userInfo.userNickname}</Typography> 님!</Typography>
+                :
+                <Typography sx={{fontSize:30, marginTop:5, marginBottom:2, textAlign:'center', fontWeight:700, color:'gray'}}><Typography sx={{color:'#00D337'}}>{userInfo.userNickname}</Typography> 님의 마이페이지입니다</Typography>
+            }
+
+            <Grid container spacing={3}>
                 
-            <Grid item xs={3} textAlign={'center'}>
+            <Grid item xs={2} textAlign={'center'}>
                 <Grid container direction="row">
 
                 <Grid item xs={12} marginLeft={0.3}>
-                    <IconButton>
-                    <Avatar src={userInfo.userProfileImg} sx={{width: 100, height: 100 }} />
+                    <IconButton href={userInfo.userProfileImg}>
+                    <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 100, height: 100 }} />
                     </IconButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -133,10 +140,10 @@ const MyPage = () => {
                 </Grid>
                 {isOwner ?
                     <>
-                        <Button fullWidth variant="solid">메이커 페이지</Button>
-                        <Button fullWidth variant="solid"onClick={onClickProfileImgEditButton}>프로필 사진 수정</Button>
-                        <Button fullWidth variant="solid"onClick={onClickUserInfoEditButtonButton}>회원 정보 수정</Button>
-                        <Button fullWidth variant="solid"onClick={onClickPasswordChangeButton}>비밀번호 변경</Button>
+                        <Button fullWidth variant="solid" onClick={onClickMakerPageButton}>메이커 페이지</Button>
+                        <Button fullWidth variant="solid" onClick={onClickProfileImgEditButton}>프로필 사진 수정</Button>
+                        <Button fullWidth variant="solid" onClick={onClickUserInfoEditButtonButton}>회원 정보 수정</Button>
+                        <Button fullWidth variant="solid" onClick={onClickPasswordChangeButton}>비밀번호 변경</Button>
                     </>
                     :
                     <></>
@@ -145,64 +152,84 @@ const MyPage = () => {
                 </Grid>
             </Grid>
 
-            <Grid item xs={9}>
-            <Grid container direction="row" alignItems="center">
-                <Grid item xs={10}>
-                    <h2>참여한 모임</h2>
+            <Grid item xs={10}>
+                <Grid container direction="row" alignItems="center">
+                    <Grid item xs={10}>
+                        <h2>참여한 모임</h2>
+                    </Grid>
+                    {userAnd.length === 0 ? <></> :
+                    <Grid item xs={2}>
+                        <Button variant="outlined" href={`/user/${userId}/and`} sx={{float:'right'}}>자세히</Button>
+                    </Grid>
+                    }
                 </Grid>
-                <Grid item xs={2}>
-                    <Button variant="outlined">자세히</Button>
-                </Grid>
-            </Grid>
-            {userAnd.length === 0 ?
                 <Grid container spacing={1} marginBottom={5}>
-                    <MyPageEmtpyCard type={"and"}/>
+                    {userAnd.length === 0 ?
+                        <Grid item md={4} sm={12} xs={12}>
+                            <MyPageEmtpyCard type={"and"}/>
+                        </Grid>
+                        :
+                        <>
+                            {userAnd.map((project) => (
+                                <Grid item md={4} sm={12} xs={12}>
+                                    <MyPageCard project={project} type={"and"} />
+                                </Grid>
+                            ))}
+                        </>
+                    }
                 </Grid>
-                :
+                
+                <Grid container direction="row" alignItems="center">
+                    <Grid item xs={10}>
+                        <h2>후원한 펀딩</h2>
+                    </Grid>
+                    {userOrder.length === 0 ? <></> :
+                    <Grid item xs={2}>
+                        <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
+                    </Grid>
+                    }
+                </Grid>
                 <Grid container spacing={1} marginBottom={5}>
-                    {userAnd.map((project) => (
-                        <MyPageCard project={project} type={"and"} />
-                    ))}
+                    {userOrder.length === 0 ?
+                        <Grid item md={4} sm={12} xs={12}>
+                            <MyPageEmtpyCard type={"order"}/>
+                        </Grid>
+                        :
+                        <>
+                            {userOrder.map((project) => (
+                                <Grid item md={4} sm={12} xs={12}>
+                                    <MyPageCard project={project} type={"order"} />
+                                </Grid>
+                            ))}
+                        </>
+                    }
                 </Grid>
-            }
-            <Grid container direction="row" alignItems="center">
-                <Grid item xs={10}>
-                    <h2>후원한 펀딩</h2>
+
+                <Grid container direction="row" alignItems="center">
+                    <Grid item xs={10}>
+                        <h2>찜한 목록</h2>
+                    </Grid>
+                    {userLike.length === 0 ? <></> :
+                    <Grid item xs={2}>
+                        <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
+                    </Grid>
+                    }
                 </Grid>
-                <Grid item xs={2}>
-                    <Button variant="outlined">자세히</Button>
-                </Grid>
-            </Grid>
-            {userOrder.length === 0 ?
                 <Grid container spacing={1} marginBottom={5}>
-                    <MyPageEmtpyCard type={"crowd"}/>
+                    {userLike.length === 0 ?
+                        <Grid item md={4} sm={12} xs={12}>
+                            <MyPageEmtpyCard type={"like"}/>
+                        </Grid>
+                        :
+                        <>
+                            {userLike.map((project) => (
+                                <Grid item md={4} sm={12} xs={12}>
+                                    <MyPageCard project={project} type={"like"} />
+                                </Grid>
+                            ))}
+                        </>
+                    }
                 </Grid>
-                :
-                <Grid container spacing={1} marginBottom={5}>
-                    {userAnd.map((project) => (
-                        <MyPageCard project={project} type={"crowd"} />
-                    ))}
-                </Grid>
-            }
-            <Grid container direction="row" alignItems="center">
-                <Grid item xs={10}>
-                    <h2>찜한 목록</h2>
-                </Grid>
-                <Grid item xs={2}>
-                    <Button variant="outlined">자세히</Button>
-                </Grid>
-            </Grid>
-            {userLike.length === 0 ?
-                <Grid container spacing={1} marginBottom={5}>
-                    <MyPageEmtpyCard type={"like"}/>
-                </Grid>
-                :
-                <Grid container spacing={1} marginBottom={5}>
-                    {userLike.map((project) => (
-                        <MyPageCard project={project} type={"like"} />
-                    ))}
-                </Grid>
-            }
             </Grid>
 
             </Grid>

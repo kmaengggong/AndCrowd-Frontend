@@ -65,6 +65,10 @@ import FindIdOrPassword from './pages/user/FindIdOrPassword';
 import FindId from './pages/user/FindId';
 import FindPassword from './pages/user/FindPassword';
 import ProfileImgEdit from './pages/user/ProfileImgEdit';
+import MakerPage from './pages/user/MakerPage';
+import MyPageCardsDetailPage from './pages/user/MyPageCardsDetailPage';
+import Team from './pages/etc/Team';
+import Help from './pages/etc/Help';
 
 
 const sections = [
@@ -116,14 +120,15 @@ function App() {
             <Route element={<LoginRoute />}>
               {/* 누구라도 접근 가능 */}
               {/* Etc */}
-              <Route path="/team" element={<Login />} />
-              <Route path="/help" element={<Login />} />
+              <Route path="/team" element={<Team />} />
+              <Route path="/help" element={<Help />} />
               <Route path='/chat' element={<ChatPage />} />
               <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
               <Route path="/test" element={<Test />} />
 
               {/* User 관련 */}
               <Route path="/user/:userId" element={<MyPage />} />
+              <Route path="/user/:userId/:type" element={<MyPageCardsDetailPage />} />
 
               {/* And 관련 */}
               <Route path="/and/list" element={<AndList />} />
@@ -175,6 +180,9 @@ function App() {
               <Route element={<PrivateRoute />}>
                 {/* User 관련 */}
                 <Route path="/user/profileImgEdit" element={<ProfileImgEdit />} />
+                <Route path="/user/maker" element={<MakerPage />} />
+
+                {/* 비밀번호 확인을 통해 접근 가능 */}
                 <Route element={<SignRoute />}>
                   <Route path="/user/update" element={<UserInfoEdit />} />
                   <Route path="/user/passwordChange" element={<UserPasswordChange />} />
