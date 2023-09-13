@@ -12,6 +12,9 @@
   <a href="https://github.com/kmaengggong/AndCrowd-Backend/">
     <img src="https://img.shields.io/badge/Backend-181717?style=for-the-badge&logo=github&logoColor=white" />
   </a>
+  <a href="https://kmaengggong.notion.site/Crowd-ba5011d9802e4dd4ae6755f25b5e1448?pvs=4">
+    <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white" />
+  </a>
 </p><br/>
 
 <!-- Introduction -->
