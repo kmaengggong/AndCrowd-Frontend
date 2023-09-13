@@ -79,15 +79,34 @@ const AndDetail = () => {
       <AndToolbar andId={and.andId} />
       <div id ='and-detail-container'> 
         <Box id ='left-main-box'>
-          <div id='and-content-div' dangerouslySetInnerHTML={{ __html :  and.andContent  }} style={{ maxWidth: '100%', overflowX: 'auto' }}/>
+        <img id='and-header-img' src={and.andHeaderImg} alt="Header Image" />
+        <hr></hr>
+          <div id='and-content-div' dangerouslySetInnerHTML={{ __html :  and.andContent  }} style={{ maxWidth: '100%', overflowX: 'auto',overflowY: 'auto' }}/>
         <Typography id ='and-content'></Typography>
-        <button onClick={() => updateAnd(and.andId)}>edit</button>  
-        <button onClick={() => deleteAnd(and.andId)}>delete</button>
-        <br />
-        <button onClick={() => applicantList(and.andId)}>apply List</button>
-        <br />
-        <button onClick={() => manageAnd(and.andId)}>모임 관리</button>
-        <hr />
+        <div id='and-detail-bottom'>
+        <Typography id='and-detail-upde'
+      onClick={() => updateAnd(andId, andId)}
+    >
+      수정
+    </Typography>
+      <Typography id='and-detail-upde'
+      onClick={() => deleteAnd(andId, andId)}
+    >
+      삭제
+    </Typography>
+    </div>
+    <div id='and-detail-bottom2'>
+        <Typography id='and-detail-2'
+      onClick={() => applicantList(and.andId)}
+    >
+      신청서 목록
+    </Typography>
+      <Typography id='and-detail-2'
+      onClick={() => manageAnd(and.andId)}
+    >
+      모임 관리                           
+    </Typography> 
+    </div>
         <br />
         </Box>
         <AndRightBox/>
