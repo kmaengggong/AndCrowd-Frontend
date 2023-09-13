@@ -1,5 +1,5 @@
 <!-- Header: Capsule Render -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=3&height=300&section=header&text=AndCrowd&animation=fadeIn&fontSize=72&desc=You%20And%20I%20Make%20a%20Crowd&descAlign=50" height=250/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=3&height=300&section=header&text=AndCrowd&animation=fadeIn&fontSize=72&desc=you%20And%20me%20make%20a%20Crowd&descAlign=50" height=250/>
 
 <!-- Contacts: Shields.io -->
 <p>
