@@ -5,12 +5,17 @@ import { Link } from 'react-router-dom';
 import AndToolBar from "../../components/and/AndToolBar";
 import { Typography } from "@mui/material";
 import '../../styles/and/AndQna.css'
+import ReactPaginate from 'react-paginate';
+
 const AndQna = () => {
     const params = useParams();
     const andId = params.andId;
+    const [pageCount, setPageCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
     const [andQnaList, setAndQnaList] = useState([]);
     const [selectedQnaId, setSelectedQnaId] = useState(null);
     const [andReplyList, setAndReplyList] = useState({});
+
     const handleQnaClick = (qnaId,andQna) => {
       if (selectedQnaId === qnaId) {
         fetchReplyData(andId, qnaId)
@@ -20,22 +25,43 @@ const AndQna = () => {
         setSelectedQnaId(qnaId);
       }
     };
+
     useEffect(() => {
       fetchData();
-    }, [andId]);
+    }, [andId, currentPage]);
+
     const fetchData = async () => {
       try {
-        const response = await fetch(`/and/${andId}/qna/list`);
+        const response = await fetch(`/and/${andId}/qna/list?page=${currentPage}`);
+        
         if (response.ok) {
           const data = await response.json();
           setAndQnaList(data);
         } else {
           throw new Error(`Fetching and data failed with status ${response.status}.`);
         }
+  
       } catch (error) {
         console.error("Error fetching And data:", error);
       }
     };
+
+    // 전체 페이지 수를 가져오는 useEffect
+    useEffect(() => {
+      const fetchCount = async () => {
+        try {
+          const response = await fetch(`/and/${andId}/qna/list/count`);
+          const data = await response.json();
+          console.log(data); // 데이터 확인
+          setPageCount(Math.ceil(data / 5)); // 페이지 당 10개씩 보여주기로 가정
+        } catch (error) {
+          console.error("Error fetching page count:", error);
+        }
+      };
+      
+      fetchCount();
+    }, [andId]);
+
     const fetchReplyData = async (andId, andQnaId) => {
       console.log("andQnaId: ", andQnaId)
       try {
@@ -50,6 +76,7 @@ const AndQna = () => {
         console.error("Error fetching And data:", error);
       }
     };
+
     const formatDate = (dateTimeString) => {
       if (!dateTimeString) return ""; 
     
@@ -104,6 +131,20 @@ const AndQna = () => {
           ))}
         </div>
         <Link to={`/and/${andId}/qna/create`}>글 작성</Link>
+          
+        <ReactPaginate
+        pageCount={pageCount}
+        onPageChange={({ selected }) => setCurrentPage(selected)}
+        containerClassName={'pagination'}
+        activeClassName={'active'}
+        previousLabel="< "
+        nextLabel=" >"  
+        pageRangeDisplayed={5}
+        marginPagesDisplayed={0}
+        breakLabel="..."
+        renderOnZeroPageCount={null}
+        />
+
       </div>
     );
 };

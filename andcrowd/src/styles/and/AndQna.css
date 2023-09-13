@@ -112,3 +112,19 @@
     width: 30vw;
     height: 70vh;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .pagination li {
+    list-style: none;
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+
+  .pagination .active {
+    font-weight: bold;
+  }
