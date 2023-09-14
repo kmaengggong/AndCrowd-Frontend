@@ -5,6 +5,40 @@ import CountdownTimer2 from "../../components/and/CountdownTimer2";
 import '../../styles/and/AndBoard.css'
 import { Typography } from "@mui/material";
 import ReactPaginate from 'react-paginate';
+import styled from 'styled-components';
+
+
+const MyPaginate = styled(ReactPaginate).attrs({
+  activeClassName: "active",
+})`
+  margin: 50px 16px;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0 5rem;
+  li a {
+    border-radius: 7px;
+    padding: 0.1rem 1rem;
+    cursor: pointer;
+  }
+  li.previous a,
+  li.next a {
+    color: #63b762;
+  }
+  li.active a {
+    color: #91cd96;
+    font-weight: 700;
+    min-width: 32px;
+  }
+  li.disabled a {
+    color: #a6a6a6;
+  }
+  li.disable,
+  li.disabled a {
+    cursor: default;
+  }
+`;
+
 
 const AndBoard = () => {
   const params = useParams();
@@ -82,7 +116,7 @@ const AndBoard = () => {
           ))}
           <Link id='board-write' to={`/and/${andId}/board/create`}>글 작성</Link>
 
-          <ReactPaginate
+          <MyPaginate
             pageCount={pageCount}
             onPageChange={({ selected }) => setCurrentPage(selected)}
             containerClassName={'pagination'}
