@@ -29,7 +29,7 @@ const CrowdQnaDetail = () => {
             const qnaReplyResponse = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/all`);
             if(qnaReplyResponse.ok) {
                 const qnaReplyData = await qnaReplyResponse.json();
-                setCrowdReplyList(qnaReplyData);
+                setQnaReplies(qnaReplyData);
             } else {
                 throw new Error(`Fetching and data failed with status ${qnaReplyResponse.status}.`);
             }
@@ -62,12 +62,12 @@ const CrowdQnaDetail = () => {
         }
     }
 
-    const updateReply = (crowdId, qnaReplyId) => {
-        navigate();
+    const updateReply = (crowdId, crowdQnaId, qnaReplyId) => {
+        navigate(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/${qnaReplyId}`);
     };
 
     const createReply = (crowdId, crowdQnaId) => {
-        navigate(`/crowd/${crowdId}/qna`);
+        navigate(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply`);
     };
 
     if(crowdQna.deleted === true) {
@@ -87,7 +87,7 @@ const CrowdQnaDetail = () => {
                     <button onClick={() => deleteCrowdQna(crowdId, crowdQnaId)}>delete</button>
                     <br />
                     <br />
-                    <button onClick={() => createReply(crowdId, crowdQnaId)}>댓글</button>
+                    <button onClick={() => createReply(crowdId, crowdQnaId)}>답변 달기</button>
                 </div>
             </div>
             <hr />
@@ -97,10 +97,10 @@ const CrowdQnaDetail = () => {
                     qnaReplies.map(comment => (
                         <div key={comment.qnaReplyId}>
                             <p>{comment.qnaReplyId}</p>
-                            <p>{comment.qnaContent}</p>
+                            <p>{comment.qnaReplyContent}</p>
                             <p>{comment.userId}</p>
                             <p>수정된 시간:{comment.updatedAt}</p>
-                            <button onClick={() => updateReply(crowdId, comment.qnaReplyId)}>update</button>
+                            <button onClick={() => updateReply(crowdId, crowdQnaId, comment.qnaReplyId)}>update</button>
                             <button onClick={() => deleteReply(crowdId, crowdQnaId, comment.qnaReplyId)}>delete</button>
                             <hr />
                         </div>

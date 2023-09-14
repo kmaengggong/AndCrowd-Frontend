@@ -19,10 +19,6 @@ const CrowdUpdate = () => {
         crowdImg5: "",
     });
 
-    useEffect(() =>{
-        fetchCrowdData();
-    }, []);
-
     const fetchCrowdData = async () => {
         try{
             const response = await fetch(`/crowd/${crowdId}`);
@@ -37,6 +33,9 @@ const CrowdUpdate = () => {
             console.error(error);
         }
     };
+    useEffect(() =>{
+        fetchCrowdData();
+    }, []);
 
     const handleInputChange = (e) => {
         const {name, value} = e.target;
@@ -72,7 +71,7 @@ const CrowdUpdate = () => {
 
     const handleUploadCancel = () => {
         alert("작성이 취소되었습니다.");
-        navigate('/crowd/list'); // 업로드 취소 버튼 클릭 시 페이지 전환
+        navigate(`/crowd/${crowdId}`); // 업로드 취소 버튼 클릭 시 페이지 전환
     };
 
     return (
@@ -91,7 +90,7 @@ const CrowdUpdate = () => {
                 본문사진5: <input type="text" name="crowdImg5" value={formData.crowdImg5} onChange={handleInputChange} placeholder="수정하고자 하는 파일을 업로드 하세요. 본문사진5" /> <br/>
                 <button type="submit">수정하기</button>
             </form>
-            <div id="cancleBtn">
+            <div id="cancelBtn">
                 <button type="button" onClick={handleUploadCancel}>취소</button>
             </div>
         </div>

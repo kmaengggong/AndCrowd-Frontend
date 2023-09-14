@@ -1,8 +1,31 @@
-export const formatMoney = price =>
-  (Math.round(price * 100) / 100).toLocaleString(); // 금액 형식화
+export const formatMoney = (price) => {
+  const formattedPrice = (Math.round(price * 100) / 100).toLocaleString();
+  return isNaN(formattedPrice) ? "0" : formattedPrice;
+};// 금액 형식화
 
-// export const getAchievedRate = (achievedAmount, goalAmount) =>
-//   Math.round((achievedAmount / goalAmount) * 100); // 목표금액 달성률
+export function calculateAchievedRate(currentAmount, crowdGoal) {
+  if (crowdGoal <= 0 || isNaN(currentAmount) || isNaN(crowdGoal)) {
+    return 0;
+  }
+
+  const rate = (currentAmount / crowdGoal) * 100;
+  return Math.min(rate, 100);
+}; // 달성률 표시
+
+export function calculateRaisedAmount(crowdGoal, currentAmount) {
+  if (isNaN(crowdGoal) || isNaN(currentAmount) || crowdGoal < currentAmount) {
+    return 0;
+  }
+  return crowdGoal - currentAmount;
+}; // 모인 금액 형식화
+
+export function countSponsors(crowdSponsor) {
+  if (Array.isArray(crowdSponsor)) {
+    return crowdSponsor.length;
+  } else {
+    return 0;
+  }
+}; // 후원자 수 카운트
 
 export const getDaysBetweenDate = (publishedAt, crowdEndDate) => {
   const start = new Date(publishedAt);
@@ -18,27 +41,3 @@ export const getDaysBetweenDate = (publishedAt, crowdEndDate) => {
     return 0; // 현재 날짜가 종료일보다 이후면 0을 반환하여 마감으로 표시
   }
 }; // 펀딩일수 계산 함수
-
-export function calculateAchievedRate(currentAmount, crowdGoal) {
-    if (crowdGoal <= 0) {
-      return 0; // 총 금액이 0 이하일 경우 0을 반환하여 나누기 오류를 방지합니다.
-    }
-    
-    const rate = (currentAmount / crowdGoal) * 100;
-    return Math.min(rate, 100); // 최대값을 100으로 제한합니다.
-}// 달성률 구하는 함수
-
-export function calculateRaisedAmount(crowdGoal, currentAmount) {
-    if (crowdGoal < currentAmount) {
-      return 0; // 현재 모인 금액이 목표 금액을 초과하는 경우 0으로 반환
-    }
-    return crowdGoal - currentAmount;
-}
-
-export function countSponsors(crowdSponsor) {
-    if (Array.isArray(crowdSponsor)) {
-        return crowdSponsor.length;
-    } else {
-        return 0; // 배열이 아닌 경우 후원자가 없다고 가정
-    }
-} // 후원자 수 카운트

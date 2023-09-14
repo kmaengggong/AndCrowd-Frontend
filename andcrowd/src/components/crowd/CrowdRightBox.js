@@ -65,7 +65,7 @@ const CrowdComponent = () => {
     }
   };
 
-  const formatDate = (dateTimeString) => {
+  const formatDate = (dateTimeString) => { // 타임스탬프에서 T 문구를 제거하는 함수
     if (!dateTimeString) return "";
 
     const formattedString = dateTimeString.replace("T", " ");

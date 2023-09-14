@@ -8,8 +8,36 @@ const CrowdReward = () => {
     const rewardId = params.rewardId;
     const [rewards, setRewards] = useState([]);
 
+    // useEffect(() => {
+    //     fetchData();
+    // }, [crowdId]);
+
     useEffect(() => {
-        fetchData();
+        // 더미 리워드 데이터 생성
+        const dummyRewards = [
+            {
+                rewardId: 1,
+                rewardAmount: 1000,
+                rewardTitle: "테스트 제목 1",
+                rewardContent: "테스트 본문 1",
+            },
+            {
+                rewardId: 2,
+                rewardAmount: 5000,
+                rewardTitle: "테스트 제목 2",
+                rewardContent: "테스트 본문 2",
+            },
+            // 필요한 만큼 리워드 항목 추가
+        ];
+        setRewards(dummyRewards); // 더미 데이터를 상태에 설정
+
+    // 리워드 데이터의 금액에 콤마 추가
+    const formattedRewards = dummyRewards.map((reward) => ({
+        ...reward,
+        rewardAmount: reward.rewardAmount.toLocaleString(),
+    }));
+
+    setRewards(formattedRewards); // 형식화된 데이터를 상태에 설정
     }, [crowdId]);
 
     const fetchData = async () => {
@@ -31,11 +59,12 @@ const CrowdReward = () => {
             <ul>
             {rewards.map((reward) => (
                 <li key={reward.rewardId}>
-                <h4>{reward.rewardAmount}</h4>
-                <span>{reward.rewardTitle}</span>
+                <h4>{reward.rewardAmount} 원</h4>
+                <span>{reward.rewardTitle}</span><br />
                 <span>{reward.rewardContent}</span>
                 </li>
                 ))}
+                <hr/>
             </ul>
         </Container>
     );

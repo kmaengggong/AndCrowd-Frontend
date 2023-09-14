@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -16,6 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import CrowdRewardCreate from '../crowd/CrowdRewardCreate';
+import '../../styles/crowd/CrowdCreate.css';
 
 const categories = [
   {
@@ -53,6 +54,8 @@ const categories = [
 ];
 
 const CrowdCreate = () => {
+  const params = useParams(); // useParams를 사용하여 URL에서 crowdId 추출
+  const crowdId = params.crowdId; // crowdId 추출
   const navigate = useNavigate();
   const [rewards, setRewards] = useState([]);
   const [userId, setUserId] = useState(""); // userId를 상태로 설정
@@ -61,7 +64,7 @@ const CrowdCreate = () => {
     crowdCategoryId: "",
     crowdTitle: "",
     crowdContent: "",
-    crowdGoal: "",
+    crowdGoal: 0,
     crowdEndDate: ""
   })
 
@@ -77,35 +80,42 @@ const CrowdCreate = () => {
   
   // userId를 백엔드로부터 가져오는 로직
   // 토큰 또는 세션을 이용해 userId를 전달
-  const fetchUserId = async () => {
-    try {
-      const userResponse = await fetch(`/user-info/userid`,{
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${userAccessToken}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      if (userResponse.ok) {
-        const userIdData = await userResponse.json();
-        setUserId(userIdData.userId);
-      } else {
-        throw new Error(`Fetching userId failed with status ${userResponse.status}.`);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchUserId();
-  }, [fetchUserId]);
+    const fetchUserId = async () => {
+      try {
+        const userResponse = await fetch(`/user-info/userid`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${userAccessToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (userResponse.ok) {
+          const userIdData = await userResponse.json();
+          setUserId(userIdData.userId);
+        } else {
+          throw new Error(`Fetching userId failed with status ${userResponse.status}.`);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    fetchUserId(); // 컴포넌트가 마운트될 때 함수를 즉시 호출
+  }, [userAccessToken]); // userAccessToken이 변경될 때만 효과를 트리거합니다.  
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    let newValue = value;
+    // 만약 입력된 값이 숫자가 아니라면 무시
+    if (name === "crowdGoal") {
+      // 목표 금액 필드에서는 음수 금액 입력시 0으로 설정
+      newValue = Math.max(0, parseFloat(newValue));
+    }
+
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: newValue,
     });
   };
 
@@ -232,44 +242,38 @@ const CrowdCreate = () => {
               </Grid>
               {/* 마감일자 선택 */}
               <Grid item xs={12} sm={10}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DatePicker']}>
-                      <DateTimePicker value={formData.crowdEndDate} label="펀딩 마감 일자" onChange={handleEndDateChange}/>
-                    </DemoContainer>
-                </LocalizationProvider>
+                <TextField
+                  fullWidth
+                  required
+                  type="datetime-local"
+                  id="crowdEndDate"
+                  label="마감일자"
+                  name="crowdEndDate"
+                  value={formData.crowdEndDate}
+                  onChange={handleInputChange}
+                />
               </Grid>
               {/* 목표금액 설정구문 */}
               <Grid item xs={12} sm={9}>
-                <NumericFormat
-                  label="목표 금액"
-                  customInput={TextField}
-                  thousandSeparator={true}
-                  fullWidth
+                <label htmlFor="crowdGoal">목표 금액: </label>
+                <input
+                  type="number"
+                  id="crowdGoal"
+                  name="crowdGoal"
+                  required
+                  onChange={handleInputChange}
                   value={formData.crowdGoal}
-                  InputProps={{
-                      endAdornment: (
-                          <InputAdornment position="end">
-                              <div className="text-primary fw-700">원</div>
-                          </InputAdornment>
-                      )
-                  }}
-                  helperText={
-                    <>
-                        This field is required. Only letters and numbers
-                        are allowed.
-                        <br />
-                        Space is not allowed at start. Special
-                        characters are not allowed.
-                    </>
-                  }
                 />
+                <div className="text-primary fw-700 currency"> 원</div>
+                <p className="placeholder">
+                  This field is required. Only letters and numbers are allowed.
+                  <br />
+                  Space is not allowed at start. Special characters are not allowed.
+                </p>
               </Grid>
               {/* 리워드 설정 */}
               <Grid item xs={12} sm={9}>
-                {/* 리워드 설정 버튼  */}
-                <h3>프로젝트 리워드 설계</h3>
-                <span>서포터님들에게 제공할 리워드를 입력해 주세요.</span>
-                <CrowdRewardCreate onRewardAdd={handleRewardAdd} onChange={handleInputChange} />
+                <CrowdRewardCreate onRewardAdd={handleRewardAdd} crowdId={crowdId} />
                 <div>
                   <h4>입력된 리워드</h4>
                   <ul>
@@ -298,14 +302,16 @@ const CrowdCreate = () => {
           </Grid>
         </Box>
       </Box>
-      <Button
-        type="button"
-        onClick={handleUploadCancel}
-        variant="contained"
-        color="inherit"
-      >
-        업로드 취소
-      </Button>
+      <Container component="sub" maxWidth="md">
+          <Button
+            type="button"
+            onClick={handleUploadCancel}
+            variant="contained"
+            color="inherit"
+          >
+            업로드 취소
+          </Button>
+        </Container>
     </Container>
   );
 };

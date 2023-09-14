@@ -76,6 +76,8 @@ import CrowdQnaCreate from './pages/crowd/CrowdQnaCreate';
 import CrowdUpdate from './pages/crowd/CrowdUpdate';
 import CrowdQnaUpdate from './pages/crowd/CrowdQnaUpdate';
 import CrowdQnaDetail from './pages/crowd/CrowdQnaDetail';
+import CrowdReplyUpdate from './pages/crowd/CrowdReplyUpdate';
+import CrowdReplyCreate from './pages/crowd/CrowdReplyCreate';
 
 
 const sections = [
@@ -188,6 +190,7 @@ function App() {
               <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply' element={<CrowdReplyCreate/>} /> {/* 추가 */}
 
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
@@ -220,6 +223,7 @@ function App() {
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
                 <Route path='/crowd/:crowdId/update' element={<CrowdUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/update' element={<CrowdQnaUpdate />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply/:qnaReplyId' element={<CrowdReplyUpdate />} /> {/* 추가 */}
               </Route>
               
               <Route path="*" element={<NotFound />} />

@@ -12,7 +12,6 @@ import Chip from '@mui/joy/Chip';
 import Link from '@mui/joy/Link';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import { formatMoney, calculateRaisedAmount, getDaysBetweenDate } from '../pages/etc/Finance';
-import { Container } from "@mui/material";
 import CrowdCategoryList from "./crowd/CrowdCategoryList";
 
 const CrowdList = () => {
@@ -284,13 +283,12 @@ const CrowdList = () => {
                 <CardContent>
                   <Typography level="body-xs">{crowd.crowdCategory}</Typography>
                   <Link
-                    href="#product-card"
                     fontWeight="md"
                     color="neutral"
                     textColor="text.primary"
                     overlay
                     endDecorator={<ArrowOutwardIcon />}
-                    to={`http://localhost:3000/crowd/detail/${crowd.crowdId}`} 
+                    to={`/crowd/${crowd.crowdId}`} 
                   >
                     {crowd.crowdTitle}
                   </Link>

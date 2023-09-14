@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import { NumericFormat } from 'react-number-format';
-import InputAdornment from '@mui/material/InputAdornment'; 
-import { Container } from "@mui/material";
+import { Grid } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const CrowdRewardCreate = ({ onRewardAdd }) => {
+  const params = useParams();
+  const crowdId = params.crowdId;
+  
   const [reward, setReward] = useState({
     rewardTitle: "",
     rewardContent: "",
@@ -18,24 +17,59 @@ const CrowdRewardCreate = ({ onRewardAdd }) => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setReward({ ...reward, [name]: value });
+    let newValue = value;
+  
+    if (name === "rewardAmount") {
+      // 리워드 금액 필드에서 음수 값이 입력되지 않도록 조치
+      newValue = Math.max(0, parseFloat(newValue));
+    }
+  
+    setReward({ ...reward, [name]: newValue });
   };
+  
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleRewardAdd = () => {
-    onRewardAdd(reward);
-    setReward({
-      rewardTitle: "",
-      rewardContent: "",
-      rewardAmount: 1000,
-      rewardLimit: 10,
-    });
+  const handleRewardAdd = async () => {
+    if (reward.rewardTitle && reward.rewardContent && reward.rewardAmount >= 0 && reward.rewardLimit >= 0) {
+      onRewardAdd(reward);
+      setReward({
+        rewardTitle: "",
+        rewardContent: "",
+        rewardAmount: 1000,
+        rewardLimit: 10,
+      });
+      setErrorMessage("");
+  
+      // 리워드 생성 요청을 서버로 보냄
+      try {
+        const response = await fetch(`/crowd/${crowdId}/reward`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(reward),
+        });
+        if (response.ok) {
+          // 리워드가 성공적으로 생성되었을 때의 처리
+          // 필요한 경우 추가적인 작업 수행
+        } else {
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+      } catch (error) {
+        console.error("Error sending reward data:", error);
+      }
+    } else {
+      setErrorMessage("모든 필드를 올바르게 입력하세요.");
+    }
   };
+  
 
   return (
-    <Card>
-      <CardContent>
+    <div>
+      <h3>프로젝트 리워드 설계</h3>
+      <span>서포터님들에게 제공할 리워드를 입력해 주세요.</span>
+      <Grid>
         <TextField
           required
           name="rewardTitle"
@@ -44,7 +78,6 @@ const CrowdRewardCreate = ({ onRewardAdd }) => {
           value={reward.rewardTitle}
           onChange={handleInputChange}
         />
-        <br/>
         <TextField
           required
           name="rewardContent"
@@ -53,37 +86,15 @@ const CrowdRewardCreate = ({ onRewardAdd }) => {
           value={reward.rewardContent}
           onChange={handleInputChange}
         />
-        <br/>
-        <Grid item xs={12} sm={9}>
-            <NumericFormat
-            required
-            label="리워드 금액"
-            customInput={TextField}
-            thousandSeparator={true}
-            fullWidth
-            onValueChange={(values) => {
-                const { value, floatValue } = values;
-                if (floatValue < 0) {
-                  // 음수 값이 입력된 경우 에러 메시지 설정
-                  setErrorMessage("금액은 음수일 수 없습니다.");
-                } else {
-                  // 음수 값이 아닌 경우 에러 메시지 초기화
-                  setErrorMessage("");
-                }
-                setReward({ ...reward, rewardAmount: floatValue });
-            }}
-            InputProps={{
-                endAdornment: (
-                    <InputAdornment position="end">
-                        <div className="text-primary fw-700">원</div>
-                    </InputAdornment>
-                )
-            }}
-            />
-        </Grid>
-        {errorMessage && (
-          <p style={{ color: "red" }}>{errorMessage}</p>
-        )}
+        <TextField
+          required
+          name="rewardAmount"
+          label="리워드 금액"
+          fullWidth
+          type="number"
+          value={reward.rewardAmount}
+          onChange={handleInputChange}
+        />
         <TextField
           required
           name="rewardLimit"
@@ -96,9 +107,12 @@ const CrowdRewardCreate = ({ onRewardAdd }) => {
         <Button variant="contained" color="primary" onClick={handleRewardAdd}>
           리워드 추가
         </Button>
-      </CardContent>
-    </Card>
+        {errorMessage && (
+          <p style={{ color: "red" }}>{errorMessage}</p>
+        )}
+      </Grid>
+    </div>
   );
-}
+};
 
 export default CrowdRewardCreate;
