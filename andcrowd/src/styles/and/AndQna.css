@@ -24,11 +24,11 @@
 }
 
 #like-icon{
-    width: 7vh;
-    height: 7vh;
+    width: 12%;
+    height: auto ;
     margin-top: 5%;
     margin-left:17%;
-    margin-right: 1.1vw;
+    margin-right: 4%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,7 +62,7 @@
     color: white;
     cursor: pointer;
     width: 65%;
-    margin-left: 20%;
+    margin-left: 18%;
     margin-top: 3%;
     height: 7vh;
     border-radius: 7px;
@@ -112,3 +112,41 @@
     width: 30vw;
     height: 70vh;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .pagination li {
+    list-style: none;
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+
+  .pagination .active {
+    font-weight: bold;
+  }
+
+#qna-box{
+    padding: 20px;
+}
+
+h2 {
+    margin: 0;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.title {
+    display: inline-block;
+}
+
+.create {
+    margin-bottom: 20px;
+    margin-right: 5px;
+    margin-top: 10px;
+    float: right;
+}
+  
