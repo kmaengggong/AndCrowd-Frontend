@@ -4,6 +4,41 @@ import AndToolBar from "../../components/and/AndToolBar";
 import CountdownTimer2 from "../../components/and/CountdownTimer2";
 import '../../styles/and/AndBoard.css'
 import { Typography } from "@mui/material";
+import ReactPaginate from 'react-paginate';
+import styled from 'styled-components';
+
+
+const MyPaginate = styled(ReactPaginate).attrs({
+  activeClassName: "active",
+})`
+  margin: 50px 16px;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0 5rem;
+  li a {
+    border-radius: 7px;
+    padding: 0.1rem 1rem;
+    cursor: pointer;
+  }
+  li.previous a,
+  li.next a {
+    color: #63b762;
+  }
+  li.active a {
+    color: #91cd96;
+    font-weight: 700;
+    min-width: 32px;
+  }
+  li.disabled a {
+    color: #a6a6a6;
+  }
+  li.disable,
+  li.disabled a {
+    cursor: default;
+  }
+`;
+
 
 const AndBoard = () => {
   const params = useParams();
@@ -12,13 +47,33 @@ const AndBoard = () => {
 
   const [and, setAnd] = useState({});
   const [andBoardList, setAndBoardList] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+
   useEffect(() => {
     fetchData();
+  }, [andId,currentPage]);
+
+  // 전체 페이지 수를 가져오는 useEffect
+  useEffect(() => {
+    const fetchCount = async () => {
+      try {
+        const response = await fetch(`/and/${andId}/qna/list/count`);
+        const data = await response.json();
+        console.log(data); // 데이터 확인
+        setPageCount(Math.ceil(data / 5)); // 페이지 당 10개씩 보여주기로 가정
+      } catch (error) {
+        console.error("Error fetching page count:", error);
+      }
+    };
+    
+    fetchCount();
   }, [andId]);
+
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`/and/${andId}/board/list`);
+      const response = await fetch(`/and/${andId}/board/list?page=${currentPage}`);
       if (response.ok) {
         const data = await response.json();
         setAndBoardList(data);
@@ -60,6 +115,20 @@ const AndBoard = () => {
             </div>
           ))}
           <Link id='board-write' to={`/and/${andId}/board/create`}>글 작성</Link>
+
+          <MyPaginate
+            pageCount={pageCount}
+            onPageChange={({ selected }) => setCurrentPage(selected)}
+            containerClassName={'pagination'}
+            activeClassName={'active'}
+            previousLabel="< "
+            nextLabel=" >"  
+            pageRangeDisplayed={5}
+            marginPagesDisplayed={0}
+            breakLabel="..."
+            renderOnZeroPageCount={null}
+            />
+
         </div>
       </div>
     </div>

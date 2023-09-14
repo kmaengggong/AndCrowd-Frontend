@@ -20,8 +20,8 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
   boxShadow: 24,
+  borderRadius: '8px',
   p: 4,
 };
 
@@ -533,7 +533,7 @@ const navigateToAndCreate = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-          {`신고`}
+          {`"${item.andTitle}"에 대한 신고`}
           </Typography>
           <Box sx={{
               width: 500,
