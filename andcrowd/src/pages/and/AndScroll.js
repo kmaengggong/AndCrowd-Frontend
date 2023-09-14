@@ -12,7 +12,7 @@ import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
 import SearchIcon from '@mui/icons-material/Search';
 import { GetUserId } from '../../components/user/GetUserId';
 import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
-
+import { GetUserInfo } from "../../components/user/GetUserInfo";
 const style = {
   position: 'absolute',
   top: '50%',
@@ -55,7 +55,14 @@ AndScroll = () => {
     itemId: null,
     itemTitle: "",
   });
+  const [userInfo, setUserInfo] = useState([]);
+  const userId = GetUserId();
   
+  useEffect(() => {
+    if(userId !== null){
+        GetUserInfo(userId, setUserInfo);
+    }
+  }, [userId]);
   const myId = GetUserId();
 
   const fetchIsLiked = async (andId) => {
@@ -444,7 +451,7 @@ const navigateToAndCreate = () => {
           <div key={item.andId} id ='feed-container'>
             <div id='feed-head'>
               <div id='img-box'>
-                <img id='profile-img' src={profileImg} alt="profileImg" /> 
+                <img id='profile-img' src={userInfo.userProfileImg} alt="profileImg" /> 
               </div>
               <div id='and-title-box'>
                 <Typography id='and-feed-title'>{item.andTitle}</Typography>
@@ -491,7 +498,7 @@ const navigateToAndCreate = () => {
             </div>
             <div id='main-img-box'>
             <Link to={`/and/${item.andId}`}>
-              <img id='main-img' src={mainImg} alt="mainImg" /> 
+              <img id='main-img' src={item.andHeaderImg} alt="mainImg" /> 
             </Link>
             </div>
             <div id='feed-bottom'>
