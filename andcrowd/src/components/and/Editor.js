@@ -4,8 +4,6 @@ import ReactQuill from 'react-quill';
 import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import '../../styles/Editor.css'
-import ImageResize from 'quill-image-resize-module-react';
-Quill.register('modules/ImageResize', ImageResize);
 
 const Editor = ({ htmlStr, setHtmlStr }) => {
   const quillRef = useRef(null);
