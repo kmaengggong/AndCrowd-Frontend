@@ -4,7 +4,8 @@
     font-weight: 700;
     color: #000000;
     padding-top: 10vh;
-    padding-left: 6vw;
+    padding-left: 15%;
+    padding-right: 20%;
 }
 #and-detail-container{
     display: flex;
@@ -22,8 +23,7 @@
     padding-left: 6.5vw;
 }
 #left-main-box{
-    background-color: yellow;
-    height: 1300px;
+    height: auto;
     width: 65%;
 }
 #go-and{
@@ -68,22 +68,16 @@
     color: #00D337;
     cursor: pointer;
 }
-#remain{
-    margin-top: 25%;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    margin-right: 10%;
-}
 #linear-div{
     display: flex;
 }
-#remain{
+#and-remain-day{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
-    margin-left: 2vw;
-    margin-top: 20vw
+    margin-top: 17%;
+    margin-left: 3%;
+
 }
 #go-member{
     font-family: 'Noto Sans KR', sans-serif;
@@ -94,8 +88,44 @@
     color: #00D337;
     cursor: pointer;
     width: 65%;
-    margin-left: 35%;
+    margin-left: 36%;
     margin-top: 5%;
     height: 7vh;
     border-radius: 7px;
+}
+#and-detail-bottom{
+    display: flex;
+    margin-left: 80%;
+}
+
+#and-detail-upde{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    color: #000000;
+    margin-left: 15%;
+    margin-top: 20%;
+    padding-top: 1%;
+    text-decoration: none;
+    cursor: pointer;
+}
+#and-detail-2{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    color: #000000;
+    margin-left: 15%;
+    padding-top: 1%;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: 10%;
+}
+#and-detail-bottom2{
+    display: flex;
+    margin-left: 70%;
+}
+#and-header-img{
+    width: 50%;
+    margin-top: 10%;
+    margin-left: 10%;
+    border-radius: 5px;
+    margin-bottom: 10%;
 }

@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import {MenuItem, Popover, List, ListItem, Box, TextField, Button, Modal, IconButton } from '@mui/material';
 import { Navigate ,useNavigate } from 'react-router-dom';
 import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
+import SearchIcon from '@mui/icons-material/Search';
 import { GetUserId } from '../../components/user/GetUserId';
 import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
 
@@ -361,7 +362,7 @@ AndScroll = () => {
     return diffInDays >= 0 ? 'D - '+ diffInDays : '모집 마감';
 }
 const navigateToAndCreate = () => {
-  navigate("/and/create");
+  navigate("/and/create1");
 };
   
   return (
@@ -392,7 +393,7 @@ const navigateToAndCreate = () => {
       </Typography>
 
       <div>
-        <Typography id ='category' onClick={handleClick2} style={{cursor: "pointer"}}>
+        {/*<Typography id ='category' onClick={handleClick2} style={{cursor: "pointer"}}>
           카테고리
         </Typography>
         
@@ -420,22 +421,22 @@ const navigateToAndCreate = () => {
               </ListItem>
             ))}
           </List>
-        </Popover> 
+              </Popover> */}
 
       </div>
       <button id ='write' type="button" onClick={navigateToAndCreate}>글쓰기</button>
-      <div>
+      
+    </div>
+    {/*<div id='and-search-bar'>
         <input
           type="search"
-          id="search"
+          id="and-search"
           name="search"
           placeholder="모임 검색"
           onChange={(e) => setSearchKeyword(e.target.value)}
         />
-        <button onClick={handleSearch}>검색</button>
-      </div>
-    </div>
-    
+        <button  id='and-search-button' onClick={handleSearch}><SearchIcon id='search-icon' /></button>
+            </div> */}
 
       {data ? (
         data.map(item => (
