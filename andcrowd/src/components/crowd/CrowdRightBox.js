@@ -42,8 +42,9 @@ const CrowdComponent = ({}) => {
             alert("펀딩글이 삭제되었습니다.");
             navigate(`/crowd/list`);
         } catch(error) {
-            console.error(error);
-        }
+            console.error('Error:', error.message);
+            console.error('Response:', error.response);
+        }        
     };
     
     const handleCopyClipBoard = async (text) => { // 공유시 url복사

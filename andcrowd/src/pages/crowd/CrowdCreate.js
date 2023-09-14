@@ -28,7 +28,7 @@ const categories = [
   },
   {
     name: '3',
-    text: '태크 가전'
+    text: '테크 가전'
   },
   {
     name: '4',
@@ -55,7 +55,7 @@ const categories = [
 const CrowdCreate = () => {
   const navigate = useNavigate();
   const [rewards, setRewards] = useState([]);
-  const [crowdList, setCrowdList] = useState([]);
+  const [userId, setUserId] = useState(""); // userId를 상태로 설정
 
   const [formData, setFormData] = useState({
     crowdCategoryId: "",
@@ -67,20 +67,18 @@ const CrowdCreate = () => {
 
   // endDate를 업데이트하는 함수
   const handleEndDateChange = (newValue) => {
-    // setValue(newValue);
     setFormData({
       ...formData,
       crowdEndDate: newValue.toISOString(), // 날짜를 ISO 문자열로 변환하여 crowdEndDate 필드에 업데이트
     });
   };
 
-  const [value, setValue] = React.useState(null);
   const userAccessToken = Cookies.get('refresh_token');
-  const [userId, setUserId] = useState(""); // userId를 상태로 설정
+  
   // userId를 백엔드로부터 가져오는 로직
   // 토큰 또는 세션을 이용해 userId를 전달
   const fetchUserId = async () => {
-    try{
+    try {
       const userResponse = await fetch(`/user-info/userid`,{
         method: 'GET',
         headers: {
@@ -94,14 +92,14 @@ const CrowdCreate = () => {
       } else {
         throw new Error(`Fetching userId failed with status ${userResponse.status}.`);
       }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   useEffect(() => {
     fetchUserId();
-  },[]);
+  }, [fetchUserId]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -110,11 +108,6 @@ const CrowdCreate = () => {
       [name]: value,
     });
   };
-
-  const updatedFormData = {
-    ...formData,
-    userId: userId,
-  }
 
   const handleRewardAdd = (newReward) => { // 리워드 추가하는 버튼
     setRewards([...rewards, newReward]);
@@ -147,9 +140,9 @@ const CrowdCreate = () => {
         // 성공적으로 데이터 전송 및 처리되었을 때의 코드
         // 데이터를 저장하고 이동할 경로를 지정합니다.
         const responseData = await response.json();
-        const crowdId = responseData; // 응답 데이터에서 andId 값을 추출
+        const crowdId = responseData; // 응답 데이터에서 crowdId 값을 추출
         console.log("Created crowdId:", crowdId);
-        navigate(`/crowd/${crowdId}/img/create`);//, { state: { formData: updatedFormData }});
+        navigate(`/crowd/${crowdId}/img/create`);
       } else {
         throw new Error(`Request failed with status ${response.status}`);
       }
@@ -158,88 +151,60 @@ const CrowdCreate = () => {
     }
   };
 
-  const handleCategoryChange = (event) => { // 카테고리 선택 함수
-    const crowdCategoryId = event.target.value;
-    setFormData({
-      ...formData,
-      crowdCategoryId: crowdCategoryId,
-    });
-  };
-
-  const fetchCrowdByCategory = async (crowdCategoryId) => {
-    try {
-      const response = await fetch(`/crowdCategory/${crowdCategoryId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      if (response.ok) {
-        const responseData = await response.json();
-        // responseData를 사용하여 조회된 글 목록을 업데이트합니다.
-        setCrowdList(responseData);
-      } else {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
-    } catch (error) {
-      console.error('Error fetching crowd by category:', error);
-    }
-  };  
-
   return ( // 화면단 입력 구문 시작
     <Container component="main" maxWidth="md">
       <CssBaseline />
       <Box
-            sx={{
-              marginTop: 8,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'left',
-              ml: 5,
-              mr: 5
-            }}
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'left',
+          ml: 5,
+          mr: 5
+        }}
       >
         <Typography component="h1" variant="h5" style={{ lineHeight: '2' }}>
-        우리의 꿈과 열정을 함께 나누어주세요 🌟<br />
-        여러분의 따뜻한 지원과 사랑으로 이 프로젝트를 실현하고자 합니다.<br />
-        함께하는 모든 순간이 소중하고, 우리의 미래에 희망을 안겨줄 것입니다.<br />
-        감사함과 함께, 함께하는 여정을 시작해봅시다!
+          우리의 꿈과 열정을 함께 나누어주세요 🌟<br />
+          여러분의 따뜻한 지원과 사랑으로 이 프로젝트를 실현하고자 합니다.<br />
+          함께하는 모든 순간이 소중하고, 우리의 미래에 희망을 안겨줄 것입니다.<br />
+          감사함과 함께, 함께하는 여정을 시작해봅시다!
         </Typography>
         <Box component="form" noValidate onSubmit={handleNextButtonClick} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-              <Grid item xs={12} sm={5}>
-                <TextField 
-                  required
-                  fullWidth
-                  id="userId"
-                  label="회원번호"
-                  name="userId"
-                  value={userId} // userId 상태를 TextField의 value로 설정
-                  InputProps={{
-                    readOnly: true,
-                  }}/>
-              </Grid>
-              <Grid item xs={12} sm={9}>
-                <TextField 
-                  required
-                  fullWidth
-                  id="crowdCategoryId"
-                  label="카테고리 설정"
-                  name="crowdCategoryId"
-                  select
-                  value={formData.crowdCategoryId}
-                  onChange={handleInputChange}
-                >
-                  <MenuItem value="">--카테고리 선택--</MenuItem>
-                  {categories.map((category) => (
-                    <MenuItem key={category.name} value={category.name}>
-                      {category.text}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={12} sm={9}>
+            <Grid item xs={12} sm={5}>
+              <TextField 
+                required
+                fullWidth
+                id="userId"
+                label="회원번호"
+                name="userId"
+                value={userId} // userId 상태를 TextField의 value로 설정
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={9}>
+              <TextField 
+                required
+                fullWidth
+                id="crowdCategoryId"
+                label="카테고리 설정"
+                name="crowdCategoryId"
+                select
+                value={formData.crowdCategoryId}
+                onChange={handleInputChange}
+              >
+                <MenuItem value="">--카테고리 선택--</MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category.name} value={category.name}>
+                    {category.text}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={9}>
                 <TextField 
                   required
                   fullWidth
@@ -320,26 +285,26 @@ const CrowdCreate = () => {
                   </ul>
                 </div>
               </Grid>
-              <Container component="main" maxWidth="md">
-                <br />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                >
-                  다음
-                </Button>
-              </Container>
-            </Grid>
+            <Container component="main" maxWidth="md">
+              <br />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+              >
+                다음
+              </Button>
+            </Container>
+          </Grid>
         </Box>
       </Box>
       <Button
-          type="button"
-          onClick={handleUploadCancel}
-          variant="contained"
-          color="inherit"
-        >
-          업로드 취소
+        type="button"
+        onClick={handleUploadCancel}
+        variant="contained"
+        color="inherit"
+      >
+        업로드 취소
       </Button>
     </Container>
   );

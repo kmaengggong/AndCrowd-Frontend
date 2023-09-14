@@ -12,7 +12,7 @@ const categoriesData = [
     },
     {
         name: '3',
-        text: '태크 가전'
+        text: '테크 가전'
     },
     {
         name: '4',
@@ -79,7 +79,7 @@ const CrowdCategoryList = ({ onCategorySelect }) => {
 
     const handleCategoryClick = (category) => {
         setSelectedCategory(category);
-        onCategorySelect(category);
+        onCategorySelect(category.categoryId);
     };
 
     // const handleCategoryUpdate = (updatedCategoryName) => {
@@ -112,9 +112,10 @@ const CrowdCategoryList = ({ onCategorySelect }) => {
                 onClick={() => handleCategoryClick(category)}
                 style={{
                 padding: "8px 16px",
-                background: selectedCategory === category ? "blue" : "gray",
-                color: "white",
+                background: selectedCategory === category ? "white" : "#00D337",
+                color: "black",
                 border: "none",
+                borderRadius: "20px",
                 cursor: "pointer",
                 }}
             >
@@ -124,7 +125,7 @@ const CrowdCategoryList = ({ onCategorySelect }) => {
             </div>
             {selectedCategory && (
                 <div>
-                <h2>Selected Category: {selectedCategory.text}</h2>
+                {/* <h2>Selected Category: {selectedCategory.text}</h2> */}
                 <p
                     type="text"
                     placeholder="New Category Name"
