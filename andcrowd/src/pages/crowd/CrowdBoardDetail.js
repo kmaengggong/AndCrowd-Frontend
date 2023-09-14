@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import CrowdToolBar from "../../components/crowd/CrowdToolBar";
 
 const CrowdBoardDetail = () => {
     const [board, setBoard] = useState(null);
     const { crowdId, crowdBoardId } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/crowd/${crowdId}/board/${crowdBoardId}`)
+        axios.get(`/crowd/${crowdId}/board/${crowdBoardId}`)
             .then(response => {
                 setBoard(response.data);
             })
@@ -19,7 +20,7 @@ const CrowdBoardDetail = () => {
     const navigate = useNavigate(); // 삭제 후 리다이렉션을 위한 useNavigate
 
     const handleDelete = () => {
-        axios.patch(`http://localhost:8080/crowd/${crowdId}/board/${crowdBoardId}/delete`)
+        axios.patch(`/crowd/${crowdId}/board/${crowdBoardId}/delete`)
             .then(() => {
                 alert("글이 성공적으로 삭제되었습니다.");
                 setBoard({ ...board, deleted: true }); // Update the board state to reflect the deletion
@@ -50,6 +51,7 @@ const CrowdBoardDetail = () => {
 
     return (
         <div>
+            <CrowdToolBar crowdId={crowdId} />
             {board && renderBoard(board)}
         </div>
     );

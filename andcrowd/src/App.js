@@ -74,6 +74,8 @@ import CrowdReward from './pages/crowd/CrowdReward';
 import CrowdQnaList from './pages/crowd/CrowdQnaList';
 import CrowdQnaCreate from './pages/crowd/CrowdQnaCreate';
 import CrowdUpdate from './pages/crowd/CrowdUpdate';
+import CrowdQnaUpdate from './pages/crowd/CrowdQnaUpdate';
+import CrowdQnaDetail from './pages/crowd/CrowdQnaDetail';
 
 
 const sections = [
@@ -184,6 +186,7 @@ function App() {
               <Route path="/crowd/:crowdId/reward/all" element={<CrowdReward />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/qna/all" element={<CrowdQnaList />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
 
               {/* 로그인된 유저만 접근 가능 */}
@@ -216,6 +219,7 @@ function App() {
                 {/* Crowd 관련 */}
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
                 <Route path='/crowd/:crowdId/update' element={<CrowdUpdate />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/qna/:crowdQnaId/update' element={<CrowdQnaUpdate />} /> {/* 추가 */}
               </Route>
               
               <Route path="*" element={<NotFound />} />

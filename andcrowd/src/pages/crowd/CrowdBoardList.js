@@ -26,7 +26,9 @@ const CrowdBoardList = () => {
 
     const renderBoard = (board) => (
         <li key={board.crowdBoardId}>
-            <h2>{board.crowdBoardTitle}</h2>
+            <Link to={`/crowd/${crowdId}/board/${board.crowdBoardId}`}>
+                <h2>{board.crowdBoardTitle}</h2>
+            </Link>
             <p>{board.crowdBoardContent}</p>
             <img src={board.crowdImg} alt={board.crowdBoardTitle} />
             <p>게시된 날짜: {formatDate(board.publishedAt)}</p>
