@@ -62,6 +62,8 @@ const Header = () => {
     setAnchorEl(null);
   };
 
+  if(window.location.pathname.startsWith("/iamtheadmin")) return null;
+
   return (
     <Fragment>
       <Toolbar id ='mainTool' sx={{ borderBottom: 1, borderColor: 'divider' }}>

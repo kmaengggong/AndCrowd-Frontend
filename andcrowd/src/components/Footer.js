@@ -38,6 +38,8 @@ function Footer(props) {
   const { description, title } = props;
   const maxWidth = Math.min(1320, windowWidth * 0.7);
 
+  if(window.location.pathname.startsWith("/iamtheadmin")) return null;
+  
   return (
     <Box id = 'footerBox' component="footer" >
       <Container id='footerContainer' style={{ maxWidth: `${maxWidth}px` }}>

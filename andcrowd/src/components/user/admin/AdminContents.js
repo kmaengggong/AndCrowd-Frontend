@@ -1,6 +1,11 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
+import { AdminDeleteButton } from './AdminDeleteButton';
+import { AdminReportProcessButton } from './AdminReportProcessButton';
+import { AdminInfoCreateButton } from './AdminInfoCreateButton';
+import { GetUserId } from '../GetUserId';
+import { AdminInfoEditButton } from './AdminInfoEditButton';
 
 export const AdminContents = ({type, isFetchUp, setIsFetchUp}) => {
     const columns = {
@@ -85,33 +90,27 @@ export const AdminContents = ({type, isFetchUp, setIsFetchUp}) => {
             {field: 'reportDate', headerName: '신고일', width: 115},
         ],
         infoboard: [
-            {field: 'userId', headerName: 'ID', width: 85},
+            {field: 'infoId', headerName: 'ID', width: 85},
+            {field: 'userId', headerName: '글쓴이', width: 115},
+            {field: 'infoType', headerName: '종류', width: 100,
+                valueGetter: (params) => 
+                params.value === true ? '공지사항' : '새소식'
+            },
+            {field: 'infoTitle', headerName: '제목', width: 150},
+            {field: 'infoContent', headerName: '내용', width: 150},
+            {field: 'publishedAt', headerName: '생성일', width: 115},
+            {field: 'updatedAt', headerName: '수정일', width: 115},
+            {field: 'deleted', headerName: '삭제여부', width: 130},
         ]
     };
 
+    const [userId, setUserId] = useState(null);
     const [list, setList] = useState([]);
     const [rowSelectionModel, setRowSelectionModel] = useState([]);
-    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-    const [isDeletedWell, setIsDeletedWell] = useState(true);
-    const handleOpenDeleteDialog = () => {
-        if(rowSelectionModel.length <= 0){
-            alert(`${type} 을(를) 선택해주세요.`);
-            return;
-        }
-        setOpenDeleteDialog(true);
-    }
-    const handleCloseDeleteDialog = () => setOpenDeleteDialog(false);
 
-    const [openProcessDialog, setOpenProcessDialog] = useState(false);
-    // const [isDeletedWell, setIsDeletedWell] = useState(true);
-    const handleOpenProcessDialog = () => {
-        if(rowSelectionModel.length <= 0){
-            alert(`${type} 을(를) 선택해주세요.`);
-            return;
-        }
-        setOpenProcessDialog(true);
-    }
-    const handleCloseProcessDialog = () => setOpenProcessDialog(false);
+    useEffect(() => {
+        setUserId(GetUserId());
+    }, []);
 
     useEffect(() => {
         fetchList();
@@ -130,98 +129,8 @@ export const AdminContents = ({type, isFetchUp, setIsFetchUp}) => {
         }).then(data => {
             setList(data);
             setIsFetchUp(true);
-            console.log(data);
-            console.log(isFetchUp);
         });
     };
-
-    const onClickDeleteYesButton = () => {
-        handleCloseDeleteDialog();
-        try{
-            setIsDeletedWell(true);
-            for(let i=0; i<rowSelectionModel.length; i++){
-                let url = `/${type}/${rowSelectionModel[i]}`;
-                let method = "DELETE";
-                if(type === 'and'  || type ==='crowd'){
-                    url += `/delete`;
-                }
-                if(type === 'crowd') method = "PATCH";
-
-                try{
-                    fetch(url, {
-                        method: method,
-                        headers:{
-                            'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-                            'Content-Type': 'application/json; text=utf-8'
-                        }
-                    }).then(res => {
-                        console.log(res);
-                        if(!res.ok){
-                            setIsDeletedWell(false);
-                            alert("삭제 도중 에러가 발생했습니다.");
-                            throw new Error("Delete user error");
-                        }
-                    })
-                } catch(error){
-                    setIsDeletedWell(false);
-                    console.error(error);
-                    break;
-                }
-            }
-        } catch(error){
-            console.error(error);
-        }
-        if(isDeletedWell) alert("삭제가 완료되었습니다.");
-        window.location.reload(type);
-    };
-
-    const onClickProcessYesButton = () => {
-        handleCloseProcessDialog();
-        handleProcess(1);
-    }
-
-    const onClickProcessNoButton = () => {
-        handleCloseProcessDialog();
-        handleProcess(2);
-    }
-
-    const handleProcess = (status) => {
-        try{
-            // setIsProcessWell(true);
-            for(let i=0; i<rowSelectionModel.length; i++){
-                let url = `/${type}/${rowSelectionModel[i]}`;
-                try{
-                    fetch(url, {
-                        method: "PATCH",
-                        headers:{
-                            'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-                            'Content-Type': 'application/json; text=utf-8'
-                        },
-                        body: JSON.stringify({
-                            reportId: rowSelectionModel[i],
-                            reportStatus: status 
-                        })
-                    }).then(res => {
-                        console.log(res);
-                        if(!res.ok){
-                            // setIsDeletedWell(false);
-                            alert("처리 도중 에러가 발생했습니다.");
-                            throw new Error("Process user error");
-                        }
-                    })
-                } catch(error){
-                    // setIsDeletedWell(false);
-                    console.error(error);
-                    break;
-                }
-            }
-        } catch(error){
-            console.error(error);
-        }
-        // if(isDeletedWell)
-        alert("처리가 완료되었습니다.");
-        window.location.reload(type);
-    }
 
     const NoRowsOverlay = () => (<p>비어있습니다.</p>);
 
@@ -244,7 +153,7 @@ export const AdminContents = ({type, isFetchUp, setIsFetchUp}) => {
                         else if(type === 'and') return row.andId;
                         else if(type === 'crowd') return row.crowdId;
                         else if(type === 'report') return row.reportId;
-                        else if(type === 'infoboard') return row.crowdId;
+                        else if(type === 'infoboard') return row.infoId;
                     }}
                     rows={list}
                     columns={columns[type]}
@@ -263,70 +172,22 @@ export const AdminContents = ({type, isFetchUp, setIsFetchUp}) => {
                     }}
                 />
 
-                {
-                    type === 'report' ?
+                {type === 'infoboard' ?
                     <>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        sx={{ mt:2, float:'left' }}
-                        onClick={handleOpenProcessDialog}
-                    >
-                        선택 처리
-                    </Button>
-
-                    <Dialog
-                    open={openProcessDialog}
-                    onClose={handleCloseProcessDialog}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                    >
-                    <DialogTitle id="alert-dialog-title">
-                        {type} 처리
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            처리 방법을 선택해주세요
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={onClickProcessYesButton} color="error">비공개 처리</Button>
-                        <Button onClick={onClickProcessNoButton} color="error">반려</Button>
-                        <Button onClick={handleCloseProcessDialog} color="error">취소</Button>
-                    </DialogActions>
-                    </Dialog>
+                        <AdminInfoCreateButton type={type} userId={userId} />
+                        <AdminInfoEditButton type={type} userId={userId} rowSelectionModel={rowSelectionModel} />
                     </>
                     :
                     <></>
                 }
-                <Button
-                    variant="outlined"
-                    color="error"
-                    sx={{ mt:2, float:'right' }}
-                    onClick={handleOpenDeleteDialog}
-                >
-                    선택 삭제
-                </Button>
 
-                <Dialog
-                    open={openDeleteDialog}
-                    onClose={handleCloseDeleteDialog}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">
-                        {type} 삭제
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                            정말로 삭제하시겠습니까??
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={onClickDeleteYesButton} color="error">예</Button>
-                        <Button onClick={handleCloseDeleteDialog} color="error">아니오</Button>
-                    </DialogActions>
-                </Dialog>
+                {type === 'report' ?
+                    <AdminReportProcessButton type={type} rowSelectionModel={rowSelectionModel}/>
+                    :
+                    <></>
+                }
+
+                <AdminDeleteButton type={type} rowSelectionModel={rowSelectionModel}/>
             </Box>
             }
         </>

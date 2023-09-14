@@ -34,6 +34,7 @@ export const AdminMenu = ({setType, setIsFetchUp}) => {
             <Button fullWidth variant="outlined" color="warning" sx={{marginBottom:1}} onClick={onClickCrowdManageButton}>펀딩 관리</Button>
             <Button fullWidth variant="outlined" color="warning" sx={{marginBottom:1}} onClick={onClickReportManageButton}>신고 관리</Button>
             <Button fullWidth variant="outlined" color="warning" sx={{marginBottom:1}} onClick={onClickInfoManageButton}>공지 관리</Button>
+            <Button fullWidth variant="outlined" color="error" sx={{marginBottom:1}} href="/logout">로그아웃</Button>
         </>
     );
 }
