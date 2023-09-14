@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import Editor from "../../components/and/Editor";
+import '../../styles/and/AndCreate.css';
+import { Typography } from "@mui/material";
 
 const AndCreate = () => {
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 페이지 이동 함수를 가져옵니다.
 
   const [userId, setUserId] = useState("");
-
+  const { andId } = useParams();
   const [formData, setFormData] = useState({
     andCategoryId: "",
     andTitle: "",
@@ -36,6 +39,19 @@ const AndCreate = () => {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
+      try {
+        const response = await fetch(`/and/${andId}`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          setFormData(data); // 기존 데이터를 모두 할당
+        } else {
+          throw new Error(`Fetching and data failed with status ${response.status}.`);
+        }
+  
+      } catch (error) {
+        console.error("Error fetching And data:", error);
+      }
   };
 
   useEffect(() => {
@@ -49,6 +65,7 @@ const AndCreate = () => {
       [name]: value,
     });
   };
+  const [htmlStr, setHtmlStr] = React.useState('');
 
   const updatedFormData = {
     ...formData,
@@ -59,20 +76,20 @@ const AndCreate = () => {
   // "다음" 버튼 클릭 시 실행될 함수
   const handleNextButtonClick = async () => {
     try {
-      const response = await fetch("/and/create", {
-        method: "POST",
+      const response = await fetch(`/and/${andId}/create`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updatedFormData),
+        body: JSON.stringify({ ...updatedFormData, andContent: htmlStr }),
       });
-
+      navigate(`/and/${andId}`);
       if (response.ok) {
         const responseData = await response.json();
-        const andId = responseData; // 응답 데이터에서 andId 값을 추출
+        const andId = responseData;
         console.log("Created andId:", andId);
-
-        navigate(`/and/${andId}/img/create`);
+  
+        navigate(`/and/${andId}`);
       } else {
         throw new Error(`Request failed with status ${response.status}`);
       }
@@ -80,21 +97,35 @@ const AndCreate = () => {
       console.error("Error sending data:", error);
     }
   };
+  
 
   return (
     <>
       <form onSubmit={handleNextButtonClick}>
-        <div>
-                <input type="text" name="userId" value={userId} readOnly />
-                <input type="text" name="andCategoryId" value={formData.andCategoryId} onChange={handleInputChange} placeholder="카테고리" />
-                <input type="text" name="andTitle" value={formData.andTitle} onChange={handleInputChange} placeholder="제목" />
-                <input type="text" name="andContent" value={formData.andContent} onChange={handleInputChange} placeholder="내용" />
-                <input type="datetime-local" name="andEndDate" value={formData.andEndDate} onChange={handleInputChange} placeholder="마감일" />
-                <input type="text" name="needNumMem" value={formData.needNumMem} onChange={handleInputChange} placeholder="모집인원" />
+        <div id='and-create-box'>
+          <Typography id='and-title-text'>
+            모임글의 제목을 적어주세요
+          <span className='red-asterisk'>*</span>
+          </Typography>
+          <input
+            type="text"
+            name="andTitle"
+            placeholder="제목 입력"
+            id='create-and-title'
+            
+            onChange={handleInputChange}
+          />
+          <Typography id='and-title-text'>
+            모임글의 내용을 적어주세요
+          <span className='red-asterisk'>*</span>
+          </Typography>
+          <div>
+          <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
+          </div>
         </div>
+        
         <div id="submit_btn">
-          {/* <button type="submit">저장</button> */}
-          <button type="button" onClick={handleNextButtonClick}>
+          <button id='next-button' type="button" onClick={handleNextButtonClick}>
             다음
           </button>
         </div>

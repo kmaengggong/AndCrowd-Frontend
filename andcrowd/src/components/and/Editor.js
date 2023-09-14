@@ -1,45 +1,46 @@
 import React, { useRef, useMemo, useEffect } from 'react';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
+import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import '../../styles/Editor.css'
+import ImageResize from 'quill-image-resize-module-react';
+Quill.register('modules/ImageResize', ImageResize);
+
 const Editor = ({ htmlStr, setHtmlStr }) => {
   const quillRef = useRef(null);
   const viewContainerRef = useRef(null);
 
-  useEffect(() => {
-    if (viewContainerRef.current) {
-      viewContainerRef.current.innerHTML = '<h2>html 코드를 이용하여 만들어지는 View</h2>';
-      viewContainerRef.current.innerHTML += htmlStr;
-    }
-  }, [htmlStr]);
 
-  const imageHandler = () => {
+  const imageHandler = async () => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
     input.click();
 
-    input.onchange = async () => {
-      const file = input.files;
-      const formData = new FormData();
+    input.addEventListener('change', async () => {
+      const file = input.files?.[0];
 
-      if (file) {
-        formData.append("multipartFiles", file[0]);
-      }
+      try {
+        // 이미지 파일을 업로드하고 응답 받기
+        const formData = new FormData();
+        formData.append('image', file);
 
-      const res = await axios.post('http://localhost:8080/uploadImage', formData);
+        const response = await axios.post('http://localhost:8080/and/editer/uploadImage', formData);
 
-      if (quillRef.current) {
-        const index = quillRef.current.getEditor().getSelection().index;
+        // 응답에서 이미지 URL 받아와서 에디터에 추가
+        const imageUrl = response.data.uploadFileUrl;
+        console.log(imageUrl);
         const quillEditor = quillRef.current.getEditor();
-        quillEditor.setSelection(index, 1);
         quillEditor.clipboard.dangerouslyPasteHTML(
-          index,
-          `<img src=${res.data} alt=${'alt text'} />`
+          quillEditor.getLength(),
+          `<img src="${imageUrl}" alt="uploaded detail image" />`
         );
+      } catch (error) {
+        console.error(error);
       }
-    }
-  }
+    });
+  };
 
   const modules = useMemo(() => ({
     toolbar: {
@@ -54,7 +55,11 @@ const Editor = ({ htmlStr, setHtmlStr }) => {
       ],
       handlers: {
         image: imageHandler,
-      }
+      },
+      imageResize: {
+        parchment: ReactQuill.Quill.import('parchment'),
+        modules: ['Resize', 'DisplaySize'],
+      },
     },
   }), []);
 
@@ -69,7 +74,7 @@ const Editor = ({ htmlStr, setHtmlStr }) => {
 
   return (
     <>
-      <ReactQuill
+      <ReactQuill id='editer-div'
         ref={quillRef}
         theme="snow"
         modules={modules}
@@ -78,9 +83,9 @@ const Editor = ({ htmlStr, setHtmlStr }) => {
         placeholder='내용을 입력하세요.'
         onChange={(content, delta, source, editor) => setHtmlStr(editor.getHTML())} />
 
-      <div ref={viewContainerRef} id='test-div'/>
     </>
   )
 }
 
 export default Editor;
+

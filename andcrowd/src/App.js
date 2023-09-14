@@ -21,7 +21,9 @@ import AndList from './pages/AndList';
 import AndDetail from './pages/and/AndDetail';
 import AndQna from './pages/and/AndQna';
 import AndQnaDetail from './pages/and/AndQnaDetail';
+import AndCreate1 from './pages/and/AndCreate1';
 import AndCreate from './pages/and/AndCreate';
+import AndCreatePage2 from './pages/and/AndCreatePage2';
 import AndUpdate from './pages/and/AndUpdate';
 import AndQnaCreate from './pages/and/AndQnaCreate';
 import AndQnaUpdate from './pages/and/AndQnaUpdate';
@@ -49,7 +51,7 @@ import AndMemberUpdate from './pages/and/AndMemberUpdate';
 import ChatPage from './pages/chat/ChatPage';
 import AndChat from './pages/and/AndChat';
 import ChatroomUpdate from './pages/chat/ChatroomUpdate';
-import AndCreateImg from './pages/and/AndCreateImg';
+import AndCreateImg from './components/and/AndCreateImg';
 import ScrollToTop from './components/ScrollToTop';
 import AndApplicantAdmin from './pages/and/AndApplicantAdmin';
 import { NaverLoginCallback } from './components/sign/NaverLoginCallback';
@@ -189,11 +191,12 @@ function App() {
                 </Route>
 
                 {/* And 관련 */}
-                <Route path="/and/create" element={<AndCreate />} />
+                <Route path="/and/create1" element={<AndCreate1 />} />
+                <Route path="/and/:andId/create" element={<AndCreatePage2 />} />
                 <Route path="/and/:andId/img/create" element={<AndCreateImg />} />
                 <Route path="/and/:andId/update" element={<AndUpdate />} />
                 <Route path="/and/:andId/qna/create" element={<AndQnaCreate />} />
-                <Route path="/and/create" element={<AndCreate />} />
+                <Route path="/and/:andId/create/editer" element={<AndCreate />} />
                 <Route path="/and/:andId/qna/reply/:andQnaId/create" element={<AndReplyCreate />} />
                 <Route path="/and/:andId/applicant/create" element={<AndApplicantCreate />} />
                 <Route path="/and/:andId/board/create" element={<AndBoardCreate />} />
