@@ -75,16 +75,15 @@ const AdminSignup = () => {
                     "userPrivacy": 1,
                     "userMarketing": 1,
                     "role": 1
-                }).then((res) => {
-                    console.log(res);
-                    if(!res.ok){
-                        alert("관리자 계정 가입에 실패했습니다.");
-                    }
-                    else{
-                        alert("관리자 계정 가입에 성공했습니다!");
-                        navigate("/");
-                    }
                 })
+            }).then((res) => {
+                if(!res.ok){
+                    alert("관리자 계정 가입에 실패했습니다.");
+                }
+                else{
+                    alert("관리자 계정 가입에 성공했습니다!");
+                    navigate("/");
+                }
             })
         } catch(error){
             console.error(error);

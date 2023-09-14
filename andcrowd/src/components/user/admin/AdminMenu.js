@@ -3,21 +3,28 @@ import { Button } from "@mui/material";
 export const AdminMenu = ({setType, setIsFetchUp}) => {
     const onClickUserManageButton = () => {
         setIsFetchUp(false);
-        console.log("머고씨발");
         setType("user");
+        localStorage.setItem("type", "user")
     };
     const onClickAndManageButton = () => {
         setIsFetchUp(false);
         setType("and");
+        localStorage.setItem("type", "and")
     };
     const onClickCrowdManageButton = () => {
+        setIsFetchUp(false);
         setType("crowd");
+        localStorage.setItem("type", "crowd")
     };
     const onClickReportManageButton = () => {
+        setIsFetchUp(false);
         setType("report");
+        localStorage.setItem("type", "report")
     };
     const onClickInfoManageButton = () => {
-        setType("info");
+        setIsFetchUp(false);
+        setType("infoboard");
+        localStorage.setItem("type", "infoboard")
     };
 
     return (

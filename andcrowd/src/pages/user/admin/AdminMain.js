@@ -8,6 +8,10 @@ const AdminMain = () => {
     const [type, setType] = useState(null);
     const [isFetchUp, setIsFetchUp] = useState(false);
 
+    useState(() => {
+        setType(localStorage.getItem("type"));
+    }, []);
+
     useEffect(() => {
     }, [isFetchUp]);
 

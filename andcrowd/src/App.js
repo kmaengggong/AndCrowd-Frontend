@@ -100,7 +100,7 @@ function App() {
     };
   }, []);
 
-  const maxWidth = Math.min(1320, windowWidth * 0.8); // 최대 너비를 1320px 또는 창 너비의 90% 중 작은 값으로 설정
+  const maxWidth = Math.min(1320, windowWidth * 0.7); // 최대 너비를 1320px 또는 창 너비의 90% 중 작은 값으로 설정
 
   return (
     <IsLoginProvider>
