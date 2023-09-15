@@ -77,7 +77,9 @@ function Footer() {
 
           <Box id='semiLeftBox'>
             <Typography id = 'footerSubtext'>
-            HELP
+              <a href="/help">
+              HELP
+              </a>
             </Typography>
             <Link id = 'footerLinkInv'>
             투자위험고지 바로가기

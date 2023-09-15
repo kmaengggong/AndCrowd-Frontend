@@ -80,8 +80,8 @@ const Header = () => {
         <Link id='navText' href="/team" variant="nonlined" size="small" >
           팀소개
         </Link>
-        <Link id='navText' href="/help" variant="nonlined" size="small">
-          도움말
+        <Link id='navText' href="/infoboard/list" variant="nonlined" size="small">
+          공지
         </Link>
         </div>
          <Link id='logo' href="/">
