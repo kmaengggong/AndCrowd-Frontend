@@ -56,6 +56,7 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
   const [tab, setTab] = useState('CHATROOM');
   const [privateChats, setPrivateChats] = useState({}); 
   const [previousPrivateMessages, setPreviousPrivateMessages] = useState([]); 
+  const [userProfileImg, SetUserProfileImg] = useState('');
 
   const navigate = useNavigate();
 
@@ -191,10 +192,10 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
         const data = await response.json();
         setPreviousPrivateMessages(data);
 
-        console.log(roomData.roomId);
-        console.log(nickname);
-        console.log(tab);
-        console.log(data);
+        // console.log(roomData.roomId);
+        // console.log(nickname);
+        // console.log(tab);
+        // console.log(data);
 
       } else {
         throw new Error(`Fetching and data failed with status ${response.status}.`);
@@ -211,6 +212,7 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
       if (response.ok) {
         const data = await response.json();
         setMembers(data);
+        console.log("loadChatMembers data: ", data)
       } else {
         throw new Error(`Fetching chat members failed with status ${response.status}.`);
       }
@@ -218,6 +220,22 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
       console.error('Error loading chat members:', error);
     }
   };
+
+  const getUserImg = async (name) => {
+    try {
+      const response = await fetch(`/and/chat/${name}/img`);
+      if (response.ok) {
+        const clonedResponse = response.clone();
+        const imageUrl = await clonedResponse.text();
+        SetUserProfileImg(imageUrl);
+        userProfileImg = imageUrl;
+      } else {
+        throw new Error(`Fetching failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error('Error loading :', error);
+    }
+}
 
   const onPrivateMessage = (payload) => {
     const payloadData = JSON.parse(payload.body);
@@ -339,12 +357,15 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
   }
 
   const handleMemberClick = (name) => {
+    console.log("handleMemberClick: ", name);
     setTab(name);
+    getUserImg(name);
   };
   
   const handleChatRoomClick = () => {
     setTab('CHATROOM');
   };
+
 
   useEffect(() => {
     loadPreviousPrivateMessages(roomData.roomId, nickname, tab);
@@ -402,7 +423,7 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
               onClick={() => handleMemberClick(member.userNickname)}
               className={`member ${tab===member.userNickname && "active"}`}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <Avatar sx={{ mt:1, ml:1, width:35, height:36 }}><PersonRoundedIcon /></Avatar>
+                  <Avatar sx={{ mt:1, ml:1, width:35, height:36 }} alt="member_img" src={member.userProfileImg} />
                   <p id='member-nickname'>{member.userNickname}</p>
                   {member.userKorName && <p id='member-nickname'>({member.userKorName})</p>}              
                   {connectedList && connectedList.includes(member.userNickname) && (
@@ -541,7 +562,8 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
         {tab!=="CHATROOM" &&
         <div className='chatroom-right'>
         <div className='chatroom-name' style={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar sx={{ mt:1, ml:1, mb:1, width:40, height:40 }}><PersonRoundedIcon /></Avatar>
+          {/* <Avatar sx={{ mt:1, ml:1, mb:1, width:40, height:40 }}><PersonRoundedIcon /></Avatar> */}
+          <Avatar sx={{ mt:1, ml:1, mb:1, width:40, height:40 }} alt="member_img" src={userProfileImg} />
           <p id='private-name'>{tab}</p>
         </div>
       
