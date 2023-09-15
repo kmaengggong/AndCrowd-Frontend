@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { GetUserId } from "../../components/user/GetUserId";
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Input, Modal, TextField, Typography } from "@mui/material";
 import { GetUserInfo } from "../../components/user/GetUserInfo";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { isLoginContext } from "../../context/isLoginContext";
 import Logout from "../../components/sign/Logout";
@@ -196,7 +195,6 @@ const UserInfoEdit = () => {
                         fullWidth
                         name=""
                         label="전화번호"
-                        id=""
                         value={phoneNumber}
                         onChange={onPhoneNumberKeyDown}
                     />

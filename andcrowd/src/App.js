@@ -42,7 +42,6 @@ import AndRole from './pages/and/AndRole';
 import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
-import CrowdPaymentFunction from "./payment/CrowdPaymentFunction";
 import AdPaymentFunction from "./payment/AdPaymentFunction";
 import AndMember from './pages/and/AndMember';
 import AndMemberDetail from './pages/and/AndMemberDetail';
@@ -76,6 +75,8 @@ import AdminRoute from './components/route/AdminRoute';
 import AdminMain from './pages/user/admin/AdminMain';
 import Infoboard from './pages/etc/Infoboard';
 import InfoboardDetail from './pages/etc/InfoboardDetail';
+import CrowdPayment from './payment/CrowdPayment';
+import CrowdRewardPayment from './payment/CrowdRewardPayment';
 
 
 const sections = [
@@ -186,7 +187,6 @@ function App() {
               <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
               <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
               <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
-              <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
 
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
@@ -218,6 +218,8 @@ function App() {
                 
                 {/* Crowd 관련 */}
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
+                <Route path="/crowd/:crowdId/payment" element={<CrowdPayment />} />
+                <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdRewardPayment />}/>
               </Route>
               
               
