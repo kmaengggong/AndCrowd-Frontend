@@ -11,6 +11,8 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import AttachFileRoundedIcon from '@mui/icons-material/AttachFileRounded';
 import FiberManualRecordRoundedIcon from '@mui/icons-material/FiberManualRecordRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import { GetUserInfo } from "../../components/user/GetUserInfo";
+import { GetUserId } from "../../components/user/GetUserId";
 
 const style = {
   position: 'absolute',
@@ -57,6 +59,7 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
   const [privateChats, setPrivateChats] = useState({}); 
   const [previousPrivateMessages, setPreviousPrivateMessages] = useState([]); 
   const [userProfileImg, SetUserProfileImg] = useState('');
+  const [userInfo, setUserInfo] = useState([]);
 
   const navigate = useNavigate();
 
@@ -97,6 +100,10 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
     }
   };
   
+  useEffect(() => {
+    const userId = GetUserId();
+    GetUserInfo(userId, setUserInfo);
+  }, []);
 
   // 스크롤을 항상 가장 아래로 이동시키는 함수
   const scrollToBottom = () => {
@@ -436,7 +443,7 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
 
         {/* 로그인 유저 */}
         <div className='login-user' style={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar sx={{ background: "#72a4f7", ml:1 }}><PersonRoundedIcon /></Avatar>
+          <Avatar sx={{ background: "#72a4f7", ml:1, width:35, height:36 }} src={userInfo.userProfileImg} ></Avatar>
           <span id='login-nickname'>{nickname}</span>
         </div>
 

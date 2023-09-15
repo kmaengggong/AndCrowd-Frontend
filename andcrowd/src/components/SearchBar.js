@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
@@ -36,20 +37,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-function SearchBar() {
-   return (
-     <Search>
-       <SearchIconWrapper>
-         <IconButton>
-           <SearchIcon />
-         </IconButton>
-       </SearchIconWrapper>
-       <StyledInputBase
-         placeholder="검색어를 입력해주세요"
-         inputProps={{'aria-label':'search'}}
-        />
-     </Search>  
-   );
-}
+function SearchBar({ onSearch }) {
 
+  const [searchKeyword, setSearchKeyword] = useState('');
+
+  const handleSearchClick = () => {
+    // 검색 버튼 클릭 시, 부모 컴포넌트(AndScroll.js)의 적절한 함수(onSearchClick)를 호출합니다.
+    onSearch(searchKeyword);
+    setSearchKeyword('');
+  };
+
+  return (
+    <Search>
+      <SearchIconWrapper>
+        <IconButton onClick={handleSearchClick}>
+          <SearchIcon />
+        </IconButton>
+      </SearchIconWrapper>
+      <StyledInputBase
+        placeholder="검색어를 입력해주세요"
+        inputProps={{ 'aria-label': 'search' }}
+        value={searchKeyword}
+        onChange={(e) => setSearchKeyword(e.target.value)}
+      />
+    </Search>
+  );
+}
 export default SearchBar;
