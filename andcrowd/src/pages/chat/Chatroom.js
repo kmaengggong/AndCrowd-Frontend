@@ -444,7 +444,7 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
         {/* 로그인 유저 */}
         <div className='login-user' style={{ display: 'flex', alignItems: 'center' }}>
           <Avatar sx={{ background: "#72a4f7", ml:1, width:35, height:36 }} src={userInfo.userProfileImg} ></Avatar>
-          <span id='login-nickname'>{nickname}</span>
+          <span id='login-nickname'>{nickname} ({userInfo.userKorName})</span>
         </div>
 
       </div>

@@ -368,7 +368,7 @@ const navigateToAndCreate = () => {
   
   return (
     <div>
-      <SearchBar onSearch={handleSearch} />
+      {/* <SearchBar onSearch={handleSearch} /> */}
       <div id='feed-top'>
       <Typography className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
         onClick={() => handleSortFieldChange('publishedAt')}
