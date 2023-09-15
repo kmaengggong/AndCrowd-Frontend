@@ -8,6 +8,7 @@ import axios from "axios";
 
 const AndManage = () => {
 
+    const navigate = useNavigate();
     const params = useParams();
     const andId = params.andId;
 
@@ -125,7 +126,9 @@ const AndManage = () => {
         }
     };
     
-
+    const applicantDetail = (andApplyId) =>{
+        navigate(`/and/${andId}/applicant/${andApplyId}`)
+    }
 
     return(
         <div>
@@ -193,7 +196,7 @@ const AndManage = () => {
                         <li>
                             역할번호: {andApplicant.andRoleId}
                         </li>
-                        <li>
+                        <li onClick={() => {applicantDetail(andApplicant.andApplyId)}} style={{ cursor: "pointer" }}>
                             지원서: {andApplicant.andApplyContent}
                         </li>
                         <li>
