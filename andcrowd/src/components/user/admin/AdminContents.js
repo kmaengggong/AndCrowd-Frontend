@@ -6,6 +6,7 @@ import { AdminReportProcessButton } from './AdminReportProcessButton';
 import { AdminInfoCreateButton } from './AdminInfoCreateButton';
 import { GetUserId } from '../GetUserId';
 import { AdminInfoEditButton } from './AdminInfoEditButton';
+import { AdminJudgeButton } from './AdminJudgeButton';
 
 export const AdminContents = ({type, isFetchUp, setIsFetchUp}) => {
     const columns = {
@@ -29,11 +30,10 @@ export const AdminContents = ({type, isFetchUp, setIsFetchUp}) => {
             {field: 'andId', headerName: 'ID', width: 85},
             {field: 'andStatus', headerName: '상태', width: 100,
                 valueGetter: (params) => 
-                    params.value === 0 ? '모집중' :
-                    params.value === 1 ? '작성중' :
-                    params.value === 2 ? '심사중' :
-                    params.value === 3 ? '반려' : 
-                    '모집종료'
+                    params.value === 0 ? '심사중' :
+                    params.value === 1 ? '모집중' :
+                    params.value === 2 ? '반려' :   
+                    '모집 종료'
             },
             {field: 'userId', headerName: '글쓴이', width: 120},
             {field: 'andCategoryId', headerName: '카테고리', width: 130},
@@ -116,6 +116,9 @@ export const AdminContents = ({type, isFetchUp, setIsFetchUp}) => {
         fetchList();
     }, [type]);
 
+    useEffect(() => {
+    }, [rowSelectionModel]);
+
     const fetchList = () => {
         fetch(`/${type}/list`, {
             method: "GET",
@@ -181,13 +184,19 @@ export const AdminContents = ({type, isFetchUp, setIsFetchUp}) => {
                     <></>
                 }
 
+                <AdminDeleteButton type={type} rowSelectionModel={rowSelectionModel} />
+
                 {type === 'report' ?
                     <AdminReportProcessButton type={type} rowSelectionModel={rowSelectionModel}/>
                     :
                     <></>
                 }
 
-                <AdminDeleteButton type={type} rowSelectionModel={rowSelectionModel}/>
+                {type === 'and' || type === 'crowd' ?
+                    <AdminJudgeButton type={type} rowSelectionModel={rowSelectionModel} />
+                    :
+                    <></>
+                }
             </Box>
             }
         </>

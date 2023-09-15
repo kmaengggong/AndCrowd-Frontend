@@ -4,8 +4,8 @@ import { useState } from "react";
 export const AdminReportProcessButton = ({type, rowSelectionModel}) => {
     const [openProcessDialog, setOpenProcessDialog] = useState(false);
     const handleOpenProcessDialog = () => {
-        if(rowSelectionModel.length <= 0){
-            alert(`${type} 을(를) 선택해주세요.`);
+        if(rowSelectionModel.length !== 1){
+            alert(`한 개의 신고사항을 선택해주세요.`);
             return;
         }
         setOpenProcessDialog(true);
@@ -23,31 +23,23 @@ export const AdminReportProcessButton = ({type, rowSelectionModel}) => {
 
     const handleProcess = (status) => {
         try{
-            for(let i=0; i<rowSelectionModel.length; i++){
-                let url = `/${type}/${rowSelectionModel[i]}`;
-                try{
-                    fetch(url, {
-                        method: "PATCH",
-                        headers:{
-                            'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
-                            'Content-Type': 'application/json; text=utf-8'
-                        },
-                        body: JSON.stringify({
-                            reportId: rowSelectionModel[i],
-                            reportStatus: status 
-                        })
-                    }).then(res => {
-                        console.log(res);
-                        if(!res.ok){
-                            alert("처리 도중 에러가 발생했습니다.");
-                            throw new Error("Process user error");
-                        }
-                    })
-                } catch(error){
-                    console.error(error);
-                    break;
+            fetch(`/${type}/${rowSelectionModel}`, {
+                method: "PATCH",
+                headers:{
+                    'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+                    'Content-Type': 'application/json; text=utf-8'
+                },
+                body: JSON.stringify({
+                    reportId: rowSelectionModel[0],
+                    reportStatus: status 
+                })
+            }).then(res => {
+                console.log(res);
+                if(!res.ok){
+                    alert("처리 도중 에러가 발생했습니다.");
+                    throw new Error("Process user error");
                 }
-            }
+            })
         } catch(error){
             console.error(error);
         }
@@ -67,10 +59,10 @@ export const AdminReportProcessButton = ({type, rowSelectionModel}) => {
             </Button>
 
             <Dialog
-            open={openProcessDialog}
-            onClose={handleCloseProcessDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
+                open={openProcessDialog}
+                onClose={handleCloseProcessDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
             >
             <DialogTitle id="alert-dialog-title">
                 {type} 처리

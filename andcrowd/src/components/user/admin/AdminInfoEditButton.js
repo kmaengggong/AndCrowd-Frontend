@@ -1,20 +1,12 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useState } from "react";
 
 export const AdminInfoEditButton = ({type, userId, rowSelectionModel}) => {
-    const [infoType, setInfoType] = useState('');
     const [infoTitle, setInfoTitle] = useState(null);
     const [infoCotent, setInfoContent] = useState(null);
     const [openInfoDialog, setOpenInfoDialog] = useState(false);
+    const [info, setInfo] = useState([]);
 
-    useState(() => {
-
-    }, []);
-
-    const onChangeInfoType = (event) => {
-        event.preventDefault();
-        setInfoType(event.target.value);
-    };
     const onChangeInfoTitle = (event) => {
         event.preventDefault();
         setInfoTitle(event.target.value);
@@ -29,29 +21,43 @@ export const AdminInfoEditButton = ({type, userId, rowSelectionModel}) => {
             alert("한 개의 공지사항을 선택해주세요.");
             return;
         }
-        setOpenInfoDialog(true);
+
+        try{
+            fetch(`/infoboard/${rowSelectionModel}`)
+            .then(res => {
+                return res.json();
+            }).then(data => {
+                setInfo(data);
+            }).then(() => {
+                if(info.infoType) info.infoType = 1;
+                else info.infoType = 0;
+                setOpenInfoDialog(true);
+            })
+        } catch(error){
+            console.error(error);
+        }
     }
     const handleCloseInfoDialog = () => setOpenInfoDialog(false);
 
-    const onClickInfoCreateButton = () => {
-        console.log(rowSelectionModel);
+    const onClickInfoEditButton = (event) => {
+        event.preventDefault();
         handleCloseInfoDialog();
+
         try{
-            fetch(`/${type}/create`, {
-                method: "POST",
+            fetch(`/${type}/${rowSelectionModel}/update`, {
+                method: "PATCH",
                 headers:{
                     'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
                     'Content-Type': 'application/json; text=utf-8'
                 },
                 body: JSON.stringify({
                     'userId': userId,
-                    'infoType': infoType,
                     'infoTitle': infoTitle,
                     'infoContent': infoCotent
                 })
             }).then((res) => {
-                if(res.ok) alert("공지글 작성 성공");
-                else alert("공지글 작성에 실패했습니다.");
+                if(res.ok) alert("공지글 수정 성공");
+                else alert("공지글 수정에 실패했습니다.");
                 window.location.reload(type);
             });
         } catch(error){
@@ -75,6 +81,8 @@ export const AdminInfoEditButton = ({type, userId, rowSelectionModel}) => {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
+                <Box component="form" onSubmit={onClickInfoEditButton}>
+
                 <DialogTitle id="alert-dialog-title">
                     공지 글 수정
                 </DialogTitle>
@@ -83,16 +91,8 @@ export const AdminInfoEditButton = ({type, userId, rowSelectionModel}) => {
                         타입
                     </DialogContentText>
                     <FormControl fullWidth>
-                        <Select
-                            defaultValue={rowSelectionModel.infoType}
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            onChange={onChangeInfoType}
-                            value={infoType}
-                        >
-                            <MenuItem value={1}>공지사항</MenuItem>
-                            <MenuItem value={0}>새소식</MenuItem>
-                        </Select>
+                        <InputLabel id="demo-simple-select-label">{info.infoType ? '공지사항' : '새소식'}</InputLabel>
+                        <Select disabled />
                     </FormControl>
                     <DialogContentText id="alert-dialog-description">
                         제목
@@ -103,7 +103,7 @@ export const AdminInfoEditButton = ({type, userId, rowSelectionModel}) => {
                         placeholder="제목"
                         onChange={onChangeInfoTitle}
                         autoFocus
-                        value={rowSelectionModel.infoTitle}
+                        defaultValue={info.infoTitle}
                     />
                     <DialogContentText id="alert-dialog-description">
                         내용
@@ -113,14 +113,16 @@ export const AdminInfoEditButton = ({type, userId, rowSelectionModel}) => {
                         fullWidth
                         placeholder="내용"
                         onChange={onChangeInfoContent}
-                        value={rowSelectionModel.infoContent}
+                        defaultValue={info.infoContent}
                         autoFocus
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onClickInfoCreateButton} color="error">작성</Button>
+                    <Button type="submit" color="error">수정</Button>
                     <Button onClick={handleCloseInfoDialog} color="error">아니오</Button>
                 </DialogActions>
+
+                </Box>
             </Dialog>
         </>
     );

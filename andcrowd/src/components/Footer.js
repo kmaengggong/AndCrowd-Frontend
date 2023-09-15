@@ -1,5 +1,4 @@
 import React, { useState, useEffect }from 'react';
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -20,7 +19,7 @@ function Copyright() {
   );
 }
 
-function Footer(props) {
+function Footer() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -35,13 +34,13 @@ function Footer(props) {
     };
   }, []);
 
-  const { description, title } = props;
+  // const { description, title } = props;
   const maxWidth = Math.min(1320, windowWidth * 0.7);
 
   if(window.location.pathname.startsWith("/iamtheadmin")) return null;
   
   return (
-    <Box id = 'footerBox' component="footer" >
+    <Box id = 'footerBox' component="footer" sx={{mt:10}}>
       <Container id='footerContainer' style={{ maxWidth: `${maxWidth}px` }}>
 
         <Box id='leftBox'>
@@ -101,10 +100,5 @@ function Footer(props) {
     </Box>
   );
 }
-
-Footer.propTypes = {
-  description: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-};
 
 export default Footer;

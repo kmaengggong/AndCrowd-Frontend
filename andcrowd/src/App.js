@@ -74,6 +74,8 @@ import Help from './pages/etc/Help';
 import AdminSignup from './pages/user/admin/AdminSignup';
 import AdminRoute from './components/route/AdminRoute';
 import AdminMain from './pages/user/admin/AdminMain';
+import Infoboard from './pages/etc/Infoboard';
+import InfoboardDetail from './pages/etc/InfoboardDetail';
 
 
 const sections = [
@@ -112,6 +114,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/logout" element={<Logout />} />
+            <Route path="/infoboard/list" element={<Infoboard />} />
+            <Route path="/infoboard/:infoId" element={<InfoboardDetail />} />
 
             {/* 로그인되지 않은 상태에서만 접근 가능 */}
             <Route element={<PublicRoute />}>
@@ -227,7 +231,7 @@ function App() {
           </Routes>
         </div>
       </div>
-      <Footer></Footer>
+      <Footer />
     </div>
     </IsLoginProvider>
   );
