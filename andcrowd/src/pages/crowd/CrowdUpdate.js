@@ -20,6 +20,11 @@ const CrowdUpdate = () => {
     });
 
     const fetchCrowdData = async () => {
+    useEffect(() =>{
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
         try{
             const response = await fetch(`/crowd/${crowdId}`);
 
@@ -96,5 +101,5 @@ const CrowdUpdate = () => {
         </div>
     );
 }
-
+}
 export default CrowdUpdate;

@@ -43,3 +43,6 @@
     display: flex;
     justify-content: center;
 }
+#search-icon{
+    cursor: pointer;
+}

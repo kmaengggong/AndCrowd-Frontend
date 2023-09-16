@@ -41,7 +41,7 @@ function SearchBar() {
      <Search>
        <SearchIconWrapper>
          <IconButton>
-           <SearchIcon />
+           <SearchIcon id='search-icon'/>
          </IconButton>
        </SearchIconWrapper>
        <StyledInputBase

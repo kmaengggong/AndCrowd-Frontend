@@ -59,6 +59,31 @@ const CrowdCreate = () => {
   const navigate = useNavigate();
   const [rewards, setRewards] = useState([]);
   const [userId, setUserId] = useState(""); // userId를 상태로 설정
+  const yourAccessToken = Cookies.get('refresh_token');
+  useEffect(() => {
+    // userId를 백엔드로부터 가져오는 로직
+    // 토큰 또는 세션을 이용해 userId를 전달
+    const fetchUserId = async () => {
+      try {
+        const userIdResponse = await fetch(`/user-info/userid`,{
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${yourAccessToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        if (userIdResponse.ok) {
+          const userId = await userIdResponse.json();
+          setUserId(userId.userId);
+        } else {
+          throw new Error(`Fetching userId failed with status ${userIdResponse.status}.`);
+        }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+    };
+    fetchUserId();
+  },[]);
 
   const [formData, setFormData] = useState({
     crowdCategoryId: "",
@@ -289,6 +314,9 @@ const CrowdCreate = () => {
                   </ul>
                 </div>
               </Grid>
+              <div id='and-create2-mid'>
+              <input type="datetime-local" name="crowdEndDate" value={formData.crowdEndDate} onChange={handleInputChange} placeholder="마감일" />
+              </div>
             <Container component="main" maxWidth="md">
               <br />
               <Button
