@@ -4,7 +4,6 @@ import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import { Navigate ,useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -38,25 +37,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const SearchBar = () => {
+function SearchBar({ onSearch }) {
 
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [andCrowd, setAndCrowd] = useState('');
-  const navigate = useNavigate();
 
   const handleSearchClick = () => {
-    console.log("검색 결과 페이지로 이동")
-    navigate(`/search/${searchKeyword}`);
+    // 검색 버튼 클릭 시, 부모 컴포넌트(AndScroll.js)의 적절한 함수(onSearchClick)를 호출합니다.
+    onSearch(searchKeyword);
     setSearchKeyword('');
   };
 
-
   return (
-    <>
-    {/* <Search> */}
+    <Search>
       <SearchIconWrapper>
-        <IconButton onClick={handleSearchClick} >
-          <SearchIcon  />
+        <IconButton onClick={handleSearchClick}>
+          <SearchIcon />
         </IconButton>
       </SearchIconWrapper>
       <StyledInputBase
@@ -65,8 +60,7 @@ const SearchBar = () => {
         value={searchKeyword}
         onChange={(e) => setSearchKeyword(e.target.value)}
       />
-    {/* </Search> */}
-    </>
+    </Search>
   );
 }
 export default SearchBar;
