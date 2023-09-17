@@ -38,12 +38,7 @@ const categories = [
   },
 ];
 
-const CrowdCategoryCreate = ({ onCategorySelect }) => {
-  const [selectedCategory, setSelectedCategory] = useState(""); // 선택한 카테고리를 저장할 상태
-
-  const handleCategorySelect = (selectedCategoryId) => {
-    setSelectedCategory(selectedCategoryId);
-  };  
+const CrowdCategoryCreate = ({ value, onChange }) => {
 
   return (
     <Grid item xs={9} sm={6}>
@@ -54,8 +49,9 @@ const CrowdCategoryCreate = ({ onCategorySelect }) => {
         label="카테고리 설정"
         name="crowdCategoryId"
         select
-        value={selectedCategory}
-        onChange={(event) => handleCategorySelect(event.target.value)}
+        value={value}
+        // onChange={(event) => onCategorySelect(event.target.value)}
+        onChange={onChange}
       >
         <MenuItem value="">--카테고리 선택--</MenuItem>
         {categories.map((category) => (

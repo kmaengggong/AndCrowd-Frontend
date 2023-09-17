@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
 import CssBaseline from '@mui/material/CssBaseline';
 import Cookies from 'js-cookie';
 import { InputAdornment } from "@mui/material";
@@ -14,7 +13,6 @@ import CrowdCategoryCreate from "./CrowdCategoryCreate";
 
 const CrowdCreate = () => {
   const navigate = useNavigate();
-  const [rewards, setRewards] = useState([]);
   const [userId, setUserId] = useState(""); // userId를 상태로 설정
   const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -72,11 +70,12 @@ const CrowdCreate = () => {
     }
   };
 
-  const handleCategorySelect = (selectedCategoryId) => {
-    setSelectedCategory(selectedCategoryId);
+  const handleCategorySelect = (event) => {
+    handleInputChange(event);
   };  
 
-  const handleNextButtonClick = async () => {
+  const handleNextButtonClick = async (e) => {
+    e.preventDefault();
     try {
       const response = await fetch("/crowd/create", {
         method: "POST",
@@ -145,7 +144,11 @@ const CrowdCreate = () => {
                 }}
               />
             </Grid>
-            <CrowdCategoryCreate value={formData.crowdCategoryId} onCategorySelect={handleCategorySelect} />
+            {/* 카테고리 선택 */}
+            <CrowdCategoryCreate 
+            value={formData.crowdCategoryId} 
+            onChange={handleCategorySelect} />
+            {/*  */}
             <Grid item xs={12} sm={9}>
                 <TextField 
                   required
@@ -215,8 +218,8 @@ const CrowdCreate = () => {
                 />
               </Grid>
           </Grid>
+          <hr />
           <Container component="main" maxWidth="md">
-              <br />
               <Button
                 type="submit"
                 variant="contained"

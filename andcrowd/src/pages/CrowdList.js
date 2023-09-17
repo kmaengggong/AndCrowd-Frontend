@@ -11,8 +11,9 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import Chip from '@mui/joy/Chip';
 import Link from '@mui/joy/Link';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import { formatMoney, calculateRaisedAmount, getDaysBetweenDate } from '../pages/etc/Finance';
+import { calculateRaisedAmount, getDaysBetweenDate } from '../pages/etc/Finance';
 import CrowdCategoryList from "./crowd/CrowdCategoryList";
+import CrowdMainImg from "./crowd/CrowdMainImg";
 
 const CrowdList = () => {
   const [data, setData] = useState([]);
@@ -29,6 +30,14 @@ const CrowdList = () => {
   const [rolesData, setRolesData] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  // CrowdMainImg에서 사용할 이미지 배열
+  const [carouselImages, setCarouselImages] = useState([
+    { imageColor: "blue", imageUrl: "https://images.pexels.com/photos/5412270/pexels-photo-5412270.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
+    { imageColor: "yellow", imageUrl: "https://images.pexels.com/photos/1252500/pexels-photo-1252500.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
+    { imageColor: "green", imageUrl: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
+  ]);
+  
+
   const handleClick = () => {
     setIsClicked(!isClicked);
   };
@@ -41,7 +50,7 @@ const CrowdList = () => {
     fetchCrowdList();
   };
 
-  const fetchCrowdRoles = async (id) => { // 크라우드 글 선택시 상세페이지로 넘어가주는 구문
+  const fetchCrowdRoles = async (id) => { // 크라우드 글 선택시 정렬 구문
     try {
       const response = await fetch(`/crowd/list/${id}`);
       const jsonData = await response.json();
@@ -164,6 +173,10 @@ const CrowdList = () => {
   const navigateToCreate = () => {
     navigate("/crowd/create");
   };
+
+  const formatMoney = (amount) => {
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }; // 모집금액 단위 표시  
   
   return (
     <div>
@@ -174,26 +187,13 @@ const CrowdList = () => {
       <div className={styles.carousel}>
         {/* 화면상단 인기/추천 게시글 */}
         <Box sx={{ borderRadius: 'sm', p: 1}}>
-          <AspectRatio objectFit="contain" maxHeight={500}>
-            <img
-              id="carouselImg"
-              src="https://images.unsplash.com/photo-1502657877623-f66bf489d236?auto=format&fit=crop&w=800"
-              srcSet="https://images.unsplash.com/photo-1502657877623-f66bf489d236?auto=format&fit=crop&w=800&dpr=2 2x"
-              alt="landscape"
-            />
+          <AspectRatio objectFit="contain" maxHeight={400}>
+            <CrowdMainImg images={carouselImages} />
           </AspectRatio>
         </Box>
       </div>{/* 카테고리 */}
         <div className={styles.btnCategory}>
           <CrowdCategoryList onCategorySelect={handleCategorySelect} />
-            {/* <button onClick={() => handleCategoryClick('카테고리 1')}>문화 예술</button>
-            <button onClick={() => handleCategoryClick('카테고리 2')}>액티비티 스포츠</button>
-            <button onClick={() => handleCategoryClick('카테고리 3')}>테크 가전</button>
-            <button onClick={() => handleCategoryClick('카테고리 4')}>푸드</button>
-            <button onClick={() => handleCategoryClick('카테고리 5')}>언어</button>
-            <button onClick={() => handleCategoryClick('카테고리 6')}>여행</button>
-            <button onClick={() => handleCategoryClick('카테고리 6')}>반려동물</button>
-            <button onClick={() => handleCategoryClick('카테고리 6')}>기타</button> */}
         </div>
         <div className={styles.crowdListblock}>
           {/* 상태별분류 목록 */}
@@ -227,17 +227,6 @@ const CrowdList = () => {
           </div>
         </div>
         <br />
-        {/* <div className={styles.listContainer}>
-          데이터를 매핑하여 화면에 게시물 목록을 표시하는 코드
-          {filteredCrowdData && filteredCrowdData.map((crowd) => (
-            <div key={crowd.crowdId} onClick={() => navigateToDetail(crowd.crowdId)}>
-              <h2>{crowd.crowdTitle}</h2>
-              <p>{crowd.crowdContent}</p>
-              <p>{crowd.crowdCategory}</p>
-              다른 게시글 내용 표시 요소 추가
-            </div>
-          ))}
-        </div> */}
         <div className={styles.listContainer} style={{ gap: '20px', marginLeft: '20px' }}>
             {filteredCrowdData && filteredCrowdData.map((crowd) => (
               <Card
@@ -279,7 +268,7 @@ const CrowdList = () => {
                     {formatMoney(calculateRaisedAmount(crowd.crowdGoal, crowd.currentAmount))}원 달성!  
                   </Typography>
                   <Typography sx={{ fontSize: '12px', color: 'gray', fontStyle: 'italic'}}>
-                    모금액: {crowd.crowdGoal} 원 
+                    모금액: {formatMoney(crowd.crowdGoal)} 원 
                   </Typography>
                 </CardContent>
               </Card>

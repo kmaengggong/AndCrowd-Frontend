@@ -19,12 +19,24 @@ const CrowdRewardCreate = () => {
     rewardLimit: 10,
   });
 
+  // TextField 컴포넌트 생성을 위한 커스텀 함수
+  const renderTextField = (name, label, type = "text") => (
+    <TextField
+      required
+      name={name}
+      label={label}
+      fullWidth
+      type={type}
+      value={reward[name]}
+      onChange={handleInputChange}
+    />
+  );
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     let newValue = value;
   
     if (name === "rewardAmount") {
-      // 리워드 금액 필드에서 음수 값이 입력되지 않도록 조치
       newValue = Math.max(0, parseFloat(newValue));
     }
   
@@ -32,7 +44,7 @@ const CrowdRewardCreate = () => {
   };
   
   const handleRewardAdd = () => {
-    const newReward = { rewardTitle: reward.rewardTitle, rewardContent: reward.rewardContent, rewardAmount: reward.rewardAmount, rewardLimit: reward.rewardLimit };
+    const newReward = { ...reward };
     setRewards([...rewards, newReward]);
     setReward({
       rewardTitle: "",
@@ -47,9 +59,13 @@ const CrowdRewardCreate = () => {
     setRewards(updatedRewards);
   };
 
-  const handleNextButtonClick = async () => {
-    // 이 부분에서 rewards를 서버로 전송할 수 있습니다.
-    // 서버로 데이터를 전송하는 방식에 따라 수정해야 할 수 있습니다.
+  // 다음 버튼 클릭 핸들러 분리
+  const handleNextButtonClick = () => {
+    sendDataToServer();
+  };
+
+  // 서버로 데이터를 전송하는 함수
+  const sendDataToServer = async () => {
     try {
       const response = await fetch(`/crowd/${crowdId}/reward`, {
         method: "POST",
@@ -61,8 +77,6 @@ const CrowdRewardCreate = () => {
         }),
       });
       if (response.ok) {
-        // 성공적으로 데이터 전송 및 처리되었을 때의 코드
-        // 데이터를 저장하고 이동할 경로를 지정합니다.
         const responseData = await response.json();
         console.log("Response Data:", responseData);
         navigate(`/crowd/${crowdId}/img/create`);
@@ -80,40 +94,10 @@ const CrowdRewardCreate = () => {
       <span>서포터님들에게 제공할 리워드를 입력해 주세요.</span>
       <Box component="form" noValidate sx={{ mt: 3 }}>
         <Grid>
-          <TextField
-            required
-            name="rewardTitle"
-            label="리워드 제목"
-            fullWidth
-            value={reward.rewardTitle}
-            onChange={handleInputChange}
-          />
-          <TextField
-            required
-            name="rewardContent"
-            label="리워드 본문"
-            fullWidth
-            value={reward.rewardContent}
-            onChange={handleInputChange}
-          />
-          <TextField
-            required
-            name="rewardAmount"
-            label="리워드 금액"
-            fullWidth
-            type="number"
-            value={reward.rewardAmount}
-            onChange={handleInputChange}
-          />
-          <TextField
-            required
-            name="rewardLimit"
-            label="리워드 제한"
-            fullWidth
-            type="number"
-            value={reward.rewardLimit}
-            onChange={handleInputChange}
-          />
+          {renderTextField("rewardTitle", "리워드 제목")}
+          {renderTextField("rewardContent", "리워드 본문")}
+          {renderTextField("rewardAmount", "리워드 금액", "number")}
+          {renderTextField("rewardLimit", "리워드 수량", "number")}
           <Button variant="contained" color="primary" onClick={handleRewardAdd}>
             리워드 추가
           </Button>
@@ -125,7 +109,7 @@ const CrowdRewardCreate = () => {
                   <strong>리워드 제목:</strong> {reward.rewardTitle}<br />
                   <strong>리워드 본문:</strong> {reward.rewardContent}<br />
                   <strong>리워드 금액:</strong> {reward.rewardAmount}원<br />
-                  <strong>리워드 제한:</strong> {reward.rewardLimit}개<br />
+                  <strong>리워드 수량:</strong> {reward.rewardLimit}개<br />
                   <button onClick={() => handleRewardDelete(index)}>리워드 삭제</button>
                 </li>
               ))}

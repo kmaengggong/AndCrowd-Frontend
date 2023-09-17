@@ -38,7 +38,6 @@ const CrowdDetail = () => {
         <div className={styles.crowdDetailContainer} id="container">
             <div className='middleBar'/>
             <div className={styles.leftSide}>
-                <hr />
                 <div className={styles.imgContainer}>
                     <h1>{crowd.crowdTitle}</h1>
                     <span>{crowd.crowdContent}</span> <br />
