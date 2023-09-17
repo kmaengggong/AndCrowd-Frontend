@@ -42,7 +42,6 @@ import AndRole from './pages/and/AndRole';
 import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
-import AdPaymentFunction from "./payment/AdPaymentFunction";
 import AndMember from './pages/and/AndMember';
 import AndMemberDetail from './pages/and/AndMemberDetail';
 import AndMemberCreate from './pages/and/AndMemberCreate';
@@ -75,8 +74,8 @@ import AdminRoute from './components/route/AdminRoute';
 import AdminMain from './pages/user/admin/AdminMain';
 import Infoboard from './pages/etc/Infoboard';
 import InfoboardDetail from './pages/etc/InfoboardDetail';
-import CrowdPayment from './payment/CrowdPayment';
-import CrowdRewardPayment from './payment/CrowdRewardPayment';
+import CrowdPayment from './components/payment/CrowdPayment';
+import CrowdRewardPayment from './components/payment/CrowdRewardPayment';
 
 
 const sections = [
@@ -136,7 +135,6 @@ function App() {
               <Route path="/team" element={<Team />} />
               <Route path="/help" element={<Help />} />
               <Route path='/chat' element={<ChatPage />} />
-              <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
               <Route path="/test" element={<Test />} />
 
               {/* User 관련 */}

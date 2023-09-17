@@ -21,24 +21,24 @@ const Test = () => {
   }, [userInfo]);
 
   const onClickTestButton = () => {
-    // try{
-    //   fetch(`/crowd/create`, {
-    //     method: "POST",
-    //     headers:{
-    //       'Content-Type':'application/json; text=utf-8'
-    //     },
-    //     body: JSON.stringify({
-    //       'crowdCategoryId':1,
-    //       'crowdContent': "크라우드내용",
-    //       'crowdEndDate': '2023-09-20T15:06:07.000000',
-    //       'userId':1,
-    //       'crowdTitle':'크라우드제목'
-    //     })
-    //   }).then(res => console.log(res));
-    // } catch(error){
-    //   console.error(error);
-    // }
-    setOpen(true);
+    try{
+      fetch(`/crowd/create`, {
+        method: "POST",
+        headers:{
+          'Content-Type':'application/json; text=utf-8'
+        },
+        body: JSON.stringify({
+          'crowdCategoryId':1,
+          'crowdContent': "크라우드내용",
+          'crowdEndDate': '2023-09-20T15:06:07.000000',
+          'userId':1,
+          'crowdTitle':'크라우드제목'
+        })
+      }).then(res => console.log(res));
+    } catch(error){
+      console.error(error);
+    }
+    // setOpen(true);
   }
 
   const [open, setOpen] = useState(false);
