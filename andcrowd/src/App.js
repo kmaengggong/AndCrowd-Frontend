@@ -72,6 +72,7 @@ import MyPageCardsDetailPage from './pages/user/MyPageCardsDetailPage';
 import Team from './pages/etc/Team';
 import Help from './pages/etc/Help';
 import Search from './pages/etc/Search';
+import Chatbot from './pages/etc/Chatbot';
 
 
 const sections = [
@@ -125,7 +126,8 @@ function App() {
               {/* Etc */}
               <Route path="/team" element={<Team />} />
               <Route path="/help" element={<Help />} />
-              <Route path='/chat' element={<ChatPage />} />
+              {/* <Route path='/chat' element={<ChatPage />} /> */}
+              <Route path='/chatbot' element={<Chatbot />} />
               <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
               <Route path="/test" element={<Test />} />
 
