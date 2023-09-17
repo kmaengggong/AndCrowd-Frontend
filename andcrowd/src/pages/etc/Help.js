@@ -12,7 +12,8 @@ const Help = () => {
   const [message, setMessage] = useState('');
   const [messageList, setMessageList] = useState([]);
   const [stompClient, setStompClient] = useState(null);
-  const [layout, setLayout] = React.useState(undefined);
+  const [layout, setLayout] = useState(undefined);
+  const [sendOk, setSendOk] = useState(false);
 
   const connect = () => {
     if (stompClient) {
@@ -29,9 +30,17 @@ const Help = () => {
     client.subscribe('/chatbot/public', (message) => {
         handleReceivedMessage("받은 메세지: " + message.body);
     });
+    sendHelloMessage(client);
     });
   };
 
+  const sendHelloMessage = (client) => {
+    console.log("안녕메세지 전송")
+    if (client) {
+      const hello = "안녕"
+      client.send("/app/sendMessage", {}, JSON.stringify(hello));
+    }
+  };
   const disconnect = () => {
     if (stompClient) {
       stompClient.disconnect();
@@ -41,10 +50,17 @@ const Help = () => {
   };
 
   const sendMessage = () => {
+    // 빈 문자열 검사
+    if (message.trim() === '') {
+      return;
+    }
+
+    if (connected && sendOk) {
     const sentMessage = "보낸 메세지: " + message;
     handleSentMessage(sentMessage);
     stompClient.send("/app/sendMessage", {}, JSON.stringify(message));
     setMessage('');
+    }
   };
 
   const handleSentMessage = (sentMessage) => {
@@ -53,6 +69,7 @@ const Help = () => {
 
   const handleReceivedMessage = (receivedMessage) => {
     setMessageList((prevMessages) => [...prevMessages, receivedMessage]);
+    setSendOk(true);
   };
 
   const messageListRef = useRef(null);
@@ -77,7 +94,7 @@ const Help = () => {
           connect();
         }}
       >
-        연결
+        챗봇 연결
       </Button>
       <Modal
         open={!!layout}
@@ -129,7 +146,7 @@ const Help = () => {
           </List>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <TextField sx={{ flex: 1 }} color='success' variant="standard" placeholder="문의 내용을 입력해주세요" value={message} onChange={(e) => setMessage(e.target.value)} />
-            <IconButton sx={{ marginLeft: '8px' }} color='success' onClick={sendMessage} disabled={!connected}><SendIcon /></IconButton>
+            <IconButton sx={{ marginLeft: '8px' }} color='success' onClick={sendMessage} disabled={!connected && !sendOk}><SendIcon /></IconButton>
           </div>
         </ModalDialog>
       </Modal>

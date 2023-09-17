@@ -81,7 +81,7 @@ const AndCreate = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...updatedFormData, andContent: htmlStr }),
+        body: JSON.stringify({ ...updatedFormData, andContent: htmlStr, andStatus: 0 }),
       });
       navigate(`/and/${andId}`);
       if (response.ok) {

@@ -19,7 +19,8 @@ const AndCreate = () => {
     andContent: "",
     needNumMem: "",
     andEndDate: "",
-    andHeaderImg: ""
+    andHeaderImg: "",
+    andStatus: 4,
   });
 
   const yourAccessToken = Cookies.get('refresh_token');
@@ -85,6 +86,7 @@ const AndCreate = () => {
           andTitle: "더미 타이틀",
           andContent: "더미 컨텐츠",
           needNumMem: 999,
+          andStatus: 4,
           ...updatedFormData,
         }),
       });
