@@ -52,7 +52,7 @@ const AndDetail = () => {
     } catch (error) {
       console.error("Error fetching And data:", error);
     }
-  
+
   };
 
   const updateAnd = (andId) => {

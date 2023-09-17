@@ -129,7 +129,6 @@ const Login = () => {
     const onChangePassword = (e) => {
         setPassword(e.target.value);
     }
-
     const onClickNaverLoginButton = () => {
       window.location.href = NAVER_AUTH_URL;
     }
@@ -155,7 +154,8 @@ const Login = () => {
         }).then(data => {
           localStorage.setItem('access_token', data.accessToken);
           setIsLogin(true);
-          navigate(-1);
+          navigate("/");
+          window.location.reload();
         })
       } catch(error){
         console.log(error);
@@ -163,7 +163,6 @@ const Login = () => {
     }
 
   return (
-    // <ThemeProvider theme={defaultTheme}>
     <>
       <Box
          sx={{

@@ -15,5 +15,4 @@ export const GetUserInfo = (userId, setUserInfo) => {
     } catch(error){
         console.error("GetUserInfo: " + error);
     }
-    
 }

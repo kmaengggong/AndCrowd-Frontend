@@ -71,6 +71,11 @@ import MakerPage from './pages/user/MakerPage';
 import MyPageCardsDetailPage from './pages/user/MyPageCardsDetailPage';
 import Team from './pages/etc/Team';
 import Help from './pages/etc/Help';
+import AdminSignup from './pages/user/admin/AdminSignup';
+import AdminRoute from './components/route/AdminRoute';
+import AdminMain from './pages/user/admin/AdminMain';
+import Infoboard from './pages/etc/Infoboard';
+import InfoboardDetail from './pages/etc/InfoboardDetail';
 import Search from './pages/etc/Search';
 
 
@@ -84,6 +89,7 @@ const sections = [
 
 function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const ADMIN = process.env.REACT_APP_ADMIN_SIGN_UP_URL;
 
   useEffect(() => {
     const handleResize = () => {
@@ -109,6 +115,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/logout" element={<Logout />} />
+            <Route path="/infoboard/list" element={<Infoboard />} />
+            <Route path="/infoboard/:infoId" element={<InfoboardDetail />} />
 
             {/* 로그인되지 않은 상태에서만 접근 가능 */}
             <Route element={<PublicRoute />}>
@@ -118,8 +126,10 @@ function App() {
               <Route path="/findIdOrPassword" element={<FindIdOrPassword />} />
               <Route path="/findId" element={<FindId />} />
               <Route path="/findPassword" element={<FindPassword />} />
+              <Route path={`/${ADMIN}`} element={<AdminSignup />} />
             </Route>
             
+            {/* 토큰 재발급을 위한 로그인 판별 - 로그인 유뮤 상관x*/}
             <Route element={<LoginRoute />}>
               {/* 누구라도 접근 가능 */}
               {/* Etc */}
@@ -212,12 +222,18 @@ function App() {
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
               </Route>
               
-              <Route path="*" element={<NotFound />} />
+              
             </Route>
+            {/* 관리자 유저만 접근 가능 */}
+            <Route element={<AdminRoute />}>
+              <Route path="/iamtheadmin" element={<AdminMain />} />
+            </Route>
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
-      <Footer></Footer>
+      <Footer />
     </div>
     </IsLoginProvider>
   );

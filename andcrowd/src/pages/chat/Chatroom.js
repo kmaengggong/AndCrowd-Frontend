@@ -379,6 +379,12 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
     
   }, [tab, roomData.roomId, nickname]);
 
+  const onKeyEnterDown = (event) => {
+    if(event.key === 'Enter'){
+      handleSendMessage();
+    }
+  }
+
   return (
     <div className='chatroom-container'>
 
@@ -557,7 +563,7 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
               <AttachFileRoundedIcon sx={{ fontSize: 25, color: "#709CE6" }} />
               <input hidden type="file" />
             </IconButton>
-            <input type="text" id='send-text' value={message} onChange={(e) => setMessage(e.target.value)} />
+            <input type="text" id='send-text' value={message} onChange={(e) => setMessage(e.target.value)} onKeyDown={onKeyEnterDown} />
           </div>
           <IconButton aria-label="send" id='send-message-icon' size="small" onClick={handleSendMessage}>
             <SendRoundedIcon sx={{ fontSize: 25, color: "#5B96F7", ml:2 }} />

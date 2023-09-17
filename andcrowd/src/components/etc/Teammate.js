@@ -9,8 +9,6 @@ import CardMedia from '@mui/material/CardMedia';
 const Teammate = ({
     name, githubUrl, profileUrl, role, parts, introduce
 }) => {
-    console.log(parts);
-
     return(
         <Grid container xs={12} marginBottom={2} >
             <CardActionArea href={githubUrl}>
