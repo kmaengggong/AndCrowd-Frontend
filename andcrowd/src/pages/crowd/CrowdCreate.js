@@ -9,45 +9,8 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import CssBaseline from '@mui/material/CssBaseline';
 import Cookies from 'js-cookie';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import CrowdRewardCreate from '../crowd/CrowdRewardCreate';
 import { InputAdornment } from "@mui/material";
-
-const categories = [
-  {
-    name: '1',
-    text: '문화 예술'
-  },
-  {
-    name: '2',
-    text: '액티비티 스포츠'
-  },
-  {
-    name: '3',
-    text: '테크 가전'
-  },
-  {
-    name: '4',
-    text: '푸드'
-  },
-  {
-    name: '5',
-    text: '언어'
-  },
-  {
-    name: '6',
-    text: '여행'
-  },
-  {
-    name: '7',
-    text: '반려동물'
-  },
-  {
-    name: '8',
-    text: '기타'
-  },
-];
+import CrowdCategoryCreate from "./CrowdCategoryCreate";
 
 const CrowdCreate = () => {
   const navigate = useNavigate();
@@ -180,31 +143,13 @@ const CrowdCreate = () => {
                 id="userId"
                 label="회원번호"
                 name="userId"
-                value={userId}
+                value={userId} 
                 InputProps={{
                   readOnly: true,
                 }}
               />
             </Grid>
-            <Grid item xs={12} sm={9}>
-              <TextField 
-                required
-                fullWidth
-                id="crowdCategoryId"
-                label="카테고리 설정"
-                name="crowdCategoryId"
-                select
-                value={formData.crowdCategoryId}
-                onChange={handleInputChange}
-              >
-                <MenuItem value="">--카테고리 선택--</MenuItem>
-                {categories.map((category) => (
-                  <MenuItem key={category.name} value={category.name}>
-                    {category.text}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
+            <CrowdCategoryCreate value={formData.crowdCategoryId} />
             <Grid item xs={12} sm={9}>
                 <TextField 
                   required
@@ -275,11 +220,12 @@ const CrowdCreate = () => {
               </Grid>
           </Grid>
           <Container component="main" maxWidth="md">
+              <br />
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
-                // disabled={!isCrowdGoalValid}
+                disabled={!isCrowdGoalValid}
               >
                 다음
               </Button>

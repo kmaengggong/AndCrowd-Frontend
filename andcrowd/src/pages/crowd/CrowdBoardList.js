@@ -5,6 +5,7 @@ import styles from '../../styles/crowd/CrowdBoardList.module.css';
 import CrowdToolBar from "../../components/crowd/CrowdToolBar";
 
 
+
 const CrowdBoardList = () => {
     const [boards, setBoards] = useState([]);
     const { crowdId } = useParams();
