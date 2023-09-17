@@ -34,20 +34,10 @@ const CrowdDetail = () => {
 
     return (
         <div>
-        <CrowdToolbar crowdId={crowd.crowdId} />
+        <CrowdToolBar crowdId={crowd.crowdId} />
         <div className={styles.crowdDetailContainer} id="container">
-            <CrowdToolBar crowdId={crowd.crowdId} />
             <div className='middleBar'/>
             <div className={styles.leftSide}>
-                {/*<Link to={`/crowd/${crowd.crowdId}/detail`}>
-                <button>상세정보</button>
-                </Link>
-                <Link to={`/crowd/${crowd.crowdId}/board/${crowd.crowdBoardId}`}>
-                <button>게시판</button>
-                </Link>
-                <Link to={`/crowd/${crowd.crowdId}/qna/${crowd.crowdQnaId}`}>
-                <button>QnA</button>
-                </Link>*/}
                 <hr />
                 <div className={styles.imgContainer}>
                     <h1>{crowd.crowdTitle}</h1>

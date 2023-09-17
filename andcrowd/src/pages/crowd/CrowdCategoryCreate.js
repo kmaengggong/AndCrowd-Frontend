@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -38,26 +38,32 @@ const categories = [
   },
 ];
 
-const CrowdCategoryCreate = ({ value, onChange }) => {
+const CrowdCategoryCreate = ({ onCategorySelect }) => {
+  const [selectedCategory, setSelectedCategory] = useState(""); // 선택한 카테고리를 저장할 상태
+
+  const handleCategorySelect = (selectedCategoryId) => {
+    setSelectedCategory(selectedCategoryId);
+  };  
+
   return (
     <Grid item xs={9} sm={6}>
-        <TextField
+      <TextField
         required
         fullWidth
         id="crowdCategoryId"
         label="카테고리 설정"
         name="crowdCategoryId"
         select
-        value={value}
-        onChange={onChange}
-        >
+        value={selectedCategory}
+        onChange={(event) => handleCategorySelect(event.target.value)}
+      >
         <MenuItem value="">--카테고리 선택--</MenuItem>
         {categories.map((category) => (
-            <MenuItem key={category.name} value={category.name}>
+          <MenuItem key={category.name} value={category.name}>
             {category.text}
-            </MenuItem>
+          </MenuItem>
         ))}
-        </TextField>
+      </TextField>
     </Grid>
   );
 }

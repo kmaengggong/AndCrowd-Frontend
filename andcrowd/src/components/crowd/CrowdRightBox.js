@@ -11,6 +11,7 @@ import axios from "axios";
 import CrowdReward from "../../pages/crowd/CrowdReward.js";
 import CrowdTimer from "../../components/crowd/CrowdTimer.js";
 import styles from "../../styles/crowd/CrowdDetail.module.css";
+import { method } from "lodash";
 
 const CrowdComponent = () => {
   const params = useParams();

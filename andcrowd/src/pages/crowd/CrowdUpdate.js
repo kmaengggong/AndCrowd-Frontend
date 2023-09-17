@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 const CrowdUpdate = () => {
     const params = useParams();
     const crowdId = params.crowdId;
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         userId: "",
@@ -20,15 +21,10 @@ const CrowdUpdate = () => {
     });
 
     const fetchCrowdData = async () => {
-    useEffect(() =>{
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
-        try{
+        try {
             const response = await fetch(`/crowd/${crowdId}`);
 
-            if(response.ok) {
+            if (response.ok) {
                 const data = await response.json();
                 setFormData(data);
             } else {
@@ -38,9 +34,10 @@ const CrowdUpdate = () => {
             console.error(error);
         }
     };
-    useEffect(() =>{
+
+    useEffect(() => {
         fetchCrowdData();
-    }, []);
+    }, []); // useEffect를 컴포넌트 렌더링 후 한 번만 실행되도록 설정
 
     const handleInputChange = (e) => {
         const {name, value} = e.target;
@@ -49,7 +46,6 @@ const CrowdUpdate = () => {
             [name]:value,
         });
     };
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -101,5 +97,5 @@ const CrowdUpdate = () => {
         </div>
     );
 }
-}
+
 export default CrowdUpdate;

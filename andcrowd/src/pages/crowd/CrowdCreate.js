@@ -16,6 +16,7 @@ const CrowdCreate = () => {
   const navigate = useNavigate();
   const [rewards, setRewards] = useState([]);
   const [userId, setUserId] = useState(""); // userId를 상태로 설정
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const [formData, setFormData] = useState({
     crowdCategoryId: "",
@@ -71,19 +72,9 @@ const CrowdCreate = () => {
     }
   };
 
-  const handleRewardAdd = (newReward) => { // 리워드 추가하는 버튼
-    setRewards([...rewards, newReward]);
-  };
-
-  const handleRewardDelete = (index) => { // 리워드 삭제하는 버튼
-    const updatedRewards = rewards.filter((_, i) => i !== index);
-    setRewards(updatedRewards);
-  };
-
-  const handleUploadCancel = () => {
-    alert("작성이 취소되었습니다.");
-    navigate('/crowd/list'); // 업로드 취소 버튼 클릭 시 페이지 전환
-  };
+  const handleCategorySelect = (selectedCategoryId) => {
+    setSelectedCategory(selectedCategoryId);
+  };  
 
   const handleNextButtonClick = async () => {
     try {
@@ -111,6 +102,11 @@ const CrowdCreate = () => {
       console.error("Error sending data:", error);
     }
   };
+
+  const handleUploadCancel = () => {
+    alert("업로드가 취소되었습니다.");
+    navigate(`/crowd/list`);
+  }
 
   // 모금액 필드의 유효성 검사를 추가
   const isCrowdGoalValid = formData.crowdGoal !== "" && formData.crowdGoal >= 0;
@@ -149,7 +145,7 @@ const CrowdCreate = () => {
                 }}
               />
             </Grid>
-            <CrowdCategoryCreate value={formData.crowdCategoryId} />
+            <CrowdCategoryCreate value={formData.crowdCategoryId} onCategorySelect={handleCategorySelect} />
             <Grid item xs={12} sm={9}>
                 <TextField 
                   required
