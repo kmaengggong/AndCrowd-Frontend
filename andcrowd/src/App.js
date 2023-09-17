@@ -76,6 +76,7 @@ import AdminRoute from './components/route/AdminRoute';
 import AdminMain from './pages/user/admin/AdminMain';
 import Infoboard from './pages/etc/Infoboard';
 import InfoboardDetail from './pages/etc/InfoboardDetail';
+import Search from './pages/etc/Search';
 
 
 const sections = [
@@ -215,6 +216,7 @@ function App() {
                 <Route path="/and/:andId/member/:memberId/update" element={<AndMemberUpdate />} />
                 <Route path="/and/:andId/role/create" element={<AndRoleCreate />} />
                 <Route path="/and/:andId/role/:andRoleId/update" element={<AndRoleUpdate />} />
+                <Route path='/search/:searchKeyword' element={<Search />} />
                 
                 {/* Crowd 관련 */}
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
