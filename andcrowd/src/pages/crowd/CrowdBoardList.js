@@ -34,13 +34,8 @@ const CrowdBoardList = () => {
             <p>게시된 날짜: {formatDate(board.publishedAt)}</p>
             <p>수정된 날짜: {formatDate(board.updatedAt)}</p>
             {board.isDeleted ? <p>이 글은 삭제되었습니다.</p> : null}
-            <button onClick={() => handleEditClick(board.crowdBoardId)}>Edit</button>
         </li>
     );
-
-    const handleEditClick = async (e) => {
-        navigate(`/crowd/${crowdId}/board/${crowdBoardId}/update`);
-    }
 
     const formatDate = (dateTimeString) => { // 날짜, 시간 사이의 TimeZone 표시 제거
         if (!dateTimeString) return ""; 

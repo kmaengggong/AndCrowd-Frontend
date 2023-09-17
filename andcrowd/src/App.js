@@ -80,7 +80,7 @@ import CrowdQnaUpdate from './pages/crowd/CrowdQnaUpdate';
 import CrowdQnaDetail from './pages/crowd/CrowdQnaDetail';
 import CrowdReplyUpdate from './pages/crowd/CrowdReplyUpdate';
 import CrowdReplyCreate from './pages/crowd/CrowdReplyCreate';
-
+import CrowdRewardCreate from './pages/crowd/CrowdRewardCreate';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -187,6 +187,7 @@ function App() {
               <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
               <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
               <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
+              <Route path="/crowd/:crowdId/reward" element={<CrowdRewardCreate />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/reward/all" element={<CrowdReward />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/qna/all" element={<CrowdQnaList />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}

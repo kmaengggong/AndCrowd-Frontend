@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -8,15 +8,11 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import CssBaseline from '@mui/material/CssBaseline';
-import { NumericFormat } from 'react-number-format';
-import { InputAdornment } from '@mui/material';
 import Cookies from 'js-cookie';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import CrowdRewardCreate from '../crowd/CrowdRewardCreate';
-import '../../styles/crowd/CrowdCreate.css';
+import { InputAdornment } from "@mui/material";
 
 const categories = [
   {
@@ -54,8 +50,6 @@ const categories = [
 ];
 
 const CrowdCreate = () => {
-  const params = useParams(); // useParams를 사용하여 URL에서 crowdId 추출
-  const crowdId = params.crowdId; // crowdId 추출
   const navigate = useNavigate();
   const [rewards, setRewards] = useState([]);
   const [userId, setUserId] = useState(""); // userId를 상태로 설정
@@ -67,14 +61,6 @@ const CrowdCreate = () => {
     crowdGoal: 0,
     crowdEndDate: ""
   })
-
-  // endDate를 업데이트하는 함수
-  const handleEndDateChange = (newValue) => {
-    setFormData({
-      ...formData,
-      crowdEndDate: newValue.toISOString(), // 날짜를 ISO 문자열로 변환하여 crowdEndDate 필드에 업데이트
-    });
-  };
 
   const userAccessToken = Cookies.get('refresh_token');
   
@@ -112,11 +98,14 @@ const CrowdCreate = () => {
       // 목표 금액 필드에서는 음수 금액 입력시 0으로 설정
       newValue = Math.max(0, parseFloat(newValue));
     }
-
     setFormData({
       ...formData,
       [name]: newValue,
     });
+    // 모금액이 0원인 경우에만 알림을 표시
+    if (name === "crowdGoal" && parseFloat(newValue) === 0) {
+      alert("모금액은 0원일 수 없습니다. 다시 입력해주세요.");
+    }
   };
 
   const handleRewardAdd = (newReward) => { // 리워드 추가하는 버튼
@@ -143,7 +132,6 @@ const CrowdCreate = () => {
         body: JSON.stringify({
           ...formData,
           userId: userId,
-          rewards: rewards,
         }),
       });
       if (response.ok) {
@@ -152,7 +140,7 @@ const CrowdCreate = () => {
         const responseData = await response.json();
         const crowdId = responseData; // 응답 데이터에서 crowdId 값을 추출
         console.log("Created crowdId:", crowdId);
-        navigate(`/crowd/${crowdId}/img/create`);
+        navigate(`/crowd/${crowdId}/reward`);
       } else {
         throw new Error(`Request failed with status ${response.status}`);
       }
@@ -160,6 +148,9 @@ const CrowdCreate = () => {
       console.error("Error sending data:", error);
     }
   };
+
+  // 모금액 필드의 유효성 검사를 추가
+  const isCrowdGoalValid = formData.crowdGoal !== "" && formData.crowdGoal >= 0;
 
   return ( // 화면단 입력 구문 시작
     <Container component="main" maxWidth="md">
@@ -180,7 +171,7 @@ const CrowdCreate = () => {
           함께하는 모든 순간이 소중하고, 우리의 미래에 희망을 안겨줄 것입니다.<br />
           감사함과 함께, 함께하는 여정을 시작해봅시다!
         </Typography>
-        <Box component="form" noValidate onSubmit={handleNextButtonClick} sx={{ mt: 3 }}>
+        <Box component="form" noValidate sx={{ mt: 3 }} onClick={handleNextButtonClick}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={5}>
               <TextField 
@@ -189,7 +180,7 @@ const CrowdCreate = () => {
                 id="userId"
                 label="회원번호"
                 name="userId"
-                value={userId} // userId 상태를 TextField의 value로 설정
+                value={userId}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -247,7 +238,7 @@ const CrowdCreate = () => {
                   required
                   type="datetime-local"
                   id="crowdEndDate"
-                  label="마감일자"
+                  label="펀딩 마감 일자"
                   name="crowdEndDate"
                   value={formData.crowdEndDate}
                   onChange={handleInputChange}
@@ -255,54 +246,46 @@ const CrowdCreate = () => {
               </Grid>
               {/* 목표금액 설정구문 */}
               <Grid item xs={12} sm={9}>
-                <label htmlFor="crowdGoal">목표 금액: </label>
-                <input
+                <TextField
+                  fullWidth
+                  required
                   type="number"
                   id="crowdGoal"
+                  label="목표 금액"
                   name="crowdGoal"
-                  required
-                  onChange={handleInputChange}
                   value={formData.crowdGoal}
+                  onChange={handleInputChange}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <div className="text-primary fw-700">원</div>
+                      </InputAdornment>
+                    )
+                  }}
+                  helperText={
+                    <>
+                        This field is required. Only letters and numbers
+                        are allowed.
+                        <br />
+                        Space is not allowed at start. Special
+                        characters are not allowed.
+                    </>
+                  }
                 />
-                <div className="text-primary fw-700 currency"> 원</div>
-                <p className="placeholder">
-                  This field is required. Only letters and numbers are allowed.
-                  <br />
-                  Space is not allowed at start. Special characters are not allowed.
-                </p>
               </Grid>
-              {/* 리워드 설정 */}
-              <Grid item xs={12} sm={9}>
-                <CrowdRewardCreate onRewardAdd={handleRewardAdd} crowdId={crowdId} />
-                <div>
-                  <h4>입력된 리워드</h4>
-                  <ul>
-                    {rewards.map((reward, index) => (
-                      <li key={index}>
-                        <strong>리워드 제목:</strong> {reward.rewardTitle}<br />
-                        <strong>리워드 본문:</strong> {reward.rewardContent}<br />
-                        <strong>리워드 금액:</strong> {reward.rewardAmount}원<br />
-                        <strong>리워드 제한:</strong> {reward.rewardLimit}개<br />
-                        <button onClick={() => handleRewardDelete(index)}>리워드 삭제</button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Grid>
-            <Container component="main" maxWidth="md">
-              <br />
+          </Grid>
+          <Container component="main" maxWidth="md">
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
+                // disabled={!isCrowdGoalValid}
               >
                 다음
               </Button>
             </Container>
-          </Grid>
         </Box>
-      </Box>
-      <Container component="sub" maxWidth="md">
+        <Container component="main" maxWidth="md">
           <Button
             type="button"
             onClick={handleUploadCancel}
@@ -312,6 +295,7 @@ const CrowdCreate = () => {
             업로드 취소
           </Button>
         </Container>
+      </Box>
     </Container>
   );
 };

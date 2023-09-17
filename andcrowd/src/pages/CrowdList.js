@@ -69,15 +69,6 @@ const CrowdList = () => {
     fetchData();
   }, [pageNumber, categoryId, crowdStatus, sortField, sortOrder]);
 
-  // useEffect(() => {
-  //   fetchData();
-  //   data.forEach(item => fetchCrowdRoles(item.crowdId));
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, [pageNumber, categoryId, crowdStatus, sortField, sortOrder]);
-
   const fetchCrowdList = async () => {
     try {
       const params = new URLSearchParams({
@@ -150,22 +141,6 @@ const CrowdList = () => {
       console.error('Error fetching data:', error);
     }
   };
-
-  // const handleSortOrderChange = (newSortOrder) => {
-  //   setSortOrder(newSortOrder);
-  //   setPageNumber(0);
-  //   setData([]); 
-  //   fetchCrowdList(); 
-  // };
-  
-  // const handleScroll = () => {
-  //   if (
-  //     window.innerWidth + window.scrollX >=
-  //     document.body.offsetWidth - 100
-  //   ) {
-  //     handleLoadMore();
-  //   }
-  // };
   
   // 선택한 카테고리에 따라 게시글 필터링
   const filteredCrowdData = selectedCategory
@@ -302,6 +277,9 @@ const CrowdList = () => {
                     }
                   >
                     {formatMoney(calculateRaisedAmount(crowd.crowdGoal, crowd.currentAmount))}원 달성!  
+                  </Typography>
+                  <Typography sx={{ fontSize: '12px', color: 'gray', fontStyle: 'italic'}}>
+                    모금액: {crowd.crowdGoal} 원 
                   </Typography>
                 </CardContent>
               </Card>

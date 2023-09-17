@@ -11,7 +11,6 @@ const CrowdBoardUpdate = () => {
     const [formData, setFormData] = useState({
         crowdId: crowdId,
         crowdBoardId: crowdBoardId,
-        userId: "",
         crowdBoardTitle: "",
         crowdBoardContent: "",
     });
@@ -46,22 +45,15 @@ const CrowdBoardUpdate = () => {
         e.preventDefault();
         
         console.log("formdata:",formData);
-        try {
-            const response = await fetch(`/crowd/${crowdId}/board/${crowdBoardId}`,{
-                method: "PATCH",
-                headers: {
+        const response = await fetch(`/crowd/${crowdId}/board/${crowdBoardId}`,{
+            method: "PATCH",
+            headers: {
                 "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
-            if(response.ok) {
-            navigate(`/crowd/${crowdId}/board/${crowdBoardId}`);
-            } else {
-                throw new Error(`${response.status}`);
-            }
-        } catch (error) {
-            console.error(error);
-        }
+            },
+            body: JSON.stringify(formData),
+        });
+
+        navigate(`/crowd/${crowdId}/board/${crowdBoardId}`);
     };
 
     const handleUpdateCancleBtn = () => {
@@ -73,12 +65,12 @@ const CrowdBoardUpdate = () => {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                회원번호: <input
+                펀딩 번호: <input
                     type="text"
                     name="userId"
-                    value={formData.userId}
+                    value={formData.crowdId}
                     onChange={handleInputChange}
-                    placeholder="회원번호"
+                    placeholder="펀딩 번호"
                     readOnly
                 /> <br />
                 제목: <input

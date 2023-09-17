@@ -9,19 +9,15 @@ const CrowdDetail = () => {
     const crowdId = params.crowdId;
     const [crowd, setCrowd] = useState({});
     
-    const navigate = useNavigate();
-
-    useEffect(() => { 
-        fetchData();
-    }, [crowdId]);
-
+    // const navigate = useNavigate();
+    
     const fetchData = async () => {
         try {
             const response = await fetch(`/crowd/${crowdId}`);
             if (response.ok) {
                 const data = await response.json();
                 setCrowd(data);
-                console.log(data);
+                console.log("전달된 데이터:",data);
             } else {
                 throw new Error(`HTTP Error: ${response.status}`);
             }
@@ -29,6 +25,10 @@ const CrowdDetail = () => {
             console.error(error);
         }
     };
+
+    useEffect(() => { 
+        fetchData();
+    }, [crowdId]);
 
     return (
         <div className={styles.crowdDetailContainer} id="container">
