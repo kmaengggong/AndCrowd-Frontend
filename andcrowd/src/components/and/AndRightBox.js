@@ -126,7 +126,9 @@ const AndComponent = ({ }) => {
           )}
           <Typography id='and-like'>{and.andLikeCount}</Typography>
         </Box>
+        { and.andStatus == "1" && (
         <button id='go-and' onClick={() => applyAnd(and.andId)}>모임 참가하기</button>
+        )}
       </Box>
       { isMember && (
       <button id='go-chat' onClick={() => andChat(and.andId)}>채팅방으로 이동하기</button>
