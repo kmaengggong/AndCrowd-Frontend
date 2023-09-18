@@ -44,6 +44,7 @@
     margin-top: 2%;
     margin-left: 27%;
     margin-bottom: 2vh;
+    min-height: 50vh;
 }
 #follow{
     font-family: 'Noto Sans KR', sans-serif;
@@ -68,7 +69,7 @@
 }
 #showmore-button-box{
     margin-left: 7%;
-    height:35%;
+    height:30%;
 }
 #follow:hover{
     background-color: rgb(231, 253, 224);
@@ -76,10 +77,10 @@
 }
 
 #show-more-img{
-    margin-top: 3.5%;
+    margin-top: 2%;
     margin-left: 2%;
-    height: 7%;
-    width: 4%;
+    height: 8%;
+    width: 7%;
 }
 #show-more-img:hover{
     cursor:pointer;

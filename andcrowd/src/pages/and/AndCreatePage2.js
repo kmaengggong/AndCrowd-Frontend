@@ -26,36 +26,45 @@ const AndCreate = () => {
   
   const fetchData = async () => {
     try {
-        const userIdResponse = await fetch(`/user-info/userid`,{
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${yourAccessToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (userIdResponse.ok) {
-          const userId = await userIdResponse.json();
-          setUserId(userId.userId);
-        } else {
-          throw new Error(`Fetching userId failed with status ${userIdResponse.status}.`);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      const userIdResponse = await fetch(`/user-info/userid`,{
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${yourAccessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (userIdResponse.ok) {
+        const userId = await userIdResponse.json();
+        setUserId(userId.userId);
+      } else {
+        throw new Error(`Fetching userId failed with status ${userIdResponse.status}.`);
       }
-    try {
-        const response = await fetch(`/and/${andId}`);
-        
-        if (response.ok) {
-          const data = await response.json();
-          setFormData(data); // 기존 데이터를 모두 할당
-        } else {
-          throw new Error(`Fetching and data failed with status ${response.status}.`);
-        }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   
-      } catch (error) {
-        console.error("Error fetching And data:", error);
+    try {
+      const response = await fetch(`/and/${andId}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        // 초기 formData를 비우고 새로운 데이터로 업데이트
+        setFormData({
+          userId: "",
+          andCategoryId: "",
+          andTitle: "",
+          andContent: "",
+          needNumMem: "",
+          andEndDate: "",
+          andHeaderImg: ""
+        });
+        setFormData(data); // 기존 데이터를 모두 할당
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
       }
-    
+    } catch (error) {
+      console.error("Error fetching And data:", error);
+    }
   };
 
   useEffect(() => {
@@ -75,6 +84,14 @@ const AndCreate = () => {
   };  
 
   const handleNextButtonClick = async () => {
+    if (
+      formData.andCategoryId === 999 ||
+      formData.andEndDate === "asd" ||
+      formData.andHeaderImg === "noImg"
+    ) {
+      alert("필수 입력 항목을 모두 선택해주세요.");
+      return; // 필수 입력 항목이 누락되었으므로 넘어가지 않음
+    }
     try {
       const response = await fetch(`/and/${andId}/create`, {
         method: "PATCH",

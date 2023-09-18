@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import '../../styles/and/Feed.css';
 import profileImg from './cat.jpg'
 import mainImg from './shoes-8026038.jpg' 
-import showMoreImg from './free-icon-show-more-button-with-three-dots-61140.png' 
+import showMoreImg from './free-icon-problem-report-7689567.png' 
 import Menu from '@mui/material/Menu';
 import { Link } from 'react-router-dom';
 import {MenuItem, Popover, List, ListItem, Box, TextField, Button, Modal, IconButton } from '@mui/material';
@@ -493,7 +493,7 @@ const navigateToAndCreate = () => {
             </div>
             <div id='main-img-box'>
             <Link to={`/and/${item.andId}`}>
-              <img id='main-img' src={mainImg} alt="mainImg" /> 
+              <img id='main-img' src={item.andHeaderImg} alt="mainImg" /> 
             </Link>
             </div>
             <div id='feed-bottom'>

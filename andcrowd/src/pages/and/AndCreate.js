@@ -83,7 +83,7 @@ const AndCreate = () => {
         },
         body: JSON.stringify({ ...updatedFormData, andContent: htmlStr }),
       });
-      navigate(`/and/${andId}`);
+      navigate(`/and/${andId}/role/create`);
       if (response.ok) {
         const responseData = await response.json();
         const andId = responseData;
@@ -119,7 +119,7 @@ const AndCreate = () => {
             모임글의 내용을 적어주세요
           <span className='red-asterisk'>*</span>
           </Typography>
-          <div>
+          <div id = 'editer-box'>
           <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
           </div>
         </div>
