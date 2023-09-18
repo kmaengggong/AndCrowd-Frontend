@@ -57,6 +57,7 @@ const AndCreate1 = () => {
           andCategoryId: 999,
           andEndDate: "2099-12-12T12:00:00",
           needNumMem: 999,
+          andStatus: 4,
         }),
       });
   

@@ -30,7 +30,7 @@ const AndRoleCreate = () => {
     };
 
     fetchAndRoles(); // 함수 호출
-  }, [andId]); // andId가 변경될 때마다 실행
+  }, [andId, andRoles]); // andId가 변경될 때마다 실행
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -66,21 +66,30 @@ const AndRoleCreate = () => {
     }
   };
 
-  const deleteAndRole = async (andId, index) => {
+  const deleteAndRole = async (andId, andRoleId) => {
     try {
-      const deleteNum = index + 1;
-      await axios.delete(`/and/${andId}/role/${deleteNum}/delete`);
-      console.log("Deleted role at index:", index);
-      deleteNum+=1;
-      const updatedAndRoles = andRoles.filter((_, i) => i !== index);
-      setAndRoles(updatedAndRoles);
+      await axios.delete(`/and/${andId}/role/${andRoleId}/delete`);
+      console.log("Deleted role at index:", andRoleId);
     } catch (error) {
       console.error("Error in deleting role:", error);
     }
   };
 
   // 다음 버튼 클릭 시 페이지 이동
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
+    try {
+      console.log(`/and/${andId}/update/status/0`);
+    await fetch(`/and/${andId}/update/status/0`, {
+      method: "PATCH",
+      // headers: {
+      //   'Content-Type': 'application/json', // JSON 요청
+      // },
+      // body: JSON.stringify({ status: { status: 0 } }), // 요청 본문 구조 변경
+    });
+    console.log("update and status:", andId);
+    } catch (error) {
+      console.error("Error in updating and status:", error);
+    }
     navigate(`/and/${andId}`);
   };
 
@@ -113,9 +122,6 @@ const AndRoleCreate = () => {
           <button id='role-submit-btn' type="submit">
             추가
           </button>
-          <button id='role-next-btn' onClick={handleNextClick}>
-            다음
-          </button>
         </div>
       </form>
 
@@ -125,11 +131,14 @@ const AndRoleCreate = () => {
           {andRoles.map((role, index) => (
             <li key={index}>
               {role.andRole} (필요 인원: {role.andRoleLimit}명)
-              {/*<button onClick={() => deleteAndRole(andId, index)}>삭제</button>*/}
+              <button onClick={() => deleteAndRole(andId, role.andRoleId)}>삭제</button>
             </li>
           ))}
         </ul>
       </div>
+      <button id='role-next-btn' onClick={handleNextClick}>
+            다음
+          </button>
     </div>
   );
 };

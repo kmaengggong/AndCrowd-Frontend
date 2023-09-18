@@ -88,8 +88,7 @@ const AndDetail = () => {
   };
   if (and.deleted === true) {
     alert("이 글은 삭제되었습니다.");
-    window.location.href = `/and/list`;
-
+    window.location.href = `/and/scroll`;
   };
 
   return (

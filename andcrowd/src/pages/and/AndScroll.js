@@ -34,10 +34,11 @@ AndScroll = ({ onSearch }) => {
   const [isLastPage, setIsLastPage] = useState(false); // 다음 페이지가 마지막 페이지인지 여부
   const [categoryId, setCategoryId] = useState(0);
   const [sortField, setSortField] = useState('publishedAt');
-  const [andStatus, setAndStatus] = useState('');
+  const [sortStatus, setSortStatus] = useState(1);
   const [sortOrder, setSortOrder] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const navigate = useNavigate();
+  let loadingMore = false; // 중복 호출 방지를 위한 플래그
   
   const [isClicked, setIsClicked] = useState(false);
   const [rolesData, setRolesData] = useState({});
@@ -213,7 +214,7 @@ AndScroll = ({ onSearch }) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [pageNumber, categoryId, andStatus, sortField, sortOrder]);
+  }, [pageNumber, categoryId, sortStatus, sortField, sortOrder]);
 
   useEffect(() => {
     const fetchDataAndSetIsLiked = async () => {
@@ -256,7 +257,7 @@ AndScroll = ({ onSearch }) => {
         page: pageNumber,
         size: pageSize,
         andCategoryId: categoryId,
-        andStatus: andStatus,
+        andStatus: sortStatus,
         sortField: sortField,
         sortOrder: "desc",
         searchKeyword: searchKeyword,
@@ -288,9 +289,12 @@ AndScroll = ({ onSearch }) => {
   const handleLoadMore = () => {
     if (!isLastPage) {
       setPageNumber(pageNumber + 1);
-      console.log("페이지 ", pageNumber)
+    } else {
+      console.log("LastPage!!");
     }
+    loadingMore = false; // 호출 종료
   };
+  
 
   const handleSearch = ( searchKeyword ) => {
     // 검색어가 비어있지 않은 경우에만 검색 요청을 보냅니다.
@@ -299,7 +303,7 @@ AndScroll = ({ onSearch }) => {
       setPageNumber(0);
       setSearchKeyword(searchKeyword.trim()); 
       // 검색 요청을 서버로 보내고 검색 결과를 업데이트합니다.
-      fetchData({ searchKeyword });
+      // fetchData({ searchKeyword });
     }
   };  
 
@@ -308,31 +312,58 @@ AndScroll = ({ onSearch }) => {
     setIsLastPage(false);
     setPageNumber(0); // 페이지 번호 초기화
     setData([]); // 기존 데이터 초기화
-    fetchData(); // 새로운 정렬 기준으로 데이터 불러오기
+    // fetchData(); // 새로운 정렬 기준으로 데이터 불러오기
   };
 
   const handleSortFieldChange = (newSortField) => {
     setSortField(newSortField);
     setPageNumber(0);
     setData([]);
-    fetchData();
+    // fetchData();
   };
 
   const handleSortOrderChange = (newSortOrder) => {
     setSortOrder(newSortOrder);
     setPageNumber(0);
     setData([]); 
-    fetchData(); 
+    // fetchData(); 
   };
+
+  const handleSortStatusChange = (event) => {
+    const { name, value } = event.target;
+    setSortStatus(Number(value));
+    setPageNumber(0);
+    setData([]);
+    // fetchData();
+  };
+
   
   const handleScroll = () => {
     if (
       window.innerHeight + window.scrollY >=
       document.body.offsetHeight - 100
     ) {
-        handleLoadMore();
+
+    if (!isLastPage && !loadingMore) { // 중복 호출 방지
+      loadingMore = true; // 호출 중으로 표시
+      handleLoadMore();
+    } else {
+      console.log("isLastPage true");
     }
+  }
   };
+
+  useEffect(() => {
+    handleScroll();
+    // 스크롤 이벤트 리스너 추가
+  window.addEventListener("scroll", handleScroll);
+
+  // 컴포넌트 언마운트 시 스크롤 이벤트 리스너 제거
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, [isLastPage]); // isLastPage 값이 변경될 때마다 이펙트 재실행
+    
   const [anchorEl1, setAnchorEl1] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
 
@@ -393,6 +424,19 @@ const navigateToAndCreate = () => {
       >
         좋아요순
       </Typography>
+
+      <select
+        name='sortStatus'
+        value={sortStatus}
+        onChange={handleSortStatusChange}
+        id = 'and-sortStatus'
+      >
+        <option value="1">모집중</option>
+        <option value="2">반려</option>
+        <option value="3">종료</option>
+        <option value="4">작성중</option>
+        <option value="0">심사중</option>
+      </select>
 
       <div>
         {/*<Typography id ='category' onClick={handleClick2} style={{cursor: "pointer"}}>

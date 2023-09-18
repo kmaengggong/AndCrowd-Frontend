@@ -1,0 +1,21 @@
+/* 보낸 메시지 스타일 */
+.sent-message {
+    background-color: #606060;
+    color: #FFFFFF;
+    border-radius: 15px 0px 15px 15px;
+    padding: 10px;
+    max-width: 70%;
+  }
+  
+  /* 받은 메시지 스타일 */
+  .received-message {
+    background-color: #47c029;
+    color: #FFFFFF;
+    border-radius: 0px 15px 15px 15px;
+    padding: 10px;
+    max-width: 70%;
+  }
+  
+  .scroll{
+    overflow: scroll;
+  }
