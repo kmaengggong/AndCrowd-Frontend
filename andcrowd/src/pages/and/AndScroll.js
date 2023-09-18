@@ -6,7 +6,7 @@ import mainImg from './shoes-8026038.jpg'
 import showMoreImg from './free-icon-show-more-button-with-three-dots-61140.png' 
 import Menu from '@mui/material/Menu';
 import { Link } from 'react-router-dom';
-import {MenuItem, Popover, List, ListItem, Box, TextField, Button, Modal, IconButton } from '@mui/material';
+import {MenuItem, Popover, List, ListItem, Box, TextField, Button, Modal, IconButton, Grid, Paper } from '@mui/material';
 import { Navigate ,useNavigate } from 'react-router-dom';
 import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
 import SearchIcon from '@mui/icons-material/Search';
@@ -15,6 +15,15 @@ import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
 import SearchBar from '../../components/SearchBar';
 import { getUserNickname, getUserProfileImg } from "../../components/and/userApi";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { styled } from '@mui/material/styles';
+import cat1 from '../../category/art.png';
+import cat2 from '../../category/sports.png';
+import cat3 from '../../category/gadgets.png';
+import cat4 from '../../category/bibimbap.png';
+import cat5 from '../../category/languages.png';
+import cat6 from '../../category/traveling.png';
+import cat7 from '../../category/pets.png';
+import cat8 from '../../category/etc.png';
 
 const style = {
   position: 'absolute',
@@ -27,6 +36,14 @@ const style = {
   borderRadius: '8px',
   p: 4,
 };
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 const 
 AndScroll = ({ onSearch }) => {
@@ -407,7 +424,7 @@ AndScroll = ({ onSearch }) => {
     const end = new Date(andEndDate);
     const diffInMs = end - now;
     
-    const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000));
+    const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000)) + 1;
 
     return diffInDays >= 0 ? 'D - '+ diffInDays : '모집 마감';
 }
@@ -417,7 +434,44 @@ const navigateToAndCreate = () => {
   
   return (
     <div>
-      {/* <SearchBar onSearch={handleSearch} /> */}
+      <div className='category'>
+      <Box sx={{ flexGrow: 1 }}>
+        <div className='itemContainer'>
+          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(2)}>
+            <img id='cat-img' src={cat1} alt="문화/예술" />
+            <span>문화/예술</span>
+          </div>
+          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(3)}>
+            <img id='cat-img' src={cat2} alt="액티비티" />
+            <span>액티비티</span>
+          </div>
+          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(4)}>
+            <img id='cat-img' src={cat3} alt="테크/가전" />
+            <span>테크/가전</span>
+          </div>
+          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(5)}>
+            <img id='cat-img' src={cat4} alt="푸드" />
+            <span>푸드</span>
+          </div>
+          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(6)}>
+            <img id='cat-img' src={cat5} alt="언어" />
+            <span>언어</span>
+          </div>
+          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(7)}>
+            <img id='cat-img' src={cat6} alt="여행" />
+            <span>여행</span>
+          </div>
+          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(8)}>
+            <img id='cat-img' src={cat7} alt="반려동물" />
+            <span>반려동물</span>
+          </div>
+          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(9)}>
+            <img id='cat-img' src={cat8} alt="기타" />
+            <span>기타</span>
+          </div>
+        </div>
+      </Box>
+      </div>
       <div id='feed-top'>
       <Typography className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
         onClick={() => handleSortFieldChange('publishedAt')}
@@ -489,6 +543,7 @@ const navigateToAndCreate = () => {
 
       </div>
       <button id ='write' type="button" onClick={navigateToAndCreate}>글쓰기</button>
+      
       
     </div>
     {/*<div id='and-search-bar'>
