@@ -9,6 +9,7 @@ const CrowdQnaCreate = () => {
     const crowdId = params.crowdId;
 
     const [userId, setUserId] = useState("");
+    const [createdCrowdQnaId, setCreatedCrowdQnaId] = useState(null);
 
     const [formData, setFormData] = useState({
         crowdId: crowdId,
@@ -64,7 +65,12 @@ const CrowdQnaCreate = () => {
             },
             body: JSON.stringify(updatedFormData),
         });
-        navigate(`/crowd/${crowdId}/qna/all`);
+        if (response.ok) {
+            const createdData = await response.json();
+            setCreatedCrowdQnaId(createdData.crowdQnaId); // 생성된 CrowdQna의 ID를 설정
+            console.log("생성된 crowdQnaId:", createdCrowdQnaId);
+            navigate(`/crowd/${crowdId}/qna/all`);
+        }
     };
 
     return(
