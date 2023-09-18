@@ -126,7 +126,7 @@ const AndCreate = () => {
             </select>
             <Typography id='and-date-text'>언제까지 모집할 계획인가요?</Typography>
             <div id='and-create2-mid'>
-              <input  id = 'and-create-date' type="datetime-local" name="andEndDate"  onChange={handleInputChange} placeholder="마감일" />
+              <input  id = 'and-create-date' type="date" name="andEndDate"  onChange={handleInputChange} placeholder="마감일" />
             </div>
             {/*<Typography id='and-num-text'>몇명을 모집할까요?</Typography>
             <input id='and-create-need-num' type="number" name="needNumMem" value={formData.needNumMem} onChange={handleInputChange} placeholder="모집인원" />

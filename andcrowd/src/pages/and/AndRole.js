@@ -29,13 +29,13 @@ const AndRole = () => {
     }
   };
 
-  const handleButtonClick = async () => {
-    await fetch(`/and/${andId}/update/status`, {
-      method: "PATCH",
-    });
+//   const handleButtonClick = async () => {
+//     await fetch(`/and/${andId}/update/status`, {
+//       method: "PATCH",
+//     });
 
-    navigate(`/and/list`);
-};
+//     navigate(`/and/list`);
+// };
 
 
   return (
@@ -61,7 +61,7 @@ const AndRole = () => {
         </tbody>
       </table>
       <Link to={`/and/${andId}/role/create`}>역할 추가</Link> <br/>
-      <button type="button" onClick={handleButtonClick}>
+      <button type="button">
             submit
       </button>
     </div>
