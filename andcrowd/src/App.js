@@ -87,6 +87,7 @@ import AdminMain from './pages/user/admin/AdminMain';
 import Infoboard from './pages/etc/Infoboard';
 import InfoboardDetail from './pages/etc/InfoboardDetail';
 import Search from './pages/etc/Search';
+import Chatbot from './pages/etc/Chatbot';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -144,7 +145,8 @@ function App() {
               {/* Etc */}
               <Route path="/team" element={<Team />} />
               <Route path="/help" element={<Help />} />
-              <Route path='/chat' element={<ChatPage />} />
+              {/* <Route path='/chat' element={<ChatPage />} /> */}
+              <Route path='/chatbot' element={<Chatbot />} />
               <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
               <Route path="/test" element={<Test />} />
 
