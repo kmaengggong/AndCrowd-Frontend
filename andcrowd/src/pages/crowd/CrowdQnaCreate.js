@@ -76,8 +76,9 @@ const CrowdQnaCreate = () => {
                     <input type="text" name="qnaTitle" value={formData.qnaTitle} onChange={handleInputChange} placeholder="제목" />
                     <input type="text" name="qnaContent" value={formData.qnaContent} onChange={handleInputChange} placeholder="본문" />
                 </div>
-                <div id="submitBtn">
+                <div>
                     <button type="submit">저장</button>
+                    <button type="button" onClick={() => navigate(`/crowd/${crowdId}/qna/all`)}>업로드 취소</button>
                 </div>
             </form>
         </div>
