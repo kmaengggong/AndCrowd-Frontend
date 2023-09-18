@@ -1,7 +1,7 @@
 import { Box, Button, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import { GetUserId } from "../components/user/GetUserId";
-import { GetUserInfo } from "../components/user/GetUserInfo";
+import { GetUserId } from "../user/GetUserId";
+import { GetUserInfo } from "../user/GetUserInfo";
 import { useParams } from "react-router-dom";
 
 const CrowdRewardPayment = () => {
@@ -113,9 +113,14 @@ const CrowdRewardPayment = () => {
         if(success){
             alert("결제 성공!");
             console.log(orderDetails);
+            try{
+
+            } catch(error){
+                alert("서버에 ")
+            }
         }
         else{
-            alert("결제 싯팔!");
+            alert("결제를 실패하였습니다. 다시 시도 해주세요.");
             console.log(error_msg);
         }
     }

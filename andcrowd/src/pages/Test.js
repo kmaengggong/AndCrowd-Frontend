@@ -38,7 +38,9 @@ const Test = () => {
     // } catch(error){
     //   console.error(error);
     // }
-    setOpen(true);
+    // setOpen(true);
+  
+    navigate(`http://localhost:8080/oauth2/authorization/google`);
   }
 
   const [open, setOpen] = useState(false);
@@ -48,10 +50,10 @@ const Test = () => {
 
   return (
     <div>
-      <button type="button" onClick={onClickTestButton}>테스트</button>
-      <Snackbar open={open} onClose={handleClose}>
+      <a type="button" href="http://localhost:8080/oauth2/authorization/google">테스트</a>
+      {/* <Snackbar open={open} onClose={handleClose}>
       <Alert onClose={handleClose}>알러트</Alert>
-      </Snackbar>
+      </Snackbar> */}
     </div>  
   );
 };
