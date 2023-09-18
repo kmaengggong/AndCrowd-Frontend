@@ -13,7 +13,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { GetUserId } from '../../components/user/GetUserId';
 import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
 import SearchBar from '../../components/SearchBar';
-import { getUserNickname } from "../../components/and/userApi";
+import { getUserNickname, getUserProfileImg } from "../../components/and/userApi";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const style = {
   position: 'absolute',
@@ -280,6 +281,14 @@ AndScroll = ({ onSearch }) => {
         item.userNickname = userNickname;
       }
 
+      // 작성자 닉네임을 가져와서 작성자 프로필 사진 컬럼을 업데이트
+      for (const item of jsonData.content) {
+        console.log(item);
+        const profileImg = await getUserProfileImg(item.userId);
+        console.log(profileImg);
+        item.profileImg = profileImg;
+      }
+
       // 다음 페이지가 있는지 여부를 업데이트
       
       // 검색 기준이 변경되었을 때, 기존 데이터 초기화
@@ -499,7 +508,13 @@ const navigateToAndCreate = () => {
           <div key={item.andId} id ='feed-container'>
             <div id='feed-head'>
               <div id='img-box'>
-                <img id='profile-img' src={profileImg} alt="profileImg" /> 
+              {item.profileImg ? (
+                <img id='profile-img' src={item.profileImg} alt="profileImg" />
+              ) : (
+                <div id='profile-img'>
+                <AccountCircleIcon sx={{ width: "4vw", height: "4vw", color: "grey" }} /> 
+                </div>
+              )}              
               </div>
               <div id='and-title-box'>
                 <Typography id='and-feed-title'>{item.andTitle}</Typography>
