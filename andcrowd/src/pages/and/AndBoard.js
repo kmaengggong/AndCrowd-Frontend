@@ -6,9 +6,10 @@ import '../../styles/and/AndBoard.css'
 import { Typography } from "@mui/material";
 import ReactPaginate from 'react-paginate';
 import styled from 'styled-components';
+import { GetUserId } from "../../components/user/GetUserId";
 
 
-const MyPaginate = styled(ReactPaginate).attrs({
+const MyBordPaginate = styled(ReactPaginate).attrs({
   activeClassName: "active",
 })`
   margin: 50px 16px;
@@ -49,19 +50,28 @@ const AndBoard = () => {
   const [andBoardList, setAndBoardList] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
+  const [isMember, setIsMember] = useState(false); // 멤버 여부
+  
+  const userId = GetUserId(); // 현재 로그인 중인 사용자 id
+
 
   useEffect(() => {
     fetchData();
+    fetchIsMember();
   }, [andId,currentPage]);
+
+  useEffect(() => {
+    fetchIsMember();
+  }, []);
 
   // 전체 페이지 수를 가져오는 useEffect
   useEffect(() => {
     const fetchCount = async () => {
       try {
-        const response = await fetch(`/and/${andId}/qna/list/count`);
+        const response = await fetch(`/and/${andId}/board/list/count`);
         const data = await response.json();
         console.log(data); // 데이터 확인
-        setPageCount(Math.ceil(data / 5)); // 페이지 당 10개씩 보여주기로 가정
+        setPageCount(Math.ceil(data / 5)); // 페이지 당 5개씩 보여주기로 가정
       } catch (error) {
         console.error("Error fetching page count:", error);
       }
@@ -84,6 +94,24 @@ const AndBoard = () => {
       console.error("Error fetching AndBoard data:", error);
     }
   };
+
+  const fetchIsMember = async () =>{
+    try {
+      console.log(`/and/${andId}/check-member/${userId}`)
+      const response = await fetch(`/and/${andId}/check-member/${userId}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setIsMember(data);
+        console.log(data)
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
+  }
 
   const sortedAndBoardList = andBoardList.sort((a, b) => {
     if (a.andBoardTag === 0 && b.andBoardTag !== 0) {
@@ -114,9 +142,13 @@ const AndBoard = () => {
               <hr id='and-board-line'></hr>
             </div>
           ))}
-          <Link id='board-write' to={`/and/${andId}/board/create`}>글 작성</Link>
 
-          <MyPaginate
+          {/* 멤버인 경우에만 글 작성 가능 */}
+          { isMember && (
+            <Link id='board-write' to={`/and/${andId}/board/create`}>글 작성</Link>
+          )}
+
+          <MyBordPaginate
             pageCount={pageCount}
             onPageChange={({ selected }) => setCurrentPage(selected)}
             containerClassName={'pagination'}

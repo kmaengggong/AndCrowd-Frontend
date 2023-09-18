@@ -9,6 +9,7 @@ import CountdownTimer from "../../components/and/CountdownTimer";
 import Box from '@mui/material/Box';
 import '../../styles/and/AndDetail.css';
 import AndRightBox from "../../components/and/AndRightBox"
+import { GetUserId } from "../../components/user/GetUserId";
 
 const AndDetail = () => {
   const params = useParams();
@@ -17,6 +18,12 @@ const AndDetail = () => {
   const navigate = useNavigate();
   const [isClicked, setIsClicked] = useState(false);
   const [and, setAnd] = useState({});
+  const [userId, setUserId] = useState(null); // 현재 로그인 중인 사용자 id
+  const [andUserId, setAndUserId] = useState(null); // 모임글을 작성한 사용자 id
+
+  useEffect(() => {
+    setUserId(GetUserId());
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -29,6 +36,7 @@ const AndDetail = () => {
       if (response.ok) {
         const data = await response.json();
         setAnd(data);
+        setAndUserId(data.userId);
         // 게시물 조회 이력 확인
         const viewedPosts = localStorage.getItem("viewedPosts") || "";
         if (!viewedPosts.includes(`[${andId}]`)) {
@@ -44,7 +52,7 @@ const AndDetail = () => {
     } catch (error) {
       console.error("Error fetching And data:", error);
     }
-  
+
   };
 
   const updateAnd = (andId) => {
@@ -89,35 +97,41 @@ const AndDetail = () => {
       <AndToolbar andId={and.andId} />
       <div id ='and-detail-container'> 
         <Box id ='left-main-box'>
-        <img id='and-header-img' src={and.andHeaderImg} alt="Header Image" />
-        <hr></hr>
+          <img id='and-header-img' src={and.andHeaderImg} alt="Header Image" />
+          <hr></hr>
           <div id='and-content-div' dangerouslySetInnerHTML={{ __html :  and.andContent  }} style={{ maxWidth: '100%', overflowX: 'auto',overflowY: 'auto' }}/>
-        <Typography id ='and-content'></Typography>
-        <div id='and-detail-bottom'>
-        <Typography id='and-detail-upde'
-      onClick={() => updateAnd(andId, andId)}
-    >
-      수정
-    </Typography>
-      <Typography id='and-detail-upde'
-      onClick={() => deleteAnd(andId, andId)}
-    >
-      삭제
-    </Typography>
-    </div>
-    <div id='and-detail-bottom2'>
-        <Typography id='and-detail-2'
-      onClick={() => applicantList(and.andId)}
-    >
-      신청서 목록
-    </Typography>
-      <Typography id='and-detail-2'
-      onClick={() => manageAnd(and.andId)}
-    >
-      모임 관리                           
-    </Typography> 
-    </div>
-        <br />
+          <Typography id ='and-content'></Typography>
+          {/* 모임장만 볼 수 있는 버튼 */}
+          {userId === andUserId && (
+            <>
+              <div id='and-detail-bottom'>
+                <Typography id='and-detail-upde'
+                  onClick={() => updateAnd(andId, andId)}
+                >
+                  수정
+                </Typography>
+                <Typography id='and-detail-upde'
+                  onClick={() => deleteAnd(andId, andId)}
+                >
+                  삭제
+                </Typography>
+              </div>
+              <div id='and-detail-bottom2'>
+                {/* -- 모임 관리 안에 신청서 목록 있음 --
+                <Typography id='and-detail-2'
+                onClick={() => applicantList(and.andId)}
+                >
+                  신청서 목록
+                </Typography> */}
+                <Typography id='and-detail-2'
+                  onClick={() => manageAnd(and.andId)}
+                >
+                  모임 관리                           
+                </Typography> 
+              </div>
+            </>
+          )}
+          <br />
         </Box>
         <AndRightBox/>
       </div>

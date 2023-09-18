@@ -11,6 +11,12 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../logo.svg' 
 import { GetUserId } from './user/GetUserId';
 import { GetUserInfo } from './user/GetUserInfo';
+import LoginIcon from '@mui/icons-material/Login';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import EditIcon from '@mui/icons-material/Edit';
+import LogoutIcon from '@mui/icons-material/Logout';
+import GavelIcon from '@mui/icons-material/Gavel';
 
 const Header = () => {
   const isLogin = useIsLoginState();
@@ -31,7 +37,7 @@ const Header = () => {
     if(isLogin && userId !== null){
       GetUserInfo(userId, setUserInfo);
     }
-}, [userId]);
+  }, [isLogin, userId]);
 
   const onClickProfileButton = (event) => {
     setAnchorEl(event.currentTarget);
@@ -39,19 +45,24 @@ const Header = () => {
 
   const onClickProfileViewButton = () => {
     navigate(`/user/${userId}`);
+    handleClose();
   };
 
   const onClickUserInfoButton = () => {
     navigate("/user/update");
+    handleClose();
   };
 
   const onClickLooutbutton = () => {
     navigate("/logout");
+    handleClose();
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  if(window.location.pathname.startsWith("/iamtheadmin")) return null;
 
   return (
     <Fragment>
@@ -69,8 +80,8 @@ const Header = () => {
         <Link id='navText' href="/team" variant="nonlined" size="small" >
           팀소개
         </Link>
-        <Link id='navText' href="/help" variant="nonlined" size="small">
-          도움말
+        <Link id='navText' href="/infoboard/list" variant="nonlined" size="small">
+          공지
         </Link>
         </div>
          <Link id='logo' href="/">
@@ -88,7 +99,7 @@ const Header = () => {
             aria-expanded={open ? 'true' : undefined}
             onClick={onClickProfileButton}
           >
-            <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 50, height: 50, marginLeft:1}} />
+            <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 45, height: 45, marginLeft:1}} />
           </IconButton>
           <Menu
             id="fade-menu"
@@ -100,19 +111,19 @@ const Header = () => {
             onClose={handleClose}
             TransitionComponent={Fade}
           >
-            <MenuItem onClick={onClickProfileViewButton}>프로필</MenuItem>
-            <MenuItem onClick={onClickUserInfoButton}>정보 수정</MenuItem>
-            <MenuItem onClick={onClickLooutbutton}>로그아웃</MenuItem>
+            <MenuItem onClick={onClickProfileViewButton}><AccountCircleIcon sx={{mr:1}} />프로필</MenuItem>
+            <MenuItem onClick={onClickUserInfoButton}><EditIcon sx={{mr:1}} />정보 수정</MenuItem>
+            <MenuItem onClick={onClickLooutbutton}><LogoutIcon sx={{mr:1}} />로그아웃</MenuItem>
           </Menu>
         </>
         :
         <>
-         <Link id='login' href="/login">
-           로그인 
-         </Link>
-         <Link id='signUp' href="/signUp">
-           회원가입
-         </Link>
+          <IconButton href="/login" sx={{ml:1}}>
+            <LoginIcon />
+          </IconButton>
+          <IconButton href="/signup">
+            <AssignmentIndIcon />
+          </IconButton>
         </>
         }
       </Toolbar>

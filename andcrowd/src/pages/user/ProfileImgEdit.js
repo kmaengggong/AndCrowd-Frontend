@@ -46,7 +46,6 @@ const ProfileImgEdit = () => {
         }
     }
 
-
     return (
         <Box
             sx={{
@@ -55,7 +54,7 @@ const ProfileImgEdit = () => {
             flexDirection: 'column',
             alignItems: 'center',
         }}>
-            <Grid container spacing={2} maxWidth='sm'>
+            <Grid container spacing={2} maxWidth='md' alignItems={'center'}>
                 <Grid item xs={12} sm={9}>
                     <TextField
                             type="file"

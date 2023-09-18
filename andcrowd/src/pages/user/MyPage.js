@@ -7,7 +7,7 @@ import { GetUserInfo } from "../../components/user/GetUserInfo";
 import Typography from '@mui/joy/Typography';
 import MyPageCard from "../../components/user/MyPageCard";
 import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";
-
+import { GetIsUserAdmin } from "../../components/user/GetIsUserAdmin";
 
 const MyPage = () => {
     const params = useParams();
@@ -19,6 +19,7 @@ const MyPage = () => {
     const [userAnd, setUserAnd] = useState([]);
     const [userOrder, setUserOrder] = useState([]);
     const [userLike, setUserLike] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const navigate = useNavigate();
     
@@ -33,10 +34,15 @@ const MyPage = () => {
     }, [userInfo]);
 
     useEffect(() => {
+        if(isAdmin) navigate("/iamtheadmin");
+    }, [isAdmin])
+
+    useEffect(() => {
         fetchIsUserExist();
         if(isLogin){
             if(parseInt(GetUserId()) === parseInt(userId)) setIsOwner(true);
         }
+        GetIsUserAdmin(setIsAdmin);
         fetchGetDynamicUserAnd();
         fetchGetDynamicUserOrder();
         fetchGetDynamicUserLike();
@@ -135,7 +141,7 @@ const MyPage = () => {
                     </IconButton>
                 </Grid>
                 <Grid item xs={12}>
-                <h3>{userNickname}</h3>
+                <Typography sx={{fontSize:20, fontWeight:700, color:'#00D337', marginTop:1}}>{userNickname}</Typography>
                 <hr />
                 </Grid>
                 {isOwner ?

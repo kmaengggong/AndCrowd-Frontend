@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Grid, IconButton} from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Typography from '@mui/joy/Typography';
 import Teammate from "../../components/etc/Teammate";
 
@@ -19,7 +19,7 @@ const Team = () => {
             <Teammate
                 name={"오송이"}
                 githubUrl={"https://github.com/songyoh"}
-                profileUrl={""}
+                profileUrl={"https://avatars.githubusercontent.com/u/129033321?v=4"}
                 role={"조원"}
                 parts={["Crowd", "펀딩 리스트"]}
                 introduce={"ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹ"}
@@ -27,7 +27,7 @@ const Team = () => {
             <Teammate
                 name={"임규빈"}
                 githubUrl={"https://github.com/gyubee"}
-                profileUrl={""}
+                profileUrl={"https://avatars.githubusercontent.com/u/126438093?v=4"}
                 role={"조원"}
                 parts={["&", "채팅", "피드"]}
                 introduce={"ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹ"}

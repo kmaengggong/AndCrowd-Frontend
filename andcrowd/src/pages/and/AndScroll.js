@@ -12,6 +12,7 @@ import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
 import SearchIcon from '@mui/icons-material/Search';
 import { GetUserId } from '../../components/user/GetUserId';
 import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
+import SearchBar from '../../components/SearchBar';
 
 const style = {
   position: 'absolute',
@@ -26,7 +27,7 @@ const style = {
 };
 
 const 
-AndScroll = () => {
+AndScroll = ({ onSearch }) => {
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const pageSize = 2; // 페이지당 데이터 수
@@ -291,7 +292,7 @@ AndScroll = () => {
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch = ( searchKeyword ) => {
     // 검색어가 비어있지 않은 경우에만 검색 요청을 보냅니다.
     if (searchKeyword) {
       setIsLastPage(false);
@@ -367,6 +368,7 @@ const navigateToAndCreate = () => {
   
   return (
     <div>
+      {/* <SearchBar onSearch={handleSearch} /> */}
       <div id='feed-top'>
       <Typography className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
         onClick={() => handleSortFieldChange('publishedAt')}

@@ -121,7 +121,7 @@ const Signup = () => {
           console.error(error);
           alert("회원가입 실패. 다시 시도해주세요.");
         }
-        alert("회원가입 완료");
+        alert("회원가입 완료!");
         navigate("/");
     };
 
@@ -143,7 +143,7 @@ const Signup = () => {
               Sign Up
             </Typography>
             <Box component="form" noValidate onSubmit={onFormSubmit} sx={{ mt: 3 }}>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} alignItems={'center'}>
                 <SignUpEmail
                   email={email}
                   setEmail={setEmail}
