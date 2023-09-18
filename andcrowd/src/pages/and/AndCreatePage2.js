@@ -64,6 +64,7 @@ const AndCreate = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    console.log(name, value);
     setFormData({
       ...formData,
       [name]: value,
