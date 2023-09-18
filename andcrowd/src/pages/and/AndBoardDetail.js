@@ -5,6 +5,7 @@ import axios from "axios";
 import Typography from '@mui/material/Typography';
 import AndToolBar from "../../components/and/AndToolBar";
 import '../../styles/and/AndBoardDetail.css';
+import { GetUserId } from "../../components/user/GetUserId";
 
 const AndBoardDetail = () => {
   const params = useParams();
@@ -14,6 +15,8 @@ const AndBoardDetail = () => {
   const navigate = useNavigate();
 
   const [andBoard, setAndBoard] = useState({});
+  const [boardUserId, setBoardUserId] = useState(null);
+  const userId = GetUserId(); // 현재 로그인 중인 사용자 id
 
   useEffect(() => {
     fetchData();
@@ -26,6 +29,7 @@ const AndBoardDetail = () => {
       if (response.ok) {
         const data = await response.json();
         setAndBoard(data);
+        setBoardUserId(data.userId);
       } else {
         throw new Error(`Fetching and data failed with status ${response.status}.`);
       }
@@ -68,16 +72,21 @@ const AndBoardDetail = () => {
       <Typography id='and-board-updatedAt-dt' >
         {formatDate(andBoard.updatedAt)}
       </Typography>
-      <Typography id='board-detail-upde'
-      onClick={() => updateAndBoard(andId, andBoardId)}
-    >
-      수정
-    </Typography>
-      <Typography id='board-detail-upde'
-      onClick={() => deleteAndBoard(andId, andBoardId)}
-    >
-      삭제
-    </Typography>
+      {/* 해당 글 작성자만 수정/삭제 가능 */}
+      {userId === boardUserId && (
+      <>
+        <Typography id='board-detail-upde'
+        onClick={() => updateAndBoard(andId, andBoardId)}
+        >
+        수정
+        </Typography>
+          <Typography id='board-detail-upde'
+          onClick={() => deleteAndBoard(andId, andBoardId)}
+        >
+          삭제
+        </Typography>
+      </>
+      )}
     </div>
     <hr id='and-board-line-dt'></hr>
     <div id='board-content-box'>

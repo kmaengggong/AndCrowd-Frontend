@@ -50,7 +50,7 @@ const AndApplicantDetail = () => {
       };
       
       // 파일 확장자 추출
-      const fileExtension = andApplicant.andApplyFile.substring(andApplicant.andApplyFile.lastIndexOf("."));
+      const fileExtension = andApplicant.andApplyFile ? andApplicant.andApplyFile.substring(andApplicant.andApplyFile.lastIndexOf(".")) : "";
 
     return (
         <>

@@ -68,6 +68,9 @@ const AndQna = (props) => {
   const { row } = props;
   const [openQna, setOpenQna] = useState(false);
   const [qnaReplyData, setQnaReplyData] = useState({});
+  const [isMember, setIsMember] = useState(false); // 멤버 여부
+
+  const userId = GetUserId(); // 현재 로그인 중인 사용자 id
   
   const [openModal, setOpenModal] = useState(false);
   const handleCloseModal = () => setOpenModal(false);
@@ -82,7 +85,6 @@ const AndQna = (props) => {
     fetchQnaReplyData(andId, andQnaReplyId);
     setOpenReplyModal(true);
   };
-  const userId = GetUserId();
 
   const [formData, setFormData] = useState({
     andId: andId,
@@ -172,7 +174,9 @@ const AndQna = (props) => {
 
   useEffect(() => {
     fetchData();
+    fetchIsMember();
   }, [andId, currentPage]);
+
 
   const fetchData = async () => {
     try {
@@ -197,7 +201,24 @@ const AndQna = (props) => {
     }
   };
 
-  
+  const fetchIsMember = async () =>{
+    try {
+      console.log(`/and/${andId}/check-member/${userId}`)
+      const response = await fetch(`/and/${andId}/check-member/${userId}`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        setIsMember(data);
+        console.log(data)
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
+  }
+
 
   useEffect(() => {
     const fetchDataAndReplyData = async () => {
@@ -486,6 +507,9 @@ const formatDate = (dateTimeString) => {
                               </TableRow>
                               <TableRow>
                                 <TableCell align="right" colSpan={4} sx={{ padding: 2, paddingBottom: 4, paddingRight: 5 }}>
+                                  {/* 질문 작성자만 수정/삭제 가능 */}
+                                  { userId === andQna.userId && (
+                                  <>
                                   <Button size="small" sx={{ minWidth: '40px' }}
                                     onClick={() =>{ handleOpenModal(andId, andQna.andQnaId); 
                                     }}
@@ -513,6 +537,8 @@ const formatDate = (dateTimeString) => {
                                       <Button onClick={() =>{ handleUpdateQna(andId, andQna.andQnaId); }}>수정</Button>
                                     </Box>
                                   </Modal>
+                                  </>
+                                  )}
                                 </TableCell>
                               </TableRow>
                               </>
@@ -528,28 +554,34 @@ const formatDate = (dateTimeString) => {
                                           <TableCell align="right" sx={{ width: '10%', paddingBottom: 2, paddingTop: 2 }} > <SubdirectoryArrowRightRoundedIcon color="action"/> </TableCell>
                                           <TableCell sx={{ width: '45%', paddingBottom: 2, paddingTop: 2 }}>
                                             {comment.andReplyContent}
-                                            <Button size="small" sx={{ minWidth: '40px', ml: 2 }}
-                                              onClick={() =>{ handleOpenReplyModal(andId, andQna.andQnaId, comment.andReplyId); 
-                                              }}
-                                            >수정</Button> 
-                                            <Button size="small" color="error" sx={{ minWidth: '40px' }} 
-                                            onClick={() => deleteAndReply(andId, andQna.andQnaId, comment.andReplyId)}>삭제</Button>
 
-                                            <Modal
-                                              open={openReplyModal}
-                                              onClose={handleCloseReplyModal}
-                                              aria-labelledby="modal-modal-title"
-                                              aria-describedby="modal-modal-description"
-                                            >
-                                              <Box sx={style}>
-                                                <Typography id="modal-modal-description" sx={{ mt: 2, mb: 1 }}>
-                                                  <TextField fullWidth multiline rows={3} id="outlined-basic" label="답변 내용" variant="outlined" margin="normal" size="small" 
-                                                  type="text" name="andReplyContent" value={replyFormData.andReplyContent} 
-                                                  onChange={handleQnaReplyInputChange}/>
-                                                </Typography>
-                                                <Button onClick={() =>{ handleUpdateQnaReply(andQna.andQnaId, comment.andReplyId); }}>수정</Button>
-                                              </Box>
-                                            </Modal>
+                                            {/* 해당 답변 작성자만 수정/삭제 가능 */}
+                                            { userId === comment.userId && (
+                                            <>
+                                              <Button size="small" sx={{ minWidth: '40px', ml: 2 }}
+                                                onClick={() =>{ handleOpenReplyModal(andId, andQna.andQnaId, comment.andReplyId); 
+                                                }}
+                                              >수정</Button> 
+                                              <Button size="small" color="error" sx={{ minWidth: '40px' }} 
+                                              onClick={() => deleteAndReply(andId, andQna.andQnaId, comment.andReplyId)}>삭제</Button>
+
+                                              <Modal
+                                                open={openReplyModal}
+                                                onClose={handleCloseReplyModal}
+                                                aria-labelledby="modal-modal-title"
+                                                aria-describedby="modal-modal-description"
+                                              >
+                                                <Box sx={style}>
+                                                  <Typography id="modal-modal-description" sx={{ mt: 2, mb: 1 }}>
+                                                    <TextField fullWidth multiline rows={3} id="outlined-basic" label="답변 내용" variant="outlined" margin="normal" size="small" 
+                                                    type="text" name="andReplyContent" value={replyFormData.andReplyContent} 
+                                                    onChange={handleQnaReplyInputChange}/>
+                                                  </Typography>
+                                                  <Button onClick={() =>{ handleUpdateQnaReply(andQna.andQnaId, comment.andReplyId); }}>수정</Button>
+                                                </Box>
+                                              </Modal>
+                                            </>
+                                          )}
                                           </TableCell>
                                           <TableCell align="center" sx={{ width: '10%',  paddingBottom: 2, paddingTop: 2 }}>{comment.userNickname}</TableCell>
                                           <TableCell align="center" sx={{ width: '10%',  paddingBottom: 2, paddingTop: 2 }}>{formatDate(comment.updatedAt)}</TableCell>
@@ -565,7 +597,8 @@ const formatDate = (dateTimeString) => {
                                     <TableCell /> */}
                                   </TableRow>
                                 )}
-                                
+                                {/* 멤버인 경우에만 답변 작성 가능 */}
+                                { isMember && (
                                   <TableRow>
                                     <TableCell colSpan={3} sx={{ padding: 2, paddingLeft: 10, paddingBottom: 0, paddingTop: 3, borderBottom: "none" }}>
                                       <TextField
@@ -588,6 +621,7 @@ const formatDate = (dateTimeString) => {
                                       </Button>
                                     </TableCell> 
                                   </TableRow>   
+                                )}
                             </>
                             )}
                           </TableBody>
