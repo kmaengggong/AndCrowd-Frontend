@@ -1,0 +1,152 @@
+#crowd-qna-title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    color: #000000;
+    font-weight: 700;
+}
+#qna-content{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    color: #000000;
+    width: 50%;
+    font-weight: 500;
+}
+#time-text-qna{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    font-weight: 400;
+    margin-top: 1%;
+}
+#qna-div{
+    padding: 15px;
+    background-color: rgb(241, 241, 241);
+}
+
+#like-icon{
+    width: 12%;
+    height: auto ;
+    margin-top: 5%;
+    margin-left:17%;
+    margin-right: 4%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#like-crowd-button{
+    display: flex;
+}
+#go-crowd{
+    float: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #00D337;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 50%;
+    margin-top: 5%;
+    height: 7vh;
+    border-radius: 7px;
+}
+#go-crowd:hover{
+    background-color: #24c44f;
+}
+/* #go-chat{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #00D337;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 65%;
+    margin-left: 18%;
+    margin-top: 3%;
+    height: 7vh;
+    border-radius: 7px;
+}
+#go-chat:hover{
+    background-color: #24c44f;
+} */
+#and-content{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+#heart-icon{
+    color: #00D337;
+    cursor: pointer;
+}
+#remain{
+    margin-top: 15%;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+#linear-div{
+    display: flex;
+}
+#remain{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 2vw;
+}
+/* #go-member{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: white;
+    border: none;
+    color: #00D337;
+    cursor: pointer;
+    width: 65%;
+    margin-left: 35%;
+    margin-top: 5%;
+    height: 7vh;
+    border-radius: 7px;
+} */
+#right-top-box{
+    width: 30vw;
+    height: 70vh;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .pagination li {
+    list-style: none;
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+
+  .pagination .active {
+    font-weight: bold;
+  }
+
+#qna-box{
+    padding: 20px;
+}
+
+h2 {
+    margin: 0;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.title {
+    display: inline-block;
+}
+
+.create {
+    margin-bottom: 20px;
+    margin-right: 5px;
+    margin-top: 10px;
+    float: right;
+}
+  

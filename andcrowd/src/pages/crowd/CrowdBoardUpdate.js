@@ -1,80 +1,95 @@
-import React, { useState, useEffect } from "react"; // useEffect 추가
-import axios from "axios";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CrowdBoardUpdate = () => {
-    const [crowdBoardTag, setCrowdBoardTag] = useState("");
-    const [crowdBoardTitle, setCrowdBoardTitle] = useState("");
-    const [crowdBoardContent, setCrowdBoardContent] = useState("");
-    const [crowdBoardImg, setCrowdBoardImg] = useState("");
-    const { crowdId, crowdBoardId } = useParams(); // 두 변수를 한번에 가져오기
+    const params = useParams();
+    const crowdId = params.crowdId;
+    const crowdBoardId = params.crowdBoardId;
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8080/crowd/${crowdId}/board/${crowdBoardId}`);
-                const board = response.data;
+    const navigate = useNavigate();
 
-                setCrowdBoardTag(board.crowdBoardTag);
-                setCrowdBoardTitle(board.crowdBoardTitle);
-                setCrowdBoardContent(board.crowdBoardContent);
-                setCrowdBoardImg(board.crowdBoardImg);
-            } catch (error) {
-                console.error("Error fetching the board data!", error);
+    const [formData, setFormData] = useState({
+        crowdId: crowdId,
+        crowdBoardId: crowdBoardId,
+        crowdBoardTitle: "",
+        crowdBoardContent: "",
+    });
+
+    useEffect(() =>{
+        fetchBoardData();
+    }, []);
+
+    const fetchBoardData = async () => {
+        try {
+            const response = await fetch(`/crowd/${crowdId}/board/${crowdBoardId}`);
+            if (response.ok) {
+                const data = await response.json();
+                setFormData(data);
+            }else {
+                throw new Error(`Fetching CrowdBoard data failed with status ${response.status}.`);
             }
-        };
+        } catch (error) {
+            console.error("게시물 데이터를 불러오는 중 오류 발생!", error);
+        }
+    };
 
-        fetchData();
-    }, [crowdId, crowdBoardId]);
+    const handleInputChange = (e) => {
+        const {name, value} = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        console.log("formdata:",formData);
+        const response = await fetch(`/crowd/${crowdId}/board/${crowdBoardId}`,{
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        });
 
-        const boardData = {
-            crowdId: crowdId,
-            crowdBoardId: crowdBoardId,
-            crowdBoardTag: crowdBoardTag,
-            crowdBoardTitle: crowdBoardTitle,
-            crowdBoardContent: crowdBoardContent,
-            crowdBoardImg: crowdBoardImg
-        };
-
-        try {
-            const response = await axios.patch(`http://localhost:8080/crowd/${crowdId}/board/${crowdBoardId}`, boardData);
-            alert("공지사항 수정 완료");
-        } catch (error) {
-            console.error("There was an error!", error);
-            alert("수정 실패");
-        }
+        navigate(`/crowd/${crowdId}/board/${crowdBoardId}`);
     };
+
+    const handleUpdateCancleBtn = () => {
+        // 수정 취소 버튼을 클릭했을 때 이전 페이지로 이동
+        alert("수정이 취소되었습니다.")
+        navigate(`/crowd/${crowdId}/board/all`);
+    }
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <input type="hidden" name="crowdId" value={crowdId} />
-                </div>
-                <div>
-                    <input type="hidden" name="crowdBoardId" value={crowdBoardId} />
-                </div>
-                <div>
-                    <label>Tag: </label>
-                    <textarea type="text" value={crowdBoardTag} onChange={(e) => setCrowdBoardTag(e.target.value)} />
-                </div>
-                <div>
-                    <label>Title: </label>
-                    <textarea type="text" value={crowdBoardTitle} onChange={(e) => setCrowdBoardTitle(e.target.value)} />
-                </div>
-                <div>
-                    <label>Content: </label>
-                    <textarea type="text" value={crowdBoardContent} onChange={(e) => setCrowdBoardContent(e.target.value)} />
-                </div>
-                <div>
-                    <label>Img: </label>
-                    <textarea type="text" value={crowdBoardImg} onChange={(e) => setCrowdBoardImg(e.target.value)} />
-                </div>
+                펀딩 번호: <input
+                    type="text"
+                    name="userId"
+                    value={formData.crowdId}
+                    onChange={handleInputChange}
+                    placeholder="펀딩 번호"
+                    readOnly
+                /> <br />
+                제목: <input
+                    type="text"
+                    name="crowdBoardTitle"
+                    value={formData.crowdBoardTitle}
+                    onChange={handleInputChange}
+                    placeholder="제목"
+                /> <br />
+                내용: <input
+                    type="text"
+                    name="crowdBoardContent"
+                    value={formData.crowdBoardContent}
+                    onChange={handleInputChange}
+                    placeholder="내용"
+                />
                 <button type="submit">수정하기</button>
             </form>
+            <button type="button" onClick={handleUpdateCancleBtn}>등록 취소</button>
         </div>
     );
 }

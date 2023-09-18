@@ -70,6 +70,16 @@ import MakerPage from './pages/user/MakerPage';
 import MyPageCardsDetailPage from './pages/user/MyPageCardsDetailPage';
 import Team from './pages/etc/Team';
 import Help from './pages/etc/Help';
+import CrowdCreateImg from './pages/crowd/CrowdCreateImg';
+import CrowdReward from './pages/crowd/CrowdReward';
+import CrowdQnaList from './pages/crowd/CrowdQnaList';
+import CrowdQnaCreate from './pages/crowd/CrowdQnaCreate';
+import CrowdUpdate from './pages/crowd/CrowdUpdate';
+import CrowdQnaUpdate from './pages/crowd/CrowdQnaUpdate';
+import CrowdQnaDetail from './pages/crowd/CrowdQnaDetail';
+import CrowdReplyUpdate from './pages/crowd/CrowdReplyUpdate';
+import CrowdReplyCreate from './pages/crowd/CrowdReplyCreate';
+import CrowdRewardCreate from './pages/crowd/CrowdRewardCreate';
 import AdminSignup from './pages/user/admin/AdminSignup';
 import AdminRoute from './components/route/AdminRoute';
 import AdminMain from './pages/user/admin/AdminMain';
@@ -79,7 +89,6 @@ import CrowdPayment from './components/payment/CrowdPayment';
 import CrowdRewardPayment from './components/payment/CrowdRewardPayment';
 import Search from './pages/etc/Search';
 import CallBackFromOAuth from './components/sign/oauth2/CallBackFromOAuth';
-
 
 const sections = [
   { title: '홈', url: '/' },
@@ -186,10 +195,24 @@ function App() {
               {/* Crowd 관련 */}
               <Route path="/crowd/list" element={<CrowdList />} />
               <Route path="/crowd/create" element={<CrowdCreate />} />
+              <Route path="/crowd/:crowdId/img/create" element={<CrowdCreateImg />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
               <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
               <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
+<<<<<<< HEAD
               <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
+=======
+              <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
+              <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
+              <Route path="/crowd/:crowdId/reward" element={<CrowdRewardCreate />} /> {/* 추가 */}
+              <Route path="/crowd/:crowdId/reward/all" element={<CrowdReward />} /> {/* 추가 */}
+              <Route path="/crowd/:crowdId/qna/all" element={<CrowdQnaList />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply' element={<CrowdReplyCreate/>} /> {/* 추가 */}
+
+>>>>>>> 6effbd2ffd9deb0976f312d79682df239e343488
 
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
@@ -222,8 +245,14 @@ function App() {
                 
                 {/* Crowd 관련 */}
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
+<<<<<<< HEAD
                 <Route path="/crowd/:crowdId/payment" element={<CrowdPayment />} />
                 <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdRewardPayment />}/>
+=======
+                <Route path='/crowd/:crowdId/update' element={<CrowdUpdate />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/qna/:crowdQnaId/update' element={<CrowdQnaUpdate />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply/:qnaReplyId' element={<CrowdReplyUpdate />} /> {/* 추가 */}
+>>>>>>> 6effbd2ffd9deb0976f312d79682df239e343488
               </Route>
               
               

@@ -38,12 +38,17 @@
 }
 #main-img{
     width:68%;
+    
     border-radius: 10px;
 }
 #main-img-box{
+    display: flex;
     margin-top: 2%;
     margin-left: 27%;
     margin-bottom: 2vh;
+    min-height: 45vh;
+    align-items: center;
+    
 }
 #follow{
     font-family: 'Noto Sans KR', sans-serif;
