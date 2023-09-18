@@ -1,8 +1,14 @@
 import { Box, Button, TextField } from "@mui/material";
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import { GetUserId } from "../user/GetUserId";
 import { GetUserInfo } from "../user/GetUserInfo";
+=======
+import { useEffect, useRef, useState } from "react";
+>>>>>>> 34363abd6e3245f294f9f020e147fa609e8bc4e4
 import { useParams } from "react-router-dom";
+import { GetUserId } from "../user/GetUserId";
+import { GetUserInfo } from "../user/GetUserInfo";
 
 const CrowdRewardPayment = () => {
     const pg = {
@@ -23,6 +29,7 @@ const CrowdRewardPayment = () => {
     const [address, setAddress] = useState('');
     const [phone, setPhone] = useState('');
     const [paymentData, setPaymentData] = useState(null);
+    const merchantUid = useRef(null);
 
     useEffect(() => {
         const fetchRewards = () => {
@@ -74,10 +81,14 @@ const CrowdRewardPayment = () => {
         event.preventDefault();
         const {IMP} = window;
         IMP.init("imp61051146");  // 가맹점번호
+
+        const merchant_uid = `crowd_${new Date().getTime()}_userId`;
+        merchantUid.current = merchant_uid;
+
         const data = {
             pg: pg[type], // 결제사
             pay_method: pay_method[type],  // 결제수단
-            merchant_uid: `crowd_${new Date().getTime()}_userId`,  // 결제번호 (crowd_ + 현재시간 + userId)
+            merchant_uid: merchant_uid,  // 결제번호 (crowd_ + 현재시간 + userId)
             name: reward.rewardTitle,  // 상품명
             amount: reward.rewardAmount,  // 금액
             buyer_email: userInfo.userEmail,  // 구매자 이메일
@@ -92,26 +103,15 @@ const CrowdRewardPayment = () => {
     };
 
     const callback = async (paymentData, res) => {
-        const {success, error_msg} = res;
-        let orderDetails;
-        if(paymentData){
-            orderDetails = {
-                crowdId: crowdId,
-                isDeleted: false,
-                purchaseAddress: paymentData.buyer_addr,
-                purchaseName: paymentData.buyer_name,
-                purchasePhone: paymentData.buyer_tel,
-                purchaseStatus: "결제완료",
-                rewardId: rewardId,
-                userId: userId
-            };
-        }
-        else{
+        const {success, error_msg, paid_amount} = res;
+
+        if(!paymentData){
             alert("서버로 전송할 결제내역이 없습니다. 다시 시도해주세요.");
             return;
         }
         if(success){
             alert("결제 성공!");
+<<<<<<< HEAD
             console.log(orderDetails);
             try{
 
@@ -121,6 +121,35 @@ const CrowdRewardPayment = () => {
         }
         else{
             alert("결제를 실패하였습니다. 다시 시도 해주세요.");
+=======
+            try{
+                await fetch(`/crowd_order/successorder`, {
+                    method: "POST",
+                    headers:{
+                        'Content-Type':"application/json; text=utf-8"
+                    },
+                    body:JSON.stringify({
+                        crowdId: crowdId,
+                        isDeleted: false,
+                        purchaseAddress: paymentData.buyer_addr,
+                        purchaseName: paymentData.buyer_name,
+                        purchasePhone: paymentData.buyer_tel,
+                        purchaseStatus: "결제완료",
+                        merchantUid: merchantUid.current,
+                        rewardId: rewardId,
+                        userId: userId,
+                        purchaseAmount: paid_amount
+                    }),
+                }).then(res => {
+                    console.log(res);
+                })
+            } catch(error){
+                console.error(error);
+            }
+        }
+        else{
+            alert("결제 실패!");
+>>>>>>> 34363abd6e3245f294f9f020e147fa609e8bc4e4
             console.log(error_msg);
         }
     }

@@ -21,6 +21,7 @@ const Test = () => {
   }, [userInfo]);
 
   const onClickTestButton = () => {
+<<<<<<< HEAD
     // try{
     //   fetch(`/crowd/create`, {
     //     method: "POST",
@@ -41,6 +42,26 @@ const Test = () => {
     // setOpen(true);
   
     navigate(`http://localhost:8080/oauth2/authorization/google`);
+=======
+    try{
+      fetch(`/crowd/create`, {
+        method: "POST",
+        headers:{
+          'Content-Type':'application/json; text=utf-8'
+        },
+        body: JSON.stringify({
+          'crowdCategoryId':1,
+          'crowdContent': "크라우드내용",
+          'crowdEndDate': '2023-09-20T15:06:07.000000',
+          'userId':1,
+          'crowdTitle':'크라우드제목'
+        })
+      }).then(res => console.log(res));
+    } catch(error){
+      console.error(error);
+    }
+    // setOpen(true);
+>>>>>>> 34363abd6e3245f294f9f020e147fa609e8bc4e4
   }
 
   const [open, setOpen] = useState(false);

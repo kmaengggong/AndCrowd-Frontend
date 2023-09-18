@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, CardMedia } from "@mui/material";
 import Typography from "@mui/joy/Typography";
 
 
@@ -35,6 +35,7 @@ const CrowdPayment = () => {
     const onClickChooseCard = (event) => {
         event.preventDefault();
         setSelectedReward(event.target.id);
+        console.log(event.target.id);
     };
 
     return(
