@@ -1,15 +1,11 @@
-.carousel{
-    margin-top: 5px;
-    padding: 10px;
-}
-
 .linkToCreate {
-    font: black;
-    margin-top: 5px;
-    background: #3bc9db;
+    font: white;
+    margin-top: 15px;
+    background-color: #00D337;
     float: right;
-    border-radius: 5px;
+    border-radius: 3px;
     border: none;
+    font-size: 1rem;
 }
 
 .linkToCreate:hover {
@@ -17,19 +13,26 @@
     opacity: 1;
 }
 
+.carousel{
+    margin: 10px;
+    padding: 10px;
+}
+
 .btnCategory {
-    margin-top: 10px;
     text-align: center;
 }
 
 .crowdListblock {
+    margin-top: 10px;
     display: flex;
-    gap: 2;
     flex-wrap: wrap;
-    float: right;
+    justify-content: flex-end;
 }
 
-.cardList {
-    margin-top: 10px;
-    margin-bottom: 10px;
+.listContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+    gap: 20px; 
 }
+
+  

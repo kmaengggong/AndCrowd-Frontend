@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import CrowdToolBar from "../../components/crowd/CrowdToolBar";
 
 const CrowdBoardDetail = () => {
     const [board, setBoard] = useState(null);
     const { crowdId, crowdBoardId } = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/crowd/${crowdId}/board/${crowdBoardId}`)
+        axios.get(`/crowd/${crowdId}/board/${crowdBoardId}`)
             .then(response => {
                 setBoard(response.data);
             })
@@ -19,17 +20,21 @@ const CrowdBoardDetail = () => {
     const navigate = useNavigate(); // 삭제 후 리다이렉션을 위한 useNavigate
 
     const handleDelete = () => {
-        axios.patch(`http://localhost:8080/crowd/${crowdId}/board/${crowdBoardId}/delete`)
+        axios.delete(`/crowd/${crowdId}/board/${crowdBoardId}/delete`)
             .then(() => {
                 alert("글이 성공적으로 삭제되었습니다.");
-                setBoard({ ...board, deleted: true }); // Update the board state to reflect the deletion
-                navigate(`/crowd/${crowdId}`); // 해당 크라우드의 메인 페이지로 리다이렉트
+                // setBoard({ ...board, deleted: true }); // Update the board state to reflect the deletion
+                navigate(`/crowd/${crowdId}/board/all`); // 해당 크라우드의 보드로 이동
             })
             .catch(error => {
                 console.error("글을 삭제하는 동안 오류가 발생했습니다.", error);
                 alert("글 삭제 실패");
             });
     };
+
+    const handleEditClick = async (e) => {
+        navigate(`/crowd/${crowdId}/board/${crowdBoardId}/update`);
+    }
 
     const renderBoard = (board) => {
         if (board.deleted === true) {
@@ -43,6 +48,7 @@ const CrowdBoardDetail = () => {
                 <p>게시된 날짜: {board.publishedAt}</p>
                 <p>수정된 날짜: {board.updatedAt}</p>
                 <p>삭제 여부 : {board.deleted ? "삭제됨" : "삭제되지 않음"}</p>
+                <button onClick={() => handleEditClick(board.crowdBoardId)}>Edit</button> {/* 수정 버튼 추가 */}
                 <button onClick={handleDelete}>글 삭제</button> {/* 삭제 버튼 추가 */}
             </div>
         );
@@ -50,6 +56,7 @@ const CrowdBoardDetail = () => {
 
     return (
         <div>
+            <CrowdToolBar crowdId={crowdId} />
             {board && renderBoard(board)}
         </div>
     );

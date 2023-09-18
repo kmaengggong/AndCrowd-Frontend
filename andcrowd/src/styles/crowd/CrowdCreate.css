@@ -1,0 +1,8 @@
+.currency {
+    display: inline; /* 원 표시를 한 줄로 표현 */
+}
+
+.placeholder{
+    color: lightgray;
+}
+  
