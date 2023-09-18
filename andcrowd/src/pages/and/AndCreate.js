@@ -81,9 +81,9 @@ const AndCreate = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...updatedFormData, andContent: htmlStr }),
+        body: JSON.stringify({ ...updatedFormData, andContent: htmlStr, andStatus: 4 }),
       });
-      navigate(`/and/${andId}`);
+      navigate(`/and/${andId}/role/create`);
       if (response.ok) {
         const responseData = await response.json();
         const andId = responseData;

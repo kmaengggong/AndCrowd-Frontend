@@ -88,6 +88,7 @@ import CrowdRewardPayment from './components/payment/CrowdRewardPayment';
 import Search from './pages/etc/Search';
 import CallBackFromOAuth from './components/sign/oauth2/CallBackFromOAuth';
 import CrowdCreateImg from './components/crowd/CrowdCreateImg';
+import Chatbot from './pages/etc/Chatbot';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -147,6 +148,8 @@ function App() {
               <Route path="/team" element={<Team />} />
               <Route path="/help" element={<Help />} />
               <Route path='/chat' element={<ChatPage />} />
+              {/* <Route path='/chat' element={<ChatPage />} /> */}
+              <Route path='/chatbot' element={<Chatbot />} />
               <Route path="/test" element={<Test />} />
 
               {/* User 관련 */}
