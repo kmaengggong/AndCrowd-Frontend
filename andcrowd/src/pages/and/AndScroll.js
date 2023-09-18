@@ -13,6 +13,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { GetUserId } from '../../components/user/GetUserId';
 import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
 import SearchBar from '../../components/SearchBar';
+import { getUserNickname } from "../../components/and/userApi";
 
 const style = {
   position: 'absolute',
@@ -268,8 +269,16 @@ AndScroll = ({ onSearch }) => {
       console.log("response: ", response);
 
       const jsonData = await response.json();
-
+      
       console.log('jsonData:', jsonData);
+
+      // 작성자 닉네임을 가져와서 각 모임글의 작성자 컬럼을 업데이트
+      for (const item of jsonData.content) {
+        console.log(item);
+        const userNickname = await getUserNickname(item.userId);
+        console.log(userNickname);
+        item.userNickname = userNickname;
+      }
 
       // 다음 페이지가 있는지 여부를 업데이트
       
@@ -499,7 +508,7 @@ const navigateToAndCreate = () => {
                   {calculateRemainingDays(item.andEndDate)}
                 </Typography>
               </div>
-                <Typography id='user-id'>@{item.userId}</Typography>
+                <Typography id='user-id'>@{item.userNickname}</Typography>
               </div>
               
               <div id='showmore-button-box'>
@@ -537,7 +546,7 @@ const navigateToAndCreate = () => {
             </div>
             <div id='main-img-box'>
             <Link to={`/and/${item.andId}`}>
-              <img id='main-img' src={mainImg} alt="mainImg" /> 
+              <img id='main-img' src={item.andHeaderImg} alt="mainImg" /> 
             </Link>
             </div>
             <div id='feed-bottom'>
