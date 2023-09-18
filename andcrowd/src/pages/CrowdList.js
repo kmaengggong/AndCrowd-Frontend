@@ -32,7 +32,7 @@ const CrowdList = () => {
 
   // CrowdMainImg에서 사용할 이미지 배열
   const [carouselImages, setCarouselImages] = useState([
-    { imageColor: "blue", imageUrl: "https://images.pexels.com/photos/5412270/pexels-photo-5412270.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
+    { imageColor: "blue", imageUrl: "https://images.pexels.com/photos/5076531/pexels-photo-5076531.jpeg?auto=compress&cs=tinysrgb&w=600&h=400" },
     { imageColor: "yellow", imageUrl: "https://images.pexels.com/photos/1252500/pexels-photo-1252500.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
     { imageColor: "green", imageUrl: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
   ]);
