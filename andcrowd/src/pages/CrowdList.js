@@ -14,16 +14,49 @@ import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import { calculateRaisedAmount, getDaysBetweenDate } from '../pages/etc/Finance';
 import CrowdCategoryList from "./crowd/CrowdCategoryList";
 import CrowdMainImg from "./crowd/CrowdMainImg";
+import styled from 'styled-components';
+import ReactPaginate from 'react-paginate';
+
+const MyPaginate = styled(ReactPaginate).attrs({
+  activeClassName: "active",
+})`
+  margin: 50px 16px;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0 5rem;
+  li a {
+    border-radius: 7px;
+    padding: 0.1rem 1rem;
+    cursor: pointer;
+  }
+  li.previous a,
+  li.next a {
+    color: #63b762;
+  }
+  li.active a {
+    color: #91cd96;
+    font-weight: 700;
+    min-width: 32px;
+  }
+  li.disabled a {
+    color: #a6a6a6;
+  }
+  li.disable,
+  li.disabled a {
+    cursor: default;
+  }
+`;
+
 
 const CrowdList = () => {
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
-  const pageSize = 4; // 페이지당 데이터 수
-  const [isLastPage, setIsLastPage] = useState(false); // 다음 페이지가 마지막 페이지인지 여부
   const [categoryId, setCategoryId] = useState(0);
   const [sortField, setSortField] = useState('publishedAt');
   const [crowdStatus, setCrowdStatus] = useState('');
-  const [sortOrder, setSortOrder] = useState('');
+  const [pageCount, setPageCount] = useState(0);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const navigate = useNavigate();
   
   const [isClicked, setIsClicked] = useState(false);
@@ -41,14 +74,15 @@ const CrowdList = () => {
   const handleClick = () => {
     setIsClicked(!isClicked);
   };
-
-  const handleCategoryClick = (category) => { // 카테고리 선택 시 호출되는 함수
+  
+  const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    setIsLastPage(false);
-    setPageNumber(0);
-    setData([]);
-    fetchCrowdList();
+    setCategoryId(category.name); // 카테고리 ID 업데이트
+    setPageNumber(0); // 페이지 번호 초기화
+    setData([]); // 데이터 초기화
+    fetchCrowdList(); // 크라우드 목록 다시 불러오기
   };
+  
 
   const fetchCrowdRoles = async (id) => { // 크라우드 글 선택시 정렬 구문
     try {
@@ -62,60 +96,53 @@ const CrowdList = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => { // 리스트 화면에 조회될 크라우드 목록들
-      try {
-        const response = await axios.get('/crowd/list'); // API 엔드포인트 호출
-        const jsonData = response.data;
-        setData(jsonData);
-        // 데이터를 가져온 후에만 fetchCrowdRoles 함수 호출
-        if (jsonData && jsonData.length > 0) {
-          jsonData.forEach(item => fetchCrowdRoles(item.crowdId));
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, [pageNumber, categoryId, crowdStatus, sortField, sortOrder]);
+    // const fetchData = async () => { // 리스트 화면에 조회될 크라우드 목록들
+    //   try {
+    //     const response = await axios.get('/crowd/list'); // API 엔드포인트 호출
+    //     const jsonData = response.data;
+    //     setData(jsonData);
+    //     // 데이터를 가져온 후에만 fetchCrowdRoles 함수 호출
+    //     if (jsonData && jsonData.length > 0) {
+    //       jsonData.forEach(item => fetchCrowdRoles(item.crowdId));
+    //     }
+    //   } catch (error) {
+    //     console.error('Error fetching data:', error);
+    //   }
+    // };
+    // fetchData();
+    fetchCrowdList();
+  }, [pageNumber, categoryId, crowdStatus, sortField]);
 
   const fetchCrowdList = async () => {
     try {
       const params = new URLSearchParams({
-        page: pageNumber,
-        size: pageSize,
+        pageNumber: pageNumber,
         crowdCategoryId: categoryId,
         crowdStatus: crowdStatus,
         sortField: sortField,
-        sortOrder: sortOrder,
+        searchKeyword: searchKeyword,
       });
 
-      const response = await fetch(`/crowd/list?${params.toString()}`);
+      console.log(`/crowd/page?${params.toString()}`);
+      const response = await fetch(`/crowd/page?${params.toString()}`);
       const jsonData = await response.json();
 
-      // 내림차순으로 데이터 정렬
-      const sortedData = jsonData.content.sort((a, b) => {
-        const dateA = new Date(a.crowdEndDate);
-        const dateB = new Date(b.crowdEndDate);
-        return dateB - dateA;
-      });
+      // // 내림차순으로 데이터 정렬
+      // const sortedData = jsonData.content.sort((a, b) => {
+      //   const dateA = new Date(a.crowdEndDate);
+      //   const dateB = new Date(b.crowdEndDate);
+      //   return dateB - dateA;
+      // });
 
-      // 다음 페이지가 있는지 여부를 업데이트
-      setIsLastPage(jsonData.last);
+      console.log("jsonData: ", jsonData);
+      console.log("totalPages: ", jsonData.totalPages);
+      // 전체 페이지 수
+      setPageCount(jsonData.totalPages);
 
-      // 검색 기준이 변경되었을 때, 기존 데이터 초기화
-      if (pageNumber === 0) {
-        setData(sortedData);
-      } else {
-        setData(prevData => [...prevData, ...sortedData]);
-      }
+      setData(jsonData.content);
+
     } catch (error) {
       console.error('Error fetching data:', error);
-    }
-  };
-
-  const handleLoadMore = () => {
-    if (!isLastPage) {
-      setPageNumber(pageNumber + 1);
     }
   };
 
@@ -123,41 +150,46 @@ const CrowdList = () => {
     navigate(`/crowd/${crowdId}`);
   }; // 펀딩글 클릭시 상세페이지 이동  
 
-  const handleSortFieldChange = async (newSortField) => {
-    setSortField(newSortField);
-    setPageNumber(0);
-    setData([]);
-    fetchCrowdList();
-
-    try {
-      const params = new URLSearchParams({
-        page: 0, // 페이지 번호를 0으로 초기화
-        size: pageSize,
-        crowdCategoryName: categoryId,
-        crowdStatus: crowdStatus,
-        sortField: newSortField, // 새로운 정렬 기준으로 설정
-        sortOrder: sortOrder,
-      });
-      const response = await fetch(`/crowd/list?${params.toString()}`);
-      const jsonData = await response.json();
-  
-      console.log('jsonData:', jsonData);
-  
-      // 새로운 데이터로 화면 업데이트
-      setData(jsonData.content);
-      setIsLastPage(jsonData.last);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
+  const handleSortFieldChange = (newSortField) => {
+    setSortField(newSortField); // 정렬 기준 업데이트
+    setPageNumber(0); // 페이지 번호 초기화
+    setData([]); // 데이터 초기화
+    fetchCrowdList(); // 크라우드 목록 다시 불러오기
   };
+
+  // const handleSortFieldChange = async (newSortField) => {
+  //   setSortField(newSortField);
+  //   setPageNumber(0);
+  //   setData([]);
+  //   fetchCrowdList();
+
+  //   try {
+  //     const params = new URLSearchParams({
+  //       page: 0, // 페이지 번호를 0으로 초기화
+  //       crowdCategoryName: categoryId,
+  //       crowdStatus: crowdStatus,
+  //       sortField: newSortField, // 새로운 정렬 기준으로 설정
+  //     });
+  //     const response = await fetch(`/crowd/list?${params.toString()}`);
+  //     const jsonData = await response.json();
+  
+  //     console.log('jsonData:', jsonData);
+  
+  //     // 새로운 데이터로 화면 업데이트
+  //     setData(jsonData.content);
+  //     setPageNumber(0);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
   
   // 선택한 카테고리에 따라 게시글 필터링
   const filteredCrowdData = selectedCategory
   ? data.filter((crowd) => crowd.crowdCategoryName === selectedCategory)
   : data;
 
-  const handleCategorySelect = (crowdCategoryName) => { // 
-
+  const handleCategorySelect = (crowdCategoryId) => { // 
+    setCategoryId(crowdCategoryId)
   }
 
   function calculateRemainingDays(crowdEndDate) { // 남은일수 표시
@@ -205,8 +237,8 @@ const CrowdList = () => {
             최신순
           </div>
           <div
-            className={`sortOption ${sortField === 'crowdViewCount' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('crowdViewCount')}
+            className={`sortOption ${sortField === 'viewCount' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('viewCount')}
             style={{ cursor: 'pointer', marginRight: '10px' }}
           >
             인기순
@@ -219,8 +251,8 @@ const CrowdList = () => {
             마감임박순
           </div>
           <div
-            className={`sortOption ${sortField === 'crowdLikeSum' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('crowdLikeSum')}
+            className={`sortOption ${sortField === 'likeSum' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('likeSum')}
             style={{ cursor: 'pointer' }}
           >
             좋아요순
@@ -275,6 +307,19 @@ const CrowdList = () => {
             ))}
           </div>
         <br />
+
+        <MyPaginate
+        pageCount={pageCount}
+        onPageChange={({ selected }) => setPageNumber(selected)}
+        containerClassName={'pagination'}
+        activeClassName={'active'}
+        previousLabel="< "
+        nextLabel=" >"  
+        pageRangeDisplayed={5}
+        marginPagesDisplayed={0}
+        breakLabel="..."
+        renderOnZeroPageCount={null}
+      />
     </div>
   )
 };
