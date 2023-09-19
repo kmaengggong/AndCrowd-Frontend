@@ -10,10 +10,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Cookies from 'js-cookie';
 import { InputAdornment } from "@mui/material";
 import CrowdCategoryCreate from "./CrowdCategoryCreate";
+import { GetUserId } from "../../components/user/GetUserId";
+import CrowdCreateImg from "../../components/crowd/CrowdCreateImg";
 
 const CrowdCreate = () => {
   const navigate = useNavigate();
-  const [userId, setUserId] = useState(""); // userId를 상태로 설정
+  const [userId, setUserId] = useState(null); // userId를 상태로 설정
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const [formData, setFormData] = useState({
@@ -21,36 +23,14 @@ const CrowdCreate = () => {
     crowdTitle: "",
     crowdContent: "",
     crowdGoal: 0,
-    crowdEndDate: ""
-  })
-
-  const userAccessToken = Cookies.get('refresh_token');
+    crowdEndDate: new Date().toISOString().slice(0, 16)
+  });
   
   // userId를 백엔드로부터 가져오는 로직
-  // 토큰 또는 세션을 이용해 userId를 전달
   useEffect(() => {
-    const fetchUserId = async () => {
-      try {
-        const userResponse = await fetch(`/user-info/userid`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${userAccessToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (userResponse.ok) {
-          const userIdData = await userResponse.json();
-          setUserId(userIdData.userId);
-        } else {
-          throw new Error(`Fetching userId failed with status ${userResponse.status}.`);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-  
-    fetchUserId(); // 컴포넌트가 마운트될 때 함수를 즉시 호출
-  }, [userAccessToken]); // userAccessToken이 변경될 때만 효과를 트리거합니다.  
+    setUserId(GetUserId());
+    console.log(new Date().toISOString().slice(0, 16));
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -111,6 +91,8 @@ const CrowdCreate = () => {
   const isCrowdGoalValid = formData.crowdGoal !== "" && formData.crowdGoal >= 0;
 
   return ( // 화면단 입력 구문 시작
+    <>
+    {userId === null ? <></> :
     <Container component="main" maxWidth="md">
       <CssBaseline />
       <Box
@@ -129,19 +111,15 @@ const CrowdCreate = () => {
           함께하는 모든 순간이 소중하고, 우리의 미래에 희망을 안겨줄 것입니다.<br />
           감사함과 함께, 함께하는 여정을 시작해봅시다!
         </Typography>
-        <Box component="form" noValidate sx={{ mt: 3 }} onClick={handleNextButtonClick}>
+        <Box component="form" noValidate sx={{ mt: 3 }} onSubmit={handleNextButtonClick}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={5}>
               <TextField 
                 required
                 fullWidth
-                id="userId"
                 label="회원번호"
-                name="userId"
-                value={userId} 
-                InputProps={{
-                  readOnly: true,
-                }}
+                defaultValue={userId}
+                disabled
               />
             </Grid>
             {/* 카테고리 선택 */}
@@ -206,15 +184,6 @@ const CrowdCreate = () => {
                       </InputAdornment>
                     )
                   }}
-                  helperText={
-                    <>
-                        This field is required. Only letters and numbers
-                        are allowed.
-                        <br />
-                        Space is not allowed at start. Special
-                        characters are not allowed.
-                    </>
-                  }
                 />
               </Grid>
           </Grid>
@@ -242,6 +211,8 @@ const CrowdCreate = () => {
         </Container>
       </Box>
     </Container>
+    }
+    </>
   );
 };
 

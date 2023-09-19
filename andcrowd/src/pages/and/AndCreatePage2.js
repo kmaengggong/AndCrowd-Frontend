@@ -75,7 +75,6 @@ const AndCreatePage2 = () => {
 
   const handleCategoryChange = (event) => {
     const { name, value } = event.target;
-  
     setFormData({
       ...formData,
       [name]: value,

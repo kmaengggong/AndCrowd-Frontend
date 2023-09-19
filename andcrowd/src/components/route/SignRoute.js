@@ -24,6 +24,10 @@ const SignRoute = ({}) => {
 
     useEffect(() => {
         setEmail(userInfo.userEmail);
+        let obj = new Object(userInfo);
+        if(Object.entries(obj).length > 0 && userInfo.socialType !== null){
+            setIsValid(true);
+        }
     }, [userInfo]);
 
     const onPasswordChange = (event) => {
