@@ -96,20 +96,6 @@ const CrowdList = () => {
   };
 
   useEffect(() => {
-    // const fetchData = async () => { // 리스트 화면에 조회될 크라우드 목록들
-    //   try {
-    //     const response = await axios.get('/crowd/list'); // API 엔드포인트 호출
-    //     const jsonData = response.data;
-    //     setData(jsonData);
-    //     // 데이터를 가져온 후에만 fetchCrowdRoles 함수 호출
-    //     if (jsonData && jsonData.length > 0) {
-    //       jsonData.forEach(item => fetchCrowdRoles(item.crowdId));
-    //     }
-    //   } catch (error) {
-    //     console.error('Error fetching data:', error);
-    //   }
-    // };
-    // fetchData();
     fetchCrowdList();
   }, [pageNumber, categoryId, crowdStatus, sortField]);
 
@@ -126,13 +112,6 @@ const CrowdList = () => {
       console.log(`/crowd/page?${params.toString()}`);
       const response = await fetch(`/crowd/page?${params.toString()}`);
       const jsonData = await response.json();
-
-      // // 내림차순으로 데이터 정렬
-      // const sortedData = jsonData.content.sort((a, b) => {
-      //   const dateA = new Date(a.crowdEndDate);
-      //   const dateB = new Date(b.crowdEndDate);
-      //   return dateB - dateA;
-      // });
 
       console.log("jsonData: ", jsonData);
       console.log("totalPages: ", jsonData.totalPages);
@@ -156,32 +135,6 @@ const CrowdList = () => {
     setData([]); // 데이터 초기화
     fetchCrowdList(); // 크라우드 목록 다시 불러오기
   };
-
-  // const handleSortFieldChange = async (newSortField) => {
-  //   setSortField(newSortField);
-  //   setPageNumber(0);
-  //   setData([]);
-  //   fetchCrowdList();
-
-  //   try {
-  //     const params = new URLSearchParams({
-  //       page: 0, // 페이지 번호를 0으로 초기화
-  //       crowdCategoryName: categoryId,
-  //       crowdStatus: crowdStatus,
-  //       sortField: newSortField, // 새로운 정렬 기준으로 설정
-  //     });
-  //     const response = await fetch(`/crowd/list?${params.toString()}`);
-  //     const jsonData = await response.json();
-  
-  //     console.log('jsonData:', jsonData);
-  
-  //     // 새로운 데이터로 화면 업데이트
-  //     setData(jsonData.content);
-  //     setPageNumber(0);
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
   
   // 선택한 카테고리에 따라 게시글 필터링
   const filteredCrowdData = selectedCategory
