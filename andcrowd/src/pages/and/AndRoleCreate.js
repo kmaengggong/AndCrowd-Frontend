@@ -15,6 +15,7 @@ const AndRoleCreate = () => {
   });
 
   const [andRoles, setAndRoles] = useState([]);
+  const [needNumMem, setNeedNumMem] = useState(0);
 
   useEffect(() => {
     // 페이지가 처음 로드될 때 AndRole 목록을 가져옴
@@ -30,7 +31,7 @@ const AndRoleCreate = () => {
     };
 
     fetchAndRoles(); // 함수 호출
-  }, [andId]); // andId가 변경될 때마다 실행
+  }, []); // andId가 변경될 때마다 실행
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -61,26 +62,44 @@ const AndRoleCreate = () => {
         andRole: "",
         andRoleLimit: 0,
       });
+
+      const newNeedNumMem = needNumMem + parseInt(formData.andRoleLimit, 10);
+      console.log("newNeedNumMem: ",newNeedNumMem)
+      setNeedNumMem(newNeedNumMem);
+    
     } else {
       console.error("Error creating AndRole");
     }
   };
 
-  const deleteAndRole = async (andId, index) => {
+  const deleteAndRole = async (andId, andRoleId, andRoleLimit) => {
     try {
-      const deleteNum = index + 1;
-      await axios.delete(`/and/${andId}/role/${deleteNum}/delete`);
-      console.log("Deleted role at index:", index);
-      deleteNum+=1;
-      const updatedAndRoles = andRoles.filter((_, i) => i !== index);
-      setAndRoles(updatedAndRoles);
+      await axios.delete(`/and/${andId}/role/${andRoleId}/delete`);
+      console.log("Deleted role at index:", andRoleId);
+      const newNeedNumMem = needNumMem - parseInt(andRoleLimit, 10);
+      console.log("newNeedNumMem", newNeedNumMem);
+      setNeedNumMem(newNeedNumMem);
     } catch (error) {
       console.error("Error in deleting role:", error);
     }
   };
 
   // 다음 버튼 클릭 시 페이지 이동
-  const handleNextClick = () => {
+  const handleNextClick = async () => {
+    console.log(`/${andId}/update/needNumMem/${needNumMem}`);
+
+    try {
+      await fetch(`/and/${andId}/update/status/0`, {
+        method: "PATCH",
+      });
+
+      await fetch(`/and/${andId}/update/needNumMem/${needNumMem}`,{
+        method: "PATCH",
+      });
+    console.log("update and status:", andId);
+    } catch (error) {
+      console.error("Error in updating and status:", error);
+    }
     navigate(`/and/${andId}`);
   };
 
@@ -113,9 +132,6 @@ const AndRoleCreate = () => {
           <button id='role-submit-btn' type="submit">
             추가
           </button>
-          <button id='role-next-btn' onClick={handleNextClick}>
-            다음
-          </button>
         </div>
       </form>
 
@@ -125,11 +141,15 @@ const AndRoleCreate = () => {
           {andRoles.map((role, index) => (
             <li key={index}>
               {role.andRole} (필요 인원: {role.andRoleLimit}명)
-              {/*<button onClick={() => deleteAndRole(andId, index)}>삭제</button>*/}
+              <button onClick={() => deleteAndRole(andId, role.andRoleId, role.andRoleLimit)}>삭제</button>
             </li>
           ))}
         </ul>
       </div>
+      <h2> 총 모집인원: {needNumMem}명 </h2>
+      <button id='role-next-btn' onClick={handleNextClick}>
+        다음
+      </button>
     </div>
   );
 };

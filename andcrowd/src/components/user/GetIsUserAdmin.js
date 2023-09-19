@@ -1,4 +1,4 @@
-export const GetIsUserAdmin = (setIsAdmin) => {
+export const GetIsUserAdmin = (setIsAdmin) => {    
     try{
         fetch(`/api/isAdmin`, {
             method: "GET",

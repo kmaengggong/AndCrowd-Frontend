@@ -79,6 +79,19 @@
     margin-left: 3%;
 
 }
+#go-member{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: white;
+    border: none;
+    color: #00D337;
+    cursor: pointer;
+    margin-left: 30%;
+    margin-top: 5%;
+    height: 7vh;
+    border-radius: 7px;
+}
 #and-detail-bottom{
     display: flex;
     margin-left: 80%;
@@ -114,4 +127,44 @@
     margin-left: 10%;
     border-radius: 5px;
     margin-bottom: 10%;
+}
+#members{
+    margin-left: 10px;
+    margin-right: 13px;
+    cursor: pointer;
+}
+.box{
+    padding: 5px;
+    overflow: scroll;
+}
+#andUser-nickname{
+    margin-left: 10px;
+    margin-right: 10%;
+    margin-top: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    color: #3c403b;
+}
+.andUser{
+    margin: 20px;
+    margin-left: 16%;
+}
+#follow{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    height: 5vh;
+    border:1px solid #00D337;
+    border-radius: 10px;
+    flex-wrap: wrap; 
+    margin-right: 10px;
+}
+.follow-button {
+    background-color: white;
+    color: #00D337;
+}
+  
+  .following-button {
+    background-color: #00D337;
+    color: white;
 }

@@ -31,7 +31,7 @@ const Header = () => {
     if(isLogin){
       setUserId(GetUserId());
     }
-  }, []);
+  }, [isLogin]);
 
   useEffect(() => {
     if(isLogin && userId !== null){

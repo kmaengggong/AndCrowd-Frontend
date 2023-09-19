@@ -42,8 +42,6 @@ import AndRole from './pages/and/AndRole';
 import AndRoleDetail from './pages/and/AndRoleDetail';
 import AndRoleCreate from './pages/and/AndRoleCreate';
 import AndRoleUpdate from './pages/and/AndRoleUpdate';
-import CrowdPaymentFunction from "./payment/CrowdPaymentFunction";
-import AdPaymentFunction from "./payment/AdPaymentFunction";
 import AndMember from './pages/and/AndMember';
 import AndMemberDetail from './pages/and/AndMemberDetail';
 import AndMemberCreate from './pages/and/AndMemberCreate';
@@ -71,13 +69,28 @@ import MakerPage from './pages/user/MakerPage';
 import MyPageCardsDetailPage from './pages/user/MyPageCardsDetailPage';
 import Team from './pages/etc/Team';
 import Help from './pages/etc/Help';
+import CrowdReward from './pages/crowd/CrowdReward';
+import CrowdQnaList from './pages/crowd/CrowdQnaList';
+import CrowdQnaCreate from './pages/crowd/CrowdQnaCreate';
+import CrowdUpdate from './pages/crowd/CrowdUpdate';
+import CrowdQnaUpdate from './pages/crowd/CrowdQnaUpdate';
+import CrowdQnaDetail from './pages/crowd/CrowdQnaDetail';
+import CrowdReplyUpdate from './pages/crowd/CrowdReplyUpdate';
+import CrowdReplyCreate from './pages/crowd/CrowdReplyCreate';
+import CrowdRewardCreate from './pages/crowd/CrowdRewardCreate';
 import AdminSignup from './pages/user/admin/AdminSignup';
 import AdminRoute from './components/route/AdminRoute';
 import AdminMain from './pages/user/admin/AdminMain';
 import Infoboard from './pages/etc/Infoboard';
 import InfoboardDetail from './pages/etc/InfoboardDetail';
+import CrowdPayment from './components/payment/CrowdPayment';
+import CrowdRewardPayment from './components/payment/CrowdRewardPayment';
 import Search from './pages/etc/Search';
-
+import CallBackFromOAuth from './components/sign/oauth2/CallBackFromOAuth';
+import CrowdCreateImg from './components/crowd/CrowdCreateImg';
+import Chatbot from './pages/etc/Chatbot';
+import CrowdCreate1 from './pages/crowd/CrowdCreate1';
+import CrowdCreate2 from './pages/crowd/CrowdCreate2';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -117,6 +130,7 @@ function App() {
             <Route path="/logout" element={<Logout />} />
             <Route path="/infoboard/list" element={<Infoboard />} />
             <Route path="/infoboard/:infoId" element={<InfoboardDetail />} />
+            <Route path="/callback/from/:token" element={<CallBackFromOAuth />} />
 
             {/* 로그인되지 않은 상태에서만 접근 가능 */}
             <Route element={<PublicRoute />}>
@@ -136,7 +150,8 @@ function App() {
               <Route path="/team" element={<Team />} />
               <Route path="/help" element={<Help />} />
               <Route path='/chat' element={<ChatPage />} />
-              <Route path=":projectType/:projectId/ad/payment" element={<AdPaymentFunction />} />
+              {/* <Route path='/chat' element={<ChatPage />} /> */}
+              <Route path='/chatbot' element={<Chatbot />} />
               <Route path="/test" element={<Test />} />
 
               {/* User 관련 */}
@@ -182,12 +197,18 @@ function App() {
 
               {/* Crowd 관련 */}
               <Route path="/crowd/list" element={<CrowdList />} />
-              <Route path="/crowd/create" element={<CrowdCreate />} />
               <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
               <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
-              <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
+
               <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
-              <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdPaymentFunction />} />
+              <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
+              <Route path="/crowd/:crowdId/reward" element={<CrowdRewardCreate />} /> {/* 추가 */}
+              <Route path="/crowd/:crowdId/reward/all" element={<CrowdReward />} /> {/* 추가 */}
+              <Route path="/crowd/:crowdId/qna/all" element={<CrowdQnaList />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply' element={<CrowdReplyCreate/>} /> {/* 추가 */}
 
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
@@ -219,9 +240,18 @@ function App() {
                 <Route path='/search/:searchKeyword' element={<Search />} />
                 
                 {/* Crowd 관련 */}
+                <Route path="/crowd/create1" element={<CrowdCreate1 />} />
+                <Route path="/crowd/:crowdId/create2" element={<CrowdCreate2 />} />
+                <Route path="/crowd/:crowdId/img/create" element={<CrowdCreateImg />} /> {/* 추가 */}
+                <Route path="/crowd/:crowdId/create/editor" element={<CrowdCreate />} />
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
+                <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
+                <Route path="/crowd/:crowdId/payment" element={<CrowdPayment />} />
+                <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdRewardPayment />}/>
+                <Route path='/crowd/:crowdId/update' element={<CrowdUpdate />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/qna/:crowdQnaId/update' element={<CrowdQnaUpdate />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply/:qnaReplyId' element={<CrowdReplyUpdate />} /> {/* 추가 */}
               </Route>
-              
               
             </Route>
             {/* 관리자 유저만 접근 가능 */}

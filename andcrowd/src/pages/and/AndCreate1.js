@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import '../../styles/and/AndCreate.css';
 import { Typography } from "@mui/material";
+import { GetUserId } from '../../components/user/GetUserId'; 
 
 const AndCreate1 = () => {
   const navigate = useNavigate();
@@ -15,33 +16,20 @@ const AndCreate1 = () => {
     andHeaderImg: ""
   });
   const [userId, setUserId] = useState("");
-  const yourAccessToken = Cookies.get('refresh_token');
+  const [userCrowd, setUserCrowd] = useState([]);
+  const [crowdId, setCrowdId] = useState('');
+
   useEffect(() => {
-    fetchData();
+    setUserId(GetUserId());
+    fetchUserCrowdData();
   }, []);
+
   const updatedFormData = {
     ...formData,
     userId: userId,
+    crowdId: crowdId,
   };  
-  const fetchData = async () => {
-    try {
-      const userIdResponse = await fetch(`/user-info/userid`,{
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${yourAccessToken}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      if (userIdResponse.ok) {
-        const userId = await userIdResponse.json();
-        setUserId(userId.userId);
-      } else {
-        throw new Error(`Fetching userId failed with status ${userIdResponse.status}.`);
-      }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-  };
+  
   const handleNextButtonClick = async () => {
     try {
       const response = await fetch("/and/create", {
@@ -57,6 +45,7 @@ const AndCreate1 = () => {
           andCategoryId: 999,
           andEndDate: "2099-12-12T12:00:00",
           needNumMem: 999,
+          andStatus: 4,
         }),
       });
   
@@ -73,27 +62,63 @@ const AndCreate1 = () => {
     }
   };
   
-  
+  const fetchUserCrowdData = async () => {
+    try{
+      const userId = GetUserId();
+      console.log(`/user/${userId}/maker/1`);
+      const response = await fetch(`/user/${userId}/maker/1`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('fetchUserCrowdData: ',data);
+        setUserCrowd(data);
+      } else {
+        throw new Error(`Fetching data failed with status ${response.status}.`);
+      }
+
+    }
+    catch (error) {
+      console.error("Error fetching data:", error);
+    }
+
+  }  
+
+  const handleCrowdId = (event) => {
+    const { name, value } = event.target;
+    setCrowdId(Number(value));
+  }
   
 
   return (
-    <>
-    <Typography>모임글 작성할거면 이거읽고 버튼을 누르세요</Typography>
-      <Typography>연결된 펀딩 링크가 있으면 아래에 붙여넣어주세요</Typography>
-      <input id='crowd-link-input'
+    <div>
+    {/* <Typography>모임글 작성할거면 이거읽고 버튼을 누르세요</Typography> */}
+      <Typography>연결된 펀딩이 있으면 아래에 옵션에서 선택해주세요</Typography>
+      {/* <input id='crowd-link-input'
             type="text"
             name="andLink"
             value={formData.andLink}
             placeholder="링크 입력"
-          />
+          /> */}
       <div >
-      <button id='first-submit-btn' type="button" onClick={handleNextButtonClick}>
-          확인했습니다
-        </button>
+        <div>
+          <select
+            name='userCrowd'
+            value={crowdId}
+            onChange={handleCrowdId}
+          >
+            <option value="">없음</option>
+            {userCrowd.map((crowd) => (
+              <option value={crowd.projectId}>[{crowd.projectId}] {crowd.projectTitle}</option>
+            ))}
+          </select>
+
+        </div>
         
+        <button id='first-submit-btn' type="button" onClick={handleNextButtonClick}>
+          다음
+        </button>
       </div>
       
-    </>
+    </div>
   );
 };
 

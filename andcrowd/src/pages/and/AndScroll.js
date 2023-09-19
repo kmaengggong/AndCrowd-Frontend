@@ -6,13 +6,25 @@ import mainImg from './shoes-8026038.jpg'
 import showMoreImg from './free-icon-problem-report-7689567.png' 
 import Menu from '@mui/material/Menu';
 import { Link } from 'react-router-dom';
-import {MenuItem, Popover, List, ListItem, Box, TextField, Button, Modal, IconButton } from '@mui/material';
+import {MenuItem, Popover, List, ListItem, Box, TextField, Button, Modal, IconButton, Grid, Paper } from '@mui/material';
 import { Navigate ,useNavigate } from 'react-router-dom';
 import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
 import SearchIcon from '@mui/icons-material/Search';
 import { GetUserId } from '../../components/user/GetUserId';
 import FlagRoundedIcon from '@mui/icons-material/FlagRounded';
 import SearchBar from '../../components/SearchBar';
+import { getUserNickname, getUserProfileImg } from "../../components/and/userApi";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { styled } from '@mui/material/styles';
+import cat0 from '../../category/all.png';
+import cat1 from '../../category/art.png';
+import cat2 from '../../category/sports.png';
+import cat3 from '../../category/gadgets.png';
+import cat4 from '../../category/bibimbap.png';
+import cat5 from '../../category/languages.png';
+import cat6 from '../../category/traveling.png';
+import cat7 from '../../category/pets.png';
+import cat8 from '../../category/etc.png';
 
 const style = {
   position: 'absolute',
@@ -26,18 +38,27 @@ const style = {
   p: 4,
 };
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
 const 
 AndScroll = ({ onSearch }) => {
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const pageSize = 2; // 페이지당 데이터 수
   const [isLastPage, setIsLastPage] = useState(false); // 다음 페이지가 마지막 페이지인지 여부
-  const [categoryId, setCategoryId] = useState(0);
+  const [categoryId, setCategoryId] = useState('');
   const [sortField, setSortField] = useState('publishedAt');
-  const [andStatus, setAndStatus] = useState('');
+  const [sortStatus, setSortStatus] = useState(1);
   const [sortOrder, setSortOrder] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const navigate = useNavigate();
+  let loadingMore = false; // 중복 호출 방지를 위한 플래그
   
   const [isClicked, setIsClicked] = useState(false);
   const [rolesData, setRolesData] = useState({});
@@ -213,7 +234,7 @@ AndScroll = ({ onSearch }) => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [pageNumber, categoryId, andStatus, sortField, sortOrder]);
+  }, [pageNumber, categoryId, sortStatus, sortField, sortOrder]);
 
   useEffect(() => {
     const fetchDataAndSetIsLiked = async () => {
@@ -256,7 +277,7 @@ AndScroll = ({ onSearch }) => {
         page: pageNumber,
         size: pageSize,
         andCategoryId: categoryId,
-        andStatus: andStatus,
+        andStatus: sortStatus,
         sortField: sortField,
         sortOrder: "desc",
         searchKeyword: searchKeyword,
@@ -267,8 +288,24 @@ AndScroll = ({ onSearch }) => {
       console.log("response: ", response);
 
       const jsonData = await response.json();
-
+      
       console.log('jsonData:', jsonData);
+
+      // 작성자 닉네임을 가져와서 각 모임글의 작성자 컬럼을 업데이트
+      for (const item of jsonData.content) {
+        console.log(item);
+        const userNickname = await getUserNickname(item.userId);
+        console.log(userNickname);
+        item.userNickname = userNickname;
+      }
+
+      // 작성자 닉네임을 가져와서 작성자 프로필 사진 컬럼을 업데이트
+      for (const item of jsonData.content) {
+        console.log(item);
+        const profileImg = await getUserProfileImg(item.userId);
+        console.log(profileImg);
+        item.profileImg = profileImg;
+      }
 
       // 다음 페이지가 있는지 여부를 업데이트
       
@@ -288,9 +325,12 @@ AndScroll = ({ onSearch }) => {
   const handleLoadMore = () => {
     if (!isLastPage) {
       setPageNumber(pageNumber + 1);
-      console.log("페이지 ", pageNumber)
+    } else {
+      console.log("LastPage!!");
     }
+    loadingMore = false; // 호출 종료
   };
+  
 
   const handleSearch = ( searchKeyword ) => {
     // 검색어가 비어있지 않은 경우에만 검색 요청을 보냅니다.
@@ -299,40 +339,68 @@ AndScroll = ({ onSearch }) => {
       setPageNumber(0);
       setSearchKeyword(searchKeyword.trim()); 
       // 검색 요청을 서버로 보내고 검색 결과를 업데이트합니다.
-      fetchData({ searchKeyword });
+      // fetchData({ searchKeyword });
     }
   };  
 
   const handleCategoryChange = (newCategoryId) => {
+    console.log("newCategoryId: ", newCategoryId)
     setCategoryId(newCategoryId);
     setIsLastPage(false);
     setPageNumber(0); // 페이지 번호 초기화
     setData([]); // 기존 데이터 초기화
-    fetchData(); // 새로운 정렬 기준으로 데이터 불러오기
+    // fetchData(); // 새로운 정렬 기준으로 데이터 불러오기
   };
 
   const handleSortFieldChange = (newSortField) => {
     setSortField(newSortField);
     setPageNumber(0);
     setData([]);
-    fetchData();
+    // fetchData();
   };
 
   const handleSortOrderChange = (newSortOrder) => {
     setSortOrder(newSortOrder);
     setPageNumber(0);
     setData([]); 
-    fetchData(); 
+    // fetchData(); 
   };
+
+  const handleSortStatusChange = (event) => {
+    const { name, value } = event.target;
+    setSortStatus(Number(value));
+    setPageNumber(0);
+    setData([]);
+    // fetchData();
+  };
+
   
   const handleScroll = () => {
     if (
       window.innerHeight + window.scrollY >=
       document.body.offsetHeight - 100
     ) {
-        handleLoadMore();
+
+    if (!isLastPage && !loadingMore) { // 중복 호출 방지
+      loadingMore = true; // 호출 중으로 표시
+      handleLoadMore();
+    } else {
+      console.log("isLastPage true");
     }
+  }
   };
+
+  useEffect(() => {
+    handleScroll();
+    // 스크롤 이벤트 리스너 추가
+  window.addEventListener("scroll", handleScroll);
+
+  // 컴포넌트 언마운트 시 스크롤 이벤트 리스너 제거
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, [isLastPage]); // isLastPage 값이 변경될 때마다 이펙트 재실행
+    
   const [anchorEl1, setAnchorEl1] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
 
@@ -358,7 +426,7 @@ AndScroll = ({ onSearch }) => {
     const end = new Date(andEndDate);
     const diffInMs = end - now;
     
-    const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000));
+    const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000)) + 1;
 
     return diffInDays >= 0 ? 'D - '+ diffInDays : '모집 마감';
 }
@@ -368,7 +436,48 @@ const navigateToAndCreate = () => {
   
   return (
     <div>
-      {/* <SearchBar onSearch={handleSearch} /> */}
+      <div className='category'>
+      <Box sx={{ flexGrow: 1 }}>
+        <div className='itemContainer'>
+          <div className='item' onClick={()=>handleCategoryChange(0)}>
+              <img id='cat-img' src={cat0} alt="전체" />
+              <span>전체</span>
+            </div>
+          <div className='item' onClick={()=>handleCategoryChange(2)}>
+            <img id='cat-img' src={cat1} alt="문화/예술" />
+            <span>문화/예술</span>
+          </div>
+          <div className='item' onClick={()=>handleCategoryChange(3)}>
+            <img id='cat-img' src={cat2} alt="액티비티" />
+            <span>액티비티</span>
+          </div>
+          <div className='item' onClick={()=>handleCategoryChange(4)}>
+            <img id='cat-img' src={cat3} alt="테크/가전" />
+            <span>테크/가전</span>
+          </div>
+          <div className='item' onClick={()=>handleCategoryChange(5)}>
+            <img id='cat-img' src={cat4} alt="푸드" />
+            <span>푸드</span>
+          </div>
+          <div className='item' onClick={()=>handleCategoryChange(6)}>
+            <img id='cat-img' src={cat5} alt="언어" />
+            <span>언어</span>
+          </div>
+          <div className='item' onClick={()=>handleCategoryChange(7)}>
+            <img id='cat-img' src={cat6} alt="여행" />
+            <span>여행</span>
+          </div>
+          <div className='item' onClick={()=>handleCategoryChange(8)}>
+            <img id='cat-img' src={cat7} alt="반려동물" />
+            <span>반려동물</span>
+          </div>
+          <div className='item' onClick={()=>handleCategoryChange(9)}>
+            <img id='cat-img' src={cat8} alt="기타" />
+            <span>기타</span>
+          </div>
+        </div>
+      </Box>
+      </div>
       <div id='feed-top'>
       <Typography className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
         onClick={() => handleSortFieldChange('publishedAt')}
@@ -393,6 +502,19 @@ const navigateToAndCreate = () => {
       >
         좋아요순
       </Typography>
+
+      <select
+        name='sortStatus'
+        value={sortStatus}
+        onChange={handleSortStatusChange}
+        id = 'and-sortStatus'
+      >
+        <option value="1">모집중</option>
+        <option value="2">반려</option>
+        <option value="3">종료</option>
+        <option value="4">작성중</option>
+        <option value="0">심사중</option>
+      </select>
 
       <div>
         {/*<Typography id ='category' onClick={handleClick2} style={{cursor: "pointer"}}>
@@ -428,6 +550,7 @@ const navigateToAndCreate = () => {
       </div>
       <button id ='write' type="button" onClick={navigateToAndCreate}>글쓰기</button>
       
+      
     </div>
     {/*<div id='and-search-bar'>
         <input
@@ -446,7 +569,13 @@ const navigateToAndCreate = () => {
           <div key={item.andId} id ='feed-container'>
             <div id='feed-head'>
               <div id='img-box'>
-                <img id='profile-img' src={profileImg} alt="profileImg" /> 
+              {item.profileImg ? (
+                <img id='profile-img' src={item.profileImg} alt="profileImg" />
+              ) : (
+                <div id='profile-img'>
+                <AccountCircleIcon sx={{ width: "4vw", height: "4vw", color: "grey" }} /> 
+                </div>
+              )}              
               </div>
               <div id='and-title-box'>
                 <Typography id='and-feed-title'>{item.andTitle}</Typography>
@@ -455,7 +584,7 @@ const navigateToAndCreate = () => {
                   {calculateRemainingDays(item.andEndDate)}
                 </Typography>
               </div>
-                <Typography id='user-id'>@{item.userId}</Typography>
+                <Typography id='user-id'>@{item.userNickname}</Typography>
               </div>
               
               <div id='showmore-button-box'>

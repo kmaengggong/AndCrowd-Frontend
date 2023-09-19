@@ -30,7 +30,7 @@ const Search = () => {
             page: pageNumber,
             size: pageSize,
             andCategoryId: categoryId,
-            andStatus: andStatus,
+            andStatus: 13,
             sortField: sortField,
             sortOrder: "desc",
             searchKeyword: searchKeyword,
@@ -44,6 +44,7 @@ const Search = () => {
           // 검색 기준이 변경되었을 때, 기존 데이터 초기화
           if (pageNumber === 0) {
             setAndList(jsonData.content);
+            setIsLastPage(jsonData.last);
           } else {
             setAndList(prevData => [...prevData, ...jsonData.content]);
           }
@@ -78,7 +79,7 @@ const Search = () => {
           page: nextPage,
           size: pageSize,
           andCategoryId: categoryId,
-          andStatus: andStatus,
+          andStatus: 13,
           sortField: sortField,
           sortOrder: "desc",
           searchKeyword: searchKeyword,
