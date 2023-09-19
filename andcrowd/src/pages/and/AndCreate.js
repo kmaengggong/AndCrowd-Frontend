@@ -114,14 +114,13 @@ const AndCreate = () => {
             name="andTitle"
             placeholder="제목 입력"
             id='create-and-title'
-            
             onChange={handleInputChange}
           />
           <Typography id='and-title-text'>
             모임글의 내용을 적어주세요
           <span className='red-asterisk'>*</span>
           </Typography>
-          <div>
+          <div id = 'editer-box'>
           <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
           </div>
         </div>

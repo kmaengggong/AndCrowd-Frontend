@@ -28,7 +28,6 @@
     height: auto ;
     margin-top: 5%;
     margin-left:17%;
-    margin-right: 4%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,7 +36,6 @@
     display: flex;
 }
 #go-and{
-    float: center;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 18px;
     font-weight: 500;
@@ -45,7 +43,7 @@
     border: none;
     color: white;
     cursor: pointer;
-    width: 50%;
+    width: 43%;
     margin-top: 5%;
     height: 7vh;
     border-radius: 7px;

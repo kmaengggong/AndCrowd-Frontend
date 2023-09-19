@@ -89,6 +89,8 @@ import Search from './pages/etc/Search';
 import CallBackFromOAuth from './components/sign/oauth2/CallBackFromOAuth';
 import CrowdCreateImg from './components/crowd/CrowdCreateImg';
 import Chatbot from './pages/etc/Chatbot';
+import CrowdCreate1 from './pages/crowd/CrowdCreate1';
+import CrowdCreate2 from './pages/crowd/CrowdCreate2';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -195,11 +197,9 @@ function App() {
 
               {/* Crowd 관련 */}
               <Route path="/crowd/list" element={<CrowdList />} />
-              <Route path="/crowd/create" element={<CrowdCreate />} />
-              <Route path="/crowd/:crowdId/img/create" element={<CrowdCreateImg />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
               <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
-              <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
+
               <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
               <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
               <Route path="/crowd/:crowdId/reward" element={<CrowdRewardCreate />} /> {/* 추가 */}
@@ -240,14 +240,18 @@ function App() {
                 <Route path='/search/:searchKeyword' element={<Search />} />
                 
                 {/* Crowd 관련 */}
+                <Route path="/crowd/create1" element={<CrowdCreate1 />} />
+                <Route path="/crowd/:crowdId/create2" element={<CrowdCreate2 />} />
+                <Route path="/crowd/:crowdId/img/create" element={<CrowdCreateImg />} /> {/* 추가 */}
+                <Route path="/crowd/:crowdId/create/editor" element={<CrowdCreate />} />
                 <Route path="/crowd/:crowdId/board/:crowdBoardId/update" element={<CrowdBoardUpdate />} />
+                <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
                 <Route path="/crowd/:crowdId/payment" element={<CrowdPayment />} />
                 <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdRewardPayment />}/>
                 <Route path='/crowd/:crowdId/update' element={<CrowdUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/update' element={<CrowdQnaUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply/:qnaReplyId' element={<CrowdReplyUpdate />} /> {/* 추가 */}
               </Route>
-              
               
             </Route>
             {/* 관리자 유저만 접근 가능 */}

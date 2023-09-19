@@ -90,7 +90,7 @@ const AndBoardDetail = () => {
     </div>
     <hr id='and-board-line-dt'></hr>
     <div id='board-content-box'>
-      <Typography id='and-board-content-dt' >{andBoard.andBoardContent}</Typography>
+      <div id='and-board-content-dt' dangerouslySetInnerHTML={{ __html :  andBoard.andBoardContent  }}></div>
     </div>
     <hr id='and-board-line-dt'></hr>
     <br />
