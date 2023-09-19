@@ -16,6 +16,7 @@ import SearchBar from '../../components/SearchBar';
 import { getUserNickname, getUserProfileImg } from "../../components/and/userApi";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { styled } from '@mui/material/styles';
+import cat0 from '../../category/all.png';
 import cat1 from '../../category/art.png';
 import cat2 from '../../category/sports.png';
 import cat3 from '../../category/gadgets.png';
@@ -51,7 +52,7 @@ AndScroll = ({ onSearch }) => {
   const [pageNumber, setPageNumber] = useState(0);
   const pageSize = 2; // 페이지당 데이터 수
   const [isLastPage, setIsLastPage] = useState(false); // 다음 페이지가 마지막 페이지인지 여부
-  const [categoryId, setCategoryId] = useState(0);
+  const [categoryId, setCategoryId] = useState('');
   const [sortField, setSortField] = useState('publishedAt');
   const [sortStatus, setSortStatus] = useState(1);
   const [sortOrder, setSortOrder] = useState('');
@@ -343,6 +344,7 @@ AndScroll = ({ onSearch }) => {
   };  
 
   const handleCategoryChange = (newCategoryId) => {
+    console.log("newCategoryId: ", newCategoryId)
     setCategoryId(newCategoryId);
     setIsLastPage(false);
     setPageNumber(0); // 페이지 번호 초기화
@@ -437,35 +439,39 @@ const navigateToAndCreate = () => {
       <div className='category'>
       <Box sx={{ flexGrow: 1 }}>
         <div className='itemContainer'>
-          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(2)}>
+          <div className='item' onClick={()=>handleCategoryChange(0)}>
+              <img id='cat-img' src={cat0} alt="전체" />
+              <span>전체</span>
+            </div>
+          <div className='item' onClick={()=>handleCategoryChange(2)}>
             <img id='cat-img' src={cat1} alt="문화/예술" />
             <span>문화/예술</span>
           </div>
-          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(3)}>
+          <div className='item' onClick={()=>handleCategoryChange(3)}>
             <img id='cat-img' src={cat2} alt="액티비티" />
             <span>액티비티</span>
           </div>
-          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(4)}>
+          <div className='item' onClick={()=>handleCategoryChange(4)}>
             <img id='cat-img' src={cat3} alt="테크/가전" />
             <span>테크/가전</span>
           </div>
-          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(5)}>
+          <div className='item' onClick={()=>handleCategoryChange(5)}>
             <img id='cat-img' src={cat4} alt="푸드" />
             <span>푸드</span>
           </div>
-          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(6)}>
+          <div className='item' onClick={()=>handleCategoryChange(6)}>
             <img id='cat-img' src={cat5} alt="언어" />
             <span>언어</span>
           </div>
-          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(7)}>
+          <div className='item' onClick={()=>handleCategoryChange(7)}>
             <img id='cat-img' src={cat6} alt="여행" />
             <span>여행</span>
           </div>
-          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(8)}>
+          <div className='item' onClick={()=>handleCategoryChange(8)}>
             <img id='cat-img' src={cat7} alt="반려동물" />
             <span>반려동물</span>
           </div>
-          <div className='item' xs={1.5} onClick={()=>handleCategoryChange(9)}>
+          <div className='item' onClick={()=>handleCategoryChange(9)}>
             <img id='cat-img' src={cat8} alt="기타" />
             <span>기타</span>
           </div>
