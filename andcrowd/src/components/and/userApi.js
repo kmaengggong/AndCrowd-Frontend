@@ -17,3 +17,17 @@ export const getUserNickname = async (userId) => {
     return ''; // 에러 발생 시 빈 문자열 반환
   }
 };
+
+export const getUserProfileImg = async (userId) => {
+  try {
+    const response = await userApi.get(`/profileImg/${userId}`);
+    if (response.status === 200) {
+      return response.data; // 이미지 반환
+    } else {
+      throw new Error(`Failed to fetch user profile img with status ${response.status}`);
+    }
+  } catch (error) {
+    console.error('Error fetching user profile img:', error);
+    return ''; // 에러 발생 시 빈 문자열 반환
+  }
+};

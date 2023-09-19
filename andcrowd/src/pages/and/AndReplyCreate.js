@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
+import { GetUserId } from "../../components/user/GetUserId";
 
 const AndReplyCreate = () => {
     const navigate = useNavigate();
@@ -18,30 +19,30 @@ const AndReplyCreate = () => {
         andReplyContent: "",
     });
 
-    const yourAccessToken = Cookies.get('refresh_token');
+    // const yourAccessToken = Cookies.get('refresh_token');
 
-    const fetchData = async () => {
-      try {
-        const userIdResponse = await fetch(`/user-info/userid`,{
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${yourAccessToken}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (userIdResponse.ok) {
-          const userId = await userIdResponse.json();
-          setUserId(userId.userId);
-        } else {
-          throw new Error(`Fetching userId failed with status ${userIdResponse.status}.`);
-        }
-        } catch (error) {
-          console.error("Error fetching data:", error);
-        }
-    };
+    // const fetchData = async () => {
+    //   try {
+    //     const userIdResponse = await fetch(`/user-info/userid`,{
+    //       method: 'GET',
+    //       headers: {
+    //         'Authorization': `Bearer ${yourAccessToken}`,
+    //         'Content-Type': 'application/json',
+    //       },
+    //     });
+    //     if (userIdResponse.ok) {
+    //       const userId = await userIdResponse.json();
+    //       setUserId(userId.userId);
+    //     } else {
+    //       throw new Error(`Fetching userId failed with status ${userIdResponse.status}.`);
+    //     }
+    //     } catch (error) {
+    //       console.error("Error fetching data:", error);
+    //     }
+    // };
   
     useEffect(() => {
-      fetchData();
+      setUserId(GetUserId());
     }, []);
   
 
