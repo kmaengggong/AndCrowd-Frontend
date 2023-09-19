@@ -13,10 +13,11 @@ const CrowdRewardCreate = () => {
   const [rewards, setRewards] = useState([]);
   
   const [reward, setReward] = useState({
+    crowdId: crowdId,
     rewardTitle: "",
     rewardContent: "",
     rewardAmount: 0,
-    rewardLimit: 10,
+    rewardLimit: 0,
   });
 
   // TextField 컴포넌트 생성을 위한 커스텀 함수
@@ -34,9 +35,13 @@ const CrowdRewardCreate = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    console.log(name, value)
     let newValue = value;
   
     if (name === "rewardAmount") {
+      newValue = Math.max(0, parseFloat(newValue));
+    }
+    if (name === "rewardLimit") {
       newValue = Math.max(0, parseFloat(newValue));
     }
   
@@ -45,12 +50,29 @@ const CrowdRewardCreate = () => {
   
   const handleRewardAdd = () => {
     const newReward = { ...reward };
+    if(newReward.rewardTitle.length < 1){
+      alert("제목을 설정해주세요.");
+      return;
+    }
+    if(newReward.rewardContent.length < 1){
+      alert("내용을 설정해주세요.");
+      return;
+    }
+    if(newReward.rewardAmount < 1){
+      alert("금액을 설정해주세요.");
+      return;
+    }
+    if(newReward.rewardLimit < 1){
+      alert("한정수량을 선택해주세요.");
+      return;
+    }
     setRewards([...rewards, newReward]);
     setReward({
+      crowdId: crowdId,
       rewardTitle: "",
       rewardContent: "",
       rewardAmount: 0,
-      rewardLimit: 10,
+      rewardLimit: 0,
     });
   };
 
@@ -66,23 +88,22 @@ const CrowdRewardCreate = () => {
 
   // 서버로 데이터를 전송하는 함수
   const sendDataToServer = async () => {
+    console.log(rewards);
     try {
-      const response = await fetch(`/crowd/${crowdId}/reward`, {
+      await fetch(`/crowd/${crowdId}/reward/all`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json; text=utf-8",
         },
-        body: JSON.stringify({
-          rewards: rewards,
-        }),
+        body: JSON.stringify(rewards),
+      }).then(res => {
+        if(res.ok){
+          navigate(`/crowd/${crowdId}/img/create`);
+        }
+        else{
+          throw new Error(`Request failed with status ${res.status}`);
+        }
       });
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log("Response Data:", responseData);
-        navigate(`/crowd/${crowdId}/img/create`);
-      } else {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
     } catch (error) {
       console.error("Error sending data:", error);
     }
@@ -118,7 +139,6 @@ const CrowdRewardCreate = () => {
         </Grid>
         <Container component="main" maxWidth="md">
           <Button
-            type="submit"
             variant="contained"
             color="primary"
             onClick={handleNextButtonClick}

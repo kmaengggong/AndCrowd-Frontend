@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-
-
+import { GetUserId } from "../components/user/GetUserId";
+import { GetUserInfo } from "../components/user/GetUserInfo";
 
 // 현재시간을 얻어와서 HHMMSS 현태로 변환해주는 코드
 const getCurrentTime = () => {
@@ -31,7 +31,7 @@ const CrowdPaymentFunction = () => {
     const { crowdId, rewardId } = useParams();
 
     const [reward, setReward] = useState(null);
-    const [user, setUser] = useState(null);
+    const [userInfo, setUserInfo] = useState(null);
     const [paymentData, setPaymentData] = useState(null);
 
     const [buyerEmail, setBuyerEmail] = useState("");
@@ -42,42 +42,15 @@ const CrowdPaymentFunction = () => {
     const [userId, setUserId] = useState("");
 
     // 회원정보를 불러오는 기능
-    // JWT토큰 디코딩 하여 userId 추출
-    const getUserIdFromToken = (token) => {
-        try {
-            const decoded = jwtDecode(token);
-            return decoded.userId;
-        } catch (error) {
-            console.error("토큰 디코딩에 실패했습니다.", error);
-            return null;
-        }
-    }
+    useEffect(() => {
+        setUserId(GetUserId());
+    }, []);
 
     useEffect(() => {
-        const token = localStorage.getItem('authToken');
-        if (!token) {
-            console.error("토큰이 유효하지 않습니다.");
-            return;
+        if(userId !== null){
+            GetUserInfo(userId, setUserInfo);
         }
-        const decodedUserId = getUserIdFromToken(token); // userId를 디코딩
-        if (!decodedUserId) {
-            console.error("userId를 찾을수 없습니다.");
-            return;
-        }
-
-        setUserId(decodedUserId); // userId 상태를 갱신
-
-        axios.get(`http://localhost:8080/user/${decodedUserId}`)
-            .then(userData => {
-                setUser(userData.data);
-                setBuyerEmail(userData.data.userEmail);
-                setBuyerName(userData.data.userKorName);
-                setBuyerTel(userData.data.userPhone);
-            })
-            .catch(error => {
-                console.error("찾는 유저가 없습니다.", error)
-            });
-    }, []);
+    }, [userId]);
 
     // 결제할 상품정보를 불러오는 기능
     useEffect(() => {
@@ -94,7 +67,7 @@ const CrowdPaymentFunction = () => {
     // 결제 기능
     const onClickPayment = () =>{
         // user reward null 검사
-        if (!user || !reward) {
+        if (!userInfo || !reward) {
             alert("유저나 상품 정보가 없습니다.");
             return;
         }
@@ -164,7 +137,8 @@ const CrowdPaymentFunction = () => {
 
     return (
         <div>
-            {user && reward && (
+            <h1>결제</h1>
+            {userInfo && reward && (
                 <div>
                     <h3>상품 정보</h3>
                     <p>상품명: {reward.rewardTitle}</p>

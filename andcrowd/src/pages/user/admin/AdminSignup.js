@@ -49,6 +49,7 @@ const AdminSignup = () => {
             console.error("")
         }
     }
+    
     const onFormSubmit = async (event) => {
         event.preventDefault();
         if(!isEmailValid){

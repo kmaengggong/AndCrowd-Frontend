@@ -11,7 +11,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import '../../styles/Login.css';
 import { isLoginContext } from '../../context/isLoginContext';
-import NaverLogin from '../../components/sign/NaverLogin';
 import { useCookies } from 'react-cookie';
 import { Stack } from '@mui/material';
 
@@ -221,7 +220,8 @@ const Login = () => {
           </Grid>
           
           <Grid item xs={12}>
-            <NaverLogin />
+            <Button href="http://localhost:8080/oauth2/authorization/naver">네이버 로그인</Button>
+            <Button href="http://localhost:8080/oauth2/authorization/google">구글 로그인</Button>
           </Grid>
 
           <Grid item xs={12} marginY={5}>

@@ -7,7 +7,7 @@ const Logout = () => {
     const isLogin = useIsLoginState();
     const {setIsLogin} = useContext(isLoginContext);
     const navigate = useNavigate();
-    const [, , removeCookie] = useCookies(['refresh_token']);
+    const [, , removeCookie] = useCookies(['refresh_token', 'oauth2_auth_request']);
 
     console.log(isLogin);
 
@@ -19,6 +19,7 @@ const Logout = () => {
     
     localStorage.removeItem('access_token');
     removeCookie("refresh_token");
+    removeCookie("oauth2_auth_request");
     setIsLogin(false);
     alert("로그아웃 되었습니다.");
 }
