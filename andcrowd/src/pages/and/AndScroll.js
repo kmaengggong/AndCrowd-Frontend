@@ -25,6 +25,7 @@ import cat5 from '../../category/languages.png';
 import cat6 from '../../category/traveling.png';
 import cat7 from '../../category/pets.png';
 import cat8 from '../../category/etc.png';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 
 const style = {
   position: 'absolute',
@@ -46,6 +47,12 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const scrollToTop = () => {
+  window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+  })
+}
 const 
 AndScroll = ({ onSearch }) => {
   const [data, setData] = useState([]);
@@ -687,6 +694,7 @@ const navigateToAndCreate = () => {
           <p>마지막 페이지입니다.</p>
         </div>
       )}
+      <button id="top" onClick={scrollToTop} type="button" > <KeyboardArrowUpRoundedIcon /></button>
     </div>
   );
 };
