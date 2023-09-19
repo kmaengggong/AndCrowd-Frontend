@@ -219,7 +219,9 @@ const AndComponent = ({ }) => {
          {categoryMap[and.andCategoryId]}
       </Chip>
       <br />
-      <Link href={`/crowd/${and.crowdId}`}>연계 크라우드 글</Link>
+      { and.crowdId !== 0 && (
+      <Link href={`/crowd/${and.crowdId}`}>연계 펀딩글</Link>
+      )}
       <Typography id='and-title'>{and.andTitle}</Typography>
       <CountdownTimer publishedAt={and.publishedAt} andEndDate={and.andEndDate} />
       <hr style={{ margin: '20px auto', width: '70%' }}></hr>
