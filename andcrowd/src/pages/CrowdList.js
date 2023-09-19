@@ -171,7 +171,7 @@ const CrowdList = () => {
   }
 
   const navigateToCreate = () => {
-    navigate("/crowd/create");
+    navigate("/crowd/create1");
   };
 
   const formatMoney = (amount) => {
