@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import AndApplicant from "./AndApplicant";
 import axios from "axios";
-
+import '../../styles/and/AndManage.css'
 
 const AndManage = () => {
 
@@ -130,60 +130,49 @@ const AndManage = () => {
         navigate(`/and/${andId}/applicant/${andApplyId}`)
     }
 
-    return(
-        <div>
-            <h2>{andId}번글 관리 페이지</h2>
-            <div>
-                <h3>전체 지원 현황</h3>
-                    <ul>
-                        <li>
-                            모임 전체 모집 인원: {andNeedNumApply.totalApplicantNum}
-                        </li>
-                        <li>
-                            모임 전체 지원 인원: {andNeedNumApply.needNumMem}
-                        </li>
-                    </ul>
-            </div>
+    return (
+        <div id="and-manage">
+          <h2>{andId}번글 관리 페이지</h2>
+          <div id='man-top'>
+          <div id='total-ap-mem'>
+            <h3 className="section-title">전체 지원 현황</h3>
+            <ul>
+              <li>
+              {andNeedNumApply.totalApplicantNum}/{andNeedNumApply.needNumMem}
+              </li>
+            </ul>
+          </div>
+          <hr />
+          <div id='role-ap'>
+            <h3 className="section-title">역할별 지원 현황</h3>
+            {andRoleApplyList.map((andRoleApply) => (
+              <ul className="role-apply-item" key={andRoleApply.andRoleId}>
+              <li>
+                {andRoleApply.andRole} |
+              </li>
+              <li>
+                ( {andRoleApply.applicantCount} / {andRoleApply.andRoleLimit} )
+              </li>
+            </ul>
+            ))}
+          </div>
+          </div>
             <hr />
-            <div>
-                <h3>역할별 지원 현황</h3>
-                {andRoleApplyList.map((andRoleApply) => (
-                    <ul>
-                        <li>
-                            역할번호: {andRoleApply.andRoleId}
-                        </li>
-                        <li>
-                            역할: {andRoleApply.andRole}
-                        </li>
-                        <li>
-                            모집 인원 수: {andRoleApply.andRoleLimit}
-                        </li>
-                        <li>
-                            현재 지원자 수: {andRoleApply.applicantCount}
-                        </li>
-                    </ul>
-                ))}
-            </div>
-            <hr />
-            <div>
+            <div id='man-bottom'>
+            <div id='mem-manage'>
                 <h3>멤버 관리</h3>
                 {andMemberList.map((andMember) => (
-                    <ul>
-                        <li>
-                            멤버 번호: {andMember.memberId}
-                        </li>
-                        <li>
-                            유저 번호: {andMember.userId}
-                        </li>
-                        <li>
-                            삭제여부 : {andMember.deleted ? 'true' : 'false'}
-                        </li>
-                        <button onClick={() => deleteAndMember(andId, andMember.memberId)}>Delete</button>
-                    </ul>
+                    <div className="member-item" key={andMember.memberId}>
+                    <div className="member-info">
+                        <span id='mem-num'>멤버 번호: {andMember.memberId} </span>
+                        <span id='user-num'> 유저 번호: {andMember.userId}   </span>
+                    </div>
+                    <button onClick={() => deleteAndMember(andId, andMember.memberId)}>삭제</button>
+                    </div>
                 ))}
             </div>
             <hr />
-            <div>
+            <div id='ap-manage'>
                 <h3>지원자 관리</h3>
                 {andApplicantList.map((andApplicant) => (
                     <ul>
@@ -217,8 +206,9 @@ const AndManage = () => {
                     </ul>
                 ))}
             </div>
+            </div>
         </div>
-    );
-}
+      );
+    }
 
 export default AndManage;

@@ -163,8 +163,8 @@ const AndComponent = ({ }) => {
     navigate(`/and/${andId}/applicant/create`);
   };
 
-  const applicantList = (andId) => {
-    navigate(`/and/${andId}/applicant/list`);
+  const memberList = (andId) => {
+    navigate(`/and/${andId}/member/list`);
   };
 
   const fetchFollow = async (userId) => {
