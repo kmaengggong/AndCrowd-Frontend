@@ -54,7 +54,7 @@ const CrowdList = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [categoryId, setCategoryId] = useState(0);
   const [sortField, setSortField] = useState('publishedAt');
-  const [crowdStatus, setCrowdStatus] = useState('');
+  const [crowdStatus, setCrowdStatus] = useState(1);
   const [pageCount, setPageCount] = useState(0);
   const [searchKeyword, setSearchKeyword] = useState('');
   const navigate = useNavigate();
@@ -210,6 +210,13 @@ const CrowdList = () => {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }; // 모집금액 단위 표시  
   
+  const handleSortStatusChange = (event) => {
+    const { name, value } = event.target;
+    setCrowdStatus(Number(value));
+    setPageNumber(0);
+    setData([]);
+  };
+
   return (
     <div>
       <button className={styles.linkToCreate} type="button" onClick={navigateToCreate}>
@@ -257,6 +264,17 @@ const CrowdList = () => {
           >
             좋아요순
           </div>
+          <select
+            name='sortStatus'
+            value={crowdStatus}
+            onChange={handleSortStatusChange}
+          >
+            <option value="1">모집중</option>
+            <option value="2">반려</option>
+            <option value="3">종료</option>
+            <option value="4">작성중</option>
+            <option value="0">심사중</option>
+          </select>
         </div>
         <br />
         <div className={styles.listContainer} style={{ gap: '20px', marginLeft: '20px' }}>
