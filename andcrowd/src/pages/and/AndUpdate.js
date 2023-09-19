@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import Editor from "../../components/and/Editor";
+import '../../styles/and/AndUpdate.css';
 
 const AndUpdate = () => {
-  
+  const [htmlStr, setHtmlStr] = React.useState('');
   const params = useParams();
   const andId = params.andId;
 
@@ -15,7 +17,6 @@ const AndUpdate = () => {
     needNumMem: "",
     andHeaderImg: "",
   });
-  
 
   useEffect(() => {
     fetchData();
@@ -24,14 +25,13 @@ const AndUpdate = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(`/and/${andId}`);
-      
       if (response.ok) {
         const data = await response.json();
-        setFormData(data); // 기존 데이터를 모두 할당
+        setFormData(data);
+        setHtmlStr(data.andContent); // andContent 값을 htmlStr 상태에 설정합니다.
       } else {
         throw new Error(`Fetching and data failed with status ${response.status}.`);
       }
-
     } catch (error) {
       console.error("Error fetching And data:", error);
     }
@@ -44,13 +44,13 @@ const AndUpdate = () => {
       [name]: value,
     });
   };
+
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    console.log("formdata:", formData); // 전달 값 확인
-
+    
+    console.log("formdata:", formData);
 
     try {
       const response = await fetch(`/and/${andId}/update`, {
@@ -58,12 +58,34 @@ const AndUpdate = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({...formData,andContent: htmlStr}), // formData 전체를 전송합니다.
       });
 
       if (response.ok) {
-        // 성공적으로 데이터 전송 및 처리되었을 때의 코드
         navigate(`/and/${andId}`);
+      } else {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
+  };
+  const handleSubmit2 = async (event) => {
+    event.preventDefault();
+    
+    console.log("formdata:", formData);
+
+    try {
+      const response = await fetch(`/and/${andId}/update`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({...formData,andContent: htmlStr}), // formData 전체를 전송합니다.
+      });
+
+      if (response.ok) {
+        navigate(`/and/${andId}/role/update`);
       } else {
         throw new Error(`Request failed with status ${response.status}`);
       }
@@ -74,23 +96,24 @@ const AndUpdate = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <div id="and-update-submit_btn-box">
+          <button id='and-update-submit_btn' type="submit" onClick={handleSubmit}>저장</button>
+          <button id='and-update-submit_btn2' type="" onClick={handleSubmit2}>다음</button>
+        </div>
+      <form id='and-update-form' onSubmit={handleSubmit}>
         <div>
-          <input type="text" name="userId" value={formData.userId} onChange={handleInputChange} placeholder="회원번호" />
-          <input type="text" name="andCategoryId" value={formData.andCategoryId} onChange={handleInputChange} placeholder="카테고리" />
-          <input type="text" name="andTitle" value={formData.andTitle} onChange={handleInputChange} placeholder="제목" />
-          <input type="text" name="andContent" value={formData.andContent} onChange={handleInputChange} placeholder="내용" />
-          <input type="datetime-local" name="andEndDate" value={formData.andEndDate} onChange={handleInputChange} placeholder="마감일" />
-          <input type="text" name="needNumMem" value={formData.needNumMem} onChange={handleInputChange} placeholder="모집인원" />
-          <input type="text" name="andHeaderImg" value={formData.andHeaderImg} onChange={handleInputChange} placeholder="대표 이미지" />
+          <input id='and-update-input' type="text" name="userId" value={formData.userId} onChange={handleInputChange} placeholder="회원번호" />
+          <input id='and-update-input' type="text" name="andCategoryId" value={formData.andCategoryId} onChange={handleInputChange} placeholder="카테고리" />
+          <input id='and-update-input' type="text" name="andTitle" value={formData.andTitle} onChange={handleInputChange} placeholder="제목" />
+          <input id='and-update-input' type="datetime-local" name="andEndDate"  onChange={handleInputChange} placeholder="마감일" />
+          <input id='and-update-input' type="text" name="needNumMem" value={formData.needNumMem} onChange={handleInputChange} placeholder="모집인원" />
+          <input id='and-update-input' type="text" name="andHeaderImg" value={formData.andHeaderImg} onChange={handleInputChange} placeholder="대표 이미지" />
+          <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
         </div>
-        <div id="submit_btn">
-          <button type="submit">저장</button>
-          <button type="">다음</button>
-        </div>
+        
       </form>
     </>
   );
-}
+};
 
 export default AndUpdate;

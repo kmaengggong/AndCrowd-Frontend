@@ -74,4 +74,6 @@
     font-weight: 400;
     border: 1px solid #00D337;
   }
-  
+  #editer-box{
+    height: 50%;
+  }
