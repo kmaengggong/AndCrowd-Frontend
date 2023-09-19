@@ -98,7 +98,7 @@ const CrowdRewardCreate = () => {
         body: JSON.stringify(rewards),
       }).then(res => {
         if(res.ok){
-          navigate(`/crowd/${crowdId}/img/create`);
+          navigate(`/crowd/${crowdId}`);
         }
         else{
           throw new Error(`Request failed with status ${res.status}`);
@@ -111,6 +111,77 @@ const CrowdRewardCreate = () => {
 
   return (
     <div>
+      <div className="crowd-reward-create-container">
+      <form>
+        <div className="form-group">
+          <label>리워드명:</label>
+          <input
+            type="text"
+            name="rewardTitle"
+            value={reward.rewardTitle}
+            onChange={handleInputChange}
+            placeholder="리워드명을 입력해주세요"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>리워드 내용:</label>
+          <input
+            type="text"
+            name="rewardContent"
+            value={reward.rewardContent}
+            onChange={handleInputChange}
+            placeholder="리워드 내용을 입력해주세요"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>리워드 금액:</label>
+          <input
+            type="number"
+            name="rewardAmount"
+            value={reward.rewardAmount}
+            onChange={handleInputChange}
+            placeholder="리워드 금액"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>리워드 수량:</label>
+          <input
+            type="number"
+            name="rewardLimit"
+            value={reward.rewardLimit}
+            onChange={handleInputChange}
+            placeholder="리워드 수량"
+            required
+          />
+        </div>
+        <div className="form-group" id="button-container">
+          <button id='reward-submit-btn' onClick={handleRewardAdd}>
+            추가
+          </button>
+        </div>
+      </form>
+
+      <div>
+        <h2>추가된 리워드</h2>
+        <ul className="reward-role-list">
+          {rewards.map((reward, index) => (
+            <li key={index}>
+              <strong>리워드 제목:</strong> {reward.rewardTitle}<br />
+              <strong>리워드 본문:</strong> {reward.rewardContent}<br />
+              <strong>리워드 금액:</strong> {reward.rewardAmount}원<br />
+              <strong>리워드 수량:</strong> {reward.rewardLimit}개<br />
+              <button onClick={() => handleRewardDelete(index)}>리워드 삭제</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <button id='role-next-btn' onClick={sendDataToServer}>
+        다음
+      </button>
+    </div>
       <h3>프로젝트 리워드 설계</h3>
       <span>서포터님들에게 제공할 리워드를 입력해 주세요.</span>
       <Box component="form" noValidate sx={{ mt: 3 }}>

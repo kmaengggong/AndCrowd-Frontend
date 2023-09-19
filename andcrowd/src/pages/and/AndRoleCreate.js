@@ -31,7 +31,7 @@ const AndRoleCreate = () => {
     };
 
     fetchAndRoles(); // 함수 호출
-  }, [andId, andRoles]); // andId가 변경될 때마다 실행
+  }, []); // andId가 변경될 때마다 실행
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
