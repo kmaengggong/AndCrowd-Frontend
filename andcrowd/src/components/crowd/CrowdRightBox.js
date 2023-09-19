@@ -1,12 +1,7 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  formatMoney,
-  calculateAchievedRate,
-  calculateRaisedAmount,
-  countSponsors,
-} from "../../pages/etc/Finance";
+import {formatMoney,calculateAchievedRate,calculateRaisedAmount,countSponsors} from "../../pages/etc/Finance";
 import axios from "axios";
 import CrowdReward from "../../pages/crowd/CrowdReward.js";
 import CrowdTimer from "../../components/crowd/CrowdTimer.js";

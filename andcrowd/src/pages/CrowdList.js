@@ -14,6 +14,8 @@ import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import { calculateRaisedAmount, getDaysBetweenDate } from '../pages/etc/Finance';
 import CrowdCategoryList from "./crowd/CrowdCategoryList";
 import CrowdMainImg from "./crowd/CrowdMainImg";
+import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
+import { GetUserId } from "../components/user/GetUserId";
 
 const CrowdList = () => {
   const [data, setData] = useState([]);
@@ -29,6 +31,7 @@ const CrowdList = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [rolesData, setRolesData] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [isLiked, setIsLiked] = useState(null);
 
   // CrowdMainImg에서 사용할 이미지 배열
   const [carouselImages, setCarouselImages] = useState([
@@ -36,7 +39,75 @@ const CrowdList = () => {
     { imageColor: "yellow", imageUrl: "https://images.pexels.com/photos/1252500/pexels-photo-1252500.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
     { imageColor: "green", imageUrl: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
   ]);
-  
+
+  const userId = GetUserId();
+
+  const fetchIsLiked = async (crowdId) => {
+    try{
+      const userId = GetUserId();
+      const response = await fetch(`/crowd/${crowdId}/like/${userId}`);
+      if(response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return null;
+    }
+  }
+
+  const fetchLike = async (crowdId) => {
+    try {
+      const userId = GetUserId();
+      const response = await fetch(`/crowd/${crowdId}/like/${userId}`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        const newIsLiked = await fetchIsLiked(crowdId); // fetchIsLiked 함수를 호출하여 새로운 isLiked 값을 가져옴
+        if (newIsLiked !== null) {
+          // 가져온 새로운 isLiked 값을 사용하여 해당 게시물의 좋아요 상태를 업데이트
+          setIsLiked(prevIsLiked => ({
+            ...prevIsLiked,
+            [crowdId]: newIsLiked,
+          }));
+
+          // andLikeCount 값을 업데이트
+          setData(prevData => prevData.map(item => {
+            if (item.crowdId === crowdId) {
+              // 해당 게시물의 crowdLikeCount 값을 업데이트
+              return { ...item, crowdLikeCount : newIsLiked ? item.crowdLikeCount + 1 : item.crowdLikeCount - 1 };
+            }
+            return item;
+          }));
+        }
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  } 
+
+  useEffect(() => {
+    const fetchDataCrowdSetIsLiked = async () => {
+      const newIsLikedData = {};
+
+      for(const item of data) {
+        const newData = await fetchIsLiked(item.crowdId);
+        if(newData !== null) {
+          newIsLikedData[item.crowdId] = newData;
+        }
+      }
+      setIsLiked(newIsLikedData);
+    };
+    fetchDataCrowdSetIsLiked();
+  }, [data]);
 
   const handleClick = () => {
     setIsClicked(!isClicked);
