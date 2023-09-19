@@ -51,7 +51,7 @@ const AndSearchCard = ({project, type}) => {
         const end = new Date(andEndDate);
         const diffInMs = end - now;
         
-        const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000));
+        const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000)) + 1;
     
         return diffInDays >= 0 ? 'D - '+ diffInDays : '모집 마감';
     }

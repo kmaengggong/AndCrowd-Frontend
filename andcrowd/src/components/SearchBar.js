@@ -38,21 +38,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-function SearchBar() {
-   return (
-     <Search>
-       <SearchIconWrapper>
-         <IconButton>
-           <SearchIcon id='search-icon'/>
-         </IconButton>
-       </SearchIconWrapper>
-       <StyledInputBase
-         placeholder="검색어를 입력해주세요"
-         inputProps={{'aria-label':'search'}}
-        />
-     </Search>  
-   );
-}
+// function SearchBar() {
+//    return (
+//      <Search>
+//        <SearchIconWrapper>
+//          <IconButton>
+//            <SearchIcon id='search-icon'/>
+//          </IconButton>
+//        </SearchIconWrapper>
+//        <StyledInputBase
+//          placeholder="검색어를 입력해주세요"
+//          inputProps={{'aria-label':'search'}}
+//         />
+//      </Search>  
+//    );
+// }
 
 const SearchBar = () => {
 

@@ -1,6 +1,6 @@
 import React,{ useState, useEffect } from 'react';
-import { Box, Typography, Popover, Button, Avatar } from '@mui/material';
-import { Link, useNavigate,useParams } from 'react-router-dom';
+import { Box, Typography, Popover, Button, Avatar, Link } from '@mui/material';
+import { useNavigate,useParams } from 'react-router-dom';
 import CountdownTimer from './CountdownTimer';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import '../../styles/and/AndDetail.css';
@@ -218,6 +218,8 @@ const AndComponent = ({ }) => {
       <Chip variant="outlined" sx={{ mt: 1, fontWeight: 'light', color: '#787878' }}>
          {categoryMap[and.andCategoryId]}
       </Chip>
+      <br />
+      <Link href={`/crowd/${and.crowdId}`}>연계 크라우드 글</Link>
       <Typography id='and-title'>{and.andTitle}</Typography>
       <CountdownTimer publishedAt={and.publishedAt} andEndDate={and.andEndDate} />
       <hr style={{ margin: '20px auto', width: '70%' }}></hr>
@@ -251,7 +253,7 @@ const AndComponent = ({ }) => {
       { isMember && (
       <button id='go-chat' onClick={() => andChat(and.andId)}>채팅방으로 이동하기</button>
       )}
-      <button variant="text" aria-describedby={id} id ='go-member' variant="contained" onClick={handleClickMembers}>
+      <button variant="text" aria-describedby={id} id ='go-member' onClick={handleClickMembers}>
         ▼ 참여중인 멤버
       </button>
       <Popover
