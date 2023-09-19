@@ -18,9 +18,10 @@ const CallBackFromOAuth = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(serachParams.get("isSignup")){
+        if(serachParams.get("isSignup") === "true"){
             localStorage.setItem('access_token', serachParams.get('token'));
             setIsLogin(true);
+            alert("구글 로그인 성공");
             navigate("/");
         }
     }, []);
@@ -75,13 +76,14 @@ const CallBackFromOAuth = () => {
                 })
             }).then((res) => {
                 if(!res.ok){
-                    alert("관리자 계정 가입에 실패했습니다.");
+                    alert("소셜 계정 가입에 실패했습니다.");
                 }
                 else{
                     alert("소셜 계정 가입에 성공했습니다!");
                     localStorage.setItem('access_token', serachParams.get('token'));
                     setIsLogin(true);
                     navigate("/");
+                    window.location.reload();
                 }
             })
         } catch(error){

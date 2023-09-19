@@ -1,14 +1,8 @@
 import { Box, Button, TextField } from "@mui/material";
-<<<<<<< HEAD
-import { useEffect, useState } from "react";
 import { GetUserId } from "../user/GetUserId";
 import { GetUserInfo } from "../user/GetUserInfo";
-=======
 import { useEffect, useRef, useState } from "react";
->>>>>>> 34363abd6e3245f294f9f020e147fa609e8bc4e4
 import { useParams } from "react-router-dom";
-import { GetUserId } from "../user/GetUserId";
-import { GetUserInfo } from "../user/GetUserInfo";
 
 const CrowdRewardPayment = () => {
     const pg = {
@@ -111,17 +105,6 @@ const CrowdRewardPayment = () => {
         }
         if(success){
             alert("결제 성공!");
-<<<<<<< HEAD
-            console.log(orderDetails);
-            try{
-
-            } catch(error){
-                alert("서버에 ")
-            }
-        }
-        else{
-            alert("결제를 실패하였습니다. 다시 시도 해주세요.");
-=======
             try{
                 await fetch(`/crowd_order/successorder`, {
                     method: "POST",
@@ -149,7 +132,6 @@ const CrowdRewardPayment = () => {
         }
         else{
             alert("결제 실패!");
->>>>>>> 34363abd6e3245f294f9f020e147fa609e8bc4e4
             console.log(error_msg);
         }
     }
