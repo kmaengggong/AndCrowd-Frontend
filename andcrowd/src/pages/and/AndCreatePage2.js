@@ -84,14 +84,6 @@ const AndCreate = () => {
   };  
 
   const handleNextButtonClick = async () => {
-    if (
-      formData.andCategoryId === 999 ||
-      formData.andEndDate === "asd" ||
-      formData.andHeaderImg === "noImg"
-    ) {
-      alert("필수 입력 항목을 모두 선택해주세요.");
-      return; // 필수 입력 항목이 누락되었으므로 넘어가지 않음
-    }
     try {
       const response = await fetch(`/and/${andId}/create`, {
         method: "PATCH",
@@ -128,6 +120,7 @@ const AndCreate = () => {
               value={formData.andCategoryId}
               onChange={handleInputChange}
               id = 'and-create-category'
+              required
             >
               <option value="1">카테고리 선택</option>
               <option value="2">문화 예술</option>
@@ -141,7 +134,7 @@ const AndCreate = () => {
             </select>
             <Typography id='and-date-text'>언제까지 모집할 계획인가요?</Typography>
             <div id='and-create2-mid'>
-              <input  id = 'and-create-date' type="datetime-local" name="andEndDate"  onChange={handleInputChange} placeholder="마감일" />
+              <input id = 'and-create-date' type="datetime-local" name="andEndDate"  onChange={handleInputChange} placeholder="마감일"  required/>
             </div>
             {/*<Typography id='and-num-text'>몇명을 모집할까요?</Typography>
             <input id='and-create-need-num' type="number" name="needNumMem" value={formData.needNumMem} onChange={handleInputChange} placeholder="모집인원" />

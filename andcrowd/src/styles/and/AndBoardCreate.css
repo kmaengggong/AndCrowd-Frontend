@@ -1,0 +1,51 @@
+
+#andBoard-form {
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  #andBoard-input {
+    width: 60%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-left: 20%;
+  } #andBoard-input2 {
+    width: 62%;
+    height: 30%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-left: 20%;
+  }
+  
+  #andboard-submit_btn {
+    margin-bottom: 3%;
+    margin-left: 20%;
+  }
+  
+  #board-save-btn {
+    background-color: #00D337;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 59%;
+  }
+  
+  #board-can-btn {
+    background-color: #ccc;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  #editdiv{
+    margin-left: 20%;
+    width: 98%;
+  }
+  

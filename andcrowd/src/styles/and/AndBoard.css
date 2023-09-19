@@ -13,6 +13,7 @@
     color: #555555;
     font-weight: 700;
     margin-bottom: 1%;
+    padding-top: 1%;
 }
 #and-board-title{
     font-family: 'Noto Sans KR', sans-serif;
@@ -54,4 +55,8 @@
 
   .pagination .active {
     font-weight: bold;
+  }
+  #and-board-line{
+    width: 70vw;
+    margin:0;
   }

@@ -112,7 +112,6 @@ const AndCreate = () => {
             name="andTitle"
             placeholder="제목 입력"
             id='create-and-title'
-            
             onChange={handleInputChange}
           />
           <Typography id='and-title-text'>

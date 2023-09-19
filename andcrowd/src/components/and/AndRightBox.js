@@ -108,8 +108,8 @@ const AndComponent = ({ }) => {
     navigate(`/and/${andId}/applicant/create`);
   };
 
-  const applicantList = (andId) => {
-    navigate(`/and/${andId}/applicant/list`);
+  const memberList = (andId) => {
+    navigate(`/and/${andId}/member/list`);
   };
 
   return (
@@ -131,7 +131,7 @@ const AndComponent = ({ }) => {
       { isMember && (
       <button id='go-chat' onClick={() => andChat(and.andId)}>채팅방으로 이동하기</button>
       )}
-      <Typography id ='go-member' onClick={() => applicantList(and.andId)}>모임에 참여중인 멤버 보기</Typography>
+      <Typography id ='go-member' onClick={() => memberList(and.andId)}>모임에 참여중인 멤버 보기</Typography>
     </Box>
   );
 };

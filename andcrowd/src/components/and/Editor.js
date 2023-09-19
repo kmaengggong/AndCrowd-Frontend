@@ -71,8 +71,8 @@ const Editor = ({ htmlStr, setHtmlStr }) => {
   ]
 
   return (
-    <>
-      <ReactQuill id='editer-div'
+    <div id ='editor-box'>
+      <ReactQuill id='editor-div'
         ref={quillRef}
         theme="snow"
         modules={modules}
@@ -81,7 +81,7 @@ const Editor = ({ htmlStr, setHtmlStr }) => {
         placeholder='내용을 입력하세요.'
         onChange={(content, delta, source, editor) => setHtmlStr(editor.getHTML())} />
 
-    </>
+    </div>
   )
 }
 

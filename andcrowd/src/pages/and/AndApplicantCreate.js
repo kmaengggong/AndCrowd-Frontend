@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
+import '../../styles/and/AndApplicantCreate.css'
+import Editor from "../../components/and/Editor";
 const AndApplicantCreate = () => {
     const params = useParams();
     const andId = params.andId;
-
+    const [htmlStr, setHtmlStr] = React.useState('');
     const navigate = useNavigate();
 
     const [userId, setUserId] = useState("");
@@ -59,6 +60,7 @@ const AndApplicantCreate = () => {
       ...formData,
       userId: userId,
       andApplyFile: andApplyFile,
+      andApplyContent:htmlStr
     };  
 
     const handleSubmit = async (event) => {
@@ -125,13 +127,9 @@ const AndApplicantCreate = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form id='applicant-form'onSubmit={handleSubmit}>
                 <div>
-                    <input type="text" name="userId" value={userId} readOnly />
-                    <input type="text" name="andRoleId" value={formData.andRoleId} onChange={handleInputChange} placeholder="역할 번호" />
-                    <input type="text" name="andApplyTitle" value={formData.andApplyTitle} onChange={handleInputChange} placeholder="제목" />
-                    <input type="text" name="andApplyContent" value={formData.andApplyContent} onChange={handleInputChange} placeholder="내용" />
-                    <input
+                  <input
                         type="file"
                         name="andApplyFile"
                         onChange={handleFileChange} // 파일 선택 시 handleFileChange 함수 호출
@@ -139,8 +137,13 @@ const AndApplicantCreate = () => {
                     {isUploading ? (
                       <p>파일 첨부 중...</p>
                     ) : (
-                      <button type="submit">제출</button>
+                      <button id='applicant-sub' type="submit">제출</button>
                     )}
+                    <input id='applicant-input' type="text" name="userId" value={userId} readOnly />
+                    <input id='applicant-input' type="text" name="andRoleId" value={formData.andRoleId} onChange={handleInputChange} placeholder="역할 번호" />
+                    <input id='applicant-input' type="text" name="andApplyTitle" value={formData.andApplyTitle} onChange={handleInputChange} placeholder="제목" />
+                    <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
+                    
                 </div>
             </form>
 

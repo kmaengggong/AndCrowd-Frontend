@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
+import '../../styles/and/AndQnaCreate.css';
+import Editor from "../../components/and/Editor";
 
 const AndQnaCreate = () => {
     const navigate = useNavigate();
@@ -17,7 +19,7 @@ const AndQnaCreate = () => {
     });
 
     const yourAccessToken = Cookies.get('refresh_token');
-
+    const [htmlStr, setHtmlStr] = React.useState('');
     const fetchData = async () => {
       try {
         const userIdResponse = await fetch(`/user-info/userid`,{
@@ -54,8 +56,9 @@ const AndQnaCreate = () => {
     const updatedFormData = {
         ...formData,
         userId: userId,
+        andQnaContent:htmlStr
       };  
-
+      
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -75,14 +78,16 @@ const AndQnaCreate = () => {
     return (
         <>
             <form onSubmit={handleSubmit}>
+            <div id="qna-submit_btn">
+                    <button id='board-can-btn' type="button" onClick={() => navigate(`/and/${andId}/qna/list`)}>취소</button>
+                    <button id='board-save-btn' type="submit">저장</button>
+                </div>
                 <div>
-                    <input type="text" name="userId" value={userId} readOnly />
-                    <input type="text" name="andQnaTitle" value={formData.andQnaTitle} onChange={handleInputChange} placeholder="제목" />
-                    <input type="text" name="andQnaContent" value={formData.andQnaContent} onChange={handleInputChange} placeholder="내용" />
+                    <input id='qna-input' type="text" name="userId" value={userId} readOnly />
+                    <input id='qna-input' type="text" name="andQnaTitle" value={formData.andQnaTitle} onChange={handleInputChange} placeholder="제목" />
+                    <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
                 </div>
-                <div id="submit_btn">
-                    <button type="submit">저장</button>
-                </div>
+                
             </form>
         </>
     );
