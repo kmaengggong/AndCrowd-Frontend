@@ -12,6 +12,7 @@ const AndQnaCreate = () => {
     const andId = params.andId;
 
     const [userId, setUserId] = useState("");
+    const [htmlStr, setHtmlStr] = React.useState('');
 
     const [formData, setFormData] = useState({
         andId: andId,
