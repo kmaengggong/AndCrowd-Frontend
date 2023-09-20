@@ -12,26 +12,36 @@ const MyPageCard = ({project, type}) => {
         and: project.andId,
         order: project.crowdId,
         like: project.projectId,
+        makerAnd: project.andId,
+        makerCrowd: project.crowdId
     };
     const projectImg = {
         and: project.andHeaderImg,
-        order: project.crowdHeaderImg,
+        order: project.headerImg,
         like: project.projectHeaderImg,
+        makerAnd: project.andHeaderImg,
+        makerCrowd: project.headerImg
     };
     const projectTitle = {
         and: project.andTitle,
         order: project.crowdTitle,
         like: project.projectTitle,
+        makerAnd: project.andTitle,
+        makerCrowd: project.crowdTitle
     };
     const projectContent = {
         and: project.andContent,
         order: project.crowdContent,
         like: '',
+        makerAnd: project.andContent,
+        makerCrowd: project.crowdContent
     };
     const types = {
         and: 'and',
         order: 'crowd',
         like: project.projectType === 0 ? 'and' : 'crowd',
+        makerAnd: 'maker/0',
+        makerCrowd: 'maker/1'
     };
     
     return (

@@ -18,29 +18,18 @@ import MyPageCard from "../../components/user/MyPageCard";
 import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";
 
 const MakerPage = () => {
-    const [userId, setUserId] = useState(null);
+    const params = useParams();
+    const userId = params.userId;
     const [userInfo, setUserInfo] = useState([]);
-    const [userNickname, setUserNickname] = useState(null);
     const [userMakerAnd, setUserMakerAnd] = useState([]);
     const [userMakerCrowd, setUserMakerCrowd] = useState([]);
-
     const navigate = useNavigate();
     
     useEffect(() => {
-        setUserId(GetUserId());
+        GetUserInfo(userId, setUserInfo);
+        fetchGetDynamicUserMakerAnd();
+        fetchGetDynamicUserMakerCrowd();
     }, []);
-
-    useEffect(() => {
-        if(userId !== null){
-            GetUserInfo(userId, setUserInfo);
-            fetchGetDynamicUserMakerAnd();
-            fetchGetDynamicUserMakerCrowd();
-        }
-    }, [userId]);
-
-    useEffect(() => {
-        setUserNickname(userInfo.userNickname);
-    }, [userInfo]);
 
     const onClickMyPageButton = () => {
         navigate(`/user/${userId}`);
@@ -87,7 +76,7 @@ const MakerPage = () => {
                     </IconButton>
                 </Grid>
                 <Grid item xs={12}>
-                <Typography sx={{fontSize:20, fontWeight:700, color:'#00D337', marginTop:1}}>{userNickname}</Typography>
+                <Typography sx={{fontSize:20, fontWeight:700, color:'#00D337', marginTop:1}}>{userInfo.userNickname}</Typography>
                 <hr />
                 </Grid>
                 <Button fullWidth variant="solid" onClick={onClickMyPageButton}>마이 페이지</Button>
@@ -102,7 +91,7 @@ const MakerPage = () => {
                     </Grid>
                     {userMakerAnd.length === 0 ? <></> : 
                     <Grid item xs={2}>
-                        <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
+                        <Button variant="outlined" sx={{float:'right'}} href={`/user/${userId}/detail/makerAnd`}>자세히</Button>
                     </Grid>
                     }
                 </Grid>
@@ -115,7 +104,7 @@ const MakerPage = () => {
                         <>
                             {userMakerAnd.map((project) => (
                                 <Grid item md={4} sm={12} xs={12}>
-                                    <MyPageCard project={project} type={"like"} />
+                                    <MyPageCard project={project} type={"makerAnd"} />
                                 </Grid>
                             ))}
                         </>
@@ -128,7 +117,7 @@ const MakerPage = () => {
                     </Grid>
                     {userMakerCrowd.length === 0 ? <></> : 
                     <Grid item xs={2}>
-                        <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
+                        <Button variant="outlined" sx={{float:'right'}}  href={`/user/${userId}/detail/makerCrowd`}>자세히</Button>
                     </Grid>
                     }
                 </Grid>
@@ -141,7 +130,7 @@ const MakerPage = () => {
                         <>
                             {userMakerCrowd.map((project) => (
                                 <Grid item md={4} sm={12} xs={12}>
-                                    <MyPageCard project={project} type={"like"} />
+                                    <MyPageCard project={project} type={"makerCrowd"} />
                                 </Grid>
                             ))}
                         </>

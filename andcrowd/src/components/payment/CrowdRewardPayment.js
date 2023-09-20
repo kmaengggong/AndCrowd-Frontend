@@ -120,6 +120,7 @@ const CrowdRewardPayment = () => {
                         purchaseStatus: "결제완료",
                         merchantUid: merchantUid.current,
                         rewardId: rewardId,
+                        rewardName: reward.rewardTitle,
                         userId: userId,
                         purchaseAmount: paid_amount
                     }),

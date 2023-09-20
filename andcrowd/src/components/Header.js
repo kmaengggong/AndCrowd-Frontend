@@ -45,6 +45,7 @@ const Header = () => {
 
   const onClickProfileViewButton = () => {
     navigate(`/user/${userId}`);
+    window.location.reload();
     handleClose();
   };
 
@@ -99,7 +100,7 @@ const Header = () => {
             aria-expanded={open ? 'true' : undefined}
             onClick={onClickProfileButton}
           >
-            <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 45, height: 45, marginLeft:1}} />
+            <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 45, height: 45, marginLeft:1}}>{userInfo.userNickname}</Avatar>
           </IconButton>
           <Menu
             id="fade-menu"

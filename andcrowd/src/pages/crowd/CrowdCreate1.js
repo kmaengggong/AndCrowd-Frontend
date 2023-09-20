@@ -80,8 +80,8 @@ const CrowdCreate1 = () => {
     };
 
     const handleAndId = (event) => {
-        const { name, value } = event.target;
-        setUserAnd(Number(value));
+        event.preventDefault();
+        setAndId(Number(event.currentTarget.value));
     }
     
     return (
@@ -96,7 +96,9 @@ const CrowdCreate1 = () => {
             >
                 <option value="">없음</option>
                 {userAnd.map((and) => (
-                <option value={and.projectId}>[{and.projectId}] {and.projectTitle}</option>
+                <option key={and.andId} value={and.andId}>
+                    [{and.andId}] {and.andTitle}
+                </option>
                 ))}
             </select>
 
