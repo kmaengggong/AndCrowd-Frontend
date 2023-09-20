@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Input } from "@mui/material";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import "../../styles/crowd/CrowdBoardList.module.css";
 
 const CreateImgUploadBtn = ({ fileType, handleFileChange }) => {
 

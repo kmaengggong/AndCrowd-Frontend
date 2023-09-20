@@ -37,14 +37,8 @@ const CrowdDetail = () => {
             <div className={styles.leftSide}>
                 <div className={styles.imgContainer}>
                     <h1>{crowd.crowdTitle}</h1>
-                    <span>{crowd.crowdContent}</span> <br />
+                    <div id='crowd-content-dt' dangerouslySetInnerHTML={{ __html :  crowd.crowdContent  }}></div> <br />
                     <hr/>
-                    <img src={crowd.headerImg} alt="headerImg"/> <br />
-                    <img src={crowd.crowdImg1} alt="crowdImg1"/> <br />
-                    <img src={crowd.crowdImg2} alt="crowdImg2"/> <br />
-                    <img src={crowd.crowdImg3} alt="crowdImg3"/> <br />
-                    <img src={crowd.crowdImg4} alt="crowdImg4"/> <br />
-                    <img src={crowd.crowdImg5} alt="crowdImg5"/> <br />
                 </div>
                 <div className={styles.rightBox}>
                     <CrowdRightBox />
