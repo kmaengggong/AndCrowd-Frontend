@@ -25,6 +25,7 @@ import cat5 from '../../category/languages.png';
 import cat6 from '../../category/traveling.png';
 import cat7 from '../../category/pets.png';
 import cat8 from '../../category/etc.png';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 
 const style = {
   position: 'absolute',
@@ -46,6 +47,12 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const scrollToTop = () => {
+  window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+  })
+}
 const 
 AndScroll = ({ onSearch }) => {
   const [data, setData] = useState([]);
@@ -443,35 +450,35 @@ const navigateToAndCreate = () => {
               <img id='cat-img' src={cat0} alt="전체" />
               <span>전체</span>
             </div>
-          <div className='item' onClick={()=>handleCategoryChange(2)}>
+          <div className='item' onClick={()=>handleCategoryChange(1)}>
             <img id='cat-img' src={cat1} alt="문화/예술" />
             <span>문화/예술</span>
           </div>
-          <div className='item' onClick={()=>handleCategoryChange(3)}>
+          <div className='item' onClick={()=>handleCategoryChange(2)}>
             <img id='cat-img' src={cat2} alt="액티비티" />
             <span>액티비티</span>
           </div>
-          <div className='item' onClick={()=>handleCategoryChange(4)}>
+          <div className='item' onClick={()=>handleCategoryChange(3)}>
             <img id='cat-img' src={cat3} alt="테크/가전" />
             <span>테크/가전</span>
           </div>
-          <div className='item' onClick={()=>handleCategoryChange(5)}>
+          <div className='item' onClick={()=>handleCategoryChange(4)}>
             <img id='cat-img' src={cat4} alt="푸드" />
             <span>푸드</span>
           </div>
-          <div className='item' onClick={()=>handleCategoryChange(6)}>
+          <div className='item' onClick={()=>handleCategoryChange(5)}>
             <img id='cat-img' src={cat5} alt="언어" />
             <span>언어</span>
           </div>
-          <div className='item' onClick={()=>handleCategoryChange(7)}>
+          <div className='item' onClick={()=>handleCategoryChange(6)}>
             <img id='cat-img' src={cat6} alt="여행" />
             <span>여행</span>
           </div>
-          <div className='item' onClick={()=>handleCategoryChange(8)}>
+          <div className='item' onClick={()=>handleCategoryChange(7)}>
             <img id='cat-img' src={cat7} alt="반려동물" />
             <span>반려동물</span>
           </div>
-          <div className='item' onClick={()=>handleCategoryChange(9)}>
+          <div className='item' onClick={()=>handleCategoryChange(8)}>
             <img id='cat-img' src={cat8} alt="기타" />
             <span>기타</span>
           </div>
@@ -687,6 +694,7 @@ const navigateToAndCreate = () => {
           <p>마지막 페이지입니다.</p>
         </div>
       )}
+      <button id="top" onClick={scrollToTop} type="button" > <KeyboardArrowUpRoundedIcon /></button>
     </div>
   );
 };
