@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Cookies from 'js-cookie';
+import '../../styles/and/AndBoardCreate.css'
+import Editor from "../../components/and/Editor";
 import { GetUserId } from "../../components/user/GetUserId";
 
 const AndBoardCreate = () => {
@@ -16,8 +18,11 @@ const AndBoardCreate = () => {
         andBoardContent: "",
         andImg: "",
     });
+    const [htmlStr, setHtmlStr] = React.useState('');
+    const yourAccessToken = Cookies.get('refresh_token');
 
     // const yourAccessToken = Cookies.get('refresh_token');
+
 
     // const fetchData = async () => {
     //   try {
@@ -54,6 +59,7 @@ const AndBoardCreate = () => {
     const updatedFormData = {
       ...formData,
       userId: userId,
+      andBoardContent: htmlStr
     };  
 
     const handleSubmit = async (event) => {
@@ -66,7 +72,7 @@ const AndBoardCreate = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(updatedFormData),
+          body: JSON.stringify({...updatedFormData}),
         });
     
         navigate(`/and/${andId}/board/list`);
@@ -74,18 +80,28 @@ const AndBoardCreate = () => {
 
     return (
         <>
-            <h1>Create AndBoard</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input type="text" name="userId" value={userId} readOnly />
-                    <input type="text" name="andBoardTag" value={formData.andBoardTag} onChange={handleInputChange} placeholder="태그"></input>
-                    <input type="text" name="andBoardTitle" value={formData.andBoardTitle} onChange={handleInputChange} placeholder="제목" />
-                    <input type="text" name="andBoardContent" value={formData.andBoardContent} onChange={handleInputChange} placeholder="내용"></input>
-                    <input type="text" name="andImg" value={formData.andImg} onChange={handleInputChange} placeholder="대표 이미지" />
+            <form id='andBoard-form' onSubmit={handleSubmit}>
+                <div id="andboard-submit_btn">
+                    <button id='board-can-btn' type="button" onClick={() => navigate(`/and/${andId}/board/list`)}>취소</button>
+                    <button id='board-save-btn' type="submit">저장</button>
                 </div>
-                <div id="submit_btn">
-                    <button type="submit">저장</button>
-                    <button type="button" onClick={() => navigate(`/and/${andId}/board/list`)}>취소</button>
+                <div>
+                    <input id='andBoard-input' type="text" name="userId" value={userId} readOnly />
+                    <select
+              name="andBoardTag"
+              value={formData.andBoardTag}
+              onChange={handleInputChange}
+              id = 'andBoard-input2'
+              required
+            >
+              <option value="">글 유형 선택</option>
+              <option value="0">공지사항</option>
+              <option value="1">소식</option>
+            </select>
+                    
+                    {/*<input id='andBoard-input' type="text" name="andImg" value={formData.andImg} onChange={handleInputChange} placeholder="대표 이미지" />*/}
+                    <input id='andBoard-input' type="text" name="andBoardTitle" value={formData.andBoardTitle} onChange={handleInputChange} placeholder="제목" />
+                    <div id='editdiv'><Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor></div>
                 </div>
             </form>
         </>

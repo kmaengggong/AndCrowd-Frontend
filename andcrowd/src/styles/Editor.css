@@ -1,4 +1,8 @@
-#editer-div{
+#editor-div{
     width: 70%;
-    height: 50vh;
+    height: 80%;
+}
+#editor-box{
+    width: 90%;
+    height: 70vh;
 }

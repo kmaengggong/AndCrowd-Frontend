@@ -45,7 +45,8 @@ const AndCreatePage2 = () => {
     // }
 
     setUserId(GetUserId());
-    
+   
+  
     try {
       const response = await fetch(`/and/${andId}`);
       if (response.ok) {

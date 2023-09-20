@@ -5,7 +5,7 @@ import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import '../../styles/Editor.css'
 
-const Editor = ({ htmlStr, setHtmlStr }) => {
+const CrowdEditor = ({ htmlStr, setHtmlStr }) => {
   const quillRef = useRef(null);
   const viewContainerRef = useRef(null);
 
@@ -24,7 +24,7 @@ const Editor = ({ htmlStr, setHtmlStr }) => {
         const formData = new FormData();
         formData.append('image', file);
 
-        const response = await axios.post('http://localhost:8080/and/editer/uploadImage', formData);
+        const response = await axios.post('http://localhost:8080/crowd/editor/uploadImage', formData);
 
         // 응답에서 이미지 URL 받아와서 에디터에 추가
         const imageUrl = response.data.uploadFileUrl;
@@ -71,19 +71,19 @@ const Editor = ({ htmlStr, setHtmlStr }) => {
   ]
 
   return (
-    <div id ='editor-box'>
-      <ReactQuill id='editor-div'
+    <>
+      <ReactQuill id='editer-div'
         ref={quillRef}
         theme="snow"
         modules={modules}
         formats={formats}
         value={htmlStr}
-        placeholder='내용을 입력하세요.'
+        placeholder='예) OOO한 내용을 기획/개발해 &Crowd에 최초 공개하고자 합니다.'
         onChange={(content, delta, source, editor) => setHtmlStr(editor.getHTML())} />
 
-    </div>
+    </>
   )
 }
 
-export default Editor;
+export default CrowdEditor;
 
