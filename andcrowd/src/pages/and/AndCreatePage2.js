@@ -143,15 +143,15 @@ const AndCreatePage2 = () => {
               id = 'and-create-category'
               required
             >
-              <option value="1">카테고리 선택</option>
-              <option value="2">문화 예술</option>
-              <option value="3">액티비티 스포츠</option>
-              <option value="4">테크 가전</option>
-              <option value="5">푸드</option>
-              <option value="6">언어</option>
-              <option value="7">여행</option>
-              <option value="8">반려동물</option>
-              <option value="9">기타</option>
+              <option value="0">카테고리 선택</option>
+              <option value="1">문화 예술</option>
+              <option value="2">액티비티 스포츠</option>
+              <option value="3">테크 가전</option>
+              <option value="4">푸드</option>
+              <option value="5">언어</option>
+              <option value="6">여행</option>
+              <option value="7">반려동물</option>
+              <option value="8">기타</option>
             </select>
             <Typography id='and-date-text'>언제까지 모집할 계획인가요?</Typography>
             <div id='and-create2-mid'>

@@ -9,46 +9,45 @@ import Typography from '@mui/joy/Typography';
 import { Grid } from '@mui/material';
 
 const categoryMap = {
-    2: '문화 예술',
-    3: '액티비티 스포츠',
-    4: '테크 가전',
-    5: '푸드',
-    6: '언어',
-    7: '여행',
-    8: '반려동물',
-    9: '기타',
+    1: '문화 예술',
+    2: '액티비티 스포츠',
+    3: '테크 가전',
+    4: '푸드',
+    5: '언어',
+    6: '여행',
+    7: '반려동물',
+    8: '기타',
   };
 
 const AndSearchCard = ({project, type}) => {
     const projectId = {
         and: project.andId,
-        order: project.crowdId,
-        like: project.projectId,
+        crowd: project.crowdId,
     };
     const projectImg = {
         and: project.andHeaderImg,
-        order: project.crowdHeaderImg,
-        like: project.projectHeaderImg,
+        crowd: project.headerImg,
     };
     const projectTitle = {
         and: project.andTitle,
-        order: project.crowdTitle,
-        like: project.projectTitle,
+        crowd: project.crowdTitle,
     };
     const projectCategory = {
         and: project.andCategoryId,
-        order: project.crowdCategoryId,
-        like: '',
+        crowd: project.crowdCategoryId,
+    };
+    const projectEndDate = {
+        and: project.andEndDate,
+        crowd: project.crowdEndDate,
     };
     const types = {
         and: 'and',
-        order: 'crowd',
-        like: project.projectType === 0 ? 'and' : 'crowd',
+        crowd: 'crowd',
     };
     
-    function calculateRemainingDays(andEndDate) {
+    function calculateRemainingDays(projectEndDate) {
         const now = new Date();
-        const end = new Date(andEndDate);
+        const end = new Date(projectEndDate);
         const diffInMs = end - now;
         
         const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000)) + 1;
@@ -71,7 +70,7 @@ const AndSearchCard = ({project, type}) => {
             <CardContent>
                 <Chip component="span" size="sm" variant="soft" color="success"
                  sx={{ position: 'absolute', top: '0.875rem', right: '0.7rem' }}>
-                    <b>{calculateRemainingDays(project.andEndDate)}</b>
+                    <b>{calculateRemainingDays(projectEndDate[type])}</b>
                 </Chip>
                 <Link
                     href={`/${types[type]}/` + projectId[type]}

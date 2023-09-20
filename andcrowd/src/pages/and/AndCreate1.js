@@ -18,6 +18,7 @@ const AndCreate1 = () => {
   const [userId, setUserId] = useState("");
   const [userCrowd, setUserCrowd] = useState([]);
   const [crowdId, setCrowdId] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   useEffect(() => {
     setUserId(GetUserId());
@@ -31,7 +32,12 @@ const AndCreate1 = () => {
   };  
   
   const handleNextButtonClick = async () => {
+    if (isButtonDisabled) {
+    return;
+    }
     try {
+      setIsButtonDisabled(true);
+
       const response = await fetch("/and/create", {
         method: "POST",
         headers: {
@@ -59,6 +65,8 @@ const AndCreate1 = () => {
       }
     } catch (error) {
       console.error("Error sending data:", error);
+    }finally {
+      setIsButtonDisabled(false); 
     }
   };
   

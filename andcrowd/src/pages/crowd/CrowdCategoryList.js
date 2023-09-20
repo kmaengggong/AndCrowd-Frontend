@@ -3,6 +3,10 @@ import React, { useEffect, useState } from "react";
 
 const categoriesData = [
     {
+        name: '0',
+        text: '전체'
+    },
+    {
         name: '1',
         text: '문화 예술'
     },
@@ -79,7 +83,7 @@ const CrowdCategoryList = ({ onCategorySelect }) => {
 
     const handleCategoryClick = (category) => {
         setSelectedCategory(category);
-        onCategorySelect(category.categoryId);
+        onCategorySelect(category.name);
     };
 
     // const handleCategoryUpdate = (updatedCategoryName) => {
