@@ -112,7 +112,7 @@ const Header = () => {
             onClose={handleClose}
             TransitionComponent={Fade}
           >
-            <MenuItem onClick={onClickProfileViewButton}><AccountCircleIcon sx={{mr:1}} />프로필</MenuItem>
+            <MenuItem onClick={onClickProfileViewButton}><AccountCircleIcon sx={{mr:1}} />마이페이지</MenuItem>
             <MenuItem onClick={onClickUserInfoButton}><EditIcon sx={{mr:1}} />정보 수정</MenuItem>
             <MenuItem onClick={onClickLooutbutton}><LogoutIcon sx={{mr:1}} />로그아웃</MenuItem>
           </Menu>

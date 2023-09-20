@@ -34,7 +34,7 @@
   }
   #and-update-submit_btn2{
     padding: 10px 20px;
-    margin: 2% 40%;
+    margin: 2% 30%;
     background-color: #00D337;
     color: #fff;
     border: none;
@@ -47,4 +47,7 @@
   }
   #and-update-input-box{
     height: 80%;
+  }
+  #andupdate-img{
+    width: 60px;
   }
