@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import '../../styles/and/Feed.css';
 import profileImg from './cat.jpg'
 import mainImg from './shoes-8026038.jpg' 
-import showMoreImg from './free-icon-problem-report-7689567.png' 
+// import showMoreImg from '../../warning.png' 
 import Menu from '@mui/material/Menu';
 import { Link } from 'react-router-dom';
 import {MenuItem, Popover, List, ListItem, Box, TextField, Button, Modal, IconButton, Grid, Paper } from '@mui/material';
@@ -26,6 +26,7 @@ import cat6 from '../../category/traveling.png';
 import cat7 from '../../category/pets.png';
 import cat8 from '../../category/etc.png';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
+import PriorityHighRoundedIcon from '@mui/icons-material/PriorityHighRounded';
 
 const style = {
   position: 'absolute',
@@ -236,7 +237,6 @@ AndScroll = ({ onSearch }) => {
 
   useEffect(() => {
     fetchData();
-    data.forEach(item => fetchAndRoles(item.andId));
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -314,7 +314,11 @@ AndScroll = ({ onSearch }) => {
         item.profileImg = profileImg;
       }
 
-      // 다음 페이지가 있는지 여부를 업데이트
+      // 역할정보 가져오기
+      for (const item of jsonData.content) {
+        const rolesData = await fetchAndRoles(item.andId);
+        item.rolesData = rolesData;
+      }
       
       // 검색 기준이 변경되었을 때, 기존 데이터 초기화
       if (pageNumber === 0) {
@@ -433,7 +437,7 @@ AndScroll = ({ onSearch }) => {
     const end = new Date(andEndDate);
     const diffInMs = end - now;
     
-    const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000)) + 1;
+    const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000));
 
     return diffInDays >= 0 ? 'D - '+ diffInDays : '모집 마감';
 }
@@ -598,12 +602,12 @@ const navigateToAndCreate = () => {
               <button id='follow' onClick={() => fetchFollow(item.userId)}
                 className={isFollowed[item.userId] ? 'following-button' : 'follow-button'}>
                 {isFollowed[item.userId] ? (
-                  <div>팔로잉</div>
+                  <div> ✓ 팔로잉</div>
                 ) : (
-                  <div>팔로우</div>
+                  <div> + 팔로우</div>
                   )}
               </button>
-              <img id='show-more-img' src={showMoreImg} alt="showMoreImg" aria-controls="simple-menu" aria-haspopup="true" 
+              <PriorityHighRoundedIcon id='show-more-img' aria-controls="simple-menu" aria-haspopup="true" 
                 onClick={() => handleOpenReportModal(item.andId)} />
               </div>
               {/* <Menu
@@ -640,9 +644,9 @@ const navigateToAndCreate = () => {
             </div>
             <div onClick={() => fetchLike(item.andId)}>
             {isLiked[item.andId] ? (
-                <AiFillHeart id='heart-icon' size={"25"}/>
+                <AiFillHeart id='heart-icon' size={"30"}/>
               ) : (
-                <AiOutlineHeart id='heart-icon' size={"25"}/>
+                <AiOutlineHeart id='heart-icon' size={"30"}/>
               )}
             </div>
             <Typography id='and-like'>{item.andLikeCount}</Typography>

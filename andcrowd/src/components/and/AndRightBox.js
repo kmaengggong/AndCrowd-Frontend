@@ -1,5 +1,5 @@
 import React,{ useState, useEffect } from 'react';
-import { Box, Typography, Popover, Button, Avatar, Link } from '@mui/material';
+import { Box, Typography, Popover, Button, Avatar, Link, Modal, TextField } from '@mui/material';
 import { useNavigate,useParams } from 'react-router-dom';
 import CountdownTimer from './CountdownTimer';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
@@ -7,6 +7,19 @@ import '../../styles/and/AndDetail.css';
 import { GetUserId } from '../user/GetUserId'; 
 import Chip from '@mui/joy/Chip';
 import { GetUserInfo } from '../user/GetUserInfo';
+import report from '../../siren.png';
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  borderRadius: '8px',
+  p: 4,
+};
 
 
 const AndComponent = ({ }) => {
@@ -24,6 +37,19 @@ const AndComponent = ({ }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isFollowed, setIsFollowed] = useState(null);
   const [userInfo, setUserInfo] = useState([]);
+  const [rolesData, setRolesData] = useState([]);
+  const [andNeedNumApply, setAndNeedNumApply] = useState({});
+  
+  const [openReport, setOpenReport] = useState(false);
+  const [openModalItemId, setOpenModalItemId] = useState(null);
+  const [reportContent, setReportContent] = useState("");
+  const [reportData, setReportData] = useState({
+    itemId: null,
+    itemTitle: "",
+  });
+  
+  const myId = GetUserId();
+
 
   const categoryMap = {
     1: '문화 예술',
@@ -42,6 +68,8 @@ const AndComponent = ({ }) => {
     fetchData();
     fetchIsMember();
     loadMembers();
+    fetchAndRoles();
+    fetchNeedNumApplyData();
   }, [andId, isLiked]);
 
   useEffect(() => {
@@ -67,6 +95,38 @@ const AndComponent = ({ }) => {
     }
   
   };
+
+  const fetchAndRoles = async () => {
+    try {
+      const response = await fetch(`/and/${andId}/role/list`);
+      const jsonData = await response.json();
+      console.log("fetchAndRoles: ",jsonData);
+      
+      // 서버에서 받은 데이터를 배열로 변환
+      const rolesArray = Object.values(jsonData);
+      setRolesData(rolesArray);
+    } catch (error) {
+      console.error('Error fetching and roles:', error);
+    }
+  };
+  
+
+  const fetchNeedNumApplyData = async () => {
+    try {
+      const response = await fetch(`/and/${andId}/applicant/neednum`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log("fetchNeedNumApplyData: ",data)
+        setAndNeedNumApply(data);
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+
+    } catch (error) {
+      console.error("Error fetching And data:", error);
+    }
+};
 
   const fetchIsMember = async () =>{
     try {
@@ -136,6 +196,46 @@ const AndComponent = ({ }) => {
       console.error('Error loading members:', error);
     }
   };
+
+  const handleOpenReportModal = (itemId) => {
+    setOpenModalItemId(itemId);
+  };
+
+  const handleCloseReportModal = () => {
+    setOpenModalItemId(null);
+    setReportContent(''); // 모달이 닫힐 때 신고 내용 초기화
+  };
+
+  const fetchReport = async (andId, reportContent) => {
+    try {
+      const myId = GetUserId();
+      const requestBody = {
+        userId: myId,
+        projectId: andId,
+        projectType: 0,
+        reportContent: reportContent,
+        reportStatus: 0
+      };
+      console.log("requestBody: ",requestBody);
+  
+      const response = await fetch(`/and/report`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });      
+      if (response.ok) {
+        console.log("response.ok: ", response.ok)
+        setOpenReport(false);
+        setReportContent('');
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
 
   const handleClickMembers = (event) => {
     setAnchorEl(event.currentTarget);
@@ -215,20 +315,73 @@ const AndComponent = ({ }) => {
 
   return (
     <Box id='right-top-box'>
-      <Chip variant="outlined" sx={{ mt: 1, fontWeight: 'light', color: '#787878' }}>
+      <div className='catAndReport'>
+      <Chip variant="outlined" sx={{ mt: "7%", ml: "15%", fontWeight: 'light', color: '#787878' }}>
          {categoryMap[and.andCategoryId]}
       </Chip>
-      <br />
       { and.crowdId !== 0 && (
-      <Link href={`/crowd/${and.crowdId}`}>연계 펀딩글</Link>
+      <Link id='crowd-link' href={`/crowd/${and.crowdId}`} underline="none">연계 펀딩글</Link>
       )}
-      <Typography id='and-title'>{and.andTitle}</Typography>
+      { and.crowdId == 0 && (
+      <div id='crowd-link'></div>
+      )}
+      <button id='report-button' onClick={() => handleOpenReportModal(and.andId)}>              
+        <img id='report' src={report} alt="신고" />
+      </button>
+      <Modal
+        key={and.andId} // 각 항목에 대한 고유한 모달을 위한 key
+        open={openModalItemId === and.andId} // 해당 항목의 모달만 열린 상태
+        onClose={handleCloseReportModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+          {`"${and.andTitle}"에 대한 신고`}
+          </Typography>
+          <Box sx={{
+              width: 500,
+              maxWidth: '100%',
+            }}>
+          <TextField
+            fullWidth
+            id="standard-multiline-static"
+            label="신고 사유"
+            multiline
+            rows={3}
+            variant="standard"
+            size="small"
+            margin="normal"
+            value={reportContent}
+            onChange={(e) => setReportContent(e.target.value)}
+          />
+          </Box>
+          <Button variant="outlined" color="error" sx={{ mt:2 }}
+            onClick={() => fetchReport(and.andId, reportContent)}>제출</Button>
+        </Box>
+      </Modal>
+      </div>
+      <br />
+      <div className='andTitle'>
+        <p id='and-title'>{and.andTitle}</p>
+      </div>
       <CountdownTimer publishedAt={and.publishedAt} andEndDate={and.andEndDate} />
+      <div className='applyBox'>
+        <p id='apply-title'>신청자</p>
+        <p id='apply-number'>{`${andNeedNumApply.totalApplicantNum}/${andNeedNumApply.needNumMem} (${(andNeedNumApply.totalApplicantNum / andNeedNumApply.needNumMem * 100).toFixed(1)}%)`}</p>
+      </div>
+      <div className='roleBox'>  
+        {rolesData.map((role) => (
+          <span id='roles' key={role.andRoleId}>
+            #{role.andRole}
+          </span>
+        ))}
+      </div>
       <hr style={{ margin: '20px auto', width: '70%' }}></hr>
       <Box>
         <div className='andUser' style={{ display: 'flex', alignItems: 'center' }}>
             <Avatar sx={{ ml:1, width:45, height:45, mt: 2}} src={userInfo.userProfileImg} ></Avatar>
-            <span id='andUser-nickname'>{userInfo.userNickname}</span>
+            <span id='andUser-nickname' onClick={() => handleMemberClick(andUserId)}>{userInfo.userNickname}</span>
             <button id='follow' onClick={() => fetchFollow(and.userId)}
               className={isFollowed ? 'following-button' : 'follow-button'}>
               {isFollowed ? (
