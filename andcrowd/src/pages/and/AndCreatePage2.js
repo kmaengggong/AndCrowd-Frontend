@@ -85,20 +85,9 @@ const AndCreatePage2 = () => {
   const handleDateChange = (event) => {
     const { name, value } = event.target;
   
-    // 입력된 날짜 문자열을 Date 객체로 변환
-    const date = new Date(value);
-
-    // Date 객체의 시간 부분을 "00:00:00.000000"으로 설정
-    date.setUTCHours(0, 0, 0, 0);
-
-    // Date 객체를 datetime-local 형식으로 변환
-    const formattedDate = `${date.toISOString().slice(0, 16)}`;
-
-    console.log("formattedDate: ", formattedDate)
-  
     setFormData({
       ...formData,
-      [name]: formattedDate,
+      [name]: value,
     });
   };
   

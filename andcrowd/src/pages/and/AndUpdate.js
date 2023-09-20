@@ -8,7 +8,6 @@ const AndUpdate = () => {
   const params = useParams();
   const andId = params.andId;
 
-  const [andEndDateOnly, setAndEndDateOnly] = useState(new Date());
   const [formData, setFormData] = useState({
     userId: "",
     andCategoryId: "",
@@ -33,7 +32,6 @@ const AndUpdate = () => {
         setFormData(data);
         setHeaderImg(data.andHeaderImg);
         setHtmlStr(data.andContent); // andContent 값을 htmlStr 상태에 설정합니다.
-        setAndEndDateOnly(new Date(data.andEndDate));
       } else {
         throw new Error(`Fetching and data failed with status ${response.status}.`);
       }
@@ -110,19 +108,9 @@ const AndUpdate = () => {
   const handleDateChange = (event) => {
     const { name, value } = event.target;
   
-    // 입력된 날짜 문자열을 Date 객체로 변환
-    const date = new Date(value);
-    setAndEndDateOnly(date);
-
-    // Date 객체의 시간 부분을 "00:00:00.000000"으로 설정
-    date.setUTCHours(0, 0, 0, 0);
-  
-    // Date 객체를 datetime-local 형식으로 변환
-    const formattedDate = date.toISOString().slice(0, 16);
-  
     setFormData({
       ...formData,
-      [name]: formattedDate,
+      [name]: value,
     });
   };
 
@@ -194,7 +182,7 @@ const AndUpdate = () => {
             </select>
 
           <input id='and-update-input' type="text" name="andTitle" value={formData.andTitle} onChange={handleInputChange} placeholder="제목" />
-          <input id='and-update-input' type="date" name="andEndDate" value={andEndDateOnly.toISOString().split('T')[0]}  onChange={handleDateChange} placeholder="마감일" />
+          <input id='and-update-input' type="date" name="andEndDate" value={formData.andEndDate}  onChange={handleDateChange} placeholder="마감일" />
           {/* <input id='and-update-input' type="text" name="needNumMem" value={formData.needNumMem} onChange={handleInputChange} placeholder="모집인원" /> */}
           {/* <input id='and-update-input' type="text" name="andHeaderImg" value={formData.andHeaderImg} onChange={handleInputChange} placeholder="대표 이미지" /> */}
           <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
