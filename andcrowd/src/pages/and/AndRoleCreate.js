@@ -19,19 +19,20 @@ const AndRoleCreate = () => {
 
   useEffect(() => {
     // 페이지가 처음 로드될 때 AndRole 목록을 가져옴
-    const fetchAndRoles = async () => {
-      try {
-        const response = await axios.get(`/and/${andId}/role/list`);
-        if (response.data) {
-          setAndRoles(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching AndRoles:", error);
-      }
-    };
-
     fetchAndRoles(); // 함수 호출
   }, [andId]); // andId가 변경될 때마다 실행
+
+  const fetchAndRoles = async () => {
+    try {
+      const response = await axios.get(`/and/${andId}/role/list`);
+      if (response.data) {
+        setAndRoles(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching AndRoles:", error);
+    }
+  };
+
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -64,21 +65,25 @@ const AndRoleCreate = () => {
       });
 
       const newNeedNumMem = needNumMem + parseInt(formData.andRoleLimit, 10);
-      console.log("newNeedNumMem: ",newNeedNumMem)
-      setNeedNumMem(newNeedNumMem);
-    
+      const nonNegativeNeedNumMem = newNeedNumMem < 0 ? 0 : newNeedNumMem; // 음수이면 0으로 설정
+      console.log("newNeedNumMem: ", nonNegativeNeedNumMem);
+      setNeedNumMem(nonNegativeNeedNumMem);
+      fetchAndRoles();
     } else {
       console.error("Error creating AndRole");
     }
   };
 
   const deleteAndRole = async (andId, andRoleId, andRoleLimit) => {
+    console.log(`/and/${andId}/role/${andRoleId}/delete`);
     try {
       await axios.delete(`/and/${andId}/role/${andRoleId}/delete`);
       console.log("Deleted role at index:", andRoleId);
       const newNeedNumMem = needNumMem - parseInt(andRoleLimit, 10);
-      console.log("newNeedNumMem", newNeedNumMem);
-      setNeedNumMem(newNeedNumMem);
+      const nonNegativeNeedNumMem = newNeedNumMem < 0 ? 0 : newNeedNumMem; // 음수이면 0으로 설정
+      console.log("newNeedNumMem", nonNegativeNeedNumMem);
+      setNeedNumMem(nonNegativeNeedNumMem);
+      fetchAndRoles();
     } catch (error) {
       console.error("Error in deleting role:", error);
     }
@@ -138,8 +143,8 @@ const AndRoleCreate = () => {
       <div>
         <h2>추가된 역할</h2>
         <ul className="and-role-list">
-          {andRoles.map((role, index) => (
-            <li key={index}>
+          {andRoles.map((role) => (
+            <li key={role.andRoleId}>
               {role.andRole} (필요 인원: {role.andRoleLimit}명)
               <button onClick={() => deleteAndRole(andId, role.andRoleId, role.andRoleLimit)}>삭제</button>
             </li>

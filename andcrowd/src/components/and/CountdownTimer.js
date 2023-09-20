@@ -13,13 +13,13 @@ const CountdownTimer = ({ publishedAt, andEndDate }) => {
   progressValue = Math.min(Math.max(progressValue, 0), 100);
 
   // Calculate remaining days
-  const remainingDays = Math.ceil((endDate - now) / (1000 * 60 * 60 *24)) + 1;
+  const remainingDays = Math.ceil((endDate - now) / (1000 * 60 * 60 *24));
 
   return (
     <div id ='linear-div'>
       <LinearProgress variant="determinate" value={progressValue} sx={{ 
           backgroundColor: 'white',
-          marginTop:'17%',
+          marginTop:'10%',
           marginLeft:'16%',
           marginBottom:'2vh',
           width: '11vw', 

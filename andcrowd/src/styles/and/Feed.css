@@ -9,7 +9,7 @@
     margin: 1vh 28% 3vh;
 }
 #and-title-box{
-    width: 70%;
+    width: 50%;
 }
 #and-feed-title{
     font-family: 'Noto Sans KR', sans-serif;
@@ -59,8 +59,8 @@
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
     font-weight: 500;
-    width: 30%;
-    height: 5vh;
+    width: 28%;
+    height: 4.5vh;
     border:1px solid #00D337;
     border-radius: 10px;
     margin-top: 2vh;
@@ -78,6 +78,8 @@
 }
 #showmore-button-box{
     height:30%;
+    display: flex;
+    align-items: center;
 }
 #follow:hover{
     background-color: rgb(231, 253, 224);
@@ -86,9 +88,11 @@
 
 #show-more-img{
     margin-top: 2%;
-    margin-left: 2%;
-    height: 8%;
-    width: 7%;
+    margin-left: 1%;
+    height: 6%;
+    width: 6%;
+    color: #007a0c84;
+    margin-top: 2vh;
 }
 #show-more-img:hover{
     cursor:pointer;
@@ -118,7 +122,7 @@
 }
 #feed-head{
     display: flex;
-    margin-left: 27%;
+    margin-left: 25%;
     margin-top: 2%;
 }
 
@@ -185,7 +189,7 @@
 }
 #and-like{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 500;
     color: #00D337;
     margin-left: 0;
@@ -202,12 +206,12 @@
 }
 #and-role{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     text-align: center;
     border: 1px solid #00D337;
     border-radius: 10px;
-    padding: 0 5px;
+    padding: 1px 8px;
     color: #00D337;
     margin-right: 10px;
     margin-bottom: 10px;

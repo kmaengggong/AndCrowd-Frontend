@@ -89,10 +89,12 @@ const AndCreatePage2 = () => {
     const date = new Date(value);
 
     // Date 객체의 시간 부분을 "00:00:00.000000"으로 설정
-    date.setHours(0, 0, 0, 0);
-  
+    date.setUTCHours(0, 0, 0, 0);
+
     // Date 객체를 datetime-local 형식으로 변환
     const formattedDate = `${date.toISOString().slice(0, 16)}`;
+
+    console.log("formattedDate: ", formattedDate)
   
     setFormData({
       ...formData,

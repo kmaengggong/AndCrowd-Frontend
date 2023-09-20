@@ -1,11 +1,23 @@
-#and-title{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 32px;
-    font-weight: 700;
-    color: #000000;
-    padding-top: 10vh;
+.andTitle {
     padding-left: 15%;
     padding-right: 20%;
+}
+#and-title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 170%;
+    font-weight: 700;
+    color: #000000;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 10px;
+    height: 100%;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    word-wrap:break-word; 
+    line-height: 1.2em;
+    height: 4.9em;
 }
 #and-detail-container{
     display: flex;
@@ -39,6 +51,7 @@
     margin-top: 5%;
     height: 7vh;
     border-radius: 7px;
+    margin-left: 5%;
 }
 #go-and:hover{
     background-color: #24c44f;
@@ -75,7 +88,7 @@
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
     font-weight: 500;
-    margin-top: 17%;
+    margin-top: 10%;
     margin-left: 3%;
 
 }
@@ -164,7 +177,56 @@
     color: #00D337;
 }
   
-  .following-button {
+.following-button {
     background-color: #00D337;
     color: white;
+}
+#report-button{
+    background-color: white;
+    border: none;
+    margin-top: 7%;
+    float: right;
+}
+#report{
+    width: 20px;
+    border: none;
+    cursor: pointer;
+}
+.catAndReport{
+    align-items: center;
+    display: flex;
+}
+#crowd-link{
+    margin-left: 3%;
+    color: #0d7d2bd7;
+    margin-top: 7%;
+    min-width: 50%;
+}
+#roles{
+    display: inline;
+    margin-right: 7px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 90%;
+    border: 1px rgb(60, 135, 67) solid;
+    border-radius: 15px;
+    padding: 4px 10px 5px;
+    color: rgb(34, 77, 38);
+}
+.roleBox{
+    margin-left: 15%;
+    margin-right: 15%;
+}
+.applyBox{
+    margin-left: 15%;
+    margin-right: 15%;
+}
+#apply-number{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 140%;
+    margin-top: 5px;
+}
+#apply-title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 90%;
+    margin-bottom: 0px;
 }

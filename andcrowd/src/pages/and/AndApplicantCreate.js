@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import '../../styles/and/AndApplicantCreate.css'
 import Editor from "../../components/and/Editor";
 import { GetUserId } from '../../components/user/GetUserId'; 
+import axios from "axios";
 
 const AndApplicantCreate = () => {
     const params = useParams();
@@ -14,8 +15,10 @@ const AndApplicantCreate = () => {
 
     const [userId, setUserId] = useState("");
 
-    const [andApplyFile, setAndApplyFile] = useState("");
+    const [andApplyFile, setAndApplyFile] = useState(" ");
     const [isUploading, setIsUploading] = useState(false); // 파일 업로드 상태
+    const [andRoles, setAndRoles] = useState([]);
+    const [roleId, setRoleId] = useState('');
 
     const [formData, setFormData] = useState({
         andId: andId,
@@ -23,31 +26,10 @@ const AndApplicantCreate = () => {
         andApplyTitle:"",
         andApplyContent: "",
     });
-
-    // const yourAccessToken = Cookies.get('refresh_token');
-
-    // const fetchData = async () => {
-    //     try {
-    //       const userIdResponse = await fetch(`/user-info/userid`,{
-    //         method: 'GET',
-    //         headers: {
-    //           'Authorization': `Bearer ${yourAccessToken}`,
-    //           'Content-Type': 'application/json',
-    //         },
-    //       });
-    //       if (userIdResponse.ok) {
-    //         const userId = await userIdResponse.json();
-    //         setUserId(userId.userId);
-    //       } else {
-    //         throw new Error(`Fetching userId failed with status ${userIdResponse.status}.`);
-    //       }
-    //       } catch (error) {
-    //         console.error("Error fetching data:", error);
-    //       }
-    //   };
     
     useEffect(() => {
       setUserId(GetUserId());
+      fetchAndRoles();
     }, []);
     
     const handleInputChange = (event) => {
@@ -81,7 +63,7 @@ const AndApplicantCreate = () => {
             });
 
             if (response.ok) {
-                navigate(`/and/${andId}/applicant/list`);
+                navigate(`/and/${andId}`);
             } else {
                 console.error(`Request failed with status ${response.status}`);
             }
@@ -125,27 +107,59 @@ const AndApplicantCreate = () => {
         setIsUploading(false); // 파일 업로드가 완료되면 상태를 false로 설정
       }
     };
+
+    const fetchAndRoles = async () => {
+      try {
+        const response = await axios.get(`/and/${andId}/role/list`);
+        if (response.data) {
+          console.log("fetchAndRoles: ",response.data)
+          setAndRoles(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching AndRoles:", error);
+      }
+    };
+
+    const handleRoleIdChange = (event) => {
+      const { name, value } = event.target;
+      setRoleId(Number(value));
+    }
   
 
     return (
         <>
             <form id='applicant-form'onSubmit={handleSubmit}>
                 <div>
-                  <input
+                    {/* <input id='applicant-input' type="text" name="userId" value={userId} readOnly /> */}
+                    {/* <input id='applicant-input' type="text" name="andRoleId" value={formData.andRoleId} onChange={handleInputChange} placeholder="역할 번호" /> */}
+                    <br />
+                    <div className="roleSelect">
+                      <p id="and-role-apply">지원 역할 선택: </p>
+                      <select
+                        name="andRoleId"
+                        value={formData.andRoleId}
+                        onChange={handleRoleIdChange}
+                        required
+                      >
+                      {andRoles.map((role) => (
+                        <option value={role.andRoleId}>[{role.andRoleId}] {role.andRole}</option>
+                      ))}
+                      </select>
+                    </div>
+                    <br />
+                    <input id='applicant-input' type="text" name="andApplyTitle" value={formData.andApplyTitle} onChange={handleInputChange} placeholder="제목" />
+                    <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
+                    <input
                         type="file"
                         name="andApplyFile"
                         onChange={handleFileChange} // 파일 선택 시 handleFileChange 함수 호출
                     />
+                    
                     {isUploading ? (
                       <p>파일 첨부 중...</p>
                     ) : (
                       <button id='applicant-sub' type="submit">제출</button>
                     )}
-                    <input id='applicant-input' type="text" name="userId" value={userId} readOnly />
-                    <input id='applicant-input' type="text" name="andRoleId" value={formData.andRoleId} onChange={handleInputChange} placeholder="역할 번호" />
-                    <input id='applicant-input' type="text" name="andApplyTitle" value={formData.andApplyTitle} onChange={handleInputChange} placeholder="제목" />
-                    <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
-                    
                 </div>
             </form>
 

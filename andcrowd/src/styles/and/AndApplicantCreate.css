@@ -52,4 +52,9 @@
     color: #007bff;
     font-weight: bold;
   }
-  
+  #and-role-apply{
+    display: inline;
+    color: black;
+    border: none;
+    font-weight: 400;
+  }

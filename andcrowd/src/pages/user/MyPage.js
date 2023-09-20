@@ -150,6 +150,7 @@ const MyPage = () => {
                         <Button fullWidth variant="solid" onClick={onClickProfileImgEditButton}>프로필 사진 수정</Button>
                         <Button fullWidth variant="solid" onClick={onClickUserInfoEditButtonButton}>회원 정보 수정</Button>
                         <Button fullWidth variant="solid" onClick={onClickPasswordChangeButton}>비밀번호 변경</Button>
+                        
                     </>
                     :
                     <></>
