@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../../styles/crowd/CrowdDetail.module.css';
@@ -10,9 +9,7 @@ const CrowdDetail = () => {
     const params = useParams();
     const crowdId = params.crowdId;
     const [crowd, setCrowd] = useState({});
-    
-    // const navigate = useNavigate();
-    
+
     const fetchData = async () => {
         try {
             const response = await fetch(`/crowd/${crowdId}`);

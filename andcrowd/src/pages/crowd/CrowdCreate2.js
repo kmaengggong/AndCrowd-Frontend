@@ -132,13 +132,13 @@ const CrowdCreate2 = () => {
     return (
         <div id='crowd-create2-container'>
         <form  id='crowd-create-form' onSubmit={handleNextButtonClick}>
-            <div id='crowdd-create2-box'>
+            <div id='crowd-create2-box'>
                 <Typography id='crowd-kind-text'>어떤 종류의 모임인가요?</Typography>
                 <select
                     name="crowdCategoryId"
                     value={formData.crowdCategoryId}
                     onChange={handleCategoryChange}
-                    id = 'crowdd-create-category'
+                    id = 'crowd-create-category'
                     required
                 >
                 <option value="1">카테고리 선택</option>
@@ -173,7 +173,7 @@ const CrowdCreate2 = () => {
                     )
                   }}
                 />
-                <Typography id='crowdd-date-text'>대표사진을 첨부해 주세요</Typography>
+                <Typography id='crowd-date-text'>대표사진을 첨부해 주세요</Typography>
                 <CrowdCreateImg />
             </div>
             <div id="submit-btn-div">
