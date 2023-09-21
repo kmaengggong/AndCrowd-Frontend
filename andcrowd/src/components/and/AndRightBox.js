@@ -8,6 +8,7 @@ import { GetUserId } from '../user/GetUserId';
 import Chip from '@mui/joy/Chip';
 import { GetUserInfo } from '../user/GetUserInfo';
 import report from '../../siren.png';
+import axios from "axios";
 
 const style = {
   position: 'absolute',
@@ -312,6 +313,24 @@ const AndComponent = ({ }) => {
     }
   }
 
+  const updateAnd = (andId) => {
+    navigate(`/and/${andId}/update`);
+  };
+
+  const deleteAnd = async (andId) => {
+    try {
+      await axios.delete(`/and/${andId}/delete`);
+      console.log("Deleted and with ID:", andId);
+      navigate(`/and/scroll`);
+    } catch (error) {
+      console.error("error in deleting and:", error);
+    }
+  };
+
+  const manageAnd = (andId) => {
+    navigate(`/and/${andId}/manage`);
+  };
+
 
   return (
     <Box id='right-top-box'>
@@ -379,18 +398,46 @@ const AndComponent = ({ }) => {
       </div>
       <hr style={{ margin: '20px auto', width: '70%' }}></hr>
       <Box>
-        <div className='andUser' style={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar sx={{ ml:1, width:45, height:45, mt: 2}} src={userInfo.userProfileImg} ></Avatar>
-            <span id='andUser-nickname' onClick={() => handleMemberClick(andUserId)}>{userInfo.userNickname}</span>
-            <button id='follow' onClick={() => fetchFollow(and.userId)}
-              className={isFollowed ? 'following-button' : 'follow-button'}>
-              {isFollowed ? (
-                <div> ✓ 팔로잉</div>
-              ) : (
-                <div> + 팔로우</div>
-                )}
-            </button>
-        </div>
+          <div className='andUser' style={{ display: 'flex', alignItems: 'center' }}>
+              <Avatar sx={{ ml:1, width:45, height:45, mt: 2}} src={userInfo.userProfileImg} ></Avatar>
+              <span id='andUser-nickname' onClick={() => handleMemberClick(andUserId)}>{userInfo.userNickname}</span>
+              
+              { userId !== andUserId ? (
+              <button id='follow' onClick={() => fetchFollow(and.userId)}
+                className={isFollowed ? 'following-button' : 'follow-button'}>
+                {isFollowed ? (
+                  <div> ✓ 팔로잉</div>
+                ) : (
+                  <div> + 팔로우</div>
+                  )}
+              </button>
+                      ) : (
+                        <div id='and-user-button'>
+                            <div id='and-detail-bottom'>
+                              <Typography id='and-detail-up'
+                                onClick={() => updateAnd(andId, andId)}
+                              >
+                                수정
+                              </Typography>
+                              <Typography id='and-detail-de'
+                                onClick={() => deleteAnd(andId, andId)}
+                              >
+                                삭제
+                              </Typography>
+                            </div>
+                            <div id='and-detail-bottom2'>
+                              <Typography id='and-detail-2'
+                                onClick={() => manageAnd(and.andId)}
+                              >
+                                관리                           
+                              </Typography> 
+                            </div>
+              
+                        </div>
+                      )
+                    }
+              
+          </div>
       </Box>
       <Box id='like-and-button'>
         <Box id='like-icon' onClick={handleClick}>

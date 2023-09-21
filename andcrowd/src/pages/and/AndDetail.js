@@ -55,23 +55,23 @@ const AndDetail = () => {
 
   };
 
-  const updateAnd = (andId) => {
-    navigate(`/and/${andId}/update`);
-  };
+  // const updateAnd = (andId) => {
+  //   navigate(`/and/${andId}/update`);
+  // };
 
-  const deleteAnd = async (andId) => {
-    try {
-      await axios.delete(`/and/${andId}/delete`);
-      console.log("Deleted and with ID:", andId);
-      navigate(`/and/scroll`);
-    } catch (error) {
-      console.error("error in deleting and:", error);
-    }
-  };
+  // const deleteAnd = async (andId) => {
+  //   try {
+  //     await axios.delete(`/and/${andId}/delete`);
+  //     console.log("Deleted and with ID:", andId);
+  //     navigate(`/and/scroll`);
+  //   } catch (error) {
+  //     console.error("error in deleting and:", error);
+  //   }
+  // };
 
-  const manageAnd = (andId) => {
-    navigate(`/and/${andId}/manage`);
-  };
+  // const manageAnd = (andId) => {
+  //   navigate(`/and/${andId}/manage`);
+  // };
 
 
   const applyAnd = (andId) => {
@@ -100,36 +100,6 @@ const AndDetail = () => {
           <hr></hr>
           <div id='and-content-div' dangerouslySetInnerHTML={{ __html :  and.andContent  }} style={{ maxWidth: '100%', overflowX: 'auto',overflowY: 'auto' }}/>
           <Typography id ='and-content'></Typography>
-          {/* 모임장만 볼 수 있는 버튼 */}
-          {userId === andUserId && (
-            <>
-              <div id='and-detail-bottom'>
-                <Typography id='and-detail-upde'
-                  onClick={() => updateAnd(andId, andId)}
-                >
-                  수정
-                </Typography>
-                <Typography id='and-detail-upde'
-                  onClick={() => deleteAnd(andId, andId)}
-                >
-                  삭제
-                </Typography>
-              </div>
-              <div id='and-detail-bottom2'>
-                {/* -- 모임 관리 안에 신청서 목록 있음 --
-                <Typography id='and-detail-2'
-                onClick={() => applicantList(and.andId)}
-                >
-                  신청서 목록
-                </Typography> */}
-                <Typography id='and-detail-2'
-                  onClick={() => manageAnd(and.andId)}
-                >
-                  모임 관리                           
-                </Typography> 
-              </div>
-            </>
-          )}
           <br />
         </Box>
         <AndRightBox/>
