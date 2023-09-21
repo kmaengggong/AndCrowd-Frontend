@@ -19,8 +19,8 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0.5, 1),
   height: '100%',
   position: 'absolute',
-  
-   right: '0', 
+  right: '0', 
+  zIndex: 1,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
@@ -38,22 +38,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-// function SearchBar() {
-//    return (
-//      <Search>
-//        <SearchIconWrapper>
-//          <IconButton>
-//            <SearchIcon id='search-icon'/>
-//          </IconButton>
-//        </SearchIconWrapper>
-//        <StyledInputBase
-//          placeholder="검색어를 입력해주세요"
-//          inputProps={{'aria-label':'search'}}
-//         />
-//      </Search>  
-//    );
-// }
-
 const SearchBar = () => {
 
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -69,7 +53,7 @@ const SearchBar = () => {
 
   return (
     <>
-    {/* <Search> */}
+    <Search>
       <SearchIconWrapper>
         <IconButton onClick={handleSearchClick} >
           <SearchIcon  />
@@ -81,7 +65,7 @@ const SearchBar = () => {
         value={searchKeyword}
         onChange={(e) => setSearchKeyword(e.target.value)}
       />
-    {/* </Search> */}
+    </Search>
     </>
   );
 }
