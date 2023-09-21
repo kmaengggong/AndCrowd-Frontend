@@ -60,7 +60,6 @@ a:hover{
 }
 #chatbot{
   font-weight: bold;
-  font-size: 15px;
   padding : 10px;
   background-color: #fff;
   color:#1c8b3a;
@@ -69,10 +68,12 @@ a:hover{
   outline: none;
   cursor: pointer;
   float: right;
-  margin-right: 10%;
+  margin-right: 8%;
   position : fixed;
   bottom : 5vw;
   right : 0vh;
+  width: max-content;
+  height: max-content;
 }
 #chatbot:hover{
   color :#fff;

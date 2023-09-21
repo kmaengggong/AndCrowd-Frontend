@@ -699,7 +699,7 @@ AndScroll = ({ onSearch }) => {
           <p>마지막 페이지입니다.</p>
         </div>
       )}
-      <button id="top" onClick={scrollToTop} type="button" > <KeyboardArrowUpRoundedIcon /></button>
+      <button id="top" onClick={scrollToTop} type="button" > <KeyboardArrowUpRoundedIcon sx={{ width: "30px", height: "30px", pr: "2px", pl: "2px" }} /></button>
     </div>
   );
 };

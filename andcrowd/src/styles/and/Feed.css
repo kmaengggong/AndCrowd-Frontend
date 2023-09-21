@@ -267,7 +267,7 @@
 #top{
     font-weight: bold;
     font-size: 15px;
-    padding : 10px;
+    padding : 5px;
     background-color: #fff;
     color:#000;
     border: 1px solid rgb(211, 211, 211);
@@ -278,8 +278,8 @@
     margin-right: 10%;
     position : fixed;
     bottom : 5vw;
-    left : 15vh;
-    /* right: 10vh; */
+    left : 20vh;
+    /* right: 14vh; */
 }
 #top:hover{
     color :#fff;

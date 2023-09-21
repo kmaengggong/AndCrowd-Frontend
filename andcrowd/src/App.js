@@ -275,9 +275,9 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           <div>
-            <button id="chatbot" onClick={openChatbotModal}> <ContactSupportRoundedIcon /></button>
+            <button id="chatbot" onClick={openChatbotModal}> <ContactSupportRoundedIcon sx={{ width: "30px", height: "30px", pr: "2px", pl: "2px" }}/></button>
               {isChatbotModalOpen && (
-              <HelpChatbot onClose={closeChatbotModal} />
+              <HelpChatbot onClose={closeChatbotModal}/>
               )}
           </div>
         </div>
