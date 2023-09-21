@@ -62,7 +62,7 @@ const UserInfo = () => {
                 </Grid>
                 <Button fullWidth variant="solid" onClick={onClickMyPageButton}>마이 페이지</Button>
                 <Button fullWidth variant="solid" onClick={onClickProfileImgEditButton}>프로필 사진 수정</Button>
-                <Button fullWidth variant="solid" onClick={onClickUserInfoEditButtonButton}>회원 정보</Button>
+                <Button fullWidth variant="solid" onClick={onClickUserInfoEditButtonButton}>회원 정보 수정</Button>
                 <Button fullWidth variant="solid" onClick={onClickPasswordChangeButton}>비밀번호 변경</Button>
                 </Grid>
             </Grid>
@@ -70,15 +70,67 @@ const UserInfo = () => {
             <Grid item xs={10}>
                 {userInfo.length !== 0 &&
                 <Grid container direction="row" alignItems="center">
-                    <Grid item sm={3} xs={12}>
+                    <Grid item sm={3} xs={12} marginBottom={2}>
+                        <Typography sx={{fontSize:22, textAlign:'center', fontWeight:700, color:'gray'}}>
+                            아이디
+                        </Typography>
+                    </Grid>
+                    <Grid item sm={9} xs={12} marginBottom={2}>
+                        <TextField
+                            fullWidth
+                            value={userInfo.userEmail} 
+                            disabled
+                        />
+                    </Grid>
+                    <Grid item sm={3} xs={12} marginBottom={2}>
                         <Typography sx={{fontSize:22, textAlign:'center', fontWeight:700, color:'gray'}}>
                             닉네임
                         </Typography>
                     </Grid>
-                    <Grid item sm={9} xs={12}>
+                    <Grid item sm={9} xs={12} marginBottom={2}>
                         <TextField
                             fullWidth
                             value={userInfo.userNickname} 
+                            disabled
+                        />
+                    </Grid>
+                    <Grid item sm={3} xs={12} marginBottom={2}>
+                        <Typography sx={{fontSize:22, textAlign:'center', fontWeight:700, color:'gray'}}>
+                            이름
+                        </Typography>
+                    </Grid>
+                    <Grid item sm={9} xs={12} marginBottom={2}>
+                        <TextField
+                            fullWidth
+                            value={userInfo.userKorName} 
+                            disabled
+                        />
+                    </Grid>
+                    <Grid item sm={3} xs={12} marginBottom={2}>
+                        <Typography sx={{fontSize:22, textAlign:'center', fontWeight:700, color:'gray'}}>
+                            전화번호
+                        </Typography>
+                    </Grid>
+                    <Grid item sm={9} xs={12} marginBottom={2}>
+                        <TextField
+                            fullWidth
+                            value={userInfo.userPhone} 
+                            disabled
+                        />
+                    </Grid>
+                    <Grid item sm={3} xs={12} marginBottom={2}>
+                        <Typography sx={{fontSize:22, textAlign:'center', fontWeight:700, color:'gray'}}>
+                            소셜
+                        </Typography>
+                    </Grid>
+                    <Grid item sm={9} xs={12} marginBottom={2}>
+                        <TextField
+                            fullWidth
+                            value={
+                                userInfo.socialType === null ? 'None' : userInfo.socialType === 'NAVER' ? '네이버' :
+                                userInfo.socialType === 'GOOGLE' ? '구글' :
+                                'undefined'
+                            } 
                             disabled
                         />
                     </Grid>

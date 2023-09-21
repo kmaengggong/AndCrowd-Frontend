@@ -80,6 +80,8 @@ export const AdminInfoEditButton = ({type, userId, rowSelectionModel}) => {
                 onClose={handleCloseInfoDialog}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                fullWidth
+                maxWidth={'sm'}
             >
                 <Box component="form" onSubmit={onClickInfoEditButton}>
 
@@ -115,6 +117,8 @@ export const AdminInfoEditButton = ({type, userId, rowSelectionModel}) => {
                         onChange={onChangeInfoContent}
                         defaultValue={info.infoContent}
                         autoFocus
+                        multiline
+                        rows={7}
                     />
                 </DialogContent>
                 <DialogActions>

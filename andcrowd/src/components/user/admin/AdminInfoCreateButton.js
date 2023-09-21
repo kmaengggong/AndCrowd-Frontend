@@ -63,6 +63,8 @@ export const AdminInfoCreateButton = ({type, userId}) => {
                 onClose={handleCloseInfoDialog}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                fullWidth
+                maxWidth={'sm'}
             >
                 <DialogTitle id="alert-dialog-title">
                     공지 글 작성
@@ -101,6 +103,8 @@ export const AdminInfoCreateButton = ({type, userId}) => {
                         placeholder="내용"
                         onChange={onChangeInfoContent}
                         autoFocus
+                        multiline
+                        rows={7}
                     />
                 </DialogContent>
                 <DialogActions>
