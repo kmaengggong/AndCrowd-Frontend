@@ -1,11 +1,16 @@
 .linkToCreate {
-    font: white;
-    margin-top: 15px;
+    color: white;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    width: max-content;
+    height: 4vh;
+    border-radius: 10px;
+    border:none;
     background-color: #00D337;
-    float: right;
-    border-radius: 3px;
-    border: none;
-    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 1%;
 }
 
 .linkToCreate:hover {
@@ -15,24 +20,27 @@
 
 .carousel{
     margin: 10px;
-    padding: 10px;
 }
 
 .btnCategory {
-    text-align: center;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    justify-content: space-between;
+    max-width: 100%;
+    align-items: center;
 }
 
 .crowdListblock {
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
+    align-items: baseline;
 }
 
 .listContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+    grid-template-columns: repeat(3, minmax(250px, 1fr)); 
     gap: 20px; 
 }
-
-  

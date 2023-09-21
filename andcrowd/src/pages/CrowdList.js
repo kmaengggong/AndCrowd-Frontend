@@ -16,8 +16,7 @@ import CrowdCategoryList from "./crowd/CrowdCategoryList";
 import CrowdMainImg from "./crowd/CrowdMainImg";
 import styled from 'styled-components';
 import ReactPaginate from 'react-paginate';
-import { AiOutlineHeart, AiFillHeart} from "react-icons/ai";
-import { GetUserId } from "../components/user/GetUserId";
+import {  Grid } from "@mui/material";
 
 const MyPaginate = styled(ReactPaginate).attrs({
   activeClassName: "active",
@@ -50,6 +49,7 @@ const MyPaginate = styled(ReactPaginate).attrs({
   }
 `;
 
+
 const CrowdList = () => {
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
@@ -63,7 +63,6 @@ const CrowdList = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [rolesData, setRolesData] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [isLiked, setIsLiked] = useState(null);
 
   // CrowdMainImg에서 사용할 이미지 배열
   const [carouselImages, setCarouselImages] = useState([
@@ -72,74 +71,19 @@ const CrowdList = () => {
     { imageColor: "green", imageUrl: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
   ]);
   
-  const userId = GetUserId();
-
-  const fetchIsLiked = async (crowdId) => {
+  const fetchPopularCrowd = async () => {
     try{
-      const userId = GetUserId();
-      const response = await fetch(`/crowd/${crowdId}/like/${userId}`);
-      if(response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
-        throw new Error(`Fetching and data failed with status ${response.status}.`);
-      }
+      const response = await fetch('/crowd/popular/top5');
+      const jsonData = await response.json();
+      console.log("fetchPopularCrowd: ", jsonData);
     } catch (error) {
-      console.error("Error fetching data:", error);
-      return null;
+      console.error('Error fetching popular crowd:', error);
     }
-  }
-
-  const fetchLike = async (crowdId) => {
-    try {
-      const userId = GetUserId();
-      const response = await fetch(`/crowd/${crowdId}/like/${userId}`,{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      if (response.ok) {
-        const newIsLiked = await fetchIsLiked(crowdId); // fetchIsLiked 함수를 호출하여 새로운 isLiked 값을 가져옴
-        if (newIsLiked !== null) {
-          // 가져온 새로운 isLiked 값을 사용하여 해당 게시물의 좋아요 상태를 업데이트
-          setIsLiked(prevIsLiked => ({
-            ...prevIsLiked,
-            [crowdId]: newIsLiked,
-          }));
-
-          // andLikeCount 값을 업데이트
-          setData(prevData => prevData.map(item => {
-            if (item.crowdId === crowdId) {
-              // 해당 게시물의 crowdLikeCount 값을 업데이트
-              return { ...item, crowdLikeCount : newIsLiked ? item.crowdLikeCount + 1 : item.crowdLikeCount - 1 };
-            }
-            return item;
-          }));
-        }
-      } else {
-        throw new Error(`Fetching and data failed with status ${response.status}.`);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  } 
+  };
 
   useEffect(() => {
-    const fetchDataCrowdSetIsLiked = async () => {
-      const newIsLikedData = {};
-
-      for(const item of data) {
-        const newData = await fetchIsLiked(item.crowdId);
-        if(newData !== null) {
-          newIsLikedData[item.crowdId] = newData;
-        }
-      }
-      setIsLiked(newIsLikedData);
-    };
-    fetchDataCrowdSetIsLiked();
-  }, [data]);
+    fetchPopularCrowd();
+  }, [])
 
   const handleClick = () => {
     setIsClicked(!isClicked);
@@ -152,6 +96,7 @@ const CrowdList = () => {
     setData([]); // 데이터 초기화
     fetchCrowdList(); // 크라우드 목록 다시 불러오기
   };
+  
 
   const fetchCrowdRoles = async (id) => { // 크라우드 글 선택시 정렬 구문
     try {
@@ -241,55 +186,26 @@ const CrowdList = () => {
 
   return (
     <div>
-      <button className={styles.linkToCreate} type="button" onClick={navigateToCreate}>
-        프로젝트 시작하기
-      </button>
-      <br />
       <div className={styles.carousel}>
         {/* 화면상단 인기/추천 게시글 */}
         <Box sx={{ borderRadius: 'sm', p: 1}}>
-          <AspectRatio objectFit="contain" maxHeight={400}>
+          <AspectRatio objectFit="contain" maxHeight={200}>
             <CrowdMainImg images={carouselImages} />
           </AspectRatio>
         </Box>
       </div>{/* 카테고리 */}
         <div className={styles.btnCategory}>
           <CrowdCategoryList onCategorySelect={handleCategorySelect} />
+          <button className={styles.linkToCreate} type="button" onClick={navigateToCreate}>
+            프로젝트 생성
+          </button>
         </div>
         <div className={styles.crowdListblock}>
-          {/* 상태별분류 목록 */}
-          <div
-            className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('publishedAt')}
-            style={{ cursor: 'pointer', marginRight: '10px' }}
-          >
-            최신순
-          </div>
-          <div
-            className={`sortOption ${sortField === 'viewCount' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('viewCount')}
-            style={{ cursor: 'pointer', marginRight: '10px' }}
-          >
-            인기순
-          </div>
-          <div
-            className={`sortOption ${sortField === 'crowdEndDate' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('crowdEndDate')}
-            style={{ cursor: 'pointer', marginRight: '10px' }}
-          >
-            마감임박순
-          </div>
-          <div
-            className={`sortOption ${sortField === 'likeSum' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('likeSum')}
-            style={{ cursor: 'pointer' }}
-          >
-            좋아요순
-          </div>
           <select
             name='sortStatus'
             value={crowdStatus}
             onChange={handleSortStatusChange}
+            style={{ width: "80px", marginRight: "20px" }}
           >
             <option value="1">모집중</option>
             <option value="2">반려</option>
@@ -297,13 +213,44 @@ const CrowdList = () => {
             <option value="4">작성중</option>
             <option value="0">심사중</option>
           </select>
+          {/* 상태별분류 목록 */}
+          <div
+            className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('publishedAt')}
+            style={{ cursor: 'pointer', marginRight: '20px' }}
+          >
+            최신순
+          </div>
+          <div
+            className={`sortOption ${sortField === 'viewCount' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('viewCount')}
+            style={{ cursor: 'pointer', marginRight: '20px' }}
+          >
+            인기순
+          </div>
+          <div
+            className={`sortOption ${sortField === 'crowdEndDate' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('crowdEndDate')}
+            style={{ cursor: 'pointer', marginRight: '20px' }}
+          >
+            마감임박순
+          </div>
+          <div
+            className={`sortOption ${sortField === 'likeSum' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('likeSum')}
+            style={{ cursor: 'pointer', marginRight: '5%' }}
+          >
+            좋아요순
+          </div>
         </div>
         <br />
-        <div className={styles.listContainer} style={{ gap: '20px', marginLeft: '20px' }}>
+        {/* <div className={styles.listContainer} style={{ gap: '20px', marginLeft: '20px' }}> */}
+        <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 6 }} marginBottom={4} paddingLeft={4} paddingRight={4} >
             {filteredCrowdData && filteredCrowdData.map((crowd) => (
+              <Grid item md={4} sm={12} xs={12}>
               <Card
                 key={crowd.crowdId}
-                sx={{ width: '250px', maxWidth: '100%', boxShadow: 'lg', cursor: 'pointer' }}
+                sx={{ boxShadow: 'lg', cursor: 'pointer' }}
                 onClick={() => navigateToDetail(crowd.crowdId)}
               >
                 <CardOverflow>
@@ -319,11 +266,11 @@ const CrowdList = () => {
                 <CardContent>
                   <Typography level="body-xs">{crowd.crowdCategory}</Typography>
                   <Link
-                    fontWeight="md"
+                    fontWeight="lg"
                     color="neutral"
                     textColor="text.primary"
                     overlay
-                    endDecorator={<ArrowOutwardIcon />}
+                    sx={{overflow:'hidden', fontSize: 20, textOverflow:'ellipsis', whiteSpace:'nowrap', display:'inline-block'}}
                     to={`/crowd/${crowd.crowdId}`} 
                   >
                     {crowd.crowdTitle}
@@ -333,7 +280,7 @@ const CrowdList = () => {
                     sx={{ mt: 1, fontWeight: 'xl' }}
                     endDecorator={
                       <Chip component="span" size="sm" variant="soft" color="success">
-                        <b>{getDaysBetweenDate(crowd.publishedAt, crowd.crowdEndDate)} 일 남음 </b> 
+                        <b>{getDaysBetweenDate(crowd.publishedAt, crowd.crowdEndDate)+1} 일 남음 </b> 
                       </Chip>
                     }
                   >
@@ -344,9 +291,10 @@ const CrowdList = () => {
                   </Typography>
                 </CardContent>
               </Card>
+              </Grid>
             ))}
-          </div>
-        <br />
+            </Grid>
+          {/* </div> */}
 
         <MyPaginate
         pageCount={pageCount}
