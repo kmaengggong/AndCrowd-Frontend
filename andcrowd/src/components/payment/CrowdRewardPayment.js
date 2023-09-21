@@ -3,6 +3,8 @@ import { GetUserId } from "../user/GetUserId";
 import { GetUserInfo } from "../user/GetUserInfo";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Typography } from "@mui/joy";
+import { add } from "lodash";
 
 const CrowdRewardPayment = () => {
     const pg = {
@@ -73,6 +75,16 @@ const CrowdRewardPayment = () => {
 
     const onClickPaymentButton = (type, event) => {
         event.preventDefault();
+
+        if(phone.length < 1){
+            alert("전화번호를 입력해주세요.");
+            return;
+        }
+        if(address.length < 1){
+            alert("주소를 입력해주세요.");
+            return;
+        }
+        
         const {IMP} = window;
         IMP.init("imp61051146");  // 가맹점번호
 
@@ -120,6 +132,7 @@ const CrowdRewardPayment = () => {
                         purchaseStatus: "결제완료",
                         merchantUid: merchantUid.current,
                         rewardId: rewardId,
+                        rewardName: reward.rewardTitle,
                         userId: userId,
                         purchaseAmount: paid_amount
                     }),
@@ -139,9 +152,8 @@ const CrowdRewardPayment = () => {
     return(
         <>
         {userInfo.length !== 0 ?
-        <Box
-            sx={{mt:7}}
-        >
+        <Box>
+            <Typography sx={{fontSize:30, marginTop:5, marginBottom:3, textAlign:'center', fontWeight:700, color:'gray'}}>결제</Typography>
             <TextField
                 disabled
                 required
@@ -189,6 +201,7 @@ const CrowdRewardPayment = () => {
                 fullWidth
                 variant="contained"
                 onClick={(e) => {onClickPaymentButton("kakao", e)}}
+                sx={{mt: 5, backgroundColor:'#FEE500', color:'#191919', '&:hover':{backgroundColor:'#FEE500', color:'#191919'}}}
             >
                 카카오페이 결제
             </Button>
@@ -196,6 +209,7 @@ const CrowdRewardPayment = () => {
                 fullWidth
                 variant="contained"
                 onClick={(e) => onClickPaymentButton("card", e)}
+                sx={{mt: 2 }}
             >
                 카드 결제
             </Button>

@@ -91,6 +91,8 @@ import CrowdCreateImg from './components/crowd/CrowdCreateImg';
 import Chatbot from './pages/etc/Chatbot';
 import CrowdCreate1 from './pages/crowd/CrowdCreate1';
 import CrowdCreate2 from './pages/crowd/CrowdCreate2';
+import OrderDetail from './pages/user/OrderDetail';
+import UserInfo from './pages/user/UserInfo';
 import HelpChatbot from './pages/etc/HelpChatbot';
 import ContactSupportRoundedIcon from '@mui/icons-material/ContactSupportRounded';
 
@@ -169,7 +171,7 @@ function App() {
 
               {/* User 관련 */}
               <Route path="/user/:userId" element={<MyPage />} />
-              <Route path="/user/:userId/:type" element={<MyPageCardsDetailPage />} />
+              <Route path="/user/:userId/detail/:type" element={<MyPageCardsDetailPage />} />
 
               {/* And 관련 */}
               <Route path="/and/list" element={<AndList />} />
@@ -226,13 +228,15 @@ function App() {
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
                 {/* User 관련 */}
-                <Route path="/user/profileImgEdit" element={<ProfileImgEdit />} />
-                <Route path="/user/maker" element={<MakerPage />} />
+                <Route path="/user/:userId/maker" element={<MakerPage />} />
+                <Route path="/user/:userId/order" element={<OrderDetail />} />
+                <Route path="/user/:userId/info" element={<UserInfo />} />
 
                 {/* 비밀번호 확인을 통해 접근 가능 */}
                 <Route element={<SignRoute />}>
-                  <Route path="/user/update" element={<UserInfoEdit />} />
-                  <Route path="/user/passwordChange" element={<UserPasswordChange />} />
+                  <Route path="/user/:userId/profileImgEdit" element={<ProfileImgEdit />} />
+                  <Route path="/user/:userId/update" element={<UserInfoEdit />} />
+                  <Route path="/user/:userId/passwordChange" element={<UserPasswordChange />} />
                 </Route>
 
                 {/* And 관련 */}
