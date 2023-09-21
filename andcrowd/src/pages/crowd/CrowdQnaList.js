@@ -362,18 +362,6 @@ const CrowdQnaList = (props) => {
       fetchReplyStatusData(crowdId, crowdQnaId);
     }
 
-    //댓글을 작성하는 나머지 로직
-    // const handleQnaReplySubmit = async (e) => {
-    //   e.preventDefault();
-    //   console.log("formdata:", formData);
-    //   const replyResponse = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(updatedFormData),
-    //   });
-    // }
   };
 
   const handleUpdateQnaReply = async (crowdId, crowdQnaId, qnaReplyId) => {

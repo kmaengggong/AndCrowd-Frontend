@@ -115,13 +115,9 @@ const CrowdComponent = () => {
     }
 
     try {
-        const response = await axios.delete(`/crowd/${crowdId}/delete`);
-        if (response.status === 200) {
-            alert("펀딩글이 삭제되었습니다.");
-            navigate(`/crowd/list`);
-        } else {
-            console.error('Delete request failed with status:', response.status);
-        }
+        await axios.delete(`/crowd/${crowdId}/delete`);
+        alert("펀딩글이 삭제되었습니다.");
+        navigate(`/crowd/list`);
     } catch (error) {
         console.error('Error:', error.message);
     }

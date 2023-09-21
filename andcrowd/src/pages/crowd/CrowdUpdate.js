@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const CrowdUpdate = () => {
+    const [htmlStr, setHtmlStr] = React.useState('');
     const params = useParams();
     const crowdId = params.crowdId;
     const navigate = useNavigate();
@@ -13,12 +14,12 @@ const CrowdUpdate = () => {
         crowdContent: "",
         crowdEndDate: "",
         headerImg: "",
-        crowdImg1: "",
-        crowdImg2: "",
-        crowdImg3: "",
-        crowdImg4: "",
-        crowdImg5: "",
     });
+    const [headerImg, setHeaderImg] = useState('');
+
+    useEffect(() => {
+        fetchCrowdData();
+    }, []); // useEffect를 컴포넌트 렌더링 후 한 번만 실행되도록 설정
 
     const fetchCrowdData = async () => {
         try {
@@ -26,7 +27,10 @@ const CrowdUpdate = () => {
 
             if (response.ok) {
                 const data = await response.json();
+                console.log('fetchCrowdData:', data);
                 setFormData(data);
+                setHeaderImg(data.headerImg);
+                setHtmlStr(data.crowdContent);
             } else {
                 throw new Error(`${response.status}`);
             }
@@ -34,10 +38,6 @@ const CrowdUpdate = () => {
             console.error(error);
         }
     };
-
-    useEffect(() => {
-        fetchCrowdData();
-    }, []); // useEffect를 컴포넌트 렌더링 후 한 번만 실행되도록 설정
 
     const handleInputChange = (e) => {
         const {name, value} = e.target;
@@ -57,7 +57,7 @@ const CrowdUpdate = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({...formData, crowdContent: htmlStr}),
             });
 
             if(response.ok) {
@@ -69,6 +69,61 @@ const CrowdUpdate = () => {
             console.error(error);
         }
     };
+
+    const handleCategoryChange = (e) => {
+        const {name, value} = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleDateChange = (e) => {
+        const {name, value} = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const [fileName, setFileName] = useState("");
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append("crowdId", crowdId);
+        formData.append("files", file);
+        formData.append("fileType", "headerImg");
+        formData.append("fileType", "crowdImg1");
+        formData.append("fileType", "crowdImg2");
+        formData.append("fileType", "crowdImg3");
+        formData.append("fileType", "crowdImg4");
+        formData.append("fileType", "crowdImg5");
+        if(file) {
+            setFileName(file.name);
+        } else {
+            setFileName("");
+        }
+        try{
+            const response = await fetch("/crowd/s3/updloads",{
+                method: "POST",
+                body: formData,
+                headers: {
+                    ACL: "public-read",
+                },
+            });
+            if(response.ok) {
+                const fileResponse = await response.json();
+                const newUploadFileUrl = fileResponse[0].uploadFileUrl;
+                setHeaderImg(newUploadFileUrl);
+                console.log(newUploadFileUrl);
+                console.log("Successfully uploaded");
+            } else {
+                throw new Error(`Request failed with status ${response.status}`);
+            }
+        } catch(error) {
+            console.error("Error uploading file:", error);
+        }
+    }
 
     const handleUploadCancel = () => {
         alert("작성이 취소되었습니다.");

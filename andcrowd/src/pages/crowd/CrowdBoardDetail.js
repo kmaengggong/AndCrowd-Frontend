@@ -2,62 +2,104 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import CrowdToolBar from "../../components/crowd/CrowdToolBar";
+import { GetUserId } from "../../components/user/GetUserId";
+import { Button, Typography } from "@mui/material";
+import "../../styles/crowd/CrowdBoardDetail.css";
 
 const CrowdBoardDetail = () => {
-    const [board, setBoard] = useState(null);
-    const { crowdId, crowdBoardId } = useParams();
+    const params = useParams();
+    const crowdId = params.crowdId;
+    const crowdBoardId = params.crowdBoardId;
+
+    const navigate = useNavigate();
+
+    const [crowdBoard, setCrowdBoard] = useState({});
+    const [boardUserId, setBoardUserId] = useState(null);
+    const userId = GetUserId();
 
     useEffect(() => {
-        axios.get(`/crowd/${crowdId}/board/${crowdBoardId}`)
-            .then(response => {
-                setBoard(response.data);
-            })
-            .catch(error => {
-                console.error("잘못된 정보가 전달되었습니다.", error);
-            });
+        fetchData();
     }, [crowdId, crowdBoardId]);
 
-    const navigate = useNavigate(); // 삭제 후 리다이렉션을 위한 useNavigate
-
-    const handleDelete = () => {
-        axios.delete(`/crowd/${crowdId}/board/${crowdBoardId}/delete`)
-            .then(() => {
-                alert("글이 성공적으로 삭제되었습니다.");
-                // setBoard({ ...board, deleted: true }); // Update the board state to reflect the deletion
-                navigate(`/crowd/${crowdId}/board/all`); // 해당 크라우드의 보드로 이동
-            })
-            .catch(error => {
-                console.error("글을 삭제하는 동안 오류가 발생했습니다.", error);
-                alert("글 삭제 실패");
-            });
-    };
-
-    const handleEditClick = async (e) => {
-        navigate(`/crowd/${crowdId}/board/${crowdBoardId}/update`);
+    const fetchData = async () => {
+        try{
+            const response = await fetch(`/crowd/${crowdId}/board/${crowdBoardId}`);
+            if(response.ok) {
+                const data = await response.json();
+                console.log("응답데이터:", data);
+                setCrowdBoard(data);
+                setBoardUserId(data.userId);
+            } else {
+                console.error("빈 응답 데이터");
+                throw new Error(`Fetching crowd data failed with status ${response.status}.`);
+            }
+        } catch (error){
+            console.error("Error fetching Crowd data:", error);
+        }
     }
 
-    const renderBoard = (board) => {
-        if (board.deleted === true) {
-            return <p>이 글은 삭제되었습니다.</p>;
+    const deleteCrowdBoard = async (crowdId, crowdBoardId) => {
+        try{
+            await axios.delete(`/crowd/${crowdId}/board/${crowdBoardId}/delete`);
+            console.log("Deleted crowdBoard with ID:", crowdBoardId);
+            navigate(`/crowd/${crowdId}/board/all`);
+        } catch (error) {
+            console.error("Error in deleting crowdBoard:", error);
         }
-        return (
-            <div key={board.crowdBoardId}>
-                <h2>{board.crowdBoardTitle}</h2>
-                <p>{board.crowdBoardContent}</p>
-                <img src={board.crowdImg} alt={board.crowdBoardTitle} />
-                <p>게시된 날짜: {board.publishedAt}</p>
-                <p>수정된 날짜: {board.updatedAt}</p>
-                <p>삭제 여부 : {board.deleted ? "삭제됨" : "삭제되지 않음"}</p>
-                <button onClick={() => handleEditClick(board.crowdBoardId)}>Edit</button> {/* 수정 버튼 추가 */}
-                <button onClick={handleDelete}>글 삭제</button> {/* 삭제 버튼 추가 */}
-            </div>
-        );
+    }
+
+    const updateCrowdBoard = (crowdId, crowdBoardId) => {
+        navigate(`/crowd/${crowdId}/board/${crowdBoardId}/update`);
+    };
+
+    const handleBoardList = (crowdId) => {
+        navigate(`/crowd/${crowdId}/board/all`)
+    }
+
+    const formatDate = (dateTimeString) => {
+        if (!dateTimeString) return ""; 
+      
+        const formattedString = dateTimeString.replace("T", " ");
+      
+        return formattedString;
     };
 
     return (
         <div>
             <CrowdToolBar crowdId={crowdId} />
-            {board && renderBoard(board)}
+            <div>
+            <div id='board-detail-box'>
+            <Typography id='crowd-board-tag-dt' >
+                {crowdBoard.crowdBoardTag === 0 ? '새소식' : '공지사항'}
+            </Typography>
+            <Typography id='crowd-board-title-dt' >{crowdBoard.crowdBoardTitle}</Typography>
+            <Typography id='crowd-board-updatedAt-dt' >
+                {formatDate(crowdBoard.updatedAt)}
+            </Typography>
+            {/* 해당 글 작성자만 수정/삭제 가능 */}
+            {userId === boardUserId && (
+            <>
+                <Typography id='board-detail-upde'
+                onClick={() => updateCrowdBoard(crowdId, crowdBoardId)}
+                >
+                수정
+                </Typography>
+                <Typography id='board-detail-upde'
+                onClick={() => deleteCrowdBoard(crowdId, crowdBoardId)}
+                >
+                삭제
+                </Typography>
+            </>
+            )}
+            </div>
+            <hr id='crowd-board-line-dt'></hr>
+            <div id='board-content-box'>
+            <div id='crowd-board-content-dt' dangerouslySetInnerHTML={{ __html :  crowdBoard.crowdBoardContent  }}></div>
+            </div>
+            <hr id='crowd-board-line-dt'></hr>
+            <br />
+            <Button onClick={() => handleBoardList(crowdId)} variant="outlined" color="success">목록</Button>
+            </div>
         </div>
     );
 }
