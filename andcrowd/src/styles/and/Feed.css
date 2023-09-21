@@ -246,7 +246,7 @@
     min-width: 300px;
     margin:0 auto;
 }
-span{
+#cat-name{
     color: #565656;
     font-size: 80%;
     justify-content: center;
@@ -267,18 +267,19 @@ span{
 #top{
     font-weight: bold;
     font-size: 15px;
-    padding : 10px;
+    padding : 5px;
     background-color: #fff;
     color:#000;
-    border: 1px solid rgb(210, 204, 193);
+    border: 1px solid rgb(211, 211, 211);
     border-radius: 50%;
     outline: none;
     cursor: pointer;
     float: right;
     margin-right: 10%;
     position : fixed;
-    bottom : 4rem;
-    right : 6rem;
+    bottom : 5vw;
+    left : 20vh;
+    /* right: 14vh; */
 }
 #top:hover{
     color :#fff;

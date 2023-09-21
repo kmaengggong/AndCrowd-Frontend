@@ -93,6 +93,8 @@ import CrowdCreate1 from './pages/crowd/CrowdCreate1';
 import CrowdCreate2 from './pages/crowd/CrowdCreate2';
 import OrderDetail from './pages/user/OrderDetail';
 import UserInfo from './pages/user/UserInfo';
+import HelpChatbot from './pages/etc/HelpChatbot';
+import ContactSupportRoundedIcon from '@mui/icons-material/ContactSupportRounded';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -117,6 +119,17 @@ function App() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  // 챗봇 모달창 관리
+  const [isChatbotModalOpen, setIsChatbotModalOpen] = useState(false);
+
+  const openChatbotModal = () => {
+    setIsChatbotModalOpen(true);
+  };
+
+  const closeChatbotModal = () => {
+    setIsChatbotModalOpen(false);
+  };
 
   const maxWidth = Math.min(1320, windowWidth * 0.7); // 최대 너비를 1320px 또는 창 너비의 90% 중 작은 값으로 설정
 
@@ -265,6 +278,12 @@ function App() {
 
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <div>
+            <button id="chatbot" onClick={openChatbotModal}> <ContactSupportRoundedIcon sx={{ width: "30px", height: "30px", pr: "2px", pl: "2px" }}/></button>
+              {isChatbotModalOpen && (
+              <HelpChatbot onClose={closeChatbotModal}/>
+              )}
+          </div>
         </div>
       </div>
       <Footer />
