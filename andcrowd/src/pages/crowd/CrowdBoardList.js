@@ -1,64 +1,215 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
-import styles from '../../styles/crowd/CrowdBoardList.module.css';
+import { useParams, useNavigate } from "react-router-dom";
 import CrowdToolBar from "../../components/crowd/CrowdToolBar";
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { GetUserId } from "../../components/user/GetUserId";
+import ReactPaginate from 'react-paginate';
+import styled from 'styled-components';
+import { getUserNickname } from "../../components/and/userApi";
 
-
+const MyBoardPaginate = styled(ReactPaginate).attrs({
+    activeClassName: "active",
+  })`
+    margin: 50px 16px;
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0 5rem;
+    li a {
+      border-radius: 7px;
+      padding: 0.1rem 1rem;
+      cursor: pointer;
+    }
+    li.previous a,
+    li.next a {
+      color: #63b762;
+    }
+    li.active a {
+      color: #91cd96;
+      font-weight: 700;
+      min-width: 32px;
+    }
+    li.disabled a {
+      color: #a6a6a6;
+    }
+    li.disable,
+    li.disabled a {
+      cursor: default;
+    }
+  `;
 
 const CrowdBoardList = () => {
-    const [boards, setBoards] = useState([]);
-    const { crowdId } = useParams();
-    const { crowdBoardId } = useParams();
+    const params = useParams();
+    const crowdId = params.crowdId;
+    const crowdBoardId = params.crowdBoardId;
+    const userId = GetUserId(); // 현재 로그인한 사용자 ID
+
+    const [crowd, setCrowd] = useState({});
+    const [crowdBoardList, setCrowdBoardList] = useState([]);
+    const [pageCount, setPageCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [boardTag, setBoardTag] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`/crowd/${crowdId}/board/all`)
-            .then(response => {
-                setBoards(response.data);
-            })
-            .catch(error => {
-                console.error("잘못된 정보가 전달되었습니다.", error);
-            });
+       // 여기서 crowd.userId와 userId를 비교하여 버튼 활성화 여부 결정
+       if (crowd.userId === userId) {
+        // crowd 작성자와 로그인한 사용자가 같으면 버튼 활성화
+        console.log("현재 로그인한 사용자는 crowd 작성자입니다.");
+        } else {
+            // crowd 작성자와 로그인한 사용자가 다르면 버튼 비활성화
+            console.log("현재 로그인한 사용자는 crowd 작성자가 아닙니다.");
+        }
+    }, [crowd.userId, userId]);
+
+    const fetchCrowd = async () => {
+        try{
+            const response = await fetch(`/crowd/${crowdId}`);
+            if(response.ok) {
+                const data = await response.json();
+                console.log("전달된 데이터:", data);
+                setCrowd(data);
+            } else {
+                throw new Error(`HTTP Error: ${response.status}`);
+            }
+        } catch (error){
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [crowdId, currentPage]);
+
+    useEffect(() => { // 전체 페이지 수 카운트
+        const fetchCount = async () => {
+            try {
+                const response = await fetch(`/crowd/${crowdId}/board/all/count`);
+                const data = await response.json();
+                console.log(data);
+                setPageCount(Math.ceil(data / 5));
+            } catch (error) {
+                console.error("Error fetching page count:", error);
+            }
+        }
+        fetchCount();
     }, [crowdId]);
 
-    const teg0Boards = boards.filter(board => board.crowdBoardTag === 0);
-    const teg1Boards = boards.filter(board => board.crowdBoardTag === 1);
+    const fetchData = async () => { // userId 불러오기
+        try{
+            const response = await fetch(`/crowd/${crowdId}/board/all?page=${currentPage}`);
+            if(response.ok) {
+                const data = await response.json();
 
-    const renderBoard = (board) => (
-        <li key={board.crowdBoardId}>
-            <Link to={`/crowd/${crowdId}/board/${board.crowdBoardId}`}>
-                <h2>{board.crowdBoardTitle}</h2>
-            </Link>
-            <p>{board.crowdBoardContent}</p>
-            <img src={board.crowdImg} alt={board.crowdBoardTitle} />
-            <p>게시된 날짜: {formatDate(board.publishedAt)}</p>
-            <p>수정된 날짜: {formatDate(board.updatedAt)}</p>
-            {board.isDeleted ? <p>이 글은 삭제되었습니다.</p> : null}
-        </li>
-    );
+                for(const crowdBoard of data) {
+                    const userNickname = await getUserNickname(crowdBoard.userId);
+                    crowdBoard.userNickname = userNickname;
+                }
+                setCrowdBoardList(data);
+            } else {
+                throw new Error(`Fetching CrowdBoard data failed with status ${response.status}.`);
+            }
+        } catch (error) {
+            console.error("Error fetching CrowdBoard data:", error);
+        }   
+    };
 
-    const formatDate = (dateTimeString) => { // 날짜, 시간 사이의 TimeZone 표시 제거
-        if (!dateTimeString) return ""; 
+    const sortedCrowdBoardList = crowdBoardList.sort((a, b) => { // 공지, 새소식 구분해주는 함수
+        if(a.crowdBoardTag === 0 && b.crowdBoardTag !== 0){
+            return -1;
+        } else if (a.crowdBoardTag !== 0 && b.crowdBoardTag === 0) {
+            return 1;
+        } else {
+            return b.crowdBoardId - a.crowdBoardId;
+        }
+    });
+
+    const createBoard = (crowdId) => { // 글생성
+        navigate(`/crowd/${crowdId}/board`);
+    };
+
+    const handleClickBoard = (crowdBoard) => {
+        navigate(`/crowd/${crowdId}/board/${crowdBoard.crowdBoardId}`);
+    }    
+
+    const formatDate = (dateTimeString) => { // 작성일 표기
+        if (!dateTimeString) return "";
       
-        const formattedString = dateTimeString.replace("T", " ");
+        const dateObject = new Date(dateTimeString);
+        const year = dateObject.getFullYear();
+        const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+        const day = String(dateObject.getDate()).padStart(2, "0");
+      
+        const formattedString = `${year}-${month}-${day}`;
       
         return formattedString;
     };
 
     return (
-        <div>
-            <CrowdToolBar crowdId = {crowdId} />
-            <h3>crowdBoardTeg가 0(새소식)인 게시판:</h3>
-            <ul>
-                {teg0Boards.map(renderBoard)}
-            </ul>
+        <div id='crowd-board-container'>
+            <CrowdToolBar crowdId={crowdId} />
+            <div className="title">
+                <h3>Board</h3>
+                {crowd.userId && userId ? (
+                <Button onClick={() => createBoard(crowdId)} variant="outlined" color="success">
+                    공지글 작성
+                </Button>
+                ) : (
+                    <p>Read Only</p>
+                )}
+            </div>
+            <div id="board-box">
+                {/* crowd글 작성자만 글 작성 가능 */}
+                <div className="create">
+                    
+                </div>
+                <TableContainer>
+                    <Table size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center">구분</TableCell>
+                            <TableCell align="center">제목</TableCell>
+                            <TableCell align="center">작성일</TableCell>
+                        </TableRow>
+                    </TableHead>
 
-            <h3>crowdBoardTeg가 1(공지)인 게시판:</h3>
-            <ul>
-                {teg1Boards.map(renderBoard)}
-            </ul>
-            <Link to={`/crowd/${crowdId}/board`}>글 작성</Link>
+                    <TableBody>
+                    {sortedCrowdBoardList.map((crowdBoard) => (
+                        <>
+                        <TableRow hover style={{height: 50}} 
+                            key={crowdBoard.crowdBoardId}
+                            className={crowdBoard.crowdBoardTag === 0 ? 'notice' : ''}>
+                            <TableCell align="center" sx={{ width: "10%", borderBottom: "none" }}>
+                                {crowdBoard.crowdBoardTag === 0 ? (<p>새소식</p>) : (<p>공지사항</p>)}
+                            </TableCell>
+                            <TableCell align="center">
+                                <Button onClick={() => handleClickBoard}>
+                                    {crowdBoard.crowdBoardTitle}
+                                </Button>
+                            </TableCell>
+                            <TableCell align="center">
+                                {formatDate(crowdBoard.updatedAt)}
+                            </TableCell>
+                        </TableRow>
+                        </>
+                    ))}
+                    </TableBody>
+                    </Table>
+                </TableContainer>
+
+                <MyBoardPaginate
+                    pageCount={pageCount}
+                    onPageChange={({ selected }) => setCurrentPage(selected)}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                    previousLabel="< "
+                    nextLabel=" >"  
+                    pageRangeDisplayed={5}
+                    marginPagesDisplayed={0}
+                    breakLabel="..."
+                    renderOnZeroPageCount={null}
+                    />
+            </div>
         </div>
     );
 }

@@ -7,6 +7,7 @@ import AndCreateImg from "../../components/and/AndCreateImg";
 import { InputAdornment, TextField, Typography } from "@mui/material";
 import { GetUserId } from '../../components/user/GetUserId'; 
 import CrowdCreateImg from "../../components/crowd/CrowdCreateImg";
+import CrowdCategoryCreate from "./CrowdCategoryCreate";
 
 const CrowdCreate2 = () => {
     const navigate = useNavigate();
@@ -70,7 +71,7 @@ const CrowdCreate2 = () => {
         const date = new Date(value);
 
         // Date 객체의 시간 부분을 "00:00:00.000000"으로 설정
-        date.setHours(0, 0, 0, 0);
+        date.setUTCHours(0, 0, 0, 0);
     
         // Date 객체를 datetime-local 형식으로 변환
         const formattedDate = `${date.toISOString().slice(0, 16)}`;
@@ -120,7 +121,7 @@ const CrowdCreate2 = () => {
         if (response.ok) {
             const responseData = await response.json();
             const crowdId = responseData;
-            navigate(`/crowd/${crowdId}/create/editer`);
+            navigate(`/crowd/${crowdId}/create/editor`);
         } else {
             throw new Error(`Request failed with status ${response.status}`);
         }
@@ -132,29 +133,19 @@ const CrowdCreate2 = () => {
     return (
         <div id='crowd-create2-container'>
         <form  id='crowd-create-form' onSubmit={handleNextButtonClick}>
-            <div id='crowdd-create2-box'>
+            <div id='crowd-create2-box'>
+                <br />
                 <Typography id='crowd-kind-text'>어떤 종류의 모임인가요?</Typography>
-                <select
-                    name="crowdCategoryId"
+                    <CrowdCategoryCreate
                     value={formData.crowdCategoryId}
-                    onChange={handleCategoryChange}
-                    id = 'crowdd-create-category'
-                    required
-                >
-                <option value="1">카테고리 선택</option>
-                <option value="2">문화 예술</option>
-                <option value="3">액티비티 스포츠</option>
-                <option value="4">테크 가전</option>
-                <option value="5">푸드</option>
-                <option value="6">언어</option>
-                <option value="7">여행</option>
-                <option value="8">반려동물</option>
-                <option value="9">기타</option>
-                </select>
+                    onChange={handleCategoryChange} 
+                    />
+                <br />
                 <Typography id='crowd-date-text'>언제까지 펀딩할 계획인가요?</Typography>
                 <div id='crowd-create2-mid'>
-                <input id = 'crowd-create-date' type="date" name="crowdEndDate"  onChange={handleDateChange} placeholder="마감일"  required/>
+                    <input id = 'crowd-create-date' type="date" name="crowdEndDate"  onChange={handleDateChange} placeholder="마감일" required/>
                 </div>
+                <br />
                 <Typography id='crowd-date-text'>목표금액은 얼마인가요?</Typography>
                 <TextField
                   fullWidth
@@ -173,7 +164,7 @@ const CrowdCreate2 = () => {
                     )
                   }}
                 />
-                <Typography id='crowdd-date-text'>대표사진을 첨부해 주세요</Typography>
+                <Typography id='crowd-date-text'>대표사진을 첨부해 주세요</Typography>
                 <CrowdCreateImg />
             </div>
             <div id="submit-btn-div">
