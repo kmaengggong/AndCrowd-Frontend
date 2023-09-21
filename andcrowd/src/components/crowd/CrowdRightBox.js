@@ -18,10 +18,10 @@ const CrowdComponent = () => {
 
   const [crowd, setCrowd] = useState({});
   const [isLiked, setIsLiked] = useState(null);
-  const [userId, setUserId] = useState('');
   const [crowdUserId, setCrowdUserId] = useState(null);
   const [userInfo, setUserInfo] = useState([]);
   const [selectedSection, setSelectedSection] = useState("crowdBoard");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const categoryMap = {
     1: '문화 예술',
@@ -35,10 +35,11 @@ const CrowdComponent = () => {
   };
 
   useEffect(() => {
-    setUserId(GetUserId());
     fetchIsLiked();
     fetchData();
   }, [crowdId, isLiked]);
+
+  const userId = GetUserId();
 
   const fetchData = async () => {
     try {
@@ -104,6 +105,26 @@ const CrowdComponent = () => {
     }
   };
 
+  useEffect(() => {
+    checkUserPermission();
+  },[crowdId]);
+
+  const checkUserPermission = async () => {
+    try{
+      const response = await fetch(`/crowd/${crowdId}/user-check/${userId}`);
+
+      if(response.ok) {
+        const data = await response.json();
+        setIsAdmin(data);
+        console.log("Server response:", data);
+      } else {
+        throw new Error(`Fetching admin status failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error checking admin status:", error);
+    }
+  }
+
   const updateCrowd = (crowdId) => {
     navigate(`/crowd/${crowdId}/update`);
   };
@@ -165,8 +186,12 @@ const CrowdComponent = () => {
         <Chip variant="outlined" sx={{ mt: 1, fontWeight: 'light', color: '#787878' }}>
           {categoryMap[crowd.crowdCategoryId]}
         </Chip>
-        <button onClick={() => updateCrowd(crowd.crowdId)}>edit</button>
-        <button onClick={() => deleteCrowd(crowd.crowdId)}>delete</button>
+        {isAdmin && (
+          <>
+            <button onClick={() => updateCrowd(crowd.crowdId)}>edit</button>
+            <button onClick={() => deleteCrowd(crowd.crowdId)}>delete</button>
+          </>
+        )}
         <span className="shareBtn"
           onClick={() => handleCopyClipBoard(`${window.location.origin}${window.location.pathname}`)}>
           [공유]
