@@ -63,10 +63,10 @@ const CrowdList = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [rolesData, setRolesData] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [popularCrowd, setPopularCrowd] = useState([]);
 
   // CrowdMainImg에서 사용할 이미지 배열
   const [carouselImages, setCarouselImages] = useState([
-    { imageColor: "blue", imageUrl: "https://images.pexels.com/photos/5076531/pexels-photo-5076531.jpeg?auto=compress&cs=tinysrgb&w=600&h=400" },
     { imageColor: "yellow", imageUrl: "https://images.pexels.com/photos/1252500/pexels-photo-1252500.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
     { imageColor: "green", imageUrl: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
   ]);
@@ -76,6 +76,7 @@ const CrowdList = () => {
       const response = await fetch('/crowd/popular/top5');
       const jsonData = await response.json();
       console.log("fetchPopularCrowd: ", jsonData);
+      setPopularCrowd(jsonData);
     } catch (error) {
       console.error('Error fetching popular crowd:', error);
     }
@@ -186,11 +187,11 @@ const CrowdList = () => {
 
   return (
     <div>
-      <div className={styles.carousel}>
+      <div className={styles.carousel} style={{ width: '90%', margin: '0 auto' }}>
         {/* 화면상단 인기/추천 게시글 */}
-        <Box sx={{ borderRadius: 'sm', p: 1}}>
+        <Box sx={{ borderRadius: 'sm', p: 2}}>
           <AspectRatio objectFit="contain" maxHeight={200}>
-            <CrowdMainImg images={carouselImages} />
+            <CrowdMainImg images={popularCrowd} />
           </AspectRatio>
         </Box>
       </div>{/* 카테고리 */}
@@ -253,13 +254,14 @@ const CrowdList = () => {
                 sx={{ boxShadow: 'lg', cursor: 'pointer' }}
                 onClick={() => navigateToDetail(crowd.crowdId)}
               >
-                <CardOverflow>
+                <CardOverflow style={{ maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}>
                   <AspectRatio sx={{ minWidth: 200 }}>
                     <img
                       src={crowd.headerImg}  
                       srcSet={`${crowd.headerImg}?auto=format&fit=crop&w=286&dpr=2 2x`}
                       loading="lazy"
                       alt=""
+                      style={{ width: '100%', height: 'auto' }}
                     />
                   </AspectRatio>
                 </CardOverflow>

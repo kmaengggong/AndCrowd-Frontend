@@ -14,7 +14,8 @@
 }
 
 .linkToCreate:hover {
-    background-color: white;
+    background-color: rgba(228, 228, 228, 0.768);
+    color: #097626;
     opacity: 1;
 }
 
