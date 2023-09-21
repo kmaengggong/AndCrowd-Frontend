@@ -65,9 +65,9 @@ const CrowdQnaList = (props) => {
   const { row } = props;
   const [openQna, setOpenQna] = useState(false);
   const [qnaReplyData, setQnaReplyData] = useState({});
-  const [isCrowdUser, setIsCrowdUser] = useState(false); // crowd작성자 여부
-  
-  const userId = GetUserId(); // 현재 로그인한 user
+  const [isAdmin, setIsAdmin] = useState(false); // crowd작성자 여부
+
+  const userId = GetUserId();
 
   const [openModal, setOpenModal] = useState(false);
   const handleCloseModal = () => setOpenModal(false);
@@ -106,6 +106,29 @@ const CrowdQnaList = (props) => {
     qnaReplyContent: "",
   });
 
+  useEffect(() => {
+    checkUserPermission();
+  }, [crowdId]);
+
+  const crowdQnaId = params.crowdQnaId;
+
+  const checkUserPermission = async () => {
+    try{
+      const userId = GetUserId();
+      const response = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/user-check/${userId}`);
+
+      if(response.ok) {
+        const isAdmin = await response.json();
+        setIsAdmin(isAdmin);
+        console.log(isAdmin);
+      } else {
+        throw new Error(`Fetching admin status failed with status ${response.status}.`);
+      }
+    } catch (error){
+      console.error("Error checking admin status:", error);
+    }
+  }
+
   const fetchQnaReplyData = async (crowdId, crowdQnaId, qnaReplyId) => {
     try {
       const response = await fetch(
@@ -114,6 +137,9 @@ const CrowdQnaList = (props) => {
 
       if (response.ok) {
         const data = await response.json();
+        if (!isAdmin) {
+          alert("답변은 펀딩글 제작자만 가능합니다.");
+        }
         setReplyFormData(data);
       } else {
         throw new Error(
@@ -514,7 +540,7 @@ const CrowdQnaList = (props) => {
                                   </TableRow>
                                   <TableRow>
                                     <TableCell align="right" colSpan={4} sx={{ padding: 2, paddingBottom: 4, paddingRight: 5}}>
-                                        {/* qna 작성자만 수정/삭제 가능 */}
+                                      {/* qna 작성자만 수정/삭제 가능 */}
                                       {userId === crowdQna.userId && (
                                         <>
                                           <Button size="small" sx={{ minWidth: "40px" }}
@@ -566,7 +592,7 @@ const CrowdQnaList = (props) => {
                                                 {comment.qnaReplyContent}
 
                                                 {/* 해당 답변 작성자만 수정/삭제 가능 */}
-                                                {userId === comment.userId && (
+                                                {userId === crowdQna.userId && (
                                                   <>
                                                   <Button size="small" sx={{minWidth: "40px", ml: 2}}
                                                     onClick={() => {handleOpenReplyModal(crowdId, crowdQna.crowdQnaId, comment.qnaReplyId);
@@ -608,7 +634,7 @@ const CrowdQnaList = (props) => {
                                     </TableRow>
                                   )}
                                   {/* 관리자인 경우에만 qna 댓글 작성 가능 */}
-                                  { userId === crowdId.userId && (
+                                  { isAdmin && (
                                     <TableRow>
                                     <TableCell colSpan={3} sx={{ padding: 2, paddingLeft: 10, paddingBottom: 0, paddingTop: 3, borderBottom: "none" }}>
                                       <TextField
