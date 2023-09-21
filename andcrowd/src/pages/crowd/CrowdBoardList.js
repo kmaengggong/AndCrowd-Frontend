@@ -121,8 +121,8 @@ const CrowdBoardList = () => {
         navigate(`/crowd/${crowdId}/board`);
     };
 
-    const handleClickBoard = (crowdBoard) => {
-        navigate(`/crowd/${crowdId}/board/${crowdBoard.crowdBoardId}`);
+    const handleClickBoard = (crowdBoardId) => {
+        navigate(`/crowd/${crowdId}/board/${crowdBoardId}`);
     }    
 
     const formatDate = (dateTimeString) => { // 작성일 표기
@@ -172,7 +172,7 @@ const CrowdBoardList = () => {
                                 {crowdBoard.crowdBoardTag === 0 ? (<p>새소식</p>) : (<p>공지사항</p>)}
                             </TableCell>
                             <TableCell align="center">
-                                <Button onClick={() => handleClickBoard}>
+                                <Button onClick={() => handleClickBoard(crowdBoard.crowdBoardId)}>
                                     {crowdBoard.crowdBoardTitle}
                                 </Button>
                             </TableCell>
