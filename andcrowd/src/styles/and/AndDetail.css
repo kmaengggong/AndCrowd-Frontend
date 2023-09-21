@@ -203,18 +203,24 @@
     min-width: 50%;
 }
 #roles{
-    display: inline;
     margin-right: 7px;
+    margin-top: 0px;
+    margin-bottom: 6px;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 90%;
     border: 1px rgb(60, 135, 67) solid;
     border-radius: 15px;
-    padding: 4px 10px 5px;
+    padding: 3px 6px 3px;
     color: rgb(34, 77, 38);
+    overflow-wrap: break-word;
+    min-width: fit-content;
 }
 .roleBox{
     margin-left: 15%;
     margin-right: 15%;
+    white-space: normal;
+    display: flex;
+    flex-wrap: wrap;
 }
 .applyBox{
     margin-left: 15%;

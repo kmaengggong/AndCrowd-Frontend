@@ -372,9 +372,9 @@ const AndComponent = ({ }) => {
       </div>
       <div className='roleBox'>  
         {rolesData.map((role) => (
-          <span id='roles' key={role.andRoleId}>
+          <p id='roles' key={role.andRoleId}>
             #{role.andRole}
-          </span>
+          </p>
         ))}
       </div>
       <hr style={{ margin: '20px auto', width: '70%' }}></hr>
@@ -405,8 +405,8 @@ const AndComponent = ({ }) => {
         <button id='go-and' onClick={() => applyAnd(and.andId)}>모임 참가하기</button>
         )}
       </Box>
-      { isMember && (
-      <button id='go-chat' onClick={() => andChat(and.andId)}>채팅방으로 이동하기</button>
+      {isMember && (and.andStatus === 1 || and.andStatus === 3) && (
+        <button id='go-chat' onClick={() => andChat(and.andId)}>채팅방으로 이동하기</button>
       )}
       <button variant="text" aria-describedby={id} id ='go-member' onClick={handleClickMembers}>
         ▼ 참여중인 멤버

@@ -58,3 +58,23 @@ a:hover{
 .main-content{
   flex: 1;
 }
+#chatbot{
+  font-weight: bold;
+  font-size: 15px;
+  padding : 10px;
+  background-color: #fff;
+  color:#1c8b3a;
+  border: 1px solid rgb(207, 207, 207);
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  float: right;
+  margin-right: 10%;
+  position : fixed;
+  bottom : 5vw;
+  right : 0vh;
+}
+#chatbot:hover{
+  color :#fff;
+  background-color: #1c8b3a;
+}
