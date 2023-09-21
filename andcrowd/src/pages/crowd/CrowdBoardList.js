@@ -10,7 +10,7 @@ import { getUserNickname } from "../../components/and/userApi";
 const MyBoardPaginate = styled(ReactPaginate).attrs({
     activeClassName: "active",
   })`
-    margin: 50px 16px;
+    margin: 50px auto;
     display: flex;
     justify-content: center;
     list-style-type: none;
@@ -49,37 +49,30 @@ const CrowdBoardList = () => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [boardTag, setBoardTag] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-       // 여기서 crowd.userId와 userId를 비교하여 버튼 활성화 여부 결정
-       if (crowd.userId === userId) {
-        // crowd 작성자와 로그인한 사용자가 같으면 버튼 활성화
-        console.log("현재 로그인한 사용자는 crowd 작성자입니다.");
-        } else {
-            // crowd 작성자와 로그인한 사용자가 다르면 버튼 비활성화
-            console.log("현재 로그인한 사용자는 crowd 작성자가 아닙니다.");
-        }
-    }, [crowd.userId, userId]);
-
-    const fetchCrowd = async () => {
-        try{
-            const response = await fetch(`/crowd/${crowdId}`);
-            if(response.ok) {
-                const data = await response.json();
-                console.log("전달된 데이터:", data);
-                setCrowd(data);
-            } else {
-                throw new Error(`HTTP Error: ${response.status}`);
-            }
-        } catch (error){
-            console.error(error);
-        }
-    }
-
-    useEffect(() => {
         fetchData();
+        checkUserPermission();
     }, [crowdId, currentPage]);
+
+    const checkUserPermission = async () => {
+        try {
+          const userId = GetUserId();
+          const response = await fetch(`/crowd/${crowdId}/board/user-check/${userId}`);
+      
+          if (response.ok) {
+            const isAdmin = await response.json();
+            setIsAdmin(isAdmin);
+            console.log(isAdmin);
+          } else {
+            throw new Error(`Fetching admin status failed with status ${response.status}.`);
+          }
+        } catch (error) {
+          console.error("Error checking admin status:", error);
+        }
+    };
 
     useEffect(() => { // 전체 페이지 수 카운트
         const fetchCount = async () => {
@@ -150,7 +143,7 @@ const CrowdBoardList = () => {
             <CrowdToolBar crowdId={crowdId} />
             <div className="title">
                 <h3>Board</h3>
-                {crowd.userId && userId ? (
+                {isAdmin && userId ? (
                 <Button onClick={() => createBoard(crowdId)} variant="outlined" color="success">
                     공지글 작성
                 </Button>
@@ -159,10 +152,6 @@ const CrowdBoardList = () => {
                 )}
             </div>
             <div id="board-box">
-                {/* crowd글 작성자만 글 작성 가능 */}
-                <div className="create">
-                    
-                </div>
                 <TableContainer>
                     <Table size="small">
                     <TableHead>
