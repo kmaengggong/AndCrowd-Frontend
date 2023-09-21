@@ -1,19 +1,16 @@
 import { Button, Grid, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { GetUserId } from "../../components/user/GetUserId";
 
 const UserPasswordChange = () => {
-    const [userId, setUserId] = useState(null);
+    const params = useParams();
+    const userId = params.userId;
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [isPasswordEqual, setIsPasswordEqual] = useState(true);
     const [isPasswordValid, setIsPasswordValid] = useState(false);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        setUserId(GetUserId());
-    }, []);
 
     useEffect(() => {
         if(passwordCheck.match(password)){
@@ -23,7 +20,7 @@ const UserPasswordChange = () => {
             setIsPasswordEqual(false);
         }
     }, [password, passwordCheck]);
-  
+    
     useEffect(() => {
         if(isPasswordEqual && password.length>0){
             setIsPasswordValid(true);

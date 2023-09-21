@@ -115,7 +115,7 @@ const AndCreate1 = () => {
           >
             <option value="">없음</option>
             {userCrowd.map((crowd) => (
-              <option value={crowd.projectId}>[{crowd.projectId}] {crowd.projectTitle}</option>
+              <option value={crowd.crowdId}>[{crowd.crowdId}] {crowd.crowdTitle}</option>
             ))}
           </select>
 
