@@ -110,8 +110,10 @@ const CrowdRewardCreate = () => {
   };
 
   return (
-    <div>
+    <Box component="form" noValidate sx={{ mt: 3 }}>
       <div className="crowd-reward-create-container">
+      <h3>프로젝트 리워드 설계</h3>
+      <h4>서포터님들에게 제공할 리워드를 입력해 주세요.</h4>
       <form>
         <div className="form-group">
           <label>리워드명:</label>
@@ -158,41 +160,37 @@ const CrowdRewardCreate = () => {
           />
         </div>
         <div className="form-group" id="button-container">
-          <button id='reward-submit-btn' onClick={handleRewardAdd}>
-            추가
-          </button>
+          <Button variant="contained" color="primary" onClick={handleRewardAdd}>
+            리워드 추가
+          </Button>
         </div>
       </form>
 
       <div>
-        <h2>추가된 리워드</h2>
-        <ul className="reward-role-list">
-          {rewards.map((reward, index) => (
-            <li key={index}>
-              <strong>리워드 제목:</strong> {reward.rewardTitle}<br />
-              <strong>리워드 본문:</strong> {reward.rewardContent}<br />
-              <strong>리워드 금액:</strong> {reward.rewardAmount}원<br />
-              <strong>리워드 수량:</strong> {reward.rewardLimit}개<br />
-              <button onClick={() => handleRewardDelete(index)}>리워드 삭제</button>
-            </li>
-          ))}
-        </ul>
+          <h2>추가된 리워드</h2>
+          <ul className="reward-role-list">
+            {rewards.map((reward, index) => (
+              <li key={index}>
+                <strong>리워드 제목:</strong> {reward.rewardTitle}<br />
+                <strong>리워드 본문:</strong> {reward.rewardContent}<br />
+                <strong>리워드 금액:</strong> {reward.rewardAmount}원<br />
+                <strong>리워드 수량:</strong> {reward.rewardLimit}개<br />
+                <button onClick={() => handleRewardDelete(index)}>리워드 삭제</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <button id='role-next-btn' onClick={sendDataToServer}>
+          다음
+        </button>
       </div>
-      <button id='role-next-btn' onClick={sendDataToServer}>
-        다음
-      </button>
-    </div>
-      <h3>프로젝트 리워드 설계</h3>
-      <span>서포터님들에게 제공할 리워드를 입력해 주세요.</span>
-      <Box component="form" noValidate sx={{ mt: 3 }}>
+      
+      {/* <Box component="form" noValidate sx={{ mt: 3 }}>
         <Grid>
           {renderTextField("rewardTitle", "리워드 제목")}
           {renderTextField("rewardContent", "리워드 본문")}
           {renderTextField("rewardAmount", "리워드 금액", "number")}
           {renderTextField("rewardLimit", "리워드 수량", "number")}
-          <Button variant="contained" color="primary" onClick={handleRewardAdd}>
-            리워드 추가
-          </Button>
           <div>
             <h4>입력된 리워드</h4>
             <ul>
@@ -217,8 +215,8 @@ const CrowdRewardCreate = () => {
             다음
           </Button>
         </Container>
-      </Box>
-    </div>
+      </Box> */}
+    </Box>
   );
 };
 

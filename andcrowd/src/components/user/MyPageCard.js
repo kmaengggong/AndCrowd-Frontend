@@ -5,33 +5,45 @@ import Chip from '@mui/joy/Chip';
 import Link from '@mui/joy/Link';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Typography from '@mui/joy/Typography';
-import { Grid } from '@mui/material';
+import { CardActionArea, CardActions, Grid, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import Chat from '@mui/icons-material/Chat';
 
 const MyPageCard = ({project, type}) => {
     const projectId = {
         and: project.andId,
         order: project.crowdId,
         like: project.projectId,
+        makerAnd: project.andId,
+        makerCrowd: project.crowdId
     };
     const projectImg = {
         and: project.andHeaderImg,
-        order: project.crowdHeaderImg,
+        order: project.headerImg,
         like: project.projectHeaderImg,
+        makerAnd: project.andHeaderImg,
+        makerCrowd: project.headerImg
     };
     const projectTitle = {
         and: project.andTitle,
         order: project.crowdTitle,
         like: project.projectTitle,
+        makerAnd: project.andTitle,
+        makerCrowd: project.crowdTitle
     };
     const projectCategory = {
         and: project.andCategoryId,
         order: project.crowdCategoryId,
         like: '',
+        makerAnd: project.andContent,
+        makerCrowd: project.crowdContent
     };
     const types = {
         and: 'and',
         order: 'crowd',
         like: project.projectType === 0 ? 'and' : 'crowd',
+        makerAnd: 'and',
+        makerCrowd: 'crowd'
     };
     const categoryMap = {
         1: '문화 예술',
@@ -43,6 +55,8 @@ const MyPageCard = ({project, type}) => {
         7: '반려동물',
         8: '기타',
       };
+
+    const navigate = useNavigate();
     
     return (
         <Card sx={{ maxWidth: '100%', boxShadow: 'lg' }}>
@@ -55,11 +69,14 @@ const MyPageCard = ({project, type}) => {
                 }
                 </AspectRatio>
             </CardOverflow>
+            <Grid container>
+            <Grid item xs={10}>
             <CardContent>
                 <Chip component="span" size="sm" variant="soft" color="success">
                     {/* (마감일자 - 현재일자)자료 불러오기 */}
                     <b>10</b> 일 남음
                 </Chip>
+                
                 <Link
                     href={`/${types[type]}/` + projectId[type]}
                     fontWeight="md"
@@ -78,6 +95,17 @@ const MyPageCard = ({project, type}) => {
                     {categoryMap[projectCategory[type]]}
                 </Typography>
             </CardContent>
+            </Grid>
+            {(type === 'and' || type ==='makerAnd') &&
+            <Grid item xs={2}>
+                <CardActionArea sx={{height:15}}>
+                    <IconButton onClick={() => navigate(`/and/${projectId[type]}/chat`)}>
+                        <Chat sx={{color:'#00D337'}}/>
+                    </IconButton>
+                </CardActionArea>
+            </Grid>
+            }
+            </Grid>
         </Card>
     );
 }

@@ -107,32 +107,62 @@
 }
 #and-detail-bottom{
     display: flex;
-    margin-left: 80%;
+    /* margin-left: 80%; */
+    margin-left: 15%;
+    margin-right: 15%;
+    justify-content: center;
 }
 
-#and-detail-upde{
+#and-detail-up{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     color: #000000;
-    margin-left: 15%;
-    margin-top: 20%;
-    padding-top: 1%;
+    background-color: #d7e4ff;
+    border-radius: 10px;
     text-decoration: none;
     cursor: pointer;
+    min-width: fit-content;
+    padding: 2px 8px;
+    padding-bottom: 3px;
+    margin-top: 16px;
+    margin-right: 3px;
+}
+#and-detail-de{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    background-color: #ffd7d7;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    /* margin: 0px 5px; */
+    padding: 2px 8px;
+    min-width: fit-content;
+    margin-top: 16px;
+    padding-bottom: 3px;
+    margin-left: 3px;
 }
 #and-detail-2{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     color: #000000;
-    margin-left: 15%;
-    padding-top: 1%;
+    background-color: #fff9d7;
+    border-radius: 10px;
     text-decoration: none;
     cursor: pointer;
-    margin-top: 10%;
+    min-width: fit-content;
+    padding: 2px 16px;
+    padding-bottom: 3px;
+    margin-top: 8px;
 }
 #and-detail-bottom2{
     display: flex;
-    margin-left: 80%;
+    margin-left: 15%;
+    margin-right: 15%;
+    justify-content: center;
+}
+#and-user-button{
+    min-width: fit-content;
 }
 #and-header-img{
     width: 50%;
@@ -161,6 +191,7 @@
 .andUser{
     margin: 20px;
     margin-left: 16%;
+    margin-right: 16%;
 }
 #follow{
     font-family: 'Noto Sans KR', sans-serif;
@@ -203,18 +234,24 @@
     min-width: 50%;
 }
 #roles{
-    display: inline;
     margin-right: 7px;
+    margin-top: 0px;
+    margin-bottom: 6px;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 90%;
     border: 1px rgb(60, 135, 67) solid;
     border-radius: 15px;
-    padding: 4px 10px 5px;
+    padding: 3px 6px 3px;
     color: rgb(34, 77, 38);
+    overflow-wrap: break-word;
+    min-width: fit-content;
 }
 .roleBox{
     margin-left: 15%;
     margin-right: 15%;
+    white-space: normal;
+    display: flex;
+    flex-wrap: wrap;
 }
 .applyBox{
     margin-left: 15%;

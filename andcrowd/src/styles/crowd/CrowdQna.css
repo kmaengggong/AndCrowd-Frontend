@@ -53,24 +53,8 @@
 #go-crowd:hover{
     background-color: #24c44f;
 }
-/* #go-chat{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    background-color: #00D337;
-    border: none;
-    color: white;
-    cursor: pointer;
-    width: 65%;
-    margin-left: 18%;
-    margin-top: 3%;
-    height: 7vh;
-    border-radius: 7px;
-}
-#go-chat:hover{
-    background-color: #24c44f;
-} */
-#and-content{
+
+#crowd-content{
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 18px;
     font-weight: 500;
@@ -94,20 +78,7 @@
     font-weight: 500;
     margin-left: 2vw;
 }
-/* #go-member{
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    background-color: white;
-    border: none;
-    color: #00D337;
-    cursor: pointer;
-    width: 65%;
-    margin-left: 35%;
-    margin-top: 5%;
-    height: 7vh;
-    border-radius: 7px;
-} */
+
 #right-top-box{
     width: 30vw;
     height: 70vh;
@@ -117,17 +88,17 @@
     display: flex;
     justify-content: center;
     margin-top: 1rem;
-  }
+}
 
-  .pagination li {
+.pagination li {
     list-style: none;
     margin-right: 0.5rem;
     cursor: pointer;
-  }
+}
 
-  .pagination .active {
+.pagination .active {
     font-weight: bold;
-  }
+}
 
 #qna-box{
     padding: 20px;

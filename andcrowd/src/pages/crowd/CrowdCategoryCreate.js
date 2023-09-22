@@ -50,10 +50,9 @@ const CrowdCategoryCreate = ({ value, onChange }) => {
         name="crowdCategoryId"
         select
         value={value}
-        // onChange={(event) => onCategorySelect(event.target.value)}
         onChange={onChange}
       >
-        <MenuItem value="">--카테고리 선택--</MenuItem>
+        <MenuItem value="0">--카테고리 선택--</MenuItem>
         {categories.map((category) => (
           <MenuItem key={category.name} value={category.name}>
             {category.text}

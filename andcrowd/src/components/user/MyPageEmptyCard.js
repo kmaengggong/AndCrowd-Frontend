@@ -23,11 +23,11 @@ const MyPageEmtpyCard = ({type}) => {
         makerCrowd: "좋은 아이템이 있나요? 펀딩을 시작해보세요!"
     };
     const types = {
-        and: "/and/list",
+        and: "/and/scroll",
         order: "/crowd/list",
-        like: "/and/list",
-        makerAnd: "/and/create",
-        makerCrowd: "/crowd/create"
+        like: "/and/scroll",
+        makerAnd: "/and/create1",
+        makerCrowd: "/crowd/create1"
     };
 
     return (

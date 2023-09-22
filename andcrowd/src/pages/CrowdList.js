@@ -16,6 +16,7 @@ import CrowdCategoryList from "./crowd/CrowdCategoryList";
 import CrowdMainImg from "./crowd/CrowdMainImg";
 import styled from 'styled-components';
 import ReactPaginate from 'react-paginate';
+import {  Grid } from "@mui/material";
 
 const MyPaginate = styled(ReactPaginate).attrs({
   activeClassName: "active",
@@ -62,14 +63,28 @@ const CrowdList = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [rolesData, setRolesData] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [popularCrowd, setPopularCrowd] = useState([]);
 
   // CrowdMainImg에서 사용할 이미지 배열
   const [carouselImages, setCarouselImages] = useState([
-    { imageColor: "blue", imageUrl: "https://images.pexels.com/photos/5076531/pexels-photo-5076531.jpeg?auto=compress&cs=tinysrgb&w=600&h=400" },
     { imageColor: "yellow", imageUrl: "https://images.pexels.com/photos/1252500/pexels-photo-1252500.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
     { imageColor: "green", imageUrl: "https://images.pexels.com/photos/574071/pexels-photo-574071.jpeg?auto=compress&cs=tinysrgb&w=700&h=400" },
   ]);
   
+  const fetchPopularCrowd = async () => {
+    try{
+      const response = await fetch('/crowd/popular/top5');
+      const jsonData = await response.json();
+      console.log("fetchPopularCrowd: ", jsonData);
+      setPopularCrowd(jsonData);
+    } catch (error) {
+      console.error('Error fetching popular crowd:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPopularCrowd();
+  }, [])
 
   const handleClick = () => {
     setIsClicked(!isClicked);
@@ -172,55 +187,26 @@ const CrowdList = () => {
 
   return (
     <div>
-      <button className={styles.linkToCreate} type="button" onClick={navigateToCreate}>
-        프로젝트 시작하기
-      </button>
-      <br />
-      <div className={styles.carousel}>
+      <div className={styles.carousel} style={{ width: '90%', margin: '0 auto' }}>
         {/* 화면상단 인기/추천 게시글 */}
-        <Box sx={{ borderRadius: 'sm', p: 1}}>
-          <AspectRatio objectFit="contain" maxHeight={400}>
-            <CrowdMainImg images={carouselImages} />
+        <Box sx={{ borderRadius: 'sm', p: 2}}>
+          <AspectRatio objectFit="contain" maxHeight={200}>
+            <CrowdMainImg images={popularCrowd} />
           </AspectRatio>
         </Box>
       </div>{/* 카테고리 */}
         <div className={styles.btnCategory}>
           <CrowdCategoryList onCategorySelect={handleCategorySelect} />
+          <button className={styles.linkToCreate} type="button" onClick={navigateToCreate}>
+            프로젝트 생성
+          </button>
         </div>
         <div className={styles.crowdListblock}>
-          {/* 상태별분류 목록 */}
-          <div
-            className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('publishedAt')}
-            style={{ cursor: 'pointer', marginRight: '10px' }}
-          >
-            최신순
-          </div>
-          <div
-            className={`sortOption ${sortField === 'viewCount' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('viewCount')}
-            style={{ cursor: 'pointer', marginRight: '10px' }}
-          >
-            인기순
-          </div>
-          <div
-            className={`sortOption ${sortField === 'crowdEndDate' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('crowdEndDate')}
-            style={{ cursor: 'pointer', marginRight: '10px' }}
-          >
-            마감임박순
-          </div>
-          <div
-            className={`sortOption ${sortField === 'likeSum' ? 'selected' : ''}`}
-            onClick={() => handleSortFieldChange('likeSum')}
-            style={{ cursor: 'pointer' }}
-          >
-            좋아요순
-          </div>
           <select
             name='sortStatus'
             value={crowdStatus}
             onChange={handleSortStatusChange}
+            style={{ width: "80px", marginRight: "20px" }}
           >
             <option value="1">모집중</option>
             <option value="2">반려</option>
@@ -228,33 +214,65 @@ const CrowdList = () => {
             <option value="4">작성중</option>
             <option value="0">심사중</option>
           </select>
+          {/* 상태별분류 목록 */}
+          <div
+            className={`sortOption ${sortField === 'publishedAt' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('publishedAt')}
+            style={{ cursor: 'pointer', marginRight: '20px' }}
+          >
+            최신순
+          </div>
+          <div
+            className={`sortOption ${sortField === 'viewCount' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('viewCount')}
+            style={{ cursor: 'pointer', marginRight: '20px' }}
+          >
+            인기순
+          </div>
+          <div
+            className={`sortOption ${sortField === 'crowdEndDate' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('crowdEndDate')}
+            style={{ cursor: 'pointer', marginRight: '20px' }}
+          >
+            마감임박순
+          </div>
+          <div
+            className={`sortOption ${sortField === 'likeSum' ? 'selected' : ''}`}
+            onClick={() => handleSortFieldChange('likeSum')}
+            style={{ cursor: 'pointer', marginRight: '5%' }}
+          >
+            좋아요순
+          </div>
         </div>
         <br />
-        <div className={styles.listContainer} style={{ gap: '20px', marginLeft: '20px' }}>
+        {/* <div className={styles.listContainer} style={{ gap: '20px', marginLeft: '20px' }}> */}
+        <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 6 }} marginBottom={4} paddingLeft={4} paddingRight={4} >
             {filteredCrowdData && filteredCrowdData.map((crowd) => (
+              <Grid item md={4} sm={12} xs={12}>
               <Card
                 key={crowd.crowdId}
-                sx={{ width: '250px', maxWidth: '100%', boxShadow: 'lg', cursor: 'pointer' }}
+                sx={{ boxShadow: 'lg', cursor: 'pointer' }}
                 onClick={() => navigateToDetail(crowd.crowdId)}
               >
-                <CardOverflow>
+                <CardOverflow style={{ maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}>
                   <AspectRatio sx={{ minWidth: 200 }}>
                     <img
                       src={crowd.headerImg}  
                       srcSet={`${crowd.headerImg}?auto=format&fit=crop&w=286&dpr=2 2x`}
                       loading="lazy"
                       alt=""
+                      style={{ width: '100%', height: 'auto' }}
                     />
                   </AspectRatio>
                 </CardOverflow>
                 <CardContent>
                   <Typography level="body-xs">{crowd.crowdCategory}</Typography>
                   <Link
-                    fontWeight="md"
+                    fontWeight="lg"
                     color="neutral"
                     textColor="text.primary"
                     overlay
-                    endDecorator={<ArrowOutwardIcon />}
+                    sx={{overflow:'hidden', fontSize: 20, textOverflow:'ellipsis', whiteSpace:'nowrap', display:'inline-block'}}
                     to={`/crowd/${crowd.crowdId}`} 
                   >
                     {crowd.crowdTitle}
@@ -264,7 +282,7 @@ const CrowdList = () => {
                     sx={{ mt: 1, fontWeight: 'xl' }}
                     endDecorator={
                       <Chip component="span" size="sm" variant="soft" color="success">
-                        <b>{getDaysBetweenDate(crowd.publishedAt, crowd.crowdEndDate)} 일 남음 </b> 
+                        <b>{getDaysBetweenDate(crowd.publishedAt, crowd.crowdEndDate)+1} 일 남음 </b> 
                       </Chip>
                     }
                   >
@@ -275,9 +293,10 @@ const CrowdList = () => {
                   </Typography>
                 </CardContent>
               </Card>
+              </Grid>
             ))}
-          </div>
-        <br />
+            </Grid>
+          {/* </div> */}
 
         <MyPaginate
         pageCount={pageCount}
