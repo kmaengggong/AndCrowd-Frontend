@@ -86,7 +86,7 @@ const AndBoardCreate = () => {
                     <button id='board-save-btn' type="submit">저장</button>
                 </div>
                 <div>
-                    <input id='andBoard-input' type="text" name="userId" value={userId} readOnly />
+                    {/* <input id='andBoard-input' type="text" name="userId" value={userId} readOnly /> */}
                     <select
               name="andBoardTag"
               value={formData.andBoardTag}
