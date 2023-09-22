@@ -253,7 +253,7 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   };
 
   const applyCrowd = (crowdId) => { // 함수 이름 변경
-    navigate(`/crowd/${crowdId}/applicant/create`); // 엔드포인트 수정
+    navigate(`/crowd/${crowdId}/payment`); // 엔드포인트 수정
   };
 
   const memberList = (crowdId) => { // 함수 이름 변경
@@ -384,11 +384,10 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
           ) : (
             <AiOutlineHeart id='heart-icon' size={'30'} />
           )}
-          <Typography id='crowd-like'>{crowd.crowdLikeCount}</Typography> {/* 변수 이름 변경 */}
+          <Typography id='crowd-like'>{crowd.likeSum}</Typography> {/* 변수 이름 변경 */}
         </Box>
-        {crowd.crowdStatus === "1" && (
-          <button id='go-crowd' onClick={() => applyCrowd(crowd.crowdId)}>모임 참가하기</button>
-        )}
+          <button id='go-payment' onClick={() => applyCrowd(crowd.crowdId)}>결제하기</button>
+       
       </Box>
       {isMember && (
         <button id='go-chat' onClick={() => crowdChat(crowd.crowdId)}>채팅방으로 이동하기</button> 
@@ -406,7 +405,7 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
           horizontal: 'left',
         }}
       >
-        <div className='box'>
+        <div className='rw-box'>
         <CrowdReward rewardId={crowd.rewardId} />
           
         </div>

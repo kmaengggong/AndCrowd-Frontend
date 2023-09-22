@@ -76,16 +76,17 @@
     margin-left: 3%;
 
 }
-#go-member{
+#go-payment{
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 18px;
     font-weight: 500;
-    background-color: white;
+    background-color: #00D337;
     border: none;
-    color: #00D337;
+    color: white;
     cursor: pointer;
-    margin-left: 30%;
+    margin-left: 25%;
     margin-top: 5%;
+    width: 50%;
     height: 7vh;
     border-radius: 7px;
 }
