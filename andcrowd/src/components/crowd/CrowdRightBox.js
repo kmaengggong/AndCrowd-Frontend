@@ -331,11 +331,11 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
         <Chip variant="outlined" sx={{ mt: "7%", ml: "15%", fontWeight: 'light', color: '#787878' }}>
           {categoryMap[crowd.crowdCategoryId]} {/* 변수 이름 변경 */}
         </Chip>
-        {crowd.crowdId !== 0 && (
+        {crowd.andId !== 0 && (
           <Link id='and-link' href={`/and/${crowd.andId}`} underline="none">연계 모임글</Link>
         )}
-        {crowd.crowdId === 0 && (
-          <div id='crowd-link'></div>
+        {crowd.andId === 0 && (
+          <div id='and-link'></div>
         )}
         <button id='report-button' onClick={() => handleOpenReportModal(crowd.crowdId)}>              
           <img id='report' src={report} alt="신고" />
