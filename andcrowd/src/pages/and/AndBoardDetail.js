@@ -40,12 +40,17 @@ const AndBoardDetail = () => {
   };
 
   const deleteAndBoard = async (andId, andBoardId) => {
+    const isConfirmed = window.confirm("정말로 해당 글을 삭제하시겠습니까?");
+    if (isConfirmed) {
     try {
       await axios.delete(`/and/${andId}/board/${andBoardId}/delete`);
       console.log("Deleted andBoard with ID:", andBoardId);
       navigate(`/and/${andId}/board/list`);
     } catch (error) {
       console.error("Error in deleting andBoard:", error);
+    }
+    } else {
+      console.log("글 삭제가 취소되었습니다.");
     }
   };
 

@@ -64,6 +64,7 @@ const CrowdList = () => {
   const [rolesData, setRolesData] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [popularCrowd, setPopularCrowd] = useState([]);
+  const now = new Date();
 
   // CrowdMainImg에서 사용할 이미지 배열
   const [carouselImages, setCarouselImages] = useState([
@@ -282,7 +283,7 @@ const CrowdList = () => {
                     sx={{ mt: 1, fontWeight: 'xl' }}
                     endDecorator={
                       <Chip component="span" size="sm" variant="soft" color="success">
-                        <b>{getDaysBetweenDate(crowd.publishedAt, crowd.crowdEndDate)+1} 일 남음 </b> 
+                        <b>{getDaysBetweenDate(now, crowd.crowdEndDate)+1} 일 남음 </b> 
                       </Chip>
                     }
                   >
