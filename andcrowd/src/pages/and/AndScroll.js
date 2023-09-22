@@ -213,8 +213,8 @@ AndScroll = ({ onSearch }) => {
         body: JSON.stringify(requestBody),
       });      
       if (response.ok) {
-        console.log("response.ok: ", response.ok)
-        setOpen(false);
+        alert("신고가 정상적으로 접수되었습니다. \n빠른 시일 내로 확인 후 조취하겠습니다.")
+        setOpenModalItemId(null);
         setReportContent('');
       } else {
         throw new Error(`Fetching and data failed with status ${response.status}.`);

@@ -388,7 +388,8 @@ const AndQna = (props) => {
 
 
   const deleteAndQna = async (andId, andQnaId) => {
-  
+    const isConfirmed = window.confirm("정말로 문의글을 삭제하시겠습니까?");
+    if (isConfirmed) {
     try {
       const response = await axios.delete(`/and/${andId}/qna/${andQnaId}/delete`);
       if (response.status === 200) { 
@@ -397,6 +398,9 @@ const AndQna = (props) => {
     } catch (error) {
       console.error("error in deleting and:", error);
     }
+  } else {
+    console.log("문의글 삭제가 취소되었습니다.");
+  }
   };
 
   const handleUpdateQna = async (andId, andQnaId) => {
@@ -422,6 +426,8 @@ const AndQna = (props) => {
 };
 
 const deleteAndReply = async (andId, andQnaId, andReplyId) => {
+  const isConfirmed = window.confirm("정말로 답변을 삭제하시겠습니까?");
+  if (isConfirmed) {
   try {
     await axios.delete(`/and/${andId}/qna/reply/${andQnaId}/${andReplyId}/delete`);
     console.log("Deleted and with ID:", andQnaId);
@@ -429,6 +435,9 @@ const deleteAndReply = async (andId, andQnaId, andReplyId) => {
     fetchReplyStatusData(andId, andQnaId);
   } catch (error) {
     console.error("error in deleting and:", error);
+  }
+  } else {
+    console.log("답변 삭제가 취소되었습니다.");
   }
 };
 
@@ -502,7 +511,7 @@ const formatDate = (dateTimeString) => {
                               <>
                               <TableRow>
                                 <TableCell colSpan={4} sx={{ padding: 2, paddingLeft: 8, borderBottom: 'none', borderTop: 'none' }} >
-                                  {andQna.andQnaContent}
+                                  <div id='crowd-content-div' dangerouslySetInnerHTML={{ __html :  andQna.andQnaContent  }} style={{ maxWidth: '100%', overflowX: 'auto',overflowY: 'auto' }}/>
                                 </TableCell>
                               </TableRow>
                               <TableRow>

@@ -227,9 +227,8 @@ const AndComponent = ({ }) => {
         body: JSON.stringify(requestBody),
       });      
       if (response.ok) {
-        console.log("response.ok: ", response.ok)
-        setOpenReport(false);
-        setReportContent('');
+        alert("신고가 정상적으로 접수되었습니다. \n빠른 시일 내로 확인 후 조취하겠습니다.")
+        handleCloseReportModal();
       } else {
         throw new Error(`Fetching and data failed with status ${response.status}.`);
       }
@@ -318,15 +317,24 @@ const AndComponent = ({ }) => {
   };
 
   const deleteAnd = async (andId) => {
-    try {
-      await axios.delete(`/and/${andId}/delete`);
-      console.log("Deleted and with ID:", andId);
-      navigate(`/and/scroll`);
-    } catch (error) {
-      console.error("error in deleting and:", error);
+    // 확인 대화 상자를 표시하고 사용자의 선택 결과를 받음
+    const isConfirmed = window.confirm("정말로 모임글을 삭제하시겠습니까?");
+  
+    // 사용자가 확인을 선택한 경우 게시물 삭제
+    if (isConfirmed) {
+      try {
+        await axios.delete(`/and/${andId}/delete`);
+        console.log("Deleted and with ID:", andId);
+        navigate(`/and/scroll`);
+      } catch (error) {
+        console.error("error in deleting and:", error);
+      }
+    } else {
+      // 사용자가 취소를 선택한 경우 아무 작업도 수행하지 않음
+      console.log("게시물 삭제가 취소되었습니다.");
     }
   };
-
+  
   const manageAnd = (andId) => {
     navigate(`/and/${andId}/manage`);
   };

@@ -68,7 +68,7 @@ const AndSearchCard = ({project, type}) => {
                 </AspectRatio>
             </CardOverflow>
             <CardContent>
-                <Chip component="span" size="sm" variant="soft" color="success"
+                <Chip component="span" size="md" variant="soft" color="success"
                  sx={{ position: 'absolute', top: '0.875rem', right: '0.7rem' }}>
                     <b>{calculateRemainingDays(projectEndDate[type])}</b>
                 </Chip>
