@@ -149,7 +149,7 @@ const CrowdBoardList = () => {
                     공지글 작성
                 </Button>
                 ) : (
-                    <p>Read Only</p>
+                    <></>
                 )}
             </div>
             <div id="board-box">

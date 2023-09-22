@@ -103,11 +103,11 @@ const CrowdRewardCreate = () => {
     } catch (error) {
       console.error("Error sending data:", error);
     }
-    navigate(`/crowd/list`);
+    navigate(`/crowd/${crowdId}`);
   };
 
   return (
-    <Box component="form" noValidate sx={{ mt: 3 }}>
+    <Box noValidate sx={{ mt: 3 }}>
       <div className="crowd-reward-create-container">
       <h3>프로젝트 리워드 설계</h3>
       <h4>서포터님들에게 제공할 리워드를 입력해 주세요.</h4>
