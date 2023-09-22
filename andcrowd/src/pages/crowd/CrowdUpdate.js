@@ -52,7 +52,7 @@ const CrowdUpdate = () => {
         console.log("전달된 form:", formData);
 
         try {
-            const response = await fetch(`/crowd/${crowdId}/update`, {
+            const response = await fetch(`/crowd/${crowdId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
