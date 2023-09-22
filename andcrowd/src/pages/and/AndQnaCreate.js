@@ -84,7 +84,7 @@ const AndQnaCreate = () => {
                     <button id='board-save-btn' type="submit">저장</button>
                 </div>
                 <div>
-                    <input id='qna-input' type="text" name="userId" value={userId} readOnly />
+                    {/* <input id='qna-input' type="text" name="userId" value={userId} readOnly /> */}
                     <input id='qna-input' type="text" name="andQnaTitle" value={formData.andQnaTitle} onChange={handleInputChange} placeholder="제목" />
                     <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
                 </div>

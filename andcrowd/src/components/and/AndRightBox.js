@@ -8,6 +8,7 @@ import { GetUserId } from '../user/GetUserId';
 import Chip from '@mui/joy/Chip';
 import { GetUserInfo } from '../user/GetUserInfo';
 import report from '../../siren.png';
+import axios from "axios";
 
 const style = {
   position: 'absolute',
@@ -226,9 +227,8 @@ const AndComponent = ({ }) => {
         body: JSON.stringify(requestBody),
       });      
       if (response.ok) {
-        console.log("response.ok: ", response.ok)
-        setOpenReport(false);
-        setReportContent('');
+        alert("신고가 정상적으로 접수되었습니다. \n빠른 시일 내로 확인 후 조취하겠습니다.")
+        handleCloseReportModal();
       } else {
         throw new Error(`Fetching and data failed with status ${response.status}.`);
       }
@@ -312,6 +312,33 @@ const AndComponent = ({ }) => {
     }
   }
 
+  const updateAnd = (andId) => {
+    navigate(`/and/${andId}/update`);
+  };
+
+  const deleteAnd = async (andId) => {
+    // 확인 대화 상자를 표시하고 사용자의 선택 결과를 받음
+    const isConfirmed = window.confirm("정말로 모임글을 삭제하시겠습니까?");
+  
+    // 사용자가 확인을 선택한 경우 게시물 삭제
+    if (isConfirmed) {
+      try {
+        await axios.delete(`/and/${andId}/delete`);
+        console.log("Deleted and with ID:", andId);
+        navigate(`/and/scroll`);
+      } catch (error) {
+        console.error("error in deleting and:", error);
+      }
+    } else {
+      // 사용자가 취소를 선택한 경우 아무 작업도 수행하지 않음
+      console.log("게시물 삭제가 취소되었습니다.");
+    }
+  };
+  
+  const manageAnd = (andId) => {
+    navigate(`/and/${andId}/manage`);
+  };
+
 
   return (
     <Box id='right-top-box'>
@@ -372,25 +399,53 @@ const AndComponent = ({ }) => {
       </div>
       <div className='roleBox'>  
         {rolesData.map((role) => (
-          <span id='roles' key={role.andRoleId}>
+          <p id='roles' key={role.andRoleId}>
             #{role.andRole}
-          </span>
+          </p>
         ))}
       </div>
       <hr style={{ margin: '20px auto', width: '70%' }}></hr>
       <Box>
-        <div className='andUser' style={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar sx={{ ml:1, width:45, height:45, mt: 2}} src={userInfo.userProfileImg} ></Avatar>
-            <span id='andUser-nickname' onClick={() => handleMemberClick(andUserId)}>{userInfo.userNickname}</span>
-            <button id='follow' onClick={() => fetchFollow(and.userId)}
-              className={isFollowed ? 'following-button' : 'follow-button'}>
-              {isFollowed ? (
-                <div> ✓ 팔로잉</div>
-              ) : (
-                <div> + 팔로우</div>
-                )}
-            </button>
-        </div>
+          <div className='andUser' style={{ display: 'flex', alignItems: 'center' }}>
+              <Avatar sx={{ ml:1, width:45, height:45, mt: 2}} src={userInfo.userProfileImg} ></Avatar>
+              <span id='andUser-nickname' onClick={() => handleMemberClick(andUserId)}>{userInfo.userNickname}</span>
+              
+              { userId !== andUserId ? (
+              <button id='follow' onClick={() => fetchFollow(and.userId)}
+                className={isFollowed ? 'following-button' : 'follow-button'}>
+                {isFollowed ? (
+                  <div> ✓ 팔로잉</div>
+                ) : (
+                  <div> + 팔로우</div>
+                  )}
+              </button>
+                      ) : (
+                        <div id='and-user-button'>
+                            <div id='and-detail-bottom'>
+                              <Typography id='and-detail-up'
+                                onClick={() => updateAnd(andId, andId)}
+                              >
+                                수정
+                              </Typography>
+                              <Typography id='and-detail-de'
+                                onClick={() => deleteAnd(andId, andId)}
+                              >
+                                삭제
+                              </Typography>
+                            </div>
+                            <div id='and-detail-bottom2'>
+                              <Typography id='and-detail-2'
+                                onClick={() => manageAnd(and.andId)}
+                              >
+                                관리                           
+                              </Typography> 
+                            </div>
+              
+                        </div>
+                      )
+                    }
+              
+          </div>
       </Box>
       <Box id='like-and-button'>
         <Box id='like-icon' onClick={handleClick}>
@@ -405,8 +460,8 @@ const AndComponent = ({ }) => {
         <button id='go-and' onClick={() => applyAnd(and.andId)}>모임 참가하기</button>
         )}
       </Box>
-      { isMember && (
-      <button id='go-chat' onClick={() => andChat(and.andId)}>채팅방으로 이동하기</button>
+      {isMember && (and.andStatus === 1 || and.andStatus === 3) && (
+        <button id='go-chat' onClick={() => andChat(and.andId)}>채팅방으로 이동하기</button>
       )}
       <button variant="text" aria-describedby={id} id ='go-member' onClick={handleClickMembers}>
         ▼ 참여중인 멤버

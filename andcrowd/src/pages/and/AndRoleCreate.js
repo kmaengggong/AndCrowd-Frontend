@@ -101,7 +101,7 @@ const AndRoleCreate = () => {
       await fetch(`/and/${andId}/update/needNumMem/${needNumMem}`,{
         method: "PATCH",
       });
-    console.log("update and status:", andId);
+    alert("모임글이 정상적으로 생성되었습니다. 심사 완료 후 업로드 됩니다.")
     } catch (error) {
       console.error("Error in updating and status:", error);
     }
@@ -153,7 +153,7 @@ const AndRoleCreate = () => {
       </div>
       <h2> 총 모집인원: {needNumMem}명 </h2>
       <button id='role-next-btn' onClick={handleNextClick}>
-        다음
+        모임 생성
       </button>
     </div>
   );

@@ -63,6 +63,7 @@ const AndApplicantCreate = () => {
             });
 
             if (response.ok) {
+                alert("참여 신청이 정상적으로 제출 되었습니다. \n모임장의 승인 후 멤버로 활동 할 수 있습니다.")
                 navigate(`/and/${andId}`);
             } else {
                 console.error(`Request failed with status ${response.status}`);

@@ -54,6 +54,7 @@ const scrollToTop = () => {
       behavior: 'smooth'
   })
 }
+
 const 
 AndScroll = ({ onSearch }) => {
   const [data, setData] = useState([]);
@@ -212,8 +213,8 @@ AndScroll = ({ onSearch }) => {
         body: JSON.stringify(requestBody),
       });      
       if (response.ok) {
-        console.log("response.ok: ", response.ok)
-        setOpen(false);
+        alert("신고가 정상적으로 접수되었습니다. \n빠른 시일 내로 확인 후 조취하겠습니다.")
+        setOpenModalItemId(null);
         setReportContent('');
       } else {
         throw new Error(`Fetching and data failed with status ${response.status}.`);
@@ -440,11 +441,11 @@ AndScroll = ({ onSearch }) => {
     const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000));
 
     return diffInDays >= 0 ? 'D - '+ diffInDays : '모집 마감';
-}
-const navigateToAndCreate = () => {
-  navigate("/and/create1");
-};
-  
+  }
+  const navigateToAndCreate = () => {
+    navigate("/and/create1");
+  };
+
   return (
     <div>
       <div className='category'>
@@ -452,39 +453,39 @@ const navigateToAndCreate = () => {
         <div className='itemContainer'>
           <div className='item' onClick={()=>handleCategoryChange(0)}>
               <img id='cat-img' src={cat0} alt="전체" />
-              <span>전체</span>
+              <span id='cat-name'>전체</span>
             </div>
           <div className='item' onClick={()=>handleCategoryChange(1)}>
             <img id='cat-img' src={cat1} alt="문화/예술" />
-            <span>문화/예술</span>
+            <span id='cat-name'>문화/예술</span>
           </div>
           <div className='item' onClick={()=>handleCategoryChange(2)}>
             <img id='cat-img' src={cat2} alt="액티비티" />
-            <span>액티비티</span>
+            <span id='cat-name'>액티비티</span>
           </div>
           <div className='item' onClick={()=>handleCategoryChange(3)}>
             <img id='cat-img' src={cat3} alt="테크/가전" />
-            <span>테크/가전</span>
+            <span id='cat-name'>테크/가전</span>
           </div>
           <div className='item' onClick={()=>handleCategoryChange(4)}>
             <img id='cat-img' src={cat4} alt="푸드" />
-            <span>푸드</span>
+            <span id='cat-name'>푸드</span>
           </div>
           <div className='item' onClick={()=>handleCategoryChange(5)}>
             <img id='cat-img' src={cat5} alt="언어" />
-            <span>언어</span>
+            <span id='cat-name'>언어</span>
           </div>
           <div className='item' onClick={()=>handleCategoryChange(6)}>
             <img id='cat-img' src={cat6} alt="여행" />
-            <span>여행</span>
+            <span id='cat-name'>여행</span>
           </div>
           <div className='item' onClick={()=>handleCategoryChange(7)}>
             <img id='cat-img' src={cat7} alt="반려동물" />
-            <span>반려동물</span>
+            <span id='cat-name'>반려동물</span>
           </div>
           <div className='item' onClick={()=>handleCategoryChange(8)}>
             <img id='cat-img' src={cat8} alt="기타" />
-            <span>기타</span>
+            <span id='cat-name'>기타</span>
           </div>
         </div>
       </Box>
@@ -526,54 +527,10 @@ const navigateToAndCreate = () => {
         <option value="4">작성중</option>
         <option value="0">심사중</option>
       </select>
-
-      <div>
-        {/*<Typography id ='category' onClick={handleClick2} style={{cursor: "pointer"}}>
-          카테고리
-        </Typography>
-        
-        <Popover 
-          open={Boolean(anchorEl2)}
-          anchorEl={anchorEl2}
-          onClose={handleClose2}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-        >
-          <List>
-            {["0", "1", "2", "3", "4", "5"].map((optionValue, index) => (
-              <ListItem 
-                button 
-                key={index} 
-                selected={categoryId === optionValue} 
-                onClick={() => {
-                  handleCategoryChange(optionValue);
-                  handleClose2();
-                }}
-              >
-                {optionValue}
-              </ListItem>
-            ))}
-          </List>
-              </Popover> */}
-
-      </div>
-      <button id ='write' type="button" onClick={navigateToAndCreate}>글쓰기</button>
-      
-      
+      <button id ='write' type="button" onClick={navigateToAndCreate}>
+        글쓰기
+      </button>
     </div>
-    {/*<div id='and-search-bar'>
-        <input
-          type="search"
-          id="and-search"
-          name="search"
-          placeholder="모임 검색"
-          onChange={(e) => setSearchKeyword(e.target.value)}
-        />
-        <button  id='and-search-button' onClick={handleSearch}><SearchIcon id='search-icon' /></button>
-            </div> */}
-
       {data ? (
         data.map(item => (
           
@@ -698,9 +655,10 @@ const navigateToAndCreate = () => {
           <p>마지막 페이지입니다.</p>
         </div>
       )}
-      <button id="top" onClick={scrollToTop} type="button" > <KeyboardArrowUpRoundedIcon /></button>
+      <button id="top" onClick={scrollToTop} type="button" > <KeyboardArrowUpRoundedIcon sx={{ width: "30px", height: "30px", pr: "2px", pl: "2px" }} /></button>
     </div>
   );
 };
+
 
 export default AndScroll;
