@@ -17,6 +17,10 @@ import CrowdMainImg from "./crowd/CrowdMainImg";
 import styled from 'styled-components';
 import ReactPaginate from 'react-paginate';
 import {  Grid } from "@mui/material";
+import { GetUserId } from "../components/user/GetUserId";
+import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
+import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 
 const MyPaginate = styled(ReactPaginate).attrs({
   activeClassName: "active",
@@ -64,6 +68,7 @@ const CrowdList = () => {
   const [rolesData, setRolesData] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [popularCrowd, setPopularCrowd] = useState([]);
+  const [isLiked, setIsLiked] = useState(null);
   const now = new Date();
 
   // CrowdMainImg에서 사용할 이미지 배열
@@ -186,6 +191,77 @@ const CrowdList = () => {
     setData([]);
   };
 
+  const fetchIsLiked = async (crowdId) => {
+    try {
+      const userId = GetUserId();
+      const response = await fetch(`/crowd/${crowdId}/like/${userId}`);  
+      if (response.ok) {
+        const data = await response.json();
+        return data; // 데이터 반환
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      return null; // 에러 발생 시 null 반환
+    }
+  }
+
+  const fetchLike = async (crowdId) => {
+    const userId = GetUserId();
+    console.log(`/crowd/${crowdId}/like/${userId}`);
+    try {
+      const response = await fetch(`/crowd/${crowdId}/like/${userId}`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        const newIsLiked = await fetchIsLiked(crowdId); // fetchIsLiked 함수를 호출하여 새로운 isLiked 값을 가져옴
+        if (newIsLiked !== null) {
+          // 가져온 새로운 isLiked 값을 사용하여 해당 게시물의 좋아요 상태를 업데이트
+          setIsLiked(prevIsLiked => ({
+            ...prevIsLiked,
+            [crowdId]: newIsLiked,
+          }));
+
+          // likeSum 값을 업데이트
+          setData(prevData => prevData.map(item => {
+            if (item.crowdId === crowdId) {
+              // 해당 게시물의 likeSum 값을 업데이트
+              return { ...item, likeSum: newIsLiked ? item.likeSum + 1 : item.likeSum - 1 };
+            }
+            return item;
+          }));
+        }
+      } else {
+        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+
+  useEffect(() => {
+    const fetchDataAndSetIsLiked = async () => {
+      const newIsLikedData = {}; // 새로운 데이터 객체 생성
+  
+      for (const item of data) {
+        const newData = await fetchIsLiked(item.crowdId);
+        if (newData !== null) {
+          newIsLikedData[item.crowdId] = newData; // 데이터 업데이트
+        }
+      }
+  
+      setIsLiked(newIsLikedData); // 데이터 한꺼번에 업데이트
+    };
+  
+    fetchDataAndSetIsLiked(); // 데이터 가져와서 업데이트하는 함수 호출
+  }, [data]);
+
+
   return (
     <div>
       <div className={styles.carousel} style={{ width: '90%', margin: '0 auto' }}>
@@ -252,22 +328,45 @@ const CrowdList = () => {
               <Grid item md={4} sm={12} xs={12}>
               <Card
                 key={crowd.crowdId}
-                sx={{ boxShadow: 'lg', cursor: 'pointer' }}
-                onClick={() => navigateToDetail(crowd.crowdId)}
+                sx={{ boxShadow: 'lg', cursor: 'none'}}
               >
-                <CardOverflow style={{ maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}>
+                <CardOverflow style={{ maxWidth: '100%', maxHeight: '100%', overflow: 'hidden', cursor: 'none' }}>
                   <AspectRatio sx={{ minWidth: 200 }}>
                     <img
                       src={crowd.headerImg}  
                       srcSet={`${crowd.headerImg}?auto=format&fit=crop&w=286&dpr=2 2x`}
                       loading="lazy"
                       alt=""
-                      style={{ width: '100%', height: 'auto' }}
+                      style={{ width: '100%', height: 'auto', cursor: 'none' }}
                     />
+                    <div className={styles.hearButton}
+                      style={{
+                        position: 'absolute',
+                        top: '5px',
+                        right: '7px',
+                        padding: '5px',
+                        borderRadius: '50%',
+                        cursor: 'pointer',
+                        zIndex: 9, 
+                      }}
+                      onClick={() => fetchLike(crowd.crowdId)}
+                    >
+                      {isLiked[crowd.crowdId] ? (
+                        <div className={styles.heartBox}>
+                        <FavoriteRoundedIcon className={styles.heartIcon} sx={{ fontSize: 27 }} />
+                        <p className={styles.crowdLikeSum}>{crowd.likeSum}</p>
+                        </div>
+                      ) : (
+                        <div className={styles.heartBox}>
+                        <FavoriteBorderRoundedIcon className={styles.heartIcon} sx={{ fontSize: 27 }} />
+                        <p className={styles.crowdLikeSum}>{crowd.likeSum}</p>
+                        </div>
+                      )}
+                    </div>
                   </AspectRatio>
                 </CardOverflow>
                 <CardContent>
-                  <Typography level="body-xs">{crowd.crowdCategory}</Typography>
+                  <Typography level="body-xs" onClick={() => navigateToDetail(crowd.crowdId)} >{crowd.crowdCategory}</Typography>
                   <Link
                     fontWeight="lg"
                     color="neutral"
