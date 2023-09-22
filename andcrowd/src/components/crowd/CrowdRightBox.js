@@ -39,6 +39,7 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   const [userInfo, setUserInfo] = useState([]);
   const [rolesData, setRolesData] = useState([]);
   const [crowdNeedNumApply, setCrowdNeedNumApply] = useState({}); // 변수 이름 변경
+  const [totalSold, setTotalSold] = useState(0);
 
   const [openReport, setOpenReport] = useState(false);
   const [openModalItemId, setOpenModalItemId] = useState(null);
@@ -69,6 +70,7 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
     loadMembers();
     fetchCrowdRoles();
     fetchNeedNumApplyData();
+    fetchTotalSold();
   }, [crowdId, isLiked]);
 
   useEffect(() => {
@@ -81,6 +83,7 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
 
       if (response.ok) {
         const data = await response.json();
+        console.log("data:: ",data)
         setCrowd(data); // 변수 이름 변경
         setCrowdUserId(data.userId); // 변수 이름 변경
         fetchIsFollowed(data.userId); // 변수 이름 변경
@@ -120,6 +123,23 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
       }
     } catch (error) {
       console.error("Error fetching Crowd data:", error);
+    }
+  };
+
+  const fetchTotalSold = async () => {
+    try {
+      const response = await fetch(`/crowd_order/${crowdId}/total`);
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log("setTotalSold: ", data);
+        setTotalSold(data);
+      } else {
+        throw new Error(`Fetching data failed with status ${response.status}.`);
+      }
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -359,8 +379,8 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
       </div>
       <CountdownTimer publishedAt={crowd.publishedAt} crowdEndDate={crowd.crowdEndDate} /> {/* 변수 이름 변경 */}
       <div className='applyBox'>
-        <p id='apply-title'>신청자</p>
-        <p id='apply-number'>{`${crowd.currentAmount}/${crowd.crowdGoal} (${(crowd.currentAmount / crowd.totalAmount * 100).toFixed(1)}%)`}</p> {/* 변수 이름 변경 */}
+        <p id='apply-title'>모인 금액</p>
+        <p id='apply-number'>{`${totalSold} 원 (${(totalSold / parseFloat(crowd.crowdGoal) * 100).toFixed(1)}%)`}</p> {/* 변수 이름 변경 */}
       </div>
       <hr style={{ margin: '20px auto', width: '70%' }}></hr>
       <Box>
