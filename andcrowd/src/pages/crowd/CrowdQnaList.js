@@ -79,7 +79,7 @@ const CrowdQnaList = (props) => {
   const [openReplyModal, setOpenReplyModal] = useState(false);
   const handleCloseReplyModal = () => setOpenReplyModal(false);
   const handleOpenReplyModal = (crowdId, crowdQnaId, qnaReplyId) => {
-    fetchQnaReplyData(crowdId, crowdQnaId, qnaReplyId);
+    fetchQnaReplyData(crowdId, qnaReplyId);
     setOpenReplyModal(true);
   };
 
@@ -106,21 +106,15 @@ const CrowdQnaList = (props) => {
     qnaReplyContent: "",
   });
 
-  useEffect(() => {
-    checkUserPermission();
-  }, [crowdId]);
-
-  const crowdQnaId = params.crowdQnaId;
-
-  const checkUserPermission = async () => {
+    const checkUserPermission = async () => {
     try{
-      const userId = GetUserId();
-      const response = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/user-check/${userId}`);
+      console.log(`/crowd/${crowdId}/user-check/${userId}`);
+      const response = await fetch(`/crowd/${crowdId}/user-check/${userId}`);
 
       if(response.ok) {
-        const isAdmin = await response.json();
-        setIsAdmin(isAdmin);
-        console.log(isAdmin);
+        const data = await response.json();
+        setIsAdmin(data);
+        console.log(data);
       } else {
         throw new Error(`Fetching admin status failed with status ${response.status}.`);
       }
@@ -129,17 +123,17 @@ const CrowdQnaList = (props) => {
     }
   }
 
-  const fetchQnaReplyData = async (crowdId, crowdQnaId, qnaReplyId) => {
+  const fetchQnaReplyData = async (crowdId, qnaReplyId) => {
     try {
       const response = await fetch(
-        `/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/${qnaReplyId}`
+        `/crowd/${crowdId}/qna/reply/${qnaReplyId}`
       );
 
       if (response.ok) {
         const data = await response.json();
-        if (!isAdmin) {
-          alert("답변은 펀딩글 제작자만 가능합니다.");
-        }
+        // if (!isAdmin) {
+        //   alert("답변은 펀딩글 제작자만 가능합니다.");
+        // }
         setReplyFormData(data);
       } else {
         throw new Error(
@@ -150,6 +144,7 @@ const CrowdQnaList = (props) => {
       console.error("데이터를 가져오는 중 오류:", error);
     }
   };
+
 
   const fetchQnaData = async (crowdId, crowdQnaId) => {
     try {
@@ -169,7 +164,7 @@ const CrowdQnaList = (props) => {
 
   const fetchReplyStatusData = async (crowdId, crowdQnaId) => {
     try {
-      const qnaReplyResponse = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/all`);
+      const qnaReplyResponse = await fetch(`/crowd/${crowdId}/qna/reply/${crowdQnaId}/all`);
       if (qnaReplyResponse.ok) {
         const qnaReplyData = await qnaReplyResponse.json();
         setQnaReplyData((prevData) => ({
@@ -199,7 +194,7 @@ const CrowdQnaList = (props) => {
 
   useEffect(() => {
     fetchData();
-    // fetchIsCrowdUser();
+    checkUserPermission();
   }, [crowdId, currentPage]);
 
   const fetchData = async () => {
@@ -223,26 +218,6 @@ const CrowdQnaList = (props) => {
     }
   };  
 
-  // const fetchIsCrowdUser = async (crowdQna) => {
-  //   try {
-  //     //추가: 현재 로그인한 사용자의 userId와 글을 작성한 사용자의 userId 비교
-  //     if (userId === crowdQna.userId) {
-  //       crowdQna.isCurrentUserAuthor = true; // 현재 로그인한 사용자가 글 작성자인 경우 표시
-  //     } else {
-  //       crowdQna.isCurrentUserAuthor = false; // 아닌 경우 표시
-  //     }
-  //     const response = await fetch(`/crowd/${crowdId}`);
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       setIsCrowdUser(data);
-  //     } else {
-  //       throw new Error(`Fetching and data failed with status ${response.status}.`);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // }
-
   useEffect(() => {
     const fetchDataCrowdReplyData = async () => {
       try {
@@ -253,8 +228,9 @@ const CrowdQnaList = (props) => {
           const data = await response.json();
           setCrowdQnaList(data);
 
+          // fetchData()가 완료되고 crowdQnaList가 업데이트된 이후에 fetchReplyStatusData() 호출
           data.forEach((crowdQna) => {
-            fetchReplyStatusData(crowdId, crowdQna.crowdQnaId);
+            fetchReplyStatusData(crowdId, crowdQna.crowdQnaId); // 각 질문에 대한 댓글 데이터를 가져오는 함수
           });
         } else {
           throw new Error(`Fetching crowd data failed with status ${response.status}.`);
@@ -269,7 +245,7 @@ const CrowdQnaList = (props) => {
   useEffect(() => { // 전체 페이지 수 카운트
     const fetchCount = async () => {
       try {
-        const response = await fetch(`/crowd/${crowdId}/qna/all/count`);
+        const response = await fetch(`/crowd/${crowdId}/qna/list/count`);
         const data = await response.json();
         setPageCount(Math.ceil(data / 5));
       } catch (error) {
@@ -282,7 +258,7 @@ const CrowdQnaList = (props) => {
   const fetchReplyData = async (crowdId, crowdQnaId) => {
     try {
       const qnaReplyResponse = await fetch(
-        `/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/all`);
+        `/crowd/${crowdId}/qna/reply/${crowdQnaId}/all`);
       if (qnaReplyResponse.ok) {
         const qnaReplyData = await qnaReplyResponse.json();
   
@@ -291,12 +267,6 @@ const CrowdQnaList = (props) => {
           const userNickname = await getUserNickname(comment.userId);
           comment.userNickname = userNickname;
         }
-          // // 추가: 현재 로그인한 사용자의 userId와 글을 작성한 사용자의 userId 비교
-          // if (userId === comment.userId) {
-          //   comment.isCurrentUserAuthor = true; // 현재 로그인한 사용자가 댓글 작성자인 경우 표시
-          // } else {
-          //   comment.isCurrentUserAuthor = false; // 아닌 경우 표시
-          // }
 
         setCrowdReplyList(qnaReplyData);
       } else {
@@ -342,7 +312,7 @@ const CrowdQnaList = (props) => {
       crowdQnaId: crowdQnaId,
     };
 
-    const response = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply`, {
+    const response = await fetch(`/crowd/${crowdId}/qna/reply/${crowdQnaId}/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -351,6 +321,7 @@ const CrowdQnaList = (props) => {
     });
     
     if(response.ok) {
+      fetchReplyStatusData(crowdId, crowdQnaId);
       fetchReplyData(crowdId, crowdQnaId);
 
       setFormData((prevFormData) => ({
@@ -359,25 +330,13 @@ const CrowdQnaList = (props) => {
       }));
 
       // 해당 질문의 상태를 업데이트
-      fetchReplyStatusData(crowdId, crowdQnaId);
+      // fetchReplyStatusData(crowdId, crowdQnaId);
     }
 
-    //댓글을 작성하는 나머지 로직
-    // const handleQnaReplySubmit = async (e) => {
-    //   e.preventDefault();
-    //   console.log("formdata:", formData);
-    //   const replyResponse = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(updatedFormData),
-    //   });
-    // }
   };
 
-  const handleUpdateQnaReply = async (crowdId, crowdQnaId, qnaReplyId) => {
-    console.log(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/${qnaReplyId}`);
+  const handleUpdateQnaReply = async (crowdQnaId, qnaReplyId) => {
+    console.log(`/crowd/${crowdId}/qna/reply/${crowdQnaId}/${qnaReplyId}/update`);
 
     setReplyFormData((prevFormData) => ({
       ...prevFormData,
@@ -393,7 +352,7 @@ const CrowdQnaList = (props) => {
 
     console.log("수정된 폼 데이터:", updatedFormData);
 
-    const response = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/${qnaReplyId}`, {
+    const response = await fetch(`/crowd/${crowdId}/qna/reply/${crowdQnaId}/${qnaReplyId}/update`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -402,14 +361,14 @@ const CrowdQnaList = (props) => {
     });
 
     if (response.ok) {
-      fetchReplyData(crowdId, crowdQnaId, qnaReplyId);
+      fetchReplyData(crowdId, crowdQnaId);
 
       setReplyFormData((prevFormData) => ({
         ...prevFormData,
         qnaReplyContent: "",
       }));
 
-      fetchReplyStatusData(crowdId, crowdQnaId, qnaReplyId);
+      fetchReplyStatusData(crowdId, crowdQnaId);
       handleCloseReplyModal();
     }
   };
@@ -450,7 +409,7 @@ const CrowdQnaList = (props) => {
   const deleteCrowdReply = async (crowdId, crowdQnaId, qnaReplyId) => {
     try {
       await axios.delete(
-        `/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/${qnaReplyId}/delete`
+        `/crowd/${crowdId}/qna/reply/${crowdQnaId}/${qnaReplyId}/delete`
       );
       console.log("Deleted crowd with ID:", crowdQnaId);
       fetchReplyData(crowdId, crowdQnaId);
@@ -505,7 +464,7 @@ const CrowdQnaList = (props) => {
             <TableBody>
               {crowdQnaList.map((crowdQna) => (
                 <>
-                  <TableRow hover style={{ height: 50 }}>
+                  <TableRow hover key={crowdQna.crowdQnaId} style={{ height: 50 }}>
                     {/* 답변 상태 확인 컬럼 */}
                     <TableCell align="center" sx={{ width: "10%", borderBottom: "none" }}>
                       {qnaReplyData[crowdQna.crowdQnaId]?.length > 0 ? (<p>답변완료</p>) : (<p>미답변</p>)}
@@ -534,9 +493,7 @@ const CrowdQnaList = (props) => {
                               {selectedQnaId === crowdQna.crowdQnaId && (
                                 <>
                                   <TableRow>
-                                    <TableCell colSpan={4} sx={{padding: 2, paddingLeft: 8, borderBottom: "none", borderTop: "none"}}>
-                                      {crowdQna.qnaContent}
-                                    </TableCell>
+                                    <TableCell colSpan={4} sx={{padding: 2, paddingLeft: 8, borderBottom: "none", borderTop: "none"}} dangerouslySetInnerHTML={{__html : crowdQna.qnaContent}} />
                                   </TableRow>
                                   <TableRow>
                                     <TableCell align="right" colSpan={4} sx={{ padding: 2, paddingBottom: 4, paddingRight: 5}}>
@@ -592,13 +549,13 @@ const CrowdQnaList = (props) => {
                                                 {comment.qnaReplyContent}
 
                                                 {/* 해당 답변 작성자만 수정/삭제 가능 */}
-                                                {userId === crowdQna.userId && (
+                                                {userId === comment.userId && (
                                                   <>
                                                   <Button size="small" sx={{minWidth: "40px", ml: 2}}
                                                     onClick={() => {handleOpenReplyModal(crowdId, crowdQna.crowdQnaId, comment.qnaReplyId);
                                                     }}>수정</Button>
                                                   <Button size="small" color="error" sx={{minWidth: "40px"}}
-                                                    onClick={() => deleteCrowdReply(crowdQna.crowdQnaId, comment.qnaReplyId)}>삭제</Button>
+                                                    onClick={() => deleteCrowdReply(crowdId, crowdQna.crowdQnaId, comment.qnaReplyId)}>삭제</Button>
 
                                                   <Modal
                                                     open={openReplyModal}
