@@ -527,54 +527,10 @@ AndScroll = ({ onSearch }) => {
         <option value="4">작성중</option>
         <option value="0">심사중</option>
       </select>
-
-      <div>
-        {/*<Typography id ='category' onClick={handleClick2} style={{cursor: "pointer"}}>
-          카테고리
-        </Typography>
-        
-        <Popover 
-          open={Boolean(anchorEl2)}
-          anchorEl={anchorEl2}
-          onClose={handleClose2}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-        >
-          <List>
-            {["0", "1", "2", "3", "4", "5"].map((optionValue, index) => (
-              <ListItem 
-                button 
-                key={index} 
-                selected={categoryId === optionValue} 
-                onClick={() => {
-                  handleCategoryChange(optionValue);
-                  handleClose2();
-                }}
-              >
-                {optionValue}
-              </ListItem>
-            ))}
-          </List>
-              </Popover> */}
-
-      </div>
-      <button id ='write' type="button" onClick={navigateToAndCreate}>글쓰기</button>
-      
-      
+      <button id ='write' type="button" onClick={navigateToAndCreate}>
+        글쓰기
+      </button>
     </div>
-    {/*<div id='and-search-bar'>
-        <input
-          type="search"
-          id="and-search"
-          name="search"
-          placeholder="모임 검색"
-          onChange={(e) => setSearchKeyword(e.target.value)}
-        />
-        <button  id='and-search-button' onClick={handleSearch}><SearchIcon id='search-icon' /></button>
-            </div> */}
-
       {data ? (
         data.map(item => (
           
