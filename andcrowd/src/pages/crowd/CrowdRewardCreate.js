@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Grid } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
 const CrowdRewardCreate = () => {
@@ -21,17 +19,17 @@ const CrowdRewardCreate = () => {
   });
 
   // TextField 컴포넌트 생성을 위한 커스텀 함수
-  const renderTextField = (name, label, type = "text") => (
-    <TextField
-      required
-      name={name}
-      label={label}
-      fullWidth
-      type={type}
-      value={reward[name]}
-      onChange={handleInputChange}
-    />
-  );
+  // const renderTextField = (name, label, type = "text") => (
+  //   <TextField
+  //     required
+  //     name={name}
+  //     label={label}
+  //     fullWidth
+  //     type={type}
+  //     value={reward[name]}
+  //     onChange={handleInputChange}
+  //   />
+  // );
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -84,6 +82,7 @@ const CrowdRewardCreate = () => {
   // 다음 버튼 클릭 핸들러 분리
   const handleNextButtonClick = () => {
     alert('펀딩글이 성공적으로 작성되었습니다. 심사는 5-7일 정도 소요됩니다.')
+    // navigate(`/crowd/list`);
     sendDataToServer();
   };
 
@@ -91,23 +90,20 @@ const CrowdRewardCreate = () => {
   const sendDataToServer = async () => {
     console.log(rewards);
     try {
+      await fetch(`/crowd/${crowdId}/update/status/0`, {
+        method: "PATCH",
+      });
       await fetch(`/crowd/${crowdId}/reward/all`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json; text=utf-8",
         },
         body: JSON.stringify(rewards),
-      }).then(res => {
-        if(res.ok){
-          navigate(`/crowd/list`);
-        }
-        else{
-          throw new Error(`Request failed with status ${res.status}`);
-        }
-      });
+      })
     } catch (error) {
       console.error("Error sending data:", error);
     }
+    navigate(`/crowd/list`);
   };
 
   return (

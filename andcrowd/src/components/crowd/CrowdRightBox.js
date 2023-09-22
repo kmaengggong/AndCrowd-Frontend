@@ -24,9 +24,9 @@ const CrowdComponent = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const categoryMap = {
-    1: '문화 예술',
-    2: '액티비티 스포츠',
-    3: '테크 가전',
+    1: '문화/예술',
+    2: '액티비티/스포츠',
+    3: '테크/가전',
     4: '푸드',
     5: '언어',
     6: '여행',
