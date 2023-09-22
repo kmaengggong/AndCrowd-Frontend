@@ -13,7 +13,7 @@
     margin-bottom: 3vh;
 }
 #and-title-box{
-    width: 50%;
+    width: 55%;
 }
 #and-feed-title{
     font-family: 'Noto Sans KR', sans-serif;
@@ -44,26 +44,29 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 100%;
-    width:68%;
+    min-width: 70%;
+    width: 70%;
+    height: auto;
     border-radius: 10px;
+    padding: 5%;
+    margin: auto;
 }
 #main-img-box{
-    display: flex;
+    display: block;
     align-items: center;
     justify-content: center;
-    margin-top: 2%;
-    margin-left: 30%;
+    margin-left: 22%;
+    margin-right: 20%;
+    max-width: 55%;
     margin-bottom: 2vh;
-    max-width: 50%;
-    min-height: 50vh;
-    align-items: center;
-}
+    margin-top: 2%;
+    min-height: 35vh;
+} 
 #follow{
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
     font-weight: 500;
-    width: 28%;
+    width: 35%;
     height: 4.5vh;
     border:1px solid #00D337;
     border-radius: 10px;
@@ -84,6 +87,7 @@
     height:30%;
     display: flex;
     align-items: center;
+    margin-left: 10%;
 }
 #follow:hover{
     background-color: rgb(231, 253, 224);
@@ -126,7 +130,7 @@
 }
 #feed-head{
     display: flex;
-    margin-left: 25%;
+    margin-left: 22%;
     margin-top: 2%;
 }
 
@@ -200,7 +204,7 @@
 }
 
 #bottom-gap{
-    margin-bottom: 15vh;
+    margin-bottom: 10vh;
 }
 #and-role-box{
     display: flex;
