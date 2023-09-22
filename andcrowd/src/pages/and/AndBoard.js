@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate  } from "react-router-dom";
 import AndToolBar from "../../components/and/AndToolBar";
 import CountdownTimer2 from "../../components/and/CountdownTimer2";
 import '../../styles/and/AndBoard.css'
-import { Typography } from "@mui/material";
+import { Typography, Button } from "@mui/material";
 import ReactPaginate from 'react-paginate';
 import styled from 'styled-components';
 import { GetUserId } from "../../components/user/GetUserId";
@@ -12,7 +12,7 @@ import { GetUserId } from "../../components/user/GetUserId";
 const MyBordPaginate = styled(ReactPaginate).attrs({
   activeClassName: "active",
 })`
-  margin: 50px 16px;
+  margin: 60px 16px;
   display: flex;
   justify-content: center;
   list-style-type: none;
@@ -42,6 +42,7 @@ const MyBordPaginate = styled(ReactPaginate).attrs({
 
 
 const AndBoard = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const andId = params.andId;
   const andBoardId = params.andBoardId;
@@ -123,30 +124,39 @@ const AndBoard = () => {
     }
   });
 
+  const boardDetail = (andBoardId) => {
+    navigate(`/and/${andId}/board/${andBoardId}`);
+  };
+
   return (
     <div>
       <AndToolBar andId={andId} />
       <div id='and-board-container'>
+        <div className="title">
+          <h2>게시판</h2>
+        </div>
+        <div className="create">
+        { isMember && (
+          <Button href={`/and/${andId}/board/create`}
+          variant="outlined" color="success">
+            글 작성
+          </Button>
+        )}
+        </div>
         <div id='and-board-content'>
           {sortedAndBoardList.map((andBoard) => (
-            <div key={andBoard.andBoardId} className={andBoard.andBoardTag === 0 ? 'notice' : ''}>
+            <div key={andBoard.andBoardId} className={andBoard.andBoardTag === 0 ? 'notice' : 'new'} onClick={() => {boardDetail(andBoard.andBoardId)}}>
               <Typography id='and-board-tag' >
                 {andBoard.andBoardTag === 0 ? '공지사항' : '소식'}
               </Typography>
               <Typography id='and-board-title' display="inline">
-                <Link to={`/and/${andId}/board/${andBoard.andBoardId}`}>
-                  {andBoard.andBoardTitle}
-                </Link>
+                {andBoard.andBoardTitle}
               </Typography>
               <CountdownTimer2 andBoard={andBoard}  display="inline"/>
               <hr id='and-board-line'></hr>
             </div>
           ))}
-
-          {/* 멤버인 경우에만 글 작성 가능 */}
-          { isMember && (
-            <Link id='board-write' to={`/and/${andId}/board/create`}>글 작성</Link>
-          )}
+        </div>
 
           <MyBordPaginate
             pageCount={pageCount}
@@ -161,7 +171,6 @@ const AndBoard = () => {
             renderOnZeroPageCount={null}
             />
 
-        </div>
       </div>
     </div>
   );
