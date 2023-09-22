@@ -35,7 +35,6 @@ const CrowdRewardCreate = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value)
     let newValue = value;
   
     if (name === "rewardAmount") {
@@ -88,7 +87,6 @@ const CrowdRewardCreate = () => {
 
   // 서버로 데이터를 전송하는 함수
   const sendDataToServer = async () => {
-    console.log(rewards);
     try {
       await fetch(`/crowd/${crowdId}/reward/all`, {
         method: "POST",
@@ -97,6 +95,7 @@ const CrowdRewardCreate = () => {
         },
         body: JSON.stringify(rewards),
       }).then(res => {
+        console.log(res);
         if(res.ok){
           navigate(`/crowd/${crowdId}`);
         }
@@ -110,7 +109,7 @@ const CrowdRewardCreate = () => {
   };
 
   return (
-    <Box component="form" noValidate sx={{ mt: 3 }}>
+    <Box noValidate sx={{ mt: 3 }}>
       <div className="crowd-reward-create-container">
       <h3>프로젝트 리워드 설계</h3>
       <h4>서포터님들에게 제공할 리워드를 입력해 주세요.</h4>
@@ -180,7 +179,7 @@ const CrowdRewardCreate = () => {
             ))}
           </ul>
         </div>
-        <button id='role-next-btn' onClick={sendDataToServer}>
+        <button id='role-next-btn' onClick={handleNextButtonClick}>
           다음
         </button>
       </div>
