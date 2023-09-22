@@ -36,6 +36,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-bottom: 3%;
+    margin-left: 30%;
   }
   
   #applicant-sub:hover {

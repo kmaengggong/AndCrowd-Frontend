@@ -31,9 +31,9 @@ const MyPageCard = ({project, type}) => {
         makerAnd: project.andTitle,
         makerCrowd: project.crowdTitle
     };
-    const projectContent = {
-        and: project.andContent,
-        order: project.crowdContent,
+    const projectCategory = {
+        and: project.andCategoryId,
+        order: project.crowdCategoryId,
         like: '',
         makerAnd: project.andContent,
         makerCrowd: project.crowdContent
@@ -45,6 +45,16 @@ const MyPageCard = ({project, type}) => {
         makerAnd: 'and',
         makerCrowd: 'crowd'
     };
+    const categoryMap = {
+        1: '문화 예술',
+        2: '액티비티 스포츠',
+        3: '테크 가전',
+        4: '푸드',
+        5: '언어',
+        6: '여행',
+        7: '반려동물',
+        8: '기타',
+      };
 
     const navigate = useNavigate();
     
@@ -82,7 +92,7 @@ const MyPageCard = ({project, type}) => {
                     sx={{ mt: 1, fontWeight: 'xl', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'inline-block'}}
                     // sx={{ mt: 1, fontWeight: 'xl', overflow:'hidden', textOverflow:'ellipsis', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' }}
                 >
-                    {projectContent[type]}
+                    {categoryMap[projectCategory[type]]}
                 </Typography>
             </CardContent>
             </Grid>

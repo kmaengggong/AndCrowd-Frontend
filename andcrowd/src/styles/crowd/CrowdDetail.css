@@ -1,0 +1,217 @@
+.CrowdTitle {
+    padding-left: 15%;
+    padding-right: 20%;
+}
+#crowd-title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 170%;
+    font-weight: 700;
+    color: #000000;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 10px;
+    height: 100%;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    word-wrap:break-word; 
+    line-height: 1.2em;
+    height: 4.9em;
+}
+#crowd-detail-container{
+    display: flex;
+}
+#right-top-box{
+    min-width: 35%;
+    height: 70vh;
+}
+#end-date{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #00D337;
+    padding-top: 10vh;
+    padding-left: 6.5vw;
+}
+#left-main-box{
+    height: auto;
+    width: 65%;
+}
+#go-crowd{
+    float: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #00D337;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 50%;
+    margin-top: 5%;
+    height: 7vh;
+    border-radius: 7px;
+    margin-left: 5%;
+}
+#go-crowd:hover{
+    background-color: #24c44f;
+}
+#crowd-content{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+#heart-icon{
+    color: #00D337;
+    cursor: pointer;
+}
+#linear-div{
+    display: flex;
+}
+#crowd-remain-day{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 10%;
+    margin-left: 3%;
+
+}
+#go-payment{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #00D337;
+    border: none;
+    color: white;
+    cursor: pointer;
+    margin-left: 25%;
+    margin-top: 5%;
+    width: 50%;
+    height: 7vh;
+    border-radius: 7px;
+}
+#crowd-detail-bottom{
+    display: flex;
+    margin-left: 80%;
+}
+
+#crowd-detail-upde{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    color: #000000;
+    margin-left: 15%;
+    margin-top: 20%;
+    padding-top: 1%;
+    text-decoration: none;
+    cursor: pointer;
+}
+#crowd-detail-2{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    color: #000000;
+    margin-left: 15%;
+    padding-top: 1%;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: 10%;
+}
+#crowd-detail-bottom2{
+    display: flex;
+    margin-left: 80%;
+}
+#crowd-header-img{
+    width: 50%;
+    margin-top: 10%;
+    margin-left: 10%;
+    border-radius: 5px;
+    margin-bottom: 10%;
+}
+#members{
+    margin-left: 10px;
+    margin-right: 13px;
+    cursor: pointer;
+}
+.box{
+    padding: 5px;
+    overflow: scroll;
+}
+#crowdUser-nickname{
+    margin-left: 10px;
+    margin-right: 10%;
+    margin-top: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    color: #3c403b;
+}
+.crowdUser{
+    margin: 20px;
+    margin-left: 16%;
+}
+#follow{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    height: 5vh;
+    border:1px solid #00D337;
+    border-radius: 10px;
+    flex-wrap: wrap; 
+    margin-right: 10px;
+}
+.follow-button {
+    background-color: white;
+    color: #00D337;
+}
+  
+.following-button {
+    background-color: #00D337;
+    color: white;
+}
+#report-button{
+    background-color: white;
+    border: none;
+    margin-top: 7%;
+    float: right;
+}
+#report{
+    width: 20px;
+    border: none;
+    cursor: pointer;
+}
+.catAndReport{
+    align-items: center;
+    display: flex;
+}
+#and-link{
+    margin-left: 3%;
+    color: #0d7d2bd7;
+    margin-top: 7%;
+    min-width: 50%;
+}
+#roles{
+    display: inline;
+    margin-right: 7px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 90%;
+    border: 1px rgb(60, 135, 67) solid;
+    border-radius: 15px;
+    padding: 4px 10px 5px;
+    color: rgb(34, 77, 38);
+}
+.roleBox{
+    margin-left: 15%;
+    margin-right: 15%;
+}
+.applyBox{
+    margin-left: 15%;
+    margin-right: 15%;
+}
+#apply-number{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 140%;
+    margin-top: 5px;
+}
+#apply-title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 90%;
+    margin-bottom: 0px;
+}
