@@ -86,12 +86,12 @@ const CrowdBoardUpdate = () => {
     }
 
     return (
-        <div>
+        <div id="board-update-form">
             <CrowdToolBar crowdId={crowdId} />
             <form onSubmit={handleSubmit}>
                 <div id="update-submit-btn">
-                    <Button type="button" onClick={handleUpdateCancelBtn}>취소</Button>
-                    <Button type="submit" onClick={handleSubmit}>저장</Button>
+                    <button type="button" onClick={handleUpdateCancelBtn}>취소</button>
+                    <button type="submit" onClick={handleSubmit}>저장</button>
                 </div>
                 <div>
                     <input id="crowdBoard-update-input" type="text" name="crowdBoardTitle" value={formData.crowdBoardTitle} onChange={handleInputChange} placeholder="제목" /> <br />

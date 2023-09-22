@@ -18,7 +18,7 @@ const categoriesData = [
     },
     {
         name: '1',
-        text: '문화 예술',
+        text: '문화/예술',
         img: cat1
     },
     {
@@ -28,7 +28,7 @@ const categoriesData = [
     },
     {
         name: '3',
-        text: '테크 가전',
+        text: '테크/가전',
         img: cat3
     },
     {

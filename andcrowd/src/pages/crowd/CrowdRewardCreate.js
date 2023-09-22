@@ -83,6 +83,7 @@ const CrowdRewardCreate = () => {
 
   // 다음 버튼 클릭 핸들러 분리
   const handleNextButtonClick = () => {
+    alert('펀딩글이 성공적으로 작성되었습니다. 심사는 5-7일 정도 소요됩니다.')
     sendDataToServer();
   };
 
@@ -98,7 +99,7 @@ const CrowdRewardCreate = () => {
         body: JSON.stringify(rewards),
       }).then(res => {
         if(res.ok){
-          navigate(`/crowd/${crowdId}`);
+          navigate(`/crowd/list`);
         }
         else{
           throw new Error(`Request failed with status ${res.status}`);
@@ -180,7 +181,7 @@ const CrowdRewardCreate = () => {
             ))}
           </ul>
         </div>
-        <button id='role-next-btn' onClick={sendDataToServer}>
+        <button id='role-next-btn' onClick={handleNextButtonClick}>
           다음
         </button>
       </div>

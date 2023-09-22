@@ -106,15 +106,12 @@ const CrowdQnaList = (props) => {
     qnaReplyContent: "",
   });
 
-  useEffect(() => {
-    checkUserPermission();
-  }, [crowdId]);
-
   const crowdQnaId = params.crowdQnaId;
 
   const checkUserPermission = async () => {
     try{
       const userId = GetUserId();
+      console.log(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/user-check/${userId}`);
       const response = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}/qnareply/user-check/${userId}`);
 
       if(response.ok) {
@@ -150,6 +147,7 @@ const CrowdQnaList = (props) => {
       console.error("데이터를 가져오는 중 오류:", error);
     }
   };
+
 
   const fetchQnaData = async (crowdId, crowdQnaId) => {
     try {
@@ -199,7 +197,7 @@ const CrowdQnaList = (props) => {
 
   useEffect(() => {
     fetchData();
-    // fetchIsCrowdUser();
+    checkUserPermission();
   }, [crowdId, currentPage]);
 
   const fetchData = async () => {
@@ -580,7 +578,7 @@ const CrowdQnaList = (props) => {
                                                 {comment.qnaReplyContent}
 
                                                 {/* 해당 답변 작성자만 수정/삭제 가능 */}
-                                                {userId === crowdQna.userId && (
+                                                {isAdmin && (
                                                   <>
                                                   <Button size="small" sx={{minWidth: "40px", ml: 2}}
                                                     onClick={() => {handleOpenReplyModal(crowdId, crowdQna.crowdQnaId, comment.qnaReplyId);
