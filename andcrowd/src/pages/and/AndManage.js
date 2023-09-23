@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import AndApplicant from "./AndApplicant";
 import axios from "axios";
 import '../../styles/and/AndManage.css'
+import { Avatar } from '@mui/material';
 
 const AndManage = () => {
 
@@ -17,7 +18,7 @@ const AndManage = () => {
     const [andMemberList, setMemberList] = useState([]);
     const [andApplicantList, setAndApplicantList] = useState([]);
     const [andApplyStatus, setAndApplyStatus] = useState([]);
-
+    const [members, setMembers] = useState([]);
     useEffect(() => {
         fetchRoleApplyData();
         fetchNeedNumApplyData();
@@ -58,7 +59,7 @@ const AndManage = () => {
           console.error("Error fetching And data:", error);
         }
     };
-
+    
     const fetchMemberData = async () => {
         try {
           const response = await fetch(`/and/${andId}/member/list`);
@@ -92,7 +93,7 @@ const AndManage = () => {
           console.error("Error fetching And data:", error);
         }
     };
-
+    
     const handleApplyStatusChange = async (updatedStatus, andApplyId) => {
     const updatedStatusValue = parseInt(updatedStatus);
         try {
@@ -136,25 +137,18 @@ const AndManage = () => {
           <div id='man-top'>
           <div id='total-ap-mem'>
             <h3 className="section-title">전체 지원 현황</h3>
-            <ul>
-              <li>
-              {andNeedNumApply.totalApplicantNum}/{andNeedNumApply.needNumMem}
-              </li>
-            </ul>
+            <span id='tot-num'><p id='neednum'>{andNeedNumApply.totalApplicantNum}</p>/{andNeedNumApply.needNumMem}</span>
           </div>
           <hr />
           <div id='role-ap'>
             <h3 className="section-title">역할별 지원 현황</h3>
             {andRoleApplyList.map((andRoleApply) => (
-              <ul className="role-apply-item" key={andRoleApply.andRoleId}>
-              <li>
-                {andRoleApply.andRole} |
-              </li>
-              <li>
-                ( {andRoleApply.applicantCount} / {andRoleApply.andRoleLimit} )
-              </li>
-            </ul>
-            ))}
+                <div className="role-apply-item" key={andRoleApply.andRoleId}>
+                    <span id='role-nm' className={andRoleApply.applicantCount > andRoleApply.andRoleLimit ? 'red-text' : ''}>
+                    #{andRoleApply.andRole} ({andRoleApply.applicantCount} / {andRoleApply.andRoleLimit})
+                    </span>
+                </div>
+                ))}
           </div>
           </div>
             <hr />
@@ -164,10 +158,12 @@ const AndManage = () => {
                 {andMemberList.map((andMember) => (
                     <div className="member-item" key={andMember.memberId}>
                     <div className="member-info">
-                        <span id='mem-num'>멤버 번호: {andMember.memberId} </span>
-                        <span id='user-num'> 유저 번호: {andMember.userId}   </span>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Avatar sx={{ mr:1, width:35, height:36 }} alt="member_img" src={andMember.userProfileImg} />
+                    <p id='member'>{andMember.memberId}</p>
                     </div>
-                    <button onClick={() => deleteAndMember(andId, andMember.memberId)}>삭제</button>
+                    </div>
+                    <button id='mem-del-button' onClick={() => deleteAndMember(andId, andMember.memberId)}>삭제</button>
                     </div>
                 ))}
             </div>
@@ -175,39 +171,22 @@ const AndManage = () => {
             <div id='ap-manage'>
                 <h3>지원자 관리</h3>
                 {andApplicantList.map((andApplicant) => (
-                    <ul>
-                        <li>
-                            지원번호 : {andApplicant.andApplyId}
-                        </li>
-                        <li>
-                            유저 번호: {andApplicant.userId}
-                        </li>
-                        <li>
-                            역할번호: {andApplicant.andRoleId}
-                        </li>
-                        <li onClick={() => {applicantDetail(andApplicant.andApplyId)}} style={{ cursor: "pointer" }}>
-                            지원서: {andApplicant.andApplyContent}
-                        </li>
-                        <li>
-                            상태코드: {andApplicant.andApplyStatus}
-                        </li>
-                        <li>
-                            <label>상태 변경: </label>
-                            <select 
-                                value={andApplicant.andApplyStatus} 
-                                onChange={(e) => handleApplyStatusChange(e.target.value, andApplicant.andApplyId)}>
-                                <option value="0">0 : new</option>
-                                <option value="1">1 : 승인</option>
-                                <option value="2">2 : 보류</option>
-                                <option value="3">3 : 기각</option>
-                            </select>
-                        </li>
-
-                    </ul>
+                    <div id = 'ap-man-div'>
+                        <span id='applyTitle' onClick={() => {applicantDetail(andApplicant.andApplyId)}} style={{ cursor: "pointer" }}>
+                        [ {andApplicant.andApplyTitle} ] {andRoleApplyList.map((andRoleApply) => (
+                <div className="role-apply-item" key={andRoleApply.andRoleId}>
+                    <span id='role-nm' className={andRoleApply.applicantCount > andRoleApply.andRoleLimit ? 'red-text' : ''}>
+                    #{andRoleApply.andRole}
+                    </span>
+                </div>
+                ))}
+                        </span> 
+                          
+                    </div>
                 ))}
             </div>
             </div>
-        </div>
+        </div>  
       );
     }
 

@@ -147,6 +147,7 @@ const CrowdList = () => {
   };
 
   const navigateToDetail = (crowdId) => {
+    console.log(`/crowd/${crowdId}`);
     navigate(`/crowd/${crowdId}`);
   }; // 펀딩글 클릭시 상세페이지 이동  
 
@@ -339,7 +340,7 @@ const CrowdList = () => {
                       alt=""
                       style={{ width: '100%', height: 'auto', cursor: 'none' }}
                     />
-                    <div className={styles.hearButton}
+                    <div className={styles.heartButton}
                       style={{
                         position: 'absolute',
                         top: '5px',
@@ -365,7 +366,7 @@ const CrowdList = () => {
                     </div>
                   </AspectRatio>
                 </CardOverflow>
-                <CardContent>
+                <CardContent onClick={() => navigateToDetail(crowd.crowdId)}>
                   <Typography level="body-xs" onClick={() => navigateToDetail(crowd.crowdId)} >{crowd.crowdCategory}</Typography>
                   <Link
                     fontWeight="lg"

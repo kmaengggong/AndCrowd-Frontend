@@ -6,37 +6,38 @@ import { GetUserId } from "../../components/user/GetUserId";
 import ReactPaginate from 'react-paginate';
 import styled from 'styled-components';
 import { getUserNickname } from "../../components/and/userApi";
+import CrowdTimer2 from "../../components/crowd/CrowdTimer2";
 
 const MyBoardPaginate = styled(ReactPaginate).attrs({
     activeClassName: "active",
-  })`
-    margin: 50px auto;
+    })`
+    margin: auto;
     display: flex;
     justify-content: center;
     list-style-type: none;
     padding: 0 5rem;
     li a {
-      border-radius: 7px;
-      padding: 0.1rem 1rem;
-      cursor: pointer;
+        border-radius: 7px;
+        padding: 0.1rem 1rem;
+        cursor: pointer;
     }
     li.previous a,
     li.next a {
-      color: #63b762;
+        color: #63b762;
     }
     li.active a {
-      color: #91cd96;
-      font-weight: 700;
-      min-width: 32px;
+        color: #91cd96;
+        font-weight: 700;
+        min-width: 32px;
     }
     li.disabled a {
-      color: #a6a6a6;
+        color: #a6a6a6;
     }
     li.disable,
     li.disabled a {
-      cursor: default;
+        cursor: default;
     }
-  `;
+`;
 
 const CrowdBoardList = () => {
     const params = useParams();
@@ -125,7 +126,7 @@ const CrowdBoardList = () => {
         navigate(`/crowd/${crowdId}/board/${crowdBoardId}`);
     }    
 
-    const formatDate = (dateTimeString) => { // 작성일 표기
+    const formatDate = (dateTimeString) => {
         if (!dateTimeString) return "";
       
         const dateObject = new Date(dateTimeString);
@@ -148,7 +149,7 @@ const CrowdBoardList = () => {
                     공지글 작성
                 </Button>
                 ) : (
-                    <p>Read Only</p>
+                    <></>
                 )}
             </div>
             <div id="board-box">
@@ -158,6 +159,7 @@ const CrowdBoardList = () => {
                         <TableRow>
                             <TableCell align="center">구분</TableCell>
                             <TableCell align="center">제목</TableCell>
+                            <TableCell align="center">작성자</TableCell>
                             <TableCell align="center">작성일</TableCell>
                         </TableRow>
                     </TableHead>
@@ -176,6 +178,7 @@ const CrowdBoardList = () => {
                                     {crowdBoard.crowdBoardTitle}
                                 </Button>
                             </TableCell>
+                            <TableCell align="center">{crowdBoard.userNickname}</TableCell>
                             <TableCell align="center">
                                 {formatDate(crowdBoard.updatedAt)}
                             </TableCell>
@@ -186,7 +189,9 @@ const CrowdBoardList = () => {
                     </Table>
                 </TableContainer>
 
-                <MyBoardPaginate
+            </div>
+            <br />
+            <MyBoardPaginate
                     pageCount={pageCount}
                     onPageChange={({ selected }) => setCurrentPage(selected)}
                     containerClassName={'pagination'}
@@ -198,7 +203,6 @@ const CrowdBoardList = () => {
                     breakLabel="..."
                     renderOnZeroPageCount={null}
                     />
-            </div>
         </div>
     );
 }

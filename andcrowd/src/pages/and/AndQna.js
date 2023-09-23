@@ -511,7 +511,7 @@ const formatDate = (dateTimeString) => {
                               <>
                               <TableRow>
                                 <TableCell colSpan={4} sx={{ padding: 2, paddingLeft: 8, borderBottom: 'none', borderTop: 'none' }} >
-                                  {andQna.andQnaContent}
+                                  <div id='crowd-content-div' dangerouslySetInnerHTML={{ __html :  andQna.andQnaContent  }} style={{ maxWidth: '100%', overflowX: 'auto',overflowY: 'auto' }}/>
                                 </TableCell>
                               </TableRow>
                               <TableRow>

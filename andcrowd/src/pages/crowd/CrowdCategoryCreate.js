@@ -6,15 +6,15 @@ import Grid from '@mui/material/Grid';
 const categories = [
   {
     name: '1',
-    text: '문화 예술'
+    text: '문화/예술'
   },
   {
     name: '2',
-    text: '액티비티 스포츠'
+    text: '액티비티/스포츠'
   },
   {
     name: '3',
-    text: '테크 가전'
+    text: '테크/가전'
   },
   {
     name: '4',
