@@ -1,9 +1,11 @@
 import { Box, TableCell, TableHead, TableRow, TableSortLabel } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Loading from "../etc/Loading";
 
 const OrderDetailContent = ({userId}) => {
-    const [orderDetails, setOrderDetails] = useState([]);
+    const [orderDetails, setOrderDetails] = useState(null);
 
     const columns = [
         // {field: 'purchaseId', headerName: 'ID', width: 80},
@@ -17,6 +19,8 @@ const OrderDetailContent = ({userId}) => {
         {field: 'purchaseDate', headerName: '결제일', width: 180},
         {field: 'purchaseStatus', headerName: '결제상태', width: 180},
     ];
+
+    const naviagte = useNavigate();
 
     useEffect(() => {
         const fetchOrderDetails = async () => {
@@ -36,9 +40,16 @@ const OrderDetailContent = ({userId}) => {
         fetchOrderDetails();
     }, []);
 
+    const handleRowClick = (params) => {
+        naviagte(`/order/${params.row.merchantUid}`);
+    }
+
     const NoRowsOverlay = () => (<p>비어있습니다.</p>);
 
     return(
+        <>
+        {orderDetails === null ? <Loading /> :
+        
         <Box sx={{
             '& .deleted--true':{
                 backgroundColor: '#F78181',
@@ -59,8 +70,11 @@ const OrderDetailContent = ({userId}) => {
                       },
                 }}
                 pageSizeOptions={[10, 20]}
+                onRowClick={handleRowClick}
             />
     </Box>
+    }
+    </>
     );
 };
 

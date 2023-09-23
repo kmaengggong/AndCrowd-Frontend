@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router"
 import { GetUserId } from "../user/GetUserId";
 import { GetUserInfo } from "../user/GetUserInfo";
+import Loading from "../etc/Loading";
 
 const SignRoute = ({}) => {
     const [password, setPassword] = useState('');
@@ -10,6 +11,7 @@ const SignRoute = ({}) => {
     const [userInfo, setUserInfo] = useState([]);
     const [email, setEmail] = useState(null);
     const [isValid, setIsValid] = useState(false);
+    const [isFetch, setIsFetch] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,6 +29,7 @@ const SignRoute = ({}) => {
         let obj = new Object(userInfo);
         if(Object.entries(obj).length > 0 && userInfo.socialType !== null){
             setIsValid(true);
+            setIsFetch(true);
         }
     }, [userInfo]);
 
@@ -64,46 +67,50 @@ const SignRoute = ({}) => {
 
     return (
         <>
-        {isValid === true ?
-            <Outlet />
-            :
-            <Box
-                sx={{
-                    marginTop: 5,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-            <Grid container spacing={2} maxWidth={'sm'}>
-                <Grid item xs={12} textAlign={'center'}>
-                    <h3>소중한 개인정보 보호를 위해 비밀번호를 입력해주세요</h3>
+        {isFetch === null ? <Loading /> :
+        <>
+            {isValid === true ?
+                <Outlet />
+                :
+                <Box
+                    sx={{
+                        marginTop: 5,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                <Grid container spacing={2} maxWidth={'sm'}>
+                    <Grid item xs={12} textAlign={'center'}>
+                        <h3>소중한 개인정보 보호를 위해 비밀번호를 입력해주세요</h3>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            required
+                            fullWidth
+                            name="password"
+                            label="비밀번호"
+                            type="password"
+                            id="password"
+                            autoComplete="new-password"
+                            onChange={onPasswordChange}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 1, mb: 1 }}
+                            onClick={onClickPasswordCheckButton}
+                        >
+                            비밀번호 입력
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        required
-                        fullWidth
-                        name="password"
-                        label="비밀번호"
-                        type="password"
-                        id="password"
-                        autoComplete="new-password"
-                        onChange={onPasswordChange}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 1, mb: 1 }}
-                        onClick={onClickPasswordCheckButton}
-                    >
-                        비밀번호 입력
-                    </Button>
-                </Grid>
-            </Grid>
-            </Box>
+                </Box>
+            }
+        </>
         }
         </>
     )

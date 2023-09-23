@@ -16,6 +16,7 @@ const CrowdRewardCreate = () => {
     rewardContent: "",
     rewardAmount: 0,
     rewardLimit: 0,
+    rewardLeft: 0
   });
 
   // TextField 컴포넌트 생성을 위한 커스텀 함수
@@ -38,12 +39,21 @@ const CrowdRewardCreate = () => {
     if (name === "rewardAmount") {
       newValue = Math.max(0, parseFloat(newValue));
     }
-    if (name === "rewardLimit") {
-      newValue = Math.max(0, parseFloat(newValue));
-    }
   
     setReward({ ...reward, [name]: newValue });
   };
+
+  const handleRewardLimit = (event) => {
+    event.preventDefault();
+    const {name, value} = event.currentTarget;
+    let newValue = value;
+
+    if (name === "rewardLimit") {
+      newValue = Math.max(0, parseFloat(newValue));
+    }
+
+    setReward({ ...reward, [name]: newValue, ['rewardLeft']: newValue});
+  }
   
   const handleRewardAdd = () => {
     const newReward = { ...reward };
@@ -70,6 +80,7 @@ const CrowdRewardCreate = () => {
       rewardContent: "",
       rewardAmount: 0,
       rewardLimit: 0,
+      rewardLeft: 0
     });
   };
 
@@ -81,7 +92,6 @@ const CrowdRewardCreate = () => {
   // 다음 버튼 클릭 핸들러 분리
   const handleNextButtonClick = () => {
     alert('펀딩글이 성공적으로 작성되었습니다. 심사는 5-7일 정도 소요됩니다.')
-    // navigate(`/crowd/list`);
     sendDataToServer();
   };
 
@@ -109,7 +119,6 @@ const CrowdRewardCreate = () => {
     } catch (error) {
       console.error("Error sending data:", error);
     }
-    navigate(`/crowd/${crowdId}`);
   };
 
   return (
@@ -157,7 +166,7 @@ const CrowdRewardCreate = () => {
             type="number"
             name="rewardLimit"
             value={reward.rewardLimit}
-            onChange={handleInputChange}
+            onChange={handleRewardLimit}
             placeholder="리워드 수량"
             required
           />
@@ -184,41 +193,9 @@ const CrowdRewardCreate = () => {
           </ul>
         </div>
         <button id='role-next-btn' onClick={handleNextButtonClick}>
-          다음
+          확인
         </button>
       </div>
-      
-      {/* <Box component="form" noValidate sx={{ mt: 3 }}>
-        <Grid>
-          {renderTextField("rewardTitle", "리워드 제목")}
-          {renderTextField("rewardContent", "리워드 본문")}
-          {renderTextField("rewardAmount", "리워드 금액", "number")}
-          {renderTextField("rewardLimit", "리워드 수량", "number")}
-          <div>
-            <h4>입력된 리워드</h4>
-            <ul>
-              {rewards.map((reward, index) => (
-                <li key={index}>
-                  <strong>리워드 제목:</strong> {reward.rewardTitle}<br />
-                  <strong>리워드 본문:</strong> {reward.rewardContent}<br />
-                  <strong>리워드 금액:</strong> {reward.rewardAmount}원<br />
-                  <strong>리워드 수량:</strong> {reward.rewardLimit}개<br />
-                  <button onClick={() => handleRewardDelete(index)}>리워드 삭제</button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Grid>
-        <Container component="main" maxWidth="md">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleNextButtonClick}
-          >
-            다음
-          </Button>
-        </Container>
-      </Box> */}
     </Box>
   );
 };

@@ -1,7 +1,8 @@
-import { Button, Grid, TextField } from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { GetUserId } from "../../components/user/GetUserId";
+import { Typography } from "@mui/joy";
 
 const UserPasswordChange = () => {
     const params = useParams();
@@ -65,8 +66,15 @@ const UserPasswordChange = () => {
     }
 
     return (
-        <>
-            <Grid container spacing={2}>
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
+        >
+            <Typography sx={{fontSize:30, marginTop:5, marginBottom:5, textAlign:'center', fontWeight:700, color:'gray'}}>비밀번호 변경</Typography>
+            <Grid container spacing={2} maxWidth={'sm'}>
                 <Grid item xs={12}>
                     <TextField
                         required
@@ -104,7 +112,7 @@ const UserPasswordChange = () => {
                     </Button>
                 </Grid>
             </Grid>
-        </>
+        </Box>
     );
 };
 

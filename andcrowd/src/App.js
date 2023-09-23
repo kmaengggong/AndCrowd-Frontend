@@ -96,6 +96,7 @@ import UserInfo from './pages/user/UserInfo';
 import HelpChatbot from './pages/etc/HelpChatbot';
 import ContactSupportRoundedIcon from '@mui/icons-material/ContactSupportRounded';
 import CrowdManage from './pages/crowd/CrowdManage';
+import CrowdOrderDetail from './pages/payment/CrowdOrderDetail';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -267,6 +268,7 @@ function App() {
                 <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
                 <Route path="/crowd/:crowdId/payment" element={<CrowdPayment />} />
                 <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdRewardPayment />}/>
+                <Route path='/order/:merchantUid' element={<CrowdOrderDetail />} />
                 <Route path='/crowd/:crowdId/update' element={<CrowdUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/update' element={<CrowdQnaUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply/:qnaReplyId' element={<CrowdReplyUpdate />} /> {/* 추가 */}
