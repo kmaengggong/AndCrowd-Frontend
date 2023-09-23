@@ -1,0 +1,122 @@
+.crowdManage{
+    width: 95%;
+    margin: auto;
+    margin-top: 10px;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+}
+
+.manageTitle{
+    width: 100%;
+    margin: 2% 10px 0 10px;
+}
+
+#manage-crowdTitle{
+    font-size: x-large;
+    font-style: italic;
+    font-weight: 600;
+}
+
+.topBox{
+    display: flex;
+    justify-content: space-between; 
+    margin: 0; 
+}
+
+.overallStatus, .rewardStatus{
+    padding: 10px;
+    box-sizing: border-box; 
+}
+
+.overallStatus {
+    flex: 40;
+    display: flex;
+    flex-direction: row; 
+}
+
+.rewardStatus{
+    flex: 60;
+    border-left: #999999;
+}
+
+#overall-left {
+    flex: 65; 
+    padding: 10px; 
+    box-sizing: border-box; 
+}
+
+#overall-right {
+    flex: 35;
+    padding: 10px; 
+    box-sizing: border-box; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center; 
+    height: 100%; 
+}
+
+#portion{
+    margin-bottom: 2px;
+}
+
+#totalFunded{
+    font-weight: bold;
+    font-size: x-large;
+}
+
+#crowdGoal{
+    font-size: small;
+}
+
+#description{
+    font-size: small;
+    color: #999999;
+    margin-top: 0px;
+}
+
+#total-purchase{
+    font-weight: bold;
+    font-size: x-large;
+}
+
+#percent{
+    width: fit-content;
+    padding: 20%;
+    border-radius: 50px;
+    background-color: rgb(148, 255, 155);
+    font-weight: bold;
+    font-size: x-large;
+}
+
+#achieved{
+    text-align: center;
+    margin-top: 10px;
+}
+
+#reward-table {
+    width: 95%;
+    border-collapse: collapse;
+    float: right;
+    border: #e5e5e58d solid 1px;
+}
+
+#reward-th, #reward-td {
+    text-align: center;
+    padding: 8px;
+}
+
+#reward-th {
+    background-color: #f2f2f2;
+}
+
+#reward-tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+#purchase-title{
+    margin-bottom: 9px;
+    margin-left: 5px;
+    margin-top: 2%;
+    font-weight: 600;
+    font-size: large;
+}
