@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, MenuItem, FormControl, Select } from "@mui/material";
+import '../../styles/crowd/CrowdManage.css';
 
 const columns = [
     { 
@@ -19,12 +20,12 @@ const columns = [
     {
         field: 'rewardName', 
         headerName: '리워드명',
-        width: 150
+        width: 140
     },
     {
         field: 'purchaseAmount', 
-        headerName: '결제 금액',
-        width: 100
+        headerName: '결제 금액 (₩)',
+        width: 110
     },
     {
         field: 'purchaseStatus', 
@@ -191,98 +192,108 @@ const CrowdManage = () => {
     }
 
     return(
-        <div>
-            <h2>'{crowd.crowdTitle}'</h2>
-            <h3>펀딩 전체 현황</h3>
-            <p>총 모임 금액 / 목표 금액</p>
-            <p>{totalFunded} / {crowd.crowdGoal}</p>
-            <p>{`${(totalFunded / parseFloat(crowd.crowdGoal) * 100).toFixed(1)}%`}</p>
-            <hr/>
-            <p>리워드별 모금 현황</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>리워드명</th>
-                        <th>판매량</th>
-                        <th>총 금액 (₩)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {rewardFundedList.map((rewardFunded) => (
-                    <tr key={rewardFunded.rewardId}>
-                        <td>{rewardFunded.rewardName}</td>
-                        <td>{rewardFunded.rewardCounts}</td>
-                        <td>{rewardFunded.rewardSale}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            <hr/>
-            <p>총 결제 건수: {purchaseList.length}</p>
-            <hr/>
-            <p>결제 관리</p>
-            <DataGrid
-                slots={{noRowsOverlay: NoRowsOverlay}}
-                rows={purchaseList}
-                columns={columns}
-                getRowId={(row) => row.purchaseId} 
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 7},
-                    },
-                }}
-                pageSizeOptions={[10, 20]}
-                checkboxSelection
-                onRowSelectionModelChange={(newRowSelectionModel) => {
-                    setRowSelectionModel(newRowSelectionModel);
-                }}
-            />
-            <Button
-                variant="outlined"
-                color="primary"
-                sx={{ mt:2, float:'right' }}
-                onClick={handleOpenProcessDialog}
-            >
-                주문상태 업데이트
-            </Button>
-            <Dialog
-                open={openProcessDialog}
-                onClose={handleCloseProcessDialog}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {rowSelectionModel[0]}번 주문 내역 업데이트
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                    <FormControl sx={{ m: 1, minWidth: 120 }}>
-                        <Select
-                        value={newStatus}
-                        onChange={handleChange}
-                        displayEmpty
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        >
-                        <MenuItem value="">
-                            <em>선택해주세요</em>
-                        </MenuItem>
-                        <MenuItem value={'결제대기'}>결제대기</MenuItem>
-                        <MenuItem value={'결제완료'}>결제완료</MenuItem>
-                        <MenuItem value={'결제취소'}>결제취소</MenuItem>
-                        <MenuItem value={'배송준비'}>배송준비</MenuItem>
-                        <MenuItem value={'배송중'}>배송중</MenuItem>
-                        <MenuItem value={'배송완료'}>배송완료</MenuItem>
-                        </Select>
-                    </FormControl>
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleProcess}>업데이트</Button>
-                </DialogActions>
-            </Dialog>
+        <div className="crowdManage">
+            <div className="manageTitle">
+                <span id="manage-crowdTitle">'{crowd.crowdTitle}'</span>
+            </div>
+            <div className="topBox">
+                <div className="overallStatus">
+                    <div id="overall-left">
+                        <p id="portion"><span id="totalFunded">{totalFunded}</span> / <span id="crowdGoal">{crowd.crowdGoal} 원</span></p>
+                        <p id="description">(모인 금액 / 목표 금액)</p>
+                        <p>총 결제 건수: <span id="total-purchase">{purchaseList.length}</span></p>
+                    </div>
+                    <div id="overall-right">
+                        <div id="percent">{`${(totalFunded / parseFloat(crowd.crowdGoal) * 100).toFixed(1)}%`}</div>
+                        <p id="achieved">달성 !</p>
+                    </div>
+                </div>
+                <div className="rewardStatus">
+                    <div>
+                    <table id="reward-table">
+                        <thead>
+                            <tr>
+                                <th id="reward-th">리워드명</th>
+                                <th id="reward-th">판매량</th>
+                                <th id="reward-th">총 금액 (₩)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {rewardFundedList.map((rewardFunded) => (
+                            <tr id="reward-tr" key={rewardFunded.rewardId}>
+                                <td id="reward-td">{rewardFunded.rewardName}</td>
+                                <td id="reward-td">{rewardFunded.rewardCounts}</td>
+                                <td id="reward-td">{rewardFunded.rewardSale}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
 
-
-
+            <div className="purchaseStatus">
+                <h3 id="purchase-title">결제 관리</h3>
+                <DataGrid
+                    slots={{noRowsOverlay: NoRowsOverlay}}
+                    rows={purchaseList}
+                    columns={columns}
+                    getRowId={(row) => row.purchaseId} 
+                    initialState={{
+                        pagination: {
+                            paginationModel: { page: 0, pageSize: 7},
+                        },
+                    }}
+                    pageSizeOptions={[10, 20]}
+                    checkboxSelection
+                    onRowSelectionModelChange={(newRowSelectionModel) => {
+                        setRowSelectionModel(newRowSelectionModel);
+                    }}
+                />
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    sx={{ mt:'2%', float:'right' }}
+                    onClick={handleOpenProcessDialog}
+                >
+                    주문상태 업데이트
+                </Button>
+                <Dialog
+                    open={openProcessDialog}
+                    onClose={handleCloseProcessDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {rowSelectionModel[0]}번 주문 내역 업데이트
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                        <FormControl sx={{ m: 1, minWidth: 120 }}>
+                            <Select
+                            value={newStatus}
+                            onChange={handleChange}
+                            displayEmpty
+                            inputProps={{ 'aria-label': 'Without label' }}
+                            >
+                            <MenuItem value="">
+                                <em>선택해주세요</em>
+                            </MenuItem>
+                            <MenuItem value={'결제대기'}>결제대기</MenuItem>
+                            <MenuItem value={'결제완료'}>결제완료</MenuItem>
+                            <MenuItem value={'결제취소'}>결제취소</MenuItem>
+                            <MenuItem value={'배송준비'}>배송준비</MenuItem>
+                            <MenuItem value={'배송중'}>배송중</MenuItem>
+                            <MenuItem value={'배송완료'}>배송완료</MenuItem>
+                            </Select>
+                        </FormControl>
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleProcess}>업데이트</Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
         </div>
     );
 };
