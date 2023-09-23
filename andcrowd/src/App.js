@@ -95,6 +95,7 @@ import OrderDetail from './pages/user/OrderDetail';
 import UserInfo from './pages/user/UserInfo';
 import HelpChatbot from './pages/etc/HelpChatbot';
 import ContactSupportRoundedIcon from '@mui/icons-material/ContactSupportRounded';
+import CrowdRewardUpdate from './pages/crowd/CrowdRewardUpdate';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -223,7 +224,7 @@ function App() {
               <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
-              <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply' element={<CrowdReplyCreate/>} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/:crowdQnaId/create' element={<CrowdReplyCreate/>} /> {/* 추가 */}
 
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
@@ -268,6 +269,7 @@ function App() {
                 <Route path='/crowd/:crowdId/update' element={<CrowdUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/update' element={<CrowdQnaUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply/:qnaReplyId' element={<CrowdReplyUpdate />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/reward/update' element={<CrowdRewardUpdate />} /> {/* 추가 */}
               </Route>
               
             </Route>
