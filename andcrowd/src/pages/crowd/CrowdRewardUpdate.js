@@ -69,30 +69,6 @@ const CrowdRewardUpdate = () => {
     if(response.ok) {
         console.log("rewards updated successfully");
         setOpen(false);
-
-        // const updatedRewardLimit = parseInt(reward.rewardLimit, 10);
-        // const updatedCrowdLimit = rewards.map((limit) => {
-        //     if(limit.rewardId === reward.rewardId) {
-        //         // 수정된 리워드의 수량값을 업데이트
-        //         return {
-        //             ...limit,
-        //             rewardLimit: updatedCrowdLimit,
-        //         };
-        //     }
-        //     return limit;
-        // });
-        // const updatedRewardAmount = parseInt(reward.rewardAmount, 10);
-        // const updatedCrowdAmount = rewards.map((amount) => {
-        //     if(amount.rewardId === reward.rewardId) {
-        //         // 수정된 리워드의 금액을 업데이트
-        //         return{
-        //             ...amount,
-        //             rewardAmount: updatedCrowdAmount,
-        //         };
-        //     }
-        //     return amount;
-        // });
-
         fetchRewards();
     } else {
         console.error("Error updating rewards");
@@ -136,7 +112,7 @@ const CrowdRewardUpdate = () => {
     if(response.ok) {
         console.log("reward created successfully");
         setRewards([...rewards, formData]);
-        setReward({
+        setFormData({
             rewardId: rewardId,
             rewardTitle: "",
             rewardContent: "",
@@ -172,8 +148,8 @@ const CrowdRewardUpdate = () => {
               <li key={index}>
                 <p>리워드 제목: {reward.rewardTitle}</p> <br />
                 <p>리워드 본문: {reward.rewardContent}</p> <br />
-                <p>리워드 금액: {reward.rewardAmount}원</p> <br />
-                <p>리워드 수량: {reward.rewardLimit}개</p> <br />
+                <p>리워드 금액: {reward.rewardAmount.toLocaleString()}원</p> <br />
+                <p>리워드 수량: {reward.rewardLimit.toLocaleString()}개</p> <br />
                 <button id="updateAndDelete" onClick={() => openModal(reward.rewardId)}>수정</button>
                 <Modal
                   aria-labelledby="modal-title"
@@ -262,7 +238,7 @@ const CrowdRewardUpdate = () => {
             <label>리워드내용:</label>
             <input
               type="text"
-              name="rewardContent"
+              name="rewardTitle"
               value={formData.rewardContent}
               onChange={handleInputChange}
               placeholder="리워드에대해 간단히 설명 해주세요."

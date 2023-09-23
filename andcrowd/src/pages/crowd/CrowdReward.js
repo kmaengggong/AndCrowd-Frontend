@@ -9,8 +9,6 @@ import Button from '@mui/material/Button';
 import { useParams } from "react-router-dom";
 import { TableHead } from "@mui/material";
 
-// EditReward 컴포넌트는 앞서 제공한 EditReward 컴포넌트를 사용합니다.
-
 const RewardList = () => {
   const params = useParams();
   const crowdId = params.crowdId;
@@ -37,6 +35,11 @@ const RewardList = () => {
     }
   };
 
+  // 숫자를 천 단위 콤마로 포맷팅하는 함수
+  const formatNumberWithCommas = (number) => {
+    return number.toLocaleString();
+  };
+
   return (
     <div>
       <h3>리워드 목록</h3>
@@ -53,8 +56,8 @@ const RewardList = () => {
               <TableRow key={index}>
                 <TableCell>{reward.rewardTitle}</TableCell>
                 <TableCell>{reward.rewardContent}</TableCell>
-                <TableCell>{reward.rewardAmount}</TableCell>
-                <TableCell>{reward.rewardLimit}개</TableCell>
+                <TableCell>{formatNumberWithCommas(reward.rewardAmount)}원</TableCell>
+                <TableCell>{formatNumberWithCommas(reward.rewardLimit)}개</TableCell>
               </TableRow>
             ))}
           </TableBody>
