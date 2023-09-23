@@ -95,6 +95,7 @@ import OrderDetail from './pages/user/OrderDetail';
 import UserInfo from './pages/user/UserInfo';
 import HelpChatbot from './pages/etc/HelpChatbot';
 import ContactSupportRoundedIcon from '@mui/icons-material/ContactSupportRounded';
+import CrowdManage from './pages/crowd/CrowdManage';
 import CrowdRewardUpdate from './pages/crowd/CrowdRewardUpdate';
 
 const sections = [
@@ -218,6 +219,7 @@ function App() {
 
               <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
               <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
+              <Route path="/crowd/:crowdId/manage" element={<CrowdManage />} />
               <Route path="/crowd/:crowdId/reward" element={<CrowdRewardCreate />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/reward/all" element={<CrowdReward />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/qna/all" element={<CrowdQnaList />} /> {/* 추가 */}
