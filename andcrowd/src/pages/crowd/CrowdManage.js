@@ -188,7 +188,10 @@ const CrowdManage = () => {
         } else {
             alert("유효한 옵션을 선택해주세요.");
         }
+    }
 
+    const onClickRewardAddButton = () => {
+        navigate(`/crowd/${crowdId}/reward`)
     }
 
     return(
@@ -231,6 +234,8 @@ const CrowdManage = () => {
                     </div>
                 </div>
             </div>
+            <Button sx={{float:'right'}} variant='outlined' onClick={onClickRewardAddButton}>리워드 추가</Button>
+            <br/>
 
             <div className="purchaseStatus">
                 <h3 id="purchase-title">결제 관리</h3>

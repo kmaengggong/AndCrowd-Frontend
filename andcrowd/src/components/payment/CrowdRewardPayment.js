@@ -2,11 +2,12 @@ import { Box, Button, TextField } from "@mui/material";
 import { GetUserId } from "../user/GetUserId";
 import { GetUserInfo } from "../user/GetUserInfo";
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Typography } from "@mui/joy";
 import { add } from "lodash";
 
 const CrowdRewardPayment = () => {
+    const navigate = useNavigate();
     const pg = {
         card: 'html5_inicis',
         kakao: 'kakaopay.TC0ONETIME'
@@ -34,6 +35,10 @@ const CrowdRewardPayment = () => {
                 .then(res => {
                     return res.json();
                 }).then(data => {
+                    if(data.rewardLeft < 1){
+                        alert("물건이 품절되었습니다.");
+                        navigate(`/crowd/${crowdId}`);
+                    }
                     setReward(data);
                 })
             } catch(error){
@@ -42,6 +47,7 @@ const CrowdRewardPayment = () => {
         };
 
         fetchRewards();
+        
         setUserId(GetUserId());
     }, []);
 
@@ -76,6 +82,20 @@ const CrowdRewardPayment = () => {
     const onClickPaymentButton = (type, event) => {
         event.preventDefault();
 
+        try{
+            fetch(`/crowd/${crowdId}/reward/${rewardId}`)
+            .then(res => {
+                return res.json();
+            }).then(data => {
+                if(data.rewardLeft < 1){
+                    alert("물건이 품절되었습니다.");
+                    navigate(`/crowd/${crowdId}`);
+                }
+            })
+        } catch(error){
+            console.error(error);
+        }
+
         if(phone.length < 1){
             alert("전화번호를 입력해주세요.");
             return;
@@ -88,7 +108,7 @@ const CrowdRewardPayment = () => {
         const {IMP} = window;
         IMP.init("imp61051146");  // 가맹점번호
 
-        const merchant_uid = `crowd_${new Date().getTime()}_userId`;
+        const merchant_uid = `crowd_${new Date().getTime()}_${userId}`;
         merchantUid.current = merchant_uid;
 
         const data = {
@@ -116,7 +136,6 @@ const CrowdRewardPayment = () => {
             return;
         }
         if(success){
-            alert("결제 성공!");
             try{
                 await fetch(`/crowd_order/successorder`, {
                     method: "POST",
@@ -137,7 +156,14 @@ const CrowdRewardPayment = () => {
                         purchaseAmount: paid_amount
                     }),
                 }).then(res => {
-                    console.log(res);
+                    if(res.ok){
+                        alert("결제 성공!");
+                        navigate(`/order/${merchantUid.current}`);
+                    }
+                    else{
+                        alert("결제 실패!");
+                        navigate(`/crowd/${crowdId}/payment`)
+                    }
                 })
             } catch(error){
                 console.error(error);
@@ -147,6 +173,7 @@ const CrowdRewardPayment = () => {
             alert("결제 실패!");
             console.log(error_msg);
         }
+        
     }
 
     return(

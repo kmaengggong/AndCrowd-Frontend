@@ -44,7 +44,7 @@ const UserInfo = () => {
     return (
         <>
         {isUser && <>
-            <Typography sx={{fontSize:30, marginTop:5, marginBottom:3, textAlign:'center', fontWeight:700, color:'gray'}}>회원 정보</Typography>
+            <Typography sx={{fontSize:30, marginTop:5, marginBottom:5, textAlign:'center', fontWeight:700, color:'gray'}}>회원 정보</Typography>
 
             <Grid container spacing={3}>
                 
@@ -58,7 +58,7 @@ const UserInfo = () => {
                 </Grid>
                 <Grid item xs={12}>
                 <Typography sx={{fontSize:20, fontWeight:700, color:'#00D337', marginTop:1}}>{userInfo.userNickname}</Typography>
-                <hr />
+                <hr style={{marginTop:15, marginBottom:15}} />
                 </Grid>
                 <Button fullWidth variant="solid" onClick={onClickMyPageButton}>마이 페이지</Button>
                 <Button fullWidth variant="solid" onClick={onClickProfileImgEditButton}>프로필 사진 수정</Button>

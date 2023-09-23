@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { GetIsUserAdmin } from "../user/GetIsUserAdmin";
 import { Outlet, useNavigate } from "react-router"
 import NotFound from "../../pages/etc/NotFound";
+import Loading from "../etc/Loading";
 
 const AdminRoute = () => {
-    const [isAdmin, setIsAdmin] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(null);
     
     useEffect(() => {
         GetIsUserAdmin(setIsAdmin);
@@ -12,7 +13,7 @@ const AdminRoute = () => {
 
     return(
         <>
-        {isAdmin === true ?
+        {isAdmin === null ? <Loading /> : isAdmin === true ?
             <Outlet />
             :
             <NotFound />    

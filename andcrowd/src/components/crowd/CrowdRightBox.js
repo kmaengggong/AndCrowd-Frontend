@@ -283,7 +283,7 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   const fetchFollow = async (userId) => {
     try {
       const myId = GetUserId();
-      const response = await fetch(`/crowd/${myId}/follow/${userId}`, {
+      const response = await fetch(`/user/${myId}/follow/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -309,8 +309,8 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   const fetchIsFollowed = async (userId) => {
     try {
       const myId = GetUserId();
-      console.log(`/crowd/${myId}/follow/${userId}`);
-      const response = await fetch(`/crowd/${myId}/follow/${userId}`); // 엔드포인트 수정
+      console.log(`/user/${myId}/follow/${userId}`);
+      const response = await fetch(`/user/${myId}/follow/${userId}`); // 엔드포인트 수정
       if (response.ok) {
         const data = await response.json();
         console.log("data follow: ", data);

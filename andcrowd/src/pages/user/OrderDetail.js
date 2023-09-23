@@ -51,7 +51,7 @@ const OrderDetail = () => {
                         </Grid>
                         <Grid item xs={12}>
                         <Typography sx={{fontSize:20, fontWeight:700, color:'#00D337', marginTop:1}}>{userInfo.userNickname}</Typography>
-                        <hr />
+                        <hr style={{marginTop:15, marginBottom:15}} />
                         </Grid>
 
                         <Button fullWidth variant="solid" onClick={onClickMyPageButton}>마이 페이지</Button>

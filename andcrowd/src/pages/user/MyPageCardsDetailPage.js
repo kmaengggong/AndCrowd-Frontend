@@ -4,12 +4,13 @@ import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogConten
 import Typography from '@mui/joy/Typography';
 import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";
 import MyPageCard from "../../components/user/MyPageCard";
+import Loading from "../../components/etc/Loading";
 
 const MyPageCardsDetailPage = () => {
     const params = useParams();
     const userId = params.userId;
     const type = params.type;
-    const [projects, setProjects] = useState([]);
+    const [projects, setProjects] = useState(null);
     const [projectLen, setProjectLen] = useState(0);
     const headText = {
         and: "참여한 모임",
@@ -31,7 +32,7 @@ const MyPageCardsDetailPage = () => {
     }, [])
 
     useEffect(() => {
-        if(projects.length > 0){
+        if(projects !== null){
             setProjectLen(projects.length);
         }
     }, [projects])
@@ -51,6 +52,8 @@ const MyPageCardsDetailPage = () => {
 
     return(
         <>
+        {projects === null ? <Loading /> :
+        <>
             <Typography sx={{fontSize:30, marginTop:5, marginBottom:2, textAlign:'center', fontWeight:700, color:'gray'}}>{headText[type]}</Typography>
 
             <Grid container spacing={3} marginTop={7}>
@@ -66,6 +69,8 @@ const MyPageCardsDetailPage = () => {
                 </Grid>
                 }
             </Grid>
+        </>
+        }
         </>
     );
 };

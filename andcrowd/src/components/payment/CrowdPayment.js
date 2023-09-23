@@ -16,8 +16,13 @@ const CrowdPayment = () => {
             try{
                 fetch(`/crowd/${crowdId}/reward/all`)
                 .then(res => {
-                    console.log(res);
-                    return res.json();
+                    if(res.ok){
+                        return res.json();
+                    }
+                    else{
+                        alert("해당 펀딩에 리워드가 없습니다!");
+                        navigate(`/crowd/${crowdId}`);
+                    }
                 }).then(data => {
                     setRewards(data);
                 })
@@ -45,12 +50,12 @@ const CrowdPayment = () => {
     };
 
     return(
-        <Box sx={{'& .card-selected':{backgroundColor:'#EFEFEF'}}}>
+        <Box sx={{'& .card-soldout':{backgroundColor:'#FFCCBB'}, '& .card-selected':{backgroundColor:'#EFEFEF'}}}>
             <Typography sx={{fontSize:30, marginTop:5, marginBottom:3, textAlign:'center', fontWeight:700, color:'gray'}}>리워드 선택</Typography>
 
             {rewards.map((reward) => (
                 <Card
-                    className={parseInt(selectedRewardId) === reward.rewardId ? 'card-selected' : 'card-normal'}
+                    className={reward.rewardLeft < 1 ? 'card-soldout' : parseInt(selectedRewardId) === reward.rewardId ? 'card-selected' : 'card-normal'}
                     sx={{ display: 'flex', mb:2 }}
                     key={reward.rewardId}
                 >
@@ -69,7 +74,7 @@ const CrowdPayment = () => {
                                 {reward.rewardContent}
                             </Typography>
                             <Typography sx={{fontSize:14, fontWeight:700, color:'gray'}}>
-                                남은 수량: {reward.rewardAmount} 개
+                                남은 수량: {reward.rewardLeft} 개
                             </Typography>
                         </CardContent>
                     </Box>
@@ -77,7 +82,11 @@ const CrowdPayment = () => {
                         <Typography sx={{mr:3, fontSize:16, fontWeight:700, color:'gray'}}>
                             {reward.rewardAmount} 원
                         </Typography>
-                        <Button id={reward.rewardId} onClick={onClickChooseCard} variant="outlined">선택</Button>
+                        {reward.rewardLeft < 1 ?
+                            <Button id={reward.rewardId} color="error" disabled>품절</Button>
+                            :
+                            <Button id={reward.rewardId} onClick={onClickChooseCard} variant="outlined">선택</Button>
+                        }
                     </CardActions>
                 </Card>
             ))}

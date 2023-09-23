@@ -10,6 +10,7 @@ import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";
 import { GetIsUserAdmin } from "../../components/user/GetIsUserAdmin";
 import MyPageAvatar from "../../components/user/MyPageAvatar";
 import MyPageEmptyAvatar from "../../components/user/MyPageEmptyAvatar";
+import Loading from "../../components/etc/Loading";
 
 const MyPage = () => {
     const params = useParams();
@@ -196,7 +197,7 @@ const MyPage = () => {
                         </Grid>
                         <Grid item xs={12}>
                         <Typography sx={{fontSize:20, fontWeight:700, color:'#00D337', marginTop:1}}>{userInfo.userNickname}</Typography>
-                        <hr />
+                        <hr style={{marginTop:15, marginBottom:15}} />
                         </Grid>
                         {isOwner ?
                             <>
@@ -220,7 +221,7 @@ const MyPage = () => {
                             </Grid>
                             {userAnd.length === 0 ? <></> :
                             <Grid item xs={2}>
-                                <Button variant="outlined" href={`/user/${userId}/detail/and`} sx={{float:'right'}}>자세히</Button>
+                                <Button variant="outlined" href={`/user/${userId}/detail/and`} sx={{float:'right'}} color="success">자세히</Button>
                             </Grid>
                             }
                         </Grid>
@@ -246,7 +247,7 @@ const MyPage = () => {
                             </Grid>
                             {userOrder.length === 0 ? <></> :
                             <Grid item xs={2}>
-                                <Button variant="outlined" sx={{float:'right'}} href={`/user/${userId}/detail/order`}>자세히</Button>
+                                <Button variant="outlined" sx={{float:'right'}} href={`/user/${userId}/detail/order`} color="success">자세히</Button>
                             </Grid>
                             }
                         </Grid>
@@ -272,7 +273,7 @@ const MyPage = () => {
                             </Grid>
                             {userLike.length === 0 ? <></> :
                             <Grid item xs={2}>
-                                <Button variant="outlined" sx={{float:'right'}} href={`/user/${userId}/detail/like`}>자세히</Button>
+                                <Button variant="outlined" sx={{float:'right'}} href={`/user/${userId}/detail/like`} color="success">자세히</Button>
                             </Grid>
                             }
                         </Grid>
@@ -298,7 +299,7 @@ const MyPage = () => {
                             </Grid>
                             {userLike.length === 0 ? <></> :
                             <Grid item xs={2}>
-                                <Button variant="outlined" sx={{float:'right'}}>자세히</Button>
+                                <Button variant="outlined" sx={{float:'right'}} color="success">자세히</Button>
                             </Grid>
                             }
                         </Grid>
@@ -321,7 +322,7 @@ const MyPage = () => {
                 </Grid>
             </>
             :
-            <></>
+            <Loading />
             }
         </>
     );
