@@ -6,13 +6,17 @@ import AndApplicant from "./AndApplicant";
 import axios from "axios";
 import '../../styles/and/AndManage.css'
 import { Avatar } from '@mui/material';
+import { GetUserInfo } from '../../components/user/GetUserInfo'
+import { GetUserId } from '../../components/user/GetUserId'; 
 
 const AndManage = () => {
 
     const navigate = useNavigate();
     const params = useParams();
     const andId = params.andId;
-
+    const [and, setAnd] = useState({});
+    const [andUserId, setAndUserId] = useState(null);
+    const [userInfo, setUserInfo] = useState([]);
     const [andRoleApplyList, setAndRoleApplyList] = useState([]);
     const [andNeedNumApply, setAndNeedNumApply] = useState({});
     const [andMemberList, setMemberList] = useState([]);
@@ -25,7 +29,24 @@ const AndManage = () => {
         fetchMemberData();
         fetchApplicantData();
     }, []);
-
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`/and/${andId}`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          setAnd(data);
+          setAndUserId(data.userId);
+          GetUserInfo(data.userId, setUserInfo);
+        } else {
+          throw new Error(`Fetching and data failed with status ${response.status}.`);
+        }
+  
+      } catch (error) {
+        console.error("Error fetching And data:", error);
+      }
+    
+    };
     const fetchNeedNumApplyData = async () => {
         try {
           const response = await fetch(`/and/${andId}/applicant/neednum`);
@@ -159,8 +180,8 @@ const AndManage = () => {
                     <div className="member-item" key={andMember.memberId}>
                     <div className="member-info">
                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Avatar sx={{ mr:1, width:35, height:36 }} alt="member_img" src={andMember.userProfileImg} />
-                    <p id='member'>{andMember.memberId}</p>
+                    <Avatar sx={{ mr:1, width:35, height:36 }} alt="member_img" src={userInfo.userProfileImg} />
+                    <p id='member'>{userInfo.userNickName}</p>
                     </div>
                     </div>
                     <button id='mem-del-button' onClick={() => deleteAndMember(andId, andMember.memberId)}>삭제</button>

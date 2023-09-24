@@ -51,16 +51,19 @@
     #mainTool {
       flex-direction: column;
       align-items: center;
+      
     }
   
     #nav-box {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        
       }
     
       #nav-box a {
         margin-bottom: 10px;
+        
       }
       #logo {
         order: -1; 

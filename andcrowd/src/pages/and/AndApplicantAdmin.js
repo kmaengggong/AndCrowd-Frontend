@@ -61,7 +61,7 @@ const AndApplicantAdmin = () => {
         });
     
         if (response.ok) {
-          navigate(`/and/${andId}/applicant/list`);
+          navigate(`/and/${andId}/manage`);
         } else {
           throw new Error(`상태 업데이트 실패. 상태 코드: ${response.status}.`);
         }
@@ -78,21 +78,22 @@ const AndApplicantAdmin = () => {
             <p id='andApplyTitle'>{andApplicant.andApplyTitle}</p>
           <div id='andApplyContent' dangerouslySetInnerHTML={{ __html :  andApplicant.andApplyContent  }}>
           </div>
-          {andApplicant.andApplyFile && (
+          
+            <p id='andApplyStatus'>글 상태: {statusText}</p>
+            </div>
+            <hr />
+            <div>
+            {andApplicant.andApplyFile && (
               <div>
-                파일: 
                 <a id='open-file' href={andApplicant.andApplyFile} target="_blank" rel="noopener noreferrer"
                   style={{ backgroundColor: 'green', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' }}>
                   {fileExtension} 파일 (새 탭에서 열기)
                 </a>
               </div>
             )}
-            <p id='andApplyStatus'>글 상태: {statusText}</p>
-            </div>
-            <hr />
-            <div>
               <label>상태 변경: </label>
               <select value={andApplyStatus} onChange={(e) => handleApplyStatusChange(e.target.value)}>
+              <option value="">선택하세요</option>
                 <option value="1">승인</option>
                 <option value="2">보류</option>
                 <option value="3">기각</option>
