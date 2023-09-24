@@ -97,14 +97,6 @@ import HelpChatbot from './pages/etc/HelpChatbot';
 import ContactSupportRoundedIcon from '@mui/icons-material/ContactSupportRounded';
 import CrowdManage from './pages/crowd/CrowdManage';
 
-const sections = [
-  { title: '홈', url: '/' },
-  { title: '모임', url: '/and/list' },
-  { title: '펀딩', url: '/crowd/list' },
-  { title: '팀소개', url: '/team' },
-  { title: '도움말', url: '/help' },
-];
-
 function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const ADMIN = process.env.REACT_APP_ADMIN_SIGN_UP_URL;
@@ -138,7 +130,7 @@ function App() {
     <IsLoginProvider>
     <div className='App'>
       <div className="wrapper" style={{ maxWidth: `${maxWidth}px` }}>
-        <Header title="&Crowd" sections={sections} />
+        <Header/>
         <div className="main-content">
           <ScrollToTop></ScrollToTop>
           <Routes>
