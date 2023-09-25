@@ -100,6 +100,14 @@ import CrowdOrderDetail from './pages/payment/CrowdOrderDetail';
 import CrowdRewardUpdate from './pages/crowd/CrowdRewardUpdate';
 import MyPageAvatarDetailPage from './pages/user/MyPageAvatarDetailPage';
 
+const sections = [
+  { title: '홈', url: '/' },
+  { title: '모임', url: '/and/list' },
+  { title: '펀딩', url: '/crowd/list' },
+  { title: '팀소개', url: '/team' },
+  { title: '도움말', url: '/help' },
+];
+
 function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const ADMIN = process.env.REACT_APP_ADMIN_SIGN_UP_URL;
@@ -127,20 +135,17 @@ function App() {
     setIsChatbotModalOpen(false);
   };
 
-  const maxWidth = Math.min(1320, windowWidth * 0.7); 
+  const maxWidth = Math.min(1320, windowWidth * 0.7); // 최대 너비를 1320px 또는 창 너비의 90% 중 작은 값으로 설정
 
   return (
     <IsLoginProvider>
     <div className='App'>
-    <Header/>
-    <Routes>
-            <Route path="/" element={<Home />} />
-            </Routes>
       <div className="wrapper" style={{ maxWidth: `${maxWidth}px` }}>
-        
+        <Header title="&Crowd" sections={sections} />
         <div className="main-content">
           <ScrollToTop></ScrollToTop>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/infoboard/list" element={<Infoboard />} />
             <Route path="/infoboard/:infoId" element={<InfoboardDetail />} />
