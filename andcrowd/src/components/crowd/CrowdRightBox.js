@@ -292,13 +292,8 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
       });
 
       if (response.ok) {
-        const newIsFollowed = await fetchIsFollowed(userId);
-        if (newIsFollowed !== null) {
-          setIsFollowed((prevIsFollowed) => ({
-            ...prevIsFollowed,
-            [userId]: newIsFollowed,
-          }));
-        }
+        const newIsFollowed = !isFollowed; // 현재 상태를 반전시킴
+        setIsFollowed(newIsFollowed);
       } else {
         throw new Error(`Fetching crowd data failed with status ${response.status}.`);
       }
@@ -312,12 +307,18 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
       const myId = GetUserId();
       console.log(`/user/${myId}/follow/${userId}`);
       const response = await fetch(`/user/${myId}/follow/${userId}`); // 엔드포인트 수정
+
       if (response.ok) {
-        const data = await response.json();
-        console.log("data follow: ", data);
-        setIsFollowed(data);
-        return data;
+        const data = await response.text(); // 응답 데이터 텍스트로 읽기
+        console.log("fetchIsFollowed?? : ", data)
+
+        if (data === '팔로우 된 유저입니다.') {
+          setIsFollowed(true);
+        }
+
       } else {
+        setIsFollowed(false);
+        console.log('팔로우 안된 유저입니다');
         throw new Error(`Fetching crowd data failed with status ${response.status}.`);
       }
     } catch (error) {
