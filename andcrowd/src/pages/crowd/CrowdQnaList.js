@@ -131,9 +131,6 @@ const CrowdQnaList = (props) => {
 
       if (response.ok) {
         const data = await response.json();
-        // if (!isAdmin) {
-        //   alert("답변은 펀딩글 제작자만 가능합니다.");
-        // }
         setReplyFormData(data);
       } else {
         throw new Error(
@@ -321,7 +318,6 @@ const CrowdQnaList = (props) => {
     });
     
     if(response.ok) {
-      fetchReplyStatusData(crowdId, crowdQnaId);
       fetchReplyData(crowdId, crowdQnaId);
 
       setFormData((prevFormData) => ({
@@ -330,7 +326,7 @@ const CrowdQnaList = (props) => {
       }));
 
       // 해당 질문의 상태를 업데이트
-      // fetchReplyStatusData(crowdId, crowdQnaId);
+      fetchReplyStatusData(crowdId, crowdQnaId);
     }
 
   };
@@ -422,7 +418,7 @@ const CrowdQnaList = (props) => {
   };
 
   const createQna = (crowdId) => {
-    navigate(`/crowd/${crowdId}/qna`);
+    navigate(`/crowd/${crowdId}/qna/create`);
   };
 
   const formatDate = (dateTimeString) => {

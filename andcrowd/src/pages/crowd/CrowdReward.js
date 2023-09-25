@@ -22,6 +22,8 @@ const RewardList = () => {
         const response = await fetch(`/crowd/${crowdId}/reward/all`);
         if (response.ok) {
           const data = await response.json();
+          // rewardAmount를 기준으로 오름차순으로 정렬
+          const sortedData = data.sort((a, b) => a.rewardAmount - b.rewardAmount);
           // 가져온 데이터를 상태에 설정
           setRewardList(data);
         } else {

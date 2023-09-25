@@ -34,6 +34,7 @@ const CrowdRewardUpdate = () => {
       const response = await fetch(`/crowd/${crowdId}`);
       if(response.ok) {
         const data = await response.json();
+        console.log(data);
       } else {
         throw new Error(`Fetching crowd data failed with status ${response.status}.`);
       }

@@ -63,7 +63,7 @@ const CrowdQnaCreate = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("formdata: ", formData);
-        const response = await fetch(`/crowd/${crowdId}/qna`, {
+        const response = await fetch(`/crowd/${crowdId}/qna/create`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
