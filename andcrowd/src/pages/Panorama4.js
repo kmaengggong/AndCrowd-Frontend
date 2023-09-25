@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import "../styles/Panorama.css";
 import MyPageCard from "../components/user/MyPageCard";
 import AndSearchCard from "../components/and/AndSearchCard";
-const Panorama = ({num}) => {
+const Panorama = () => {
   const [data, setData] = useState([]);
   const [jsonData, setJsonData] = useState(null);
   useEffect(() => {
