@@ -1,3 +1,5 @@
+// 로그아웃 컴포넌트
+
 import { useContext, useEffect } from "react";
 import { isLoginContext, useIsLoginState } from "../../context/isLoginContext";
 import { useCookies } from "react-cookie";

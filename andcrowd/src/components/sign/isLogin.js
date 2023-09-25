@@ -1,3 +1,5 @@
+// 로그인 확인 컴포넌트
+
 import Cookies from 'js-cookie';
 
 const isLogin = () => {

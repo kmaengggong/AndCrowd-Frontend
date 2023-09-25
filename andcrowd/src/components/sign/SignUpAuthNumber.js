@@ -1,3 +1,5 @@
+// 회원가입 인증 번호 컴포넌트
+
 import { Button, Grid, TextField } from "@mui/material"
 import { useState } from "react"
 

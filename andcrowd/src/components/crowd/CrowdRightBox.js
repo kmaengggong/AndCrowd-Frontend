@@ -10,6 +10,8 @@ import { GetUserInfo } from '../user/GetUserInfo';
 import report from '../../siren.png';
 import share from '../../share.png';
 import CrowdReward from '../../pages/crowd/CrowdReward';
+import axios from "axios";
+import '../../styles/crowd/CrowdDetail.css';
 
 const style = {
   position: 'absolute',
@@ -336,6 +338,24 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
     }
   };
 
+  const updateCrowd = (crowdId) => {
+    navigate(`/crowd/${crowdId}/update`);
+  };
+
+  const deleteCrowd = async (crowdId) => {
+    try {
+      await axios.delete(`/crowd/${crowdId}/delete`);
+      console.log("Deleted and with ID:", crowdId);
+      navigate(`/crowd/list`);
+    } catch (error) {
+      console.error("error in deleting crowd:", error);
+    }
+  };
+
+  const manageCrowd = (crowdId) => {
+    navigate(`/crowd/${crowdId}/manage`);
+  };
+
   return (
     <Box id='right-top-box'>
       <div className='catAndReport' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -343,10 +363,10 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
           {categoryMap[crowd.crowdCategoryId]} {/* 변수 이름 변경 */}
         </Chip>
         {crowd.andId !== 0 && (
-          <Link id='and-link' href={`/and/${crowd.andId}`} underline="none">연계 모임글</Link>
+          <Link id='crowd-link' href={`/and/${crowd.andId}`} underline="none">연계 모임글</Link>
         )}
         {crowd.andId === 0 && (
-          <div id='and-link'></div>
+          <div id='crowd-link'></div>
         )}
         <button
           id="shareBtn"
@@ -405,14 +425,40 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
         <div className='crowdUser' style={{ display: 'flex', alignItems: 'center' }}>
           <Avatar sx={{ ml: 1, width: 45, height: 45, mt: 2 }} src={userInfo.userProfileImg} ></Avatar>
           <span id='crowdUser-nickname' onClick={() => handleMemberClick(crowdUserId)}>{userInfo.userNickname}</span> {/* 변수 이름 변경 */}
-          <button id='follow' onClick={() => fetchFollow(crowd.userId)} // 변수 이름 변경
+          { userId !== crowdUserId ? (
+          <button id='follow' onClick={() => fetchFollow(crowd.userId)}
             className={isFollowed ? 'following-button' : 'follow-button'}>
             {isFollowed ? (
               <div> ✓ 팔로잉</div>
             ) : (
               <div> + 팔로우</div>
-            )}
+              )}
           </button>
+            ) : (
+              <div id='crowd-user-button'>
+                  <div id='crowd-detail-bottom'>
+                    <Typography id='crowd-detail-up'
+                      onClick={() => updateCrowd(crowdId, crowdId)}
+                    >
+                      수정
+                    </Typography>
+                    <Typography id='crowd-detail-de'
+                      onClick={() => deleteCrowd(crowdId, crowdId)}
+                    >
+                      삭제
+                    </Typography>
+                  </div>
+                  <div id='crowd-detail-bottom2'>
+                    <Typography id='crowd-detail-2'
+                      onClick={() => manageCrowd(crowd.crowdId)}
+                    >
+                      관리                           
+                    </Typography> 
+                  </div>
+    
+              </div>
+            )
+          }
         </div>
       </Box>
       <Box id='like-crowd-button'> {/* 변수 이름 변경 */}

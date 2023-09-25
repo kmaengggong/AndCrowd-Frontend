@@ -1,18 +1,9 @@
+// 메이커 페이지
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useIsLoginState } from "../../context/isLoginContext";
-import { GetUserId } from "../../components/user/GetUserId";
-import profileImg from "../and/cat.jpg";
-import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField} from "@mui/material";
-import Logout from "../../components/sign/Logout";
+import { Avatar, Button, Grid, IconButton } from "@mui/material";
 import { GetUserInfo } from "../../components/user/GetUserInfo";
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Chip from '@mui/joy/Chip';
-import Link from '@mui/joy/Link';
-import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import AspectRatio from '@mui/joy/AspectRatio';
 import Typography from '@mui/joy/Typography';
 import MyPageCard from "../../components/user/MyPageCard";
 import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";
@@ -74,10 +65,10 @@ const MakerPage = () => {
                 
             <Grid item xs={2} textAlign={'center'}>
                 <Grid container direction="row">
-
+          
                 <Grid item xs={12} marginLeft={0.3}>
                     <IconButton href={userInfo.userProfileImg}>
-                    <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 100, height: 100 }} />
+                    <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 100, height: 100}} />
                     </IconButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -96,7 +87,7 @@ const MakerPage = () => {
                     </Grid>
                     {userMakerAnd.length === 0 ? <></> : 
                     <Grid item xs={2}>
-                        <Button variant="outlined" sx={{float:'right'}} href={`/user/${userId}/detail/makerAnd`}>자세히</Button>
+                        <Button variant="outlined" sx={{float:'right'}} href={`/user/${userId}/detail/makerAnd`} color="success">자세히</Button>
                     </Grid>
                     }
                 </Grid>
@@ -122,7 +113,7 @@ const MakerPage = () => {
                     </Grid>
                     {userMakerCrowd.length === 0 ? <></> : 
                     <Grid item xs={2}>
-                        <Button variant="outlined" sx={{float:'right'}}  href={`/user/${userId}/detail/makerCrowd`}>자세히</Button>
+                        <Button variant="outlined" sx={{float:'right'}}  href={`/user/${userId}/detail/makerCrowd`} color="success">자세히</Button>
                     </Grid>
                     }
                 </Grid>

@@ -1,6 +1,7 @@
-import {React, useEffect, useState} from 'react';
+// 관리자 회원가입 페이지
+
+import {React, useState} from 'react';
 import { Box, Button, Container, Grid, TextField } from '@mui/material';
-import { SignUpEmail } from '../../../components/sign/SingUpEmail';
 import { SignUpNickname } from '../../../components/sign/SignUpNickname';
 import { useNavigate } from 'react-router-dom';
 

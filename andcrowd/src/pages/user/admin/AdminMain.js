@@ -1,3 +1,5 @@
+// 관리자 메인 페이지
+
 import { useEffect, useState } from "react";
 import { Box, Grid } from "@mui/material";
 import Typography from '@mui/joy/Typography';

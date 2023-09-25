@@ -1,3 +1,5 @@
+// 마이페이지
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useIsLoginState } from "../../context/isLoginContext";
@@ -7,7 +9,6 @@ import { GetUserInfo } from "../../components/user/GetUserInfo";
 import Typography from '@mui/joy/Typography';
 import MyPageCard from "../../components/user/MyPageCard";
 import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";
-import { GetIsUserAdmin } from "../../components/user/GetIsUserAdmin";
 import MyPageAvatar from "../../components/user/MyPageAvatar";
 import MyPageEmptyAvatar from "../../components/user/MyPageEmptyAvatar";
 import Loading from "../../components/etc/Loading";
@@ -16,36 +17,27 @@ const MyPage = () => {
     const params = useParams();
     const userId = params.userId;
     const [isExists, setIsExists] = useState(false);
-    const [userInfo, setUserInfo] = useState([]);
+    const [userInfo, setUserInfo] = useState(null);
     const isLogin = useIsLoginState();
     const [isOwner, setIsOwner] = useState(false);
     const [userAnd, setUserAnd] = useState([]);
     const [userOrder, setUserOrder] = useState([]);
     const [userLike, setUserLike] = useState([]);
     const [userFollow, setUserFollow] = useState([]);
-    const [isAdmin, setIsAdmin] = useState(false);
     const [isFollowed, setIsFollowed] = useState(false);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        GetUserInfo(userId, setUserInfo);
-    }, []);
-
-    useEffect(() => {
-        if(isAdmin) navigate("/iamtheadmin");
-    }, [isAdmin])
-
-    useEffect(() => {
         fetchIsUserExist();
+        GetUserInfo(userId, setUserInfo);
         if(isLogin){
             if(parseInt(GetUserId()) === parseInt(userId)) setIsOwner(true);
             else{
-                setIsFollowed(fetchIsFollowed(userId));
-                console.log(fetchIsFollowed(userId));
+                setIsFollowed(fetchIsFollowed());
+                console.log(fetchIsFollowed());
             }
         }
-        GetIsUserAdmin(setIsAdmin);
         fetchGetDynamicUserAnd();
         fetchGetDynamicUserOrder();
         fetchGetDynamicUserLike();
@@ -56,7 +48,7 @@ const MyPage = () => {
         if(userAnd.length > 3) setUserAnd(userAnd.slice(0, 3));
         if(userOrder.length > 3) setUserOrder(userOrder.slice(0, 3));
         if(userLike.length > 3) setUserLike(userLike.slice(0, 3));
-        if(userFollow.length > 5) setUserFollow(userLike.slice(0, 3));
+        if(userFollow.length > 5) setUserFollow(userLike.slice(0, 5));
     }, [userAnd, userOrder, userLike, userFollow]);
 
     const onClickUserInfoButtonButton = () => {
@@ -140,7 +132,7 @@ const MyPage = () => {
         }
     };
 
-    const fetchIsFollowed = async (userId) => {
+    const fetchIsFollowed = async () => {
         try {
             const myId = GetUserId();
             const response = await fetch(`/user/${myId}/follow/${userId}`);  
@@ -155,8 +147,8 @@ const MyPage = () => {
         }
     }
 
-    const fetchFollow = async (userId) => {
-            try {
+    const fetchFollow = async () => {
+        try {
             const myId = GetUserId();
             const response = await fetch(`/user/${myId}/follow/${userId}`,{
                 method: 'POST',
@@ -164,20 +156,18 @@ const MyPage = () => {
                 'Content-Type': 'application/json',
                 },
             });
-            
+            console.log(response);
             if (response.ok) {
-                setIsFollowed(true);
-            } else {
-                setIsFollowed(false);
+                setIsFollowed(!isFollowed);
             }
         } catch (error) {
-        console.error("Error fetching data:", error);
+            console.error("Error fetching data:", error);
         }
     }
 
     return (
         <>
-            {isExists ?
+            {isExists && userInfo !== null ?
                 <>
                     {isOwner ?
                         <Typography sx={{fontSize:30, marginTop:5, marginBottom:3, textAlign:'center', fontWeight:700, color:'gray'}}>좋은 하루입니다, <Typography sx={{color:'#00D337'}}>{userInfo.userNickname}</Typography> 님!</Typography>
@@ -201,15 +191,19 @@ const MyPage = () => {
                         </Grid>
                         {isOwner ?
                             <>
-                                <Button fullWidth variant="solid" onClick={onClickMakerPageButton}>메이커 페이지</Button>
                                 <Button fullWidth variant="solid" onClick={onClickUserInfoButtonButton}>회원 정보</Button>
                                 <Button fullWidth variant="solid" onClick={onClickOrderPageButton}>결제 내역</Button>
                             </>
                             :
                             <>
-                                <Button fullWidth variant="solid" onClick={() => fetchFollow(userId)}>{isFollowed ? <>팔로잉</>: <>팔로우</>}</Button>
+                                {isFollowed ?
+                                <Button fullWidth variant="outlined" color="success" onClick={fetchFollow} sx={{mb:1}}>팔로잉</Button>
+                                :
+                                <Button fullWidth variant="contained" color="success" onClick={fetchFollow} sx={{mb:1}}>팔로우</Button>
+                                }
                             </>
                         }
+                        <Button fullWidth variant="solid" onClick={onClickMakerPageButton}>메이커 페이지</Button>
                         
                         </Grid>
                     </Grid>
@@ -299,7 +293,7 @@ const MyPage = () => {
                             </Grid>
                             {userLike.length === 0 ? <></> :
                             <Grid item xs={2}>
-                                <Button variant="outlined" sx={{float:'right'}} color="success">자세히</Button>
+                                <Button variant="outlined" sx={{float:'right'}} href={`/user/${userId}/detail/follow`} color="success">자세히</Button>
                             </Grid>
                             }
                         </Grid>

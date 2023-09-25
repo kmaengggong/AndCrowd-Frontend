@@ -1,3 +1,5 @@
+// 마이페이지 카드
+
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
@@ -5,7 +7,7 @@ import Chip from '@mui/joy/Chip';
 import Link from '@mui/joy/Link';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Typography from '@mui/joy/Typography';
-import { CardActionArea, CardActions, Grid, IconButton } from '@mui/material';
+import { CardActionArea, Grid, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Chat from '@mui/icons-material/Chat';
 

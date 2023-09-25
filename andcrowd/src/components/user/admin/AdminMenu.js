@@ -1,3 +1,5 @@
+// 관리자 페이지 왼쪽 메뉴
+
 import { Button } from "@mui/material";
 
 export const AdminMenu = ({setType, setIsFetchUp}) => {

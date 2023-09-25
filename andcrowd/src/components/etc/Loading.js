@@ -1,3 +1,5 @@
+// 로딩 화면 컴포넌트
+
 import { CircularProgress } from "@mui/material";
 import { Box } from "@mui/system";
 

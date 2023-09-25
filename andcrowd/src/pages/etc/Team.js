@@ -1,3 +1,5 @@
+// 팀 소개 페이지
+
 import { Box, Grid } from "@mui/material";
 import Typography from '@mui/joy/Typography';
 import Teammate from "../../components/etc/Teammate";

@@ -1,5 +1,7 @@
+// 공지사항 페이지
+
 import Typography from "@mui/joy/Typography";
-import { Box, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

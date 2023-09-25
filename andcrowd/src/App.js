@@ -96,16 +96,6 @@ import UserInfo from './pages/user/UserInfo';
 import HelpChatbot from './pages/etc/HelpChatbot';
 import ContactSupportRoundedIcon from '@mui/icons-material/ContactSupportRounded';
 import CrowdManage from './pages/crowd/CrowdManage';
-import CrowdOrderDetail from './pages/payment/CrowdOrderDetail';
-import CrowdRewardUpdate from './pages/crowd/CrowdRewardUpdate';
-
-const sections = [
-  { title: '홈', url: '/' },
-  { title: '모임', url: '/and/list' },
-  { title: '펀딩', url: '/crowd/list' },
-  { title: '팀소개', url: '/team' },
-  { title: '도움말', url: '/help' },
-];
 
 function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -134,17 +124,20 @@ function App() {
     setIsChatbotModalOpen(false);
   };
 
-  const maxWidth = Math.min(1320, windowWidth * 0.7); // 최대 너비를 1320px 또는 창 너비의 90% 중 작은 값으로 설정
+  const maxWidth = Math.min(1320, windowWidth * 0.7); 
 
   return (
     <IsLoginProvider>
     <div className='App'>
+    <Header/>
+    <Routes>
+            <Route path="/" element={<Home />} />
+            </Routes>
       <div className="wrapper" style={{ maxWidth: `${maxWidth}px` }}>
-        <Header title="&Crowd" sections={sections} />
+        
         <div className="main-content">
           <ScrollToTop></ScrollToTop>
           <Routes>
-            <Route path="/" element={<Home />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/infoboard/list" element={<Infoboard />} />
             <Route path="/infoboard/:infoId" element={<InfoboardDetail />} />
@@ -224,10 +217,10 @@ function App() {
               <Route path="/crowd/:crowdId/reward" element={<CrowdRewardCreate />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/reward/all" element={<CrowdReward />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/qna/all" element={<CrowdQnaList />} /> {/* 추가 */}
-              <Route path='/crowd/:crowdId/qna/create' element={<CrowdQnaCreate />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
-              <Route path='/crowd/:crowdId/qna/:crowdQnaId/create' element={<CrowdReplyCreate/>} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply' element={<CrowdReplyCreate/>} /> {/* 추가 */}
 
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
@@ -269,11 +262,9 @@ function App() {
                 <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
                 <Route path="/crowd/:crowdId/payment" element={<CrowdPayment />} />
                 <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdRewardPayment />}/>
-                <Route path='/order/:merchantUid' element={<CrowdOrderDetail />} />
                 <Route path='/crowd/:crowdId/update' element={<CrowdUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/update' element={<CrowdQnaUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply/:qnaReplyId' element={<CrowdReplyUpdate />} /> {/* 추가 */}
-                <Route path='/crowd/:crowdId/reward/update' element={<CrowdRewardUpdate />} /> {/* 추가 */}
               </Route>
               
             </Route>
