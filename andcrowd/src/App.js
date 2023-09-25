@@ -98,6 +98,7 @@ import ContactSupportRoundedIcon from '@mui/icons-material/ContactSupportRounded
 import CrowdManage from './pages/crowd/CrowdManage';
 import CrowdOrderDetail from './pages/payment/CrowdOrderDetail';
 import CrowdRewardUpdate from './pages/crowd/CrowdRewardUpdate';
+import MyPageAvatarDetailPage from './pages/user/MyPageAvatarDetailPage';
 
 const sections = [
   { title: '홈', url: '/' },
@@ -174,6 +175,7 @@ function App() {
 
               {/* User 관련 */}
               <Route path="/user/:userId" element={<MyPage />} />
+              <Route path="/user/:userId/detail/follow" element={<MyPageAvatarDetailPage />} />
               <Route path="/user/:userId/detail/:type" element={<MyPageCardsDetailPage />} />
 
               {/* And 관련 */}

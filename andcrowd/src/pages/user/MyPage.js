@@ -16,36 +16,27 @@ const MyPage = () => {
     const params = useParams();
     const userId = params.userId;
     const [isExists, setIsExists] = useState(false);
-    const [userInfo, setUserInfo] = useState([]);
+    const [userInfo, setUserInfo] = useState(null);
     const isLogin = useIsLoginState();
     const [isOwner, setIsOwner] = useState(false);
     const [userAnd, setUserAnd] = useState([]);
     const [userOrder, setUserOrder] = useState([]);
     const [userLike, setUserLike] = useState([]);
     const [userFollow, setUserFollow] = useState([]);
-    const [isAdmin, setIsAdmin] = useState(false);
     const [isFollowed, setIsFollowed] = useState(false);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        GetUserInfo(userId, setUserInfo);
-    }, []);
-
-    useEffect(() => {
-        if(isAdmin) navigate("/iamtheadmin");
-    }, [isAdmin])
-
-    useEffect(() => {
         fetchIsUserExist();
+        GetUserInfo(userId, setUserInfo);
         if(isLogin){
             if(parseInt(GetUserId()) === parseInt(userId)) setIsOwner(true);
             else{
-                setIsFollowed(fetchIsFollowed(userId));
-                console.log(fetchIsFollowed(userId));
+                setIsFollowed(fetchIsFollowed());
+                console.log(fetchIsFollowed());
             }
         }
-        GetIsUserAdmin(setIsAdmin);
         fetchGetDynamicUserAnd();
         fetchGetDynamicUserOrder();
         fetchGetDynamicUserLike();
@@ -133,8 +124,6 @@ const MyPage = () => {
             .then(res => {
                 return res.json();
             }).then(data => {
-                console.log("userId: " + userId);
-                console.log(data);
                 setUserFollow(data);
             })
         } catch(error){
@@ -142,7 +131,7 @@ const MyPage = () => {
         }
     };
 
-    const fetchIsFollowed = async (userId) => {
+    const fetchIsFollowed = async () => {
         try {
             const myId = GetUserId();
             const response = await fetch(`/user/${myId}/follow/${userId}`);  
@@ -157,8 +146,8 @@ const MyPage = () => {
         }
     }
 
-    const fetchFollow = async (userId) => {
-            try {
+    const fetchFollow = async () => {
+        try {
             const myId = GetUserId();
             const response = await fetch(`/user/${myId}/follow/${userId}`,{
                 method: 'POST',
@@ -166,17 +155,18 @@ const MyPage = () => {
                 'Content-Type': 'application/json',
                 },
             });
+            console.log(response);
             if (response.ok) {
-                setIsAdmin(!isFollowed);
+                setIsFollowed(!isFollowed);
             }
         } catch (error) {
-        console.error("Error fetching data:", error);
+            console.error("Error fetching data:", error);
         }
     }
 
     return (
         <>
-            {isExists ?
+            {isExists && userInfo !== null ?
                 <>
                     {isOwner ?
                         <Typography sx={{fontSize:30, marginTop:5, marginBottom:3, textAlign:'center', fontWeight:700, color:'gray'}}>좋은 하루입니다, <Typography sx={{color:'#00D337'}}>{userInfo.userNickname}</Typography> 님!</Typography>
@@ -206,9 +196,9 @@ const MyPage = () => {
                             :
                             <>
                                 {isFollowed ?
-                                <Button fullWidth variant="outlined" color="success" oonClick={() => fetchFollow(userId)} sx={{mb:1}}>팔로잉</Button>
+                                <Button fullWidth variant="outlined" color="success" onClick={fetchFollow} sx={{mb:1}}>팔로잉</Button>
                                 :
-                                <Button fullWidth variant="contained" color="success" onClick={() => fetchFollow(userId)} sx={{mb:1}}>팔로우</Button>
+                                <Button fullWidth variant="contained" color="success" onClick={fetchFollow} sx={{mb:1}}>팔로우</Button>
                                 }
                             </>
                         }
@@ -302,7 +292,7 @@ const MyPage = () => {
                             </Grid>
                             {userLike.length === 0 ? <></> :
                             <Grid item xs={2}>
-                                <Button variant="outlined" sx={{float:'right'}} color="success">자세히</Button>
+                                <Button variant="outlined" sx={{float:'right'}} href={`/user/${userId}/detail/follow`} color="success">자세히</Button>
                             </Grid>
                             }
                         </Grid>
