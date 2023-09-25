@@ -51,3 +51,13 @@
   #crowd-update-img{
     width: 60px;
   }
+  #crowd-update-cancel-btn{
+    padding: 10px 20px;
+    margin: 2% 30%;
+    background-color: gray;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
