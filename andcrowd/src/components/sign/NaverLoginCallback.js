@@ -12,10 +12,6 @@ export const NaverLoginCallback = () => {
     const [, , removeCookie] = useCookies(['oauth2_auth_request']);
     const navigate = useNavigate();
 
-    const grantType = "authorization_code";
-    const clientId = "VuPedkCMX9rG5c9njrEN";
-    const clientSecret = "BrOSKdntY6";
-
     useEffect(() => {
         try{
             console.log("authorizationCode: " + code);
@@ -30,7 +26,6 @@ export const NaverLoginCallback = () => {
                     "state": state
                 }),
             }).then(res => {
-                
                 if(!res.ok){
                     alert("네이버 로그인에 실패했습니다.");
                     return null;
