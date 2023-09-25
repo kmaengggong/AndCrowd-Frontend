@@ -1,3 +1,5 @@
+// 비밀번호 찾기 페이지
+
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -86,7 +88,6 @@ const FindPassword = () => {
             console.error(error);
         }
     }
-
 
     return(
         <Box

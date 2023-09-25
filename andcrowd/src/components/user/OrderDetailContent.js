@@ -1,4 +1,6 @@
-import { Box, TableCell, TableHead, TableRow, TableSortLabel } from "@mui/material";
+// 결제 정보 컴포넌트
+
+import { Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";

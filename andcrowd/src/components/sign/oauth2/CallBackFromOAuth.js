@@ -1,9 +1,10 @@
+// 소셜 로그인(구글) 콜백 컴포넌트
+
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { isLoginContext } from "../../../context/isLoginContext";
 import { Box, Button, Checkbox, Container, FormControlLabel, Grid, TextField } from "@mui/material";
 import { SignUpNickname } from "../SignUpNickname";
-import { GetUserId } from "../../user/GetUserId";
 import Typography from "@mui/joy/Typography";
 
 const CallBackFromOAuth = () => {

@@ -1,18 +1,9 @@
+// 메이커 페이지
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useIsLoginState } from "../../context/isLoginContext";
-import { GetUserId } from "../../components/user/GetUserId";
-import profileImg from "../and/cat.jpg";
-import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField} from "@mui/material";
-import Logout from "../../components/sign/Logout";
+import { Avatar, Button, Grid, IconButton } from "@mui/material";
 import { GetUserInfo } from "../../components/user/GetUserInfo";
-import Card from '@mui/joy/Card';
-import CardContent from '@mui/joy/CardContent';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Chip from '@mui/joy/Chip';
-import Link from '@mui/joy/Link';
-import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import AspectRatio from '@mui/joy/AspectRatio';
 import Typography from '@mui/joy/Typography';
 import MyPageCard from "../../components/user/MyPageCard";
 import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";

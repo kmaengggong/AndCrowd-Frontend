@@ -1,3 +1,5 @@
+// 로그인 필요 라우터
+
 import { useIsLoginState } from "../../context/isLoginContext"
 import { Navigate, Outlet } from "react-router";
 

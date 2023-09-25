@@ -1,3 +1,5 @@
+// 아이디 찾기 페이지
+
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 

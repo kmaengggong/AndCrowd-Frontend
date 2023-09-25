@@ -1,8 +1,9 @@
+// 유저 모임/펀딩/찜/메이커 리스트 페이지
+
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, TextField} from "@mui/material";
+import { useParams } from "react-router-dom";
+import { Grid } from "@mui/material";
 import Typography from '@mui/joy/Typography';
-import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";
 import MyPageCard from "../../components/user/MyPageCard";
 import Loading from "../../components/etc/Loading";
 
