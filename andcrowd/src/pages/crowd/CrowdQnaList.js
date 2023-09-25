@@ -131,9 +131,6 @@ const CrowdQnaList = (props) => {
 
       if (response.ok) {
         const data = await response.json();
-        // if (!isAdmin) {
-        //   alert("답변은 펀딩글 제작자만 가능합니다.");
-        // }
         setReplyFormData(data);
       } else {
         throw new Error(
@@ -247,7 +244,7 @@ const CrowdQnaList = (props) => {
       try {
         const response = await fetch(`/crowd/${crowdId}/qna/list/count`);
         const data = await response.json();
-        setPageCount(Math.ceil(data / 5));
+        setPageCount(Math.ceil(data / 7));
       } catch (error) {
         console.error("Error fetching page count:", error);
       }
@@ -262,8 +259,8 @@ const CrowdQnaList = (props) => {
       if (qnaReplyResponse.ok) {
         const qnaReplyData = await qnaReplyResponse.json();
   
-        for (const qnaReplyId in qnaReplyData) {
-          const comment = qnaReplyData[qnaReplyId];
+        for (const replyId in qnaReplyData) {
+          const comment = qnaReplyData[replyId];
           const userNickname = await getUserNickname(comment.userId);
           comment.userNickname = userNickname;
         }
@@ -321,7 +318,6 @@ const CrowdQnaList = (props) => {
     });
     
     if(response.ok) {
-      fetchReplyStatusData(crowdId, crowdQnaId);
       fetchReplyData(crowdId, crowdQnaId);
 
       setFormData((prevFormData) => ({
@@ -330,7 +326,7 @@ const CrowdQnaList = (props) => {
       }));
 
       // 해당 질문의 상태를 업데이트
-      // fetchReplyStatusData(crowdId, crowdQnaId);
+      fetchReplyStatusData(crowdId, crowdQnaId);
     }
 
   };
@@ -389,7 +385,7 @@ const CrowdQnaList = (props) => {
 
   const handleUpdateQna = async (crowdId, crowdQnaId) => {
     try {
-      const response = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}`, {
+      const response = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}/update`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -422,7 +418,7 @@ const CrowdQnaList = (props) => {
   };
 
   const createQna = (crowdId) => {
-    navigate(`/crowd/${crowdId}/qna`);
+    navigate(`/crowd/${crowdId}/qna/create`);
   };
 
   const formatDate = (dateTimeString) => {
