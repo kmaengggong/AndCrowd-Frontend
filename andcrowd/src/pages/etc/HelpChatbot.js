@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import SendIcon from '@mui/icons-material/Send';
 import IconButton from '@mui/material/IconButton';
 import { Button, List, ListItem, Modal, ModalDialog, ModalClose } from '@mui/joy';
+import { GetUserId } from '../../components/user/GetUserId';
 
 const HelpChatbot = ( {onClose} ) => {
   const [connected, setConnected] = useState(false);
@@ -14,6 +15,8 @@ const HelpChatbot = ( {onClose} ) => {
   const [stompClient, setStompClient] = useState(null);
   const [layout, setLayout] = useState(undefined);
   const [sendOk, setSendOk] = useState(false);
+
+  const userId = GetUserId(); // 현재 로그인 중인 사용자 id
 
   const connect = () => {
     if (stompClient) {
@@ -27,7 +30,7 @@ const HelpChatbot = ( {onClose} ) => {
     setConnected(true);
     setStompClient(client);
     console.log('Connected: ', frame);
-    client.subscribe('/chatbot/public', (message) => {
+    client.subscribe(`/chatbot/${userId}`, (message) => {
         handleReceivedMessage("받은 메세지: " + message.body);
     });
     sendHelloMessage(client);
@@ -38,7 +41,7 @@ const HelpChatbot = ( {onClose} ) => {
     console.log("안녕메세지 전송")
     if (client) {
       const hello = "안녕"
-      client.send("/app/sendMessage", {}, JSON.stringify(hello));
+      client.send(`/app/sendMessage/${userId}`, {}, JSON.stringify(hello));
     }
   };
   const disconnect = () => {
@@ -58,7 +61,7 @@ const HelpChatbot = ( {onClose} ) => {
     if (connected && sendOk) {
     const sentMessage = "보낸 메세지: " + message;
     handleSentMessage(sentMessage);
-    stompClient.send("/app/sendMessage", {}, JSON.stringify(message));
+    stompClient.send(`/app/sendMessage/${userId}`, {}, JSON.stringify(message));
     setMessage('');
     }
   };
