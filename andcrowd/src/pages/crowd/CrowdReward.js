@@ -5,20 +5,17 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
 import { useParams } from "react-router-dom";
 import { TableHead } from "@mui/material";
 
 const RewardList = () => {
   const params = useParams();
   const crowdId = params.crowdId;
-  const rewardId = params.rewardId;
-  const [rewards, setRewards] = useState([]);
-  const [selectedReward, setSelectedReward] = useState(null);
+  const [rewardList, setRewardList] = useState([]);
 
   useEffect(() => {
     fetchData();
-  }, [crowdId]);
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -26,7 +23,7 @@ const RewardList = () => {
         if (response.ok) {
           const data = await response.json();
           // 가져온 데이터를 상태에 설정
-          setRewards(data);
+          setRewardList(data);
         } else {
           throw new Error(`Fetching AndBoard data failed with status ${response.status}.`);
         }
@@ -52,12 +49,12 @@ const RewardList = () => {
             <TableCell>수량</TableCell>
           </TableHead>
           <TableBody>
-            {rewards.map((reward, index) => (
-              <TableRow key={index}>
-                <TableCell>{reward.rewardTitle}</TableCell>
-                <TableCell>{reward.rewardContent}</TableCell>
-                <TableCell>{formatNumberWithCommas(reward.rewardAmount)}원</TableCell>
-                <TableCell>{formatNumberWithCommas(reward.rewardLimit)}개</TableCell>
+            {rewardList.map((crowdReward) => (
+              <TableRow key={crowdReward.rewardId}>
+                <TableCell>{crowdReward.rewardTitle}</TableCell>
+                <TableCell>{crowdReward.rewardContent}</TableCell>
+                <TableCell>{formatNumberWithCommas(crowdReward.rewardAmount)}원</TableCell>
+                <TableCell>{formatNumberWithCommas(crowdReward.rewardLimit)}개</TableCell>
               </TableRow>
             ))}
           </TableBody>

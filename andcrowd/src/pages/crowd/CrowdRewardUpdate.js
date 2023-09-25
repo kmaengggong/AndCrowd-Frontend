@@ -11,8 +11,9 @@ const CrowdRewardUpdate = () => {
 
   const navigate = useNavigate();
 
+  const [crowdReward, setCrowdReward] = useState({});
   const [rewards, setRewards] = useState([]);
-  const [reward, setReward] = useState({});
+  // const [reward, setReward] = useState({});
   const [formData, setFormData] = useState({
     crowdId: crowdId,
     rewardId: rewardId,
@@ -24,8 +25,22 @@ const CrowdRewardUpdate = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    fetchCrowdData();
     fetchRewards();
   }, []);
+
+  const fetchCrowdData = async () => {
+    try{
+      const response = await fetch(`/crowd/${crowdId}`);
+      if(response.ok) {
+        const data = await response.json();
+      } else {
+        throw new Error(`Fetching crowd data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching Crowd data: ", error);
+    }
+  };
 
   const fetchRewards = async () => { // 기존 리워드 데이터 불러오기
     try {
@@ -40,30 +55,29 @@ const CrowdRewardUpdate = () => {
     }
   };
   
-
   const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        console.log(name, value)
-        let newValue = value;
-    
-        if (name === "rewardAmount") {
-        newValue = Math.max(0, parseFloat(newValue));
-        }
-        if (name === "rewardLimit") {
-        newValue = Math.max(0, parseFloat(newValue));
-        }
-    
-        setReward({ ...formData, [name]: newValue });
+    const { name, value } = event.target;
+    console.log(name, value)
+    let newValue = value;
+
+    if (name === "rewardAmount") {
+    newValue = Math.max(0, parseFloat(newValue));
+    }
+    if (name === "rewardLimit") {
+    newValue = Math.max(0, parseFloat(newValue));
+    }
+
+    setFormData({ ...formData, [name]: newValue });
   };
 
   const handleUpdate = async (event) => { // crowd의 특정 rewardId를 선택해 불러와 업데이트
     event.preventDefault();
-    const response = await fetch(`/crowd/${crowdId}/reward/${reward.rewardId}/update`,{
+    const response = await fetch(`/crowd/${crowdId}/reward/${crowdReward.rewardId}/update`,{
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(reward),
+        body: JSON.stringify(crowdReward),
     });
 
     if(response.ok) {
@@ -82,7 +96,7 @@ const CrowdRewardUpdate = () => {
         console.log("response:", response);
         if(response.ok) {
             const data = await response.json();
-            setReward(data);
+            setCrowdReward(data);
         } else {
             throw new Error(`Fetching and role data failed with status ${response.status}.`);
         }
@@ -93,15 +107,44 @@ const CrowdRewardUpdate = () => {
 
   const handleInputUpdate = (event) => { // 수정
     const {name, value} = event.target;
-    setReward({
-        ...reward,
+    setCrowdReward({
+        ...crowdReward,
         [name]: value,
     });
   }
 
-  const handleSubmit = async () => { // 저장 버튼 클릭시 크라우드 디테일페이지 이동
+  const handleRewardAdd = () => {
+    const newReward = { ...formData };
+    if(newReward.rewardTitle.length < 1){
+      alert("제목을 설정해주세요.");
+      return;
+    }
+    if(newReward.rewardContent.length < 1){
+      alert("내용을 설정해주세요.");
+      return;
+    }
+    if(newReward.rewardAmount < 1){
+      alert("금액을 설정해주세요.");
+      return;
+    }
+    if(newReward.rewardLimit < 1){
+      alert("한정수량을 선택해주세요.");
+      return;
+    }
+    setRewards([...rewards, newReward]);
+    setFormData({
+      crowdId: crowdId,
+      rewardTitle: "",
+      rewardContent: "",
+      rewardAmount: 0,
+      rewardLimit: 0,
+    });
+  };
+
+  const handleSubmit = async (e) => { // 추가된 리워드는 생성이므로 저장 버튼 클릭시 create 되도록
     console.log("formData:", formData);
-    const response = await fetch(`/crowd/${crowdId}/reward/${rewardId}/update`, {
+    e.preventDefault();
+    const response = await fetch(`/crowd/${crowdId}/reward`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -110,33 +153,48 @@ const CrowdRewardUpdate = () => {
     });
 
     if(response.ok) {
-        console.log("reward created successfully");
-        setRewards([...rewards, formData]);
-        setFormData({
-            rewardId: rewardId,
-            rewardTitle: "",
-            rewardContent: "",
-            rewardAmount: 0,
-            rewardLimit: 0,
-        });
+      console.log("reward created successfully");
+      setRewards([...rewards, formData]);
+      setFormData({
+          rewardId: rewardId,
+          rewardTitle: "",
+          rewardContent: "",
+          rewardAmount: 0,
+          rewardLimit: 0,
+      });
 
         fetchRewards();
     } else {
         console.error("Error creating rewards");
     }
-    navigate(`/crowd/${crowdId}`);
   };
 
-  const deleteReward = async (crowdId, rewardId) => { // 삭제
+  const deleteReward = async (crowdId, rewardId) => { // 전체 리워드 리스트에서 특정 리워드만 삭제
     console.log(`/crowd/${crowdId}/reward/${rewardId}/delete`);
     try{
         await axios.delete(`/crowd/${crowdId}/reward/${rewardId}/delete`);
         console.log("Deleted reward at index:", rewardId);
-        fetchRewards();
+        
+        // 삭제된 리워드를 제외하고 새로운 리스트 생성
+        const updatedRewards = rewards.filter((reward) => reward.rewardId !== rewardId);
+        setRewards(updatedRewards);
     } catch (error){
         console.error("Error in deleting reward:", error);
     }
   };
+
+  const handleNextButtonClick = async () => {
+    try{
+      await fetch(`/crowd/${crowdId}/reward/${rewardId}/update`,{
+        method: "PATCH",
+      });
+      console.log("update crowd status:",crowdId);
+    } catch (error) {
+      console.error("Error in updating reward:", error);
+    }
+    alert("펀딩글이 성공적으로 수정되었습니다.");
+    navigate(`/crowd/${crowdId}`);
+  }
 
   return (
     <div className="crowd-reward-update-container">
@@ -174,7 +232,7 @@ const CrowdRewardUpdate = () => {
                         <input
                           type="text"
                           name="rewardTitle"
-                          value={reward.rewardTitle}
+                          value={crowdReward.rewardTitle}
                           onChange={handleInputUpdate}
                           required
                         />
@@ -184,7 +242,7 @@ const CrowdRewardUpdate = () => {
                         <input
                           type="text"
                           name="rewardContent"
-                          value={reward.rewardContent}
+                          value={crowdReward.rewardContent}
                           onChange={handleInputUpdate}
                           required
                         />
@@ -194,7 +252,7 @@ const CrowdRewardUpdate = () => {
                         <input
                           type="number"
                           name="rewardAmount"
-                          value={reward.rewardAmount}
+                          value={crowdReward.rewardAmount}
                           onChange={handleInputUpdate}
                           required
                         />
@@ -203,7 +261,7 @@ const CrowdRewardUpdate = () => {
                         <input
                           type="number"
                           name="rewardLimit"
-                          value={reward.rewardLimit}
+                          value={crowdReward.rewardLimit}
                           onChange={handleInputUpdate}
                           required
                         />
@@ -238,7 +296,7 @@ const CrowdRewardUpdate = () => {
             <label>리워드내용:</label>
             <input
               type="text"
-              name="rewardTitle"
+              name="rewardContent"
               value={formData.rewardContent}
               onChange={handleInputChange}
               placeholder="리워드에대해 간단히 설명 해주세요."
@@ -268,12 +326,12 @@ const CrowdRewardUpdate = () => {
             />
           </div>
           <div className="form-group" id="button-container">
-            <button id='reward-submit-btn' type="submit">
+            <button id='reward-submit-btn' type="submit" onClick={handleRewardAdd}>
               추가
             </button>
           </div>
         </form>
-        <button id='reward-next-btn' onClick={handleSubmit}>
+        <button id='reward-next-btn' onClick={handleNextButtonClick}>
           저장
         </button>
     </div>
