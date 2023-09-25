@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
-
+import '../../styles/and/AndApplicantDetail.css'
 const AndApplicantAdmin = () => {
     const params = useParams();
     const andId = params.andId;
@@ -73,20 +73,22 @@ const AndApplicantAdmin = () => {
     
 
     return (
-        <>
+        <div id='ap-cont'>
             <div>
+            <p id='andApplyStatus'>글 상태: {statusText}</p>
             <p id='andApplyTitle'>{andApplicant.andApplyTitle}</p>
+           
           <div id='andApplyContent' dangerouslySetInnerHTML={{ __html :  andApplicant.andApplyContent  }}>
           </div>
           
-            <p id='andApplyStatus'>글 상태: {statusText}</p>
+            
             </div>
             <hr />
-            <div>
+            <div id='ap-lef'>
             {andApplicant.andApplyFile && (
-              <div>
+              <div >
                 <a id='open-file' href={andApplicant.andApplyFile} target="_blank" rel="noopener noreferrer"
-                  style={{ backgroundColor: 'green', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' }}>
+                  style={{  padding: '10px 20px', border: 'none', borderRadius: '5px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' }}>
                   {fileExtension} 파일 (새 탭에서 열기)
                 </a>
               </div>
@@ -98,9 +100,9 @@ const AndApplicantAdmin = () => {
                 <option value="2">보류</option>
                 <option value="3">기각</option>
               </select>
-            </div>
+          </div>
 
-        </>
+        </div>
     );
 };
     

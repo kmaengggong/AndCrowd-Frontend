@@ -124,17 +124,20 @@ function App() {
     setIsChatbotModalOpen(false);
   };
 
-  const maxWidth = Math.min(1320, windowWidth * 0.7); // 최대 너비를 1320px 또는 창 너비의 90% 중 작은 값으로 설정
+  const maxWidth = Math.min(1320, windowWidth * 0.7); 
 
   return (
     <IsLoginProvider>
     <div className='App'>
+    <Header/>
+    <Routes>
+            <Route path="/" element={<Home />} />
+            </Routes>
       <div className="wrapper" style={{ maxWidth: `${maxWidth}px` }}>
-        <Header/>
+        
         <div className="main-content">
           <ScrollToTop></ScrollToTop>
           <Routes>
-            <Route path="/" element={<Home />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/infoboard/list" element={<Infoboard />} />
             <Route path="/infoboard/:infoId" element={<InfoboardDetail />} />

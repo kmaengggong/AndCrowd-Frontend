@@ -21,7 +21,7 @@
     color: #00D337;
 }
 #open-file {
-    background-color: green;
+    background-color: #00D337;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -36,5 +36,12 @@
 }
 
 #open-file:hover {
-    background-color: darkgreen;
+    background-color: #00D337;
+}
+#ap-cont{
+    display: flex;
+}
+#ap-lef{
+    margin-top: 5%;
+    margin-left: 45%;
 }
