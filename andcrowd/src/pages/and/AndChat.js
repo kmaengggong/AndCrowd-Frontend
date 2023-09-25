@@ -3,12 +3,13 @@ import { useParams } from 'react-router-dom';
 import ChatRoom from '../chat/Chatroom';
 import Cookies from 'js-cookie';
 import '../../styles/and/AndChat.css';
+import Loading from '../../components/etc/Loading';
 
 const AndChat = () => {
   const params = useParams();
   const andId = params.andId;
 
-  const [joined, setJoined] = useState(false);
+  const [joined, setJoined] = useState(null);
   const [nickname, setNickname] = useState('');
   const [roomData, setRoomData] = useState(null);
 
@@ -30,11 +31,11 @@ const AndChat = () => {
         const data = await response.json();
         const nickname = data.nickname; // API에서 반환한 닉네임 가져오기
 
-        const memberResponse = await fetch(`http://localhost:8080/and/${andId}/check-member?nickname=${nickname}`);
+        const memberResponse = await fetch(`http://223.130.128.246/and/${andId}/check-member?nickname=${nickname}`);
         const memberData = await memberResponse.json();
     
         if (memberData.isMember) {
-          const roomResponse = await fetch(`http://localhost:8080/and/${andId}/chat`);
+          const roomResponse = await fetch(`http://223.130.128.246/and/${andId}/chat`);
           const roomData = await roomResponse.json();
       
           setRoomData(roomData);
@@ -43,6 +44,7 @@ const AndChat = () => {
           setNickname(nickname);
           setJoined(true);
         } else {
+          setJoined(false);
           alert("You are not a member of this group."); // 사용자가 멤버가 아닌 경우 경고 표시
         }
 
@@ -63,6 +65,8 @@ const AndChat = () => {
   
     return (
         <div className="container">
+          {joined === null ? <Loading /> :
+          <>
           {!joined ? (
             <p>{nickname}님은 {roomData ? roomData.name : '모임'}의 멤버가 아닙니다. </p>
           ) : (
@@ -70,6 +74,8 @@ const AndChat = () => {
                   <ChatRoom roomData={roomData} nickname={nickname} andId={andId} />
             </div>
           )}
+          </>
+          }
         </div>
     );
 };
