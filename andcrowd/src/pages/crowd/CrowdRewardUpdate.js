@@ -72,6 +72,8 @@ const CrowdRewardUpdate = () => {
   };
 
   const handleUpdate = async (event) => { // crowd의 특정 rewardId를 선택해 불러와 업데이트
+
+    console.log("handleUpdate: ", crowdReward)
     event.preventDefault();
     const response = await fetch(`/crowd/${crowdId}/reward/${crowdReward.rewardId}/update`,{
         method: "PATCH",
@@ -185,14 +187,14 @@ const CrowdRewardUpdate = () => {
   };
 
   const handleNextButtonClick = async () => {
-    try{
-      await fetch(`/crowd/${crowdId}/reward/${rewardId}/update`,{
-        method: "PATCH",
-      });
-      console.log("update crowd status:",crowdId);
-    } catch (error) {
-      console.error("Error in updating reward:", error);
-    }
+    // try{
+    //   await fetch(`/crowd/${crowdId}/reward/${rewardId}/update`,{
+    //     method: "PATCH",
+    //   });
+    //   console.log("update crowd status:",crowdId);
+    // } catch (error) {
+    //   console.error("Error in updating reward:", error);
+    // }
     alert("펀딩글이 성공적으로 수정되었습니다.");
     navigate(`/crowd/${crowdId}`);
   }
@@ -327,7 +329,9 @@ const CrowdRewardUpdate = () => {
             />
           </div>
           <div className="form-group" id="button-container">
-            <button id='reward-submit-btn' type="submit" onClick={handleRewardAdd}>
+            <button id='reward-submit-btn' type="submit" 
+            // onClick={handleRewardAdd}
+            >
               추가
             </button>
           </div>
