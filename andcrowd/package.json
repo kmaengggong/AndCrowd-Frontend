@@ -51,12 +51,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "DANGEROUSLY_DISABLE_HOST_CHECK=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "DANGEROUSLY_DISABLE_HOST_CHECK=true http://223.130.128.246/",
+  "proxy": "http://223.130.128.246/",
   "eslintConfig": {
     "extends": [
       "react-app",

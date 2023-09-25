@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import '../../styles/and/AndCreate.css';
+import '../../styles/crowd/CrowdCreate.css';
 import { Typography } from "@mui/material";
 import { GetUserId } from '../../components/user/GetUserId'; 
 

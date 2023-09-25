@@ -71,8 +71,8 @@ const CrowdEditor = ({ htmlStr, setHtmlStr }) => {
   ]
 
   return (
-    <>
-      <ReactQuill id='editer-div'
+    <div id='editor-box'>
+      <ReactQuill id='editor-div'
         ref={quillRef}
         theme="snow"
         modules={modules}
@@ -81,7 +81,7 @@ const CrowdEditor = ({ htmlStr, setHtmlStr }) => {
         placeholder='예) OOO한 내용을 기획/개발해 &Crowd에 최초 공개하고자 합니다.'
         onChange={(content, delta, source, editor) => setHtmlStr(editor.getHTML())} />
 
-    </>
+    </div>
   )
 }
 
