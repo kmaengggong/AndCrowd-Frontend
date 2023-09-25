@@ -1,0 +1,92 @@
+.crowd-reward-update-container {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    margin: 5% auto;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input[type="text"],
+  .form-group input[type="number"] {
+    font-family: 'Noto Sans KR', sans-serif;
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  #reward-submit-btn{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    background-color: #00D337;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #reward-submit-btn:hover {
+    background-color: #00b130;
+  }
+  #reward-next-btn{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    background-color: #00D337;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 40%;
+  }
+  
+  #reward-next-btn:hover {
+    background-color: #00b130;
+  }
+  
+  .crowd-reward-list {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    list-style: none;
+    padding: 0;
+    max-width: 75%;
+  }
+  
+  .crowd-reward-list li {
+    margin-bottom: 10px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+#reward-content{
+    margin: 0;
+    width: 70%;
+}
+#updateAndDelete{
+    border: 1px solid #87d39b;
+    padding: 4px 10px;
+    border-radius: 10px;
+    background-color: #87d89632;
+    color: #011304;
+    cursor: pointer;
+}

@@ -29,7 +29,7 @@ const Team = () => {
                 githubUrl={"https://github.com/gyubee"}
                 profileUrl={"https://avatars.githubusercontent.com/u/126438093?v=4"}
                 role={"조원"}
-                parts={["&", "채팅", "피드"]}
+                parts={["&", "채팅", "피드", "검색", "신고", "QnA", "챗봇", "관리 페이지", "페이징"]}
                 introduce={"ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹ"}
             />
             <Teammate

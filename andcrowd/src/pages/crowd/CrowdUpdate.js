@@ -123,6 +123,28 @@ const CrowdUpdate = () => {
         }
     }
 
+    const handleSubmit2 = async (e) => {
+        e.preventDefault();
+        console.log("formdata:", formData);
+        try {
+            const response = await fetch(`/crowd/${crowdId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({...formData, crowdContent: htmlStr}),
+            });
+
+            if(response.ok) {
+                navigate(`/crowd/${crowdId}/reward/update`);
+            } else {
+                throw new Error(`Request failed with status ${response.status}`);
+            }
+        } catch (error) {
+            console.error("Error sending data:", error); 
+        }
+    }
+
     const handleUploadCancel = () => {
         alert("작성이 취소되었습니다.");
         navigate(`/crowd/${crowdId}`); // 업로드 취소 버튼 클릭 시 페이지 전환
@@ -132,7 +154,8 @@ const CrowdUpdate = () => {
        <>
         <div id="crowd-update-submit_btn-box">
             <button id="crowd-update-submit_btn" type="submit" onClick={handleSubmit}>저장</button>
-            <button id="crowd-update-submit_btn" type="button" onClick={handleUploadCancel}>취소</button>
+            <button id="crowd-update-submit_btn" type="submit" onClick={handleSubmit2}>다음</button>
+            <button id="crowd-update-cancel-btn" type="button" onClick={handleUploadCancel}>취소</button>
         </div>
         <form id="crowd-update-form" onSubmit={handleSubmit}>
             <div>

@@ -96,6 +96,9 @@ import UserInfo from './pages/user/UserInfo';
 import HelpChatbot from './pages/etc/HelpChatbot';
 import ContactSupportRoundedIcon from '@mui/icons-material/ContactSupportRounded';
 import CrowdManage from './pages/crowd/CrowdManage';
+import CrowdOrderDetail from './pages/payment/CrowdOrderDetail';
+import CrowdRewardUpdate from './pages/crowd/CrowdRewardUpdate';
+import MyPageAvatarDetailPage from './pages/user/MyPageAvatarDetailPage';
 
 function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -167,6 +170,7 @@ function App() {
 
               {/* User 관련 */}
               <Route path="/user/:userId" element={<MyPage />} />
+              <Route path="/user/:userId/detail/follow" element={<MyPageAvatarDetailPage />} />
               <Route path="/user/:userId/detail/:type" element={<MyPageCardsDetailPage />} />
 
               {/* And 관련 */}
@@ -217,10 +221,10 @@ function App() {
               <Route path="/crowd/:crowdId/reward" element={<CrowdRewardCreate />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/reward/all" element={<CrowdReward />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/qna/all" element={<CrowdQnaList />} /> {/* 추가 */}
-              <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/create' element={<CrowdQnaCreate />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
-              <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply' element={<CrowdReplyCreate/>} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/:crowdQnaId/create' element={<CrowdReplyCreate/>} /> {/* 추가 */}
 
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
@@ -262,9 +266,11 @@ function App() {
                 <Route path="/crowd/:crowdId/insert" element={<CrowdBoardInsert />} />
                 <Route path="/crowd/:crowdId/payment" element={<CrowdPayment />} />
                 <Route path="/crowd/:crowdId/reward/:rewardId/payment" element={<CrowdRewardPayment />}/>
+                <Route path='/order/:merchantUid' element={<CrowdOrderDetail />} />
                 <Route path='/crowd/:crowdId/update' element={<CrowdUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/update' element={<CrowdQnaUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply/:qnaReplyId' element={<CrowdReplyUpdate />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/reward/update' element={<CrowdRewardUpdate />} /> {/* 추가 */}
               </Route>
               
             </Route>

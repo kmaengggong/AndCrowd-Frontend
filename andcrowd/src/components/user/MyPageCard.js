@@ -35,9 +35,16 @@ const MyPageCard = ({project, type}) => {
         and: project.andCategoryId,
         order: project.crowdCategoryId,
         like: '',
-        makerAnd: project.andContent,
-        makerCrowd: project.crowdContent
+        makerAnd: project.andCategoryId,
+        makerCrowd: project.crowdCategoryId
     };
+    const projectEndDate = {
+        and: project.andEndDate,
+        order: project.crowdEndDate,
+        like: project.projectEndDate,
+        makerAnd: project.andEndDate,
+        makerCrowd: project.crowdEndDate
+    }
     const types = {
         and: 'and',
         order: 'crowd',
@@ -63,9 +70,9 @@ const MyPageCard = ({project, type}) => {
             <CardOverflow>
                 <AspectRatio>
                 {project[type] !== null ?
-                    <img src={projectImg[type]} alt="헤더 이미지" loading="lazy"/>
+                    <img src={projectImg[type]} alt="" loading="lazy"/>
                 :
-                    <img src="https://picsum.photos/id/2/600/400" alt="임시 이미지" loading="lazy"/>
+                    <img src="https://picsum.photos/id/2/600/400" alt="" loading="lazy"/>
                 }
                 </AspectRatio>
             </CardOverflow>
@@ -74,7 +81,7 @@ const MyPageCard = ({project, type}) => {
             <CardContent>
                 <Chip component="span" size="sm" variant="soft" color="success">
                     {/* (마감일자 - 현재일자)자료 불러오기 */}
-                    <b>10</b> 일 남음
+                    <b>{Math.ceil((new Date(projectEndDate[type]) - new Date()) / (1000 * 60 * 60 *24))}</b> 일 남음
                 </Chip>
                 
                 <Link
