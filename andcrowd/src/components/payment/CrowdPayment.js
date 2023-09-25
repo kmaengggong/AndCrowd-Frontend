@@ -1,3 +1,5 @@
+// 리워드 선택 페이지
+
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid } from "@mui/material";

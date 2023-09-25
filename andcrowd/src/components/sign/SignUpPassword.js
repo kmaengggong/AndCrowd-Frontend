@@ -1,3 +1,5 @@
+// 회원가입 비밀번호 컴포넌트
+
 import { Grid, TextField } from "@mui/material";
 
 export const SignUpPassword = ({

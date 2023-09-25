@@ -1,3 +1,5 @@
+// 로그인 상태 토큰 확인 라우터
+
 import { useContext } from "react";
 import { isLoginContext, useIsLoginState } from "../../context/isLoginContext";
 import { Outlet, useNavigate } from "react-router";

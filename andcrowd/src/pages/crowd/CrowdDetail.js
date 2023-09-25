@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { redirect, useParams } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import axios from "axios";
 import CrowdToolbar from "../../components/crowd/CrowdToolBar";
 import Typography from '@mui/material/Typography';
-import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
-import CountdownTimer from "../../components/and/CountdownTimer";
 import Box from '@mui/material/Box';
 import '../../styles/crowd/CrowdDetail.css';
 import CrowdRightBox from "../../components/crowd/CrowdRightBox.js"
@@ -16,7 +14,6 @@ const CrowdDetail = () => {
   const crowdId = params.crowdId;
 
   const navigate = useNavigate();
-  const [isClicked, setIsClicked] = useState(false);
   const [crowd, setCrowd] = useState({});
   const [userId, setUserId] = useState(null); // 현재 로그인 중인 사용자 id
   const [crowdUserId, setCrowdUserId] = useState(null);
@@ -60,12 +57,16 @@ const CrowdDetail = () => {
   };
 
   const deleteCrowd = async (crowdId) => {
-    try {
-      await axios.delete(`/crowd/${crowdId}/delete`);
-      console.log("Deleted and with ID:", crowdId);
-      navigate(`/crowd/list`);
-    } catch (error) {
-      console.error("error in deleting crowd:", error);
+    const isConfirmed = window.confirm("정말로 펀딩글을 삭제하시겠습니까?");
+
+    if(isConfirmed){
+      try {
+        await axios.delete(`/crowd/${crowdId}/delete`);
+        console.log("Deleted and with ID:", crowdId);
+        navigate(`/crowd/list`);
+      } catch (error) {
+        console.error("error in deleting crowd:", error);
+      }
     }
   };
 
@@ -73,14 +74,6 @@ const CrowdDetail = () => {
     navigate(`/crowd/${crowdId}/manage`);
   };
 
-
-  const applyCrowd = (crowdId) => {
-    navigate(`/crowd/${crowdId}/applicant/create`);
-  };
-
-  const applicantList = (crowdId) => {
-    navigate(`/crowd/${crowdId}/applicant/list`);
-  };
   return (
     <div>
       <CrowdToolbar crowdId={crowd.crowdId} />

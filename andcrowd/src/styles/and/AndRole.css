@@ -78,3 +78,11 @@
     align-items: center;
   }
   
+  #delete{
+    border: 1px solid #87d39b;
+    padding: 4px 10px;
+    border-radius: 10px;
+    background-color: #87d89632;
+    color: #011304;
+    cursor: pointer;
+}

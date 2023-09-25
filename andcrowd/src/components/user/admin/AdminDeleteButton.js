@@ -1,3 +1,5 @@
+// 관리자 삭제 버튼 컴포넌트
+
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { useState } from "react";
 

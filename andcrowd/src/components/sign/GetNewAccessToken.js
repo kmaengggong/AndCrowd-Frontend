@@ -1,3 +1,5 @@
+// 새 토큰 발급 컴포넌트
+
 import { useContext } from "react";
 import { isLoginContext, useIsLoginState } from "../../context/isLoginContext";
 import { useNavigate } from "react-router-dom";

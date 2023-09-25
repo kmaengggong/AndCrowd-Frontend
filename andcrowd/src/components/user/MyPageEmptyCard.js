@@ -1,11 +1,11 @@
+// 마이페이지 빈 카드
+
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
 import CardOverflow from '@mui/joy/CardOverflow';
-import Chip from '@mui/joy/Chip';
 import Link from '@mui/joy/Link';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Typography from '@mui/joy/Typography';
-import { Grid } from '@mui/material';
 
 const MyPageEmtpyCard = ({type}) => {
     const projectTitle = {

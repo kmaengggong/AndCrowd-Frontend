@@ -1,3 +1,5 @@
+// 마이페이지 팔로우
+
 import { Typography } from "@mui/joy";
 import { Avatar, Box, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";

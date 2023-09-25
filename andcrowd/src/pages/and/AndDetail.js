@@ -55,37 +55,6 @@ const AndDetail = () => {
 
   };
 
-  // const updateAnd = (andId) => {
-  //   navigate(`/and/${andId}/update`);
-  // };
-
-  // const deleteAnd = async (andId) => {
-  //   try {
-  //     await axios.delete(`/and/${andId}/delete`);
-  //     console.log("Deleted and with ID:", andId);
-  //     navigate(`/and/scroll`);
-  //   } catch (error) {
-  //     console.error("error in deleting and:", error);
-  //   }
-  // };
-
-  // const manageAnd = (andId) => {
-  //   navigate(`/and/${andId}/manage`);
-  // };
-
-
-  const applyAnd = (andId) => {
-    navigate(`/and/${andId}/applicant/create`);
-  };
-
-  const applicantList = (andId) => {
-    navigate(`/and/${andId}/applicant/list`);
-  };
-
-  const andChat = (andId) => {
-    
-    navigate(`/and/${andId}/chat`);
-  };
   if (and.deleted === true) {
     alert("이 글은 삭제되었습니다.");
     window.location.href = `/and/scroll`;

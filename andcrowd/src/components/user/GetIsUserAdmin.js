@@ -1,3 +1,5 @@
+// 관리자 권한 확인 컴포넌트
+
 export const GetIsUserAdmin = (setIsAdmin) => {    
     try{
         fetch(`/api/isAdmin`, {

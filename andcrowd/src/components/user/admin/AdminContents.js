@@ -1,4 +1,6 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+// 관리자 관리 내용 표(DataGrid) 컴포넌트
+
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { AdminDeleteButton } from './AdminDeleteButton';
