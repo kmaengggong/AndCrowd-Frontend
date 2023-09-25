@@ -76,48 +76,77 @@
     margin-left: 3%;
 
 }
-#go-payment{
+#go-member{
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 18px;
     font-weight: 500;
-    background-color: #00D337;
+    background-color: white;
     border: none;
-    color: white;
+    color: #00D337;
     cursor: pointer;
-    margin-left: 25%;
+    margin-left: 30%;
     margin-top: 5%;
-    width: 50%;
     height: 7vh;
     border-radius: 7px;
 }
 #crowd-detail-bottom{
     display: flex;
-    margin-left: 80%;
+    /* margin-left: 80%; */
+    margin-left: 15%;
+    margin-right: 15%;
+    justify-content: center;
 }
 
-#crowd-detail-upde{
+#crowd-detail-up{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     color: #000000;
-    margin-left: 15%;
-    margin-top: 20%;
-    padding-top: 1%;
+    background-color: #d7e4ff;
+    border-radius: 10px;
     text-decoration: none;
     cursor: pointer;
+    min-width: fit-content;
+    padding: 2px 8px;
+    padding-bottom: 3px;
+    margin-top: 16px;
+    margin-right: 3px;
+}
+#crowd-detail-de{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    background-color: #ffd7d7;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    /* margin: 0px 5px; */
+    padding: 2px 8px;
+    min-width: fit-content;
+    margin-top: 16px;
+    padding-bottom: 3px;
+    margin-left: 3px;
 }
 #crowd-detail-2{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     color: #000000;
-    margin-left: 15%;
-    padding-top: 1%;
+    background-color: #fff9d7;
+    border-radius: 10px;
     text-decoration: none;
     cursor: pointer;
-    margin-top: 10%;
+    min-width: fit-content;
+    padding: 2px 16px;
+    padding-bottom: 3px;
+    margin-top: 8px;
 }
 #crowd-detail-bottom2{
     display: flex;
-    margin-left: 80%;
+    margin-left: 15%;
+    margin-right: 15%;
+    justify-content: center;
+}
+#crowd-user-button{
+    min-width: fit-content;
 }
 #crowd-header-img{
     width: 50%;
@@ -146,6 +175,7 @@
 .crowdUser{
     margin: 20px;
     margin-left: 16%;
+    margin-right: 16%;
 }
 #follow{
     font-family: 'Noto Sans KR', sans-serif;
@@ -177,29 +207,46 @@
     border: none;
     cursor: pointer;
 }
-.catAndReport{
+.catCrowdReport{
     align-items: center;
     display: flex;
 }
-#and-link{
+#crowd-link{
     margin-left: 3%;
     color: #0d7d2bd7;
     margin-top: 7%;
     min-width: 50%;
 }
 #roles{
-    display: inline;
     margin-right: 7px;
+    margin-top: 0px;
+    margin-bottom: 6px;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 90%;
     border: 1px rgb(60, 135, 67) solid;
     border-radius: 15px;
-    padding: 4px 10px 5px;
+    padding: 3px 6px 3px;
     color: rgb(34, 77, 38);
+    overflow-wrap: break-word;
+    min-width: fit-content;
 }
 .roleBox{
     margin-left: 15%;
     margin-right: 15%;
+    white-space: normal;
+    display: flex;
+    flex-wrap: wrap;
+}
+#shareBtn {
+    background-color: white;
+    border: none;
+    margin-top: 7%;
+    float: right;
+}
+#share {
+    width: 20px;
+    border: none;
+    cursor: pointer;
 }
 .applyBox{
     margin-left: 15%;
@@ -215,14 +262,18 @@
     font-size: 90%;
     margin-bottom: 0px;
 }
-#shareBtn {
-    background-color: white;
+#go-payment{
+    float: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #00D337;
     border: none;
-    margin-top: 7%;
-    float: right;
-}
-#share {
-    width: 20px;
-    border: none;
+    color: white;
     cursor: pointer;
+    width: 50%;
+    margin-top: 5%;
+    height: 7vh;
+    border-radius: 7px;
+    margin-left: 5%;
 }
