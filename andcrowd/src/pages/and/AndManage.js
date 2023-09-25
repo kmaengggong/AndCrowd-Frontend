@@ -13,12 +13,14 @@ const AndManage = () => {
     const params = useParams();
     const andId = params.andId;
 
+    const [matchedApplicantList, setMatchedApplicantList] = useState([]);
     const [andRoleApplyList, setAndRoleApplyList] = useState([]);
     const [andNeedNumApply, setAndNeedNumApply] = useState({});
     const [andMemberList, setMemberList] = useState([]);
     const [andApplicantList, setAndApplicantList] = useState([]);
     const [andApplyStatus, setAndApplyStatus] = useState([]);
     const [members, setMembers] = useState([]);
+
     useEffect(() => {
         fetchRoleApplyData();
         fetchNeedNumApplyData();
@@ -51,6 +53,13 @@ const AndManage = () => {
             const data = await response.json();
             console.log("fetchRoleApplyData: ", data)
             setAndRoleApplyList(data);
+
+            const newMatchedApplicantList = data.map((item) => ({
+              andRoleId: item.andRoleId,
+              andRole: item.andRole,
+            }));
+            setMatchedApplicantList(newMatchedApplicantList);
+    
           } else {
             throw new Error(`Fetching and data failed with status ${response.status}.`);
           }
@@ -62,7 +71,7 @@ const AndManage = () => {
     
     const fetchMemberData = async () => {
         try {
-          const response = await fetch(`/and/${andId}/member/list`);
+          const response = await fetch(`/and/${andId}/member/list/popup`);
           
           if (response.ok) {
             const data = await response.json();
@@ -129,7 +138,14 @@ const AndManage = () => {
     
     const applicantDetail = (andApplyId) =>{
         navigate(`/and/${andId}/applicant/${andApplyId}`)
-    }
+    };
+
+    const getAndRoleByAndRoleId = (andRoleId) => {
+      const matchedApplicant = matchedApplicantList.find(
+        (applicant) => applicant.andRoleId === andRoleId
+      );
+      return matchedApplicant ? matchedApplicant.andRole : "";
+    };  
 
     return (
         <div id="and-manage">
@@ -160,7 +176,7 @@ const AndManage = () => {
                     <div className="member-info">
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Avatar sx={{ mr:1, width:35, height:36 }} alt="member_img" src={andMember.userProfileImg} />
-                    <p id='member'>{andMember.memberId}</p>
+                    <p id='member'>{andMember.userNickname} ({andMember.userKorName})</p>
                     </div>
                     </div>
                     <button id='mem-del-button' onClick={() => deleteAndMember(andId, andMember.memberId)}>삭제</button>
@@ -173,13 +189,14 @@ const AndManage = () => {
                 {andApplicantList.map((andApplicant) => (
                     <div id = 'ap-man-div'>
                         <span id='applyTitle' onClick={() => {applicantDetail(andApplicant.andApplyId)}} style={{ cursor: "pointer" }}>
-                        [ {andApplicant.andApplyTitle} ] {andRoleApplyList.map((andRoleApply) => (
+                        [ {andApplicant.andApplyTitle} ] #{getAndRoleByAndRoleId(andApplicant.andRoleId)}
+                {/* {andRoleApplyList.map((andRoleApply) => (
                 <div className="role-apply-item" key={andRoleApply.andRoleId}>
                     <span id='role-nm' className={andRoleApply.applicantCount > andRoleApply.andRoleLimit ? 'red-text' : ''}>
                     #{andRoleApply.andRole}
                     </span>
                 </div>
-                ))}
+                ))} */}
                         </span> 
                           
                     </div>

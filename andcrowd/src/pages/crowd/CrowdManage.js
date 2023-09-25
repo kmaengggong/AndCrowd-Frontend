@@ -67,6 +67,8 @@ const CrowdManage = () => {
     const [rowSelectionModel, setRowSelectionModel] = useState([]);
     const [openProcessDialog, setOpenProcessDialog] = useState(false);
     const [newStatus, setNewStatus] = useState('');
+    const [rewardList, setRewardList] = useState([]);
+    const [mergedData, setMergedData] = useState([]);
 
     const NoRowsOverlay = () => (<p>비어있습니다.</p>);
 
@@ -75,6 +77,7 @@ const CrowdManage = () => {
         fetchTotalFunded();
         fetchRewardFunded();
         fetchPurchase();
+        fetchReward();
     },[]);
 
     useEffect(() => {
@@ -121,12 +124,81 @@ const CrowdManage = () => {
                 console.log("fetchRewardFunded:", data)
                 setRewardFundedList(data);
             } else {
-                throw new Error(`Error fetchTotalFunded ${response.status} `);
+                throw new Error(`Error fetchRewardFunded ${response.status} `);
             }
         } catch (error) {
-          console.error("Error fetchTotalFunded data:", error);
+          console.error("Error fetchRewardFunded data:", error);
         }
     };
+
+    const fetchReward = async () => {
+        console.log(`/crowd/${crowdId}/reward`);
+        try{
+            const response = await fetch(`/crowd/${crowdId}/reward/all`);
+            if(response.ok){
+                const data = await response.json();
+                console.log("fetchReward:", data)
+                setRewardList(data);
+            } else {
+                throw new Error(`Error fetchReward ${response.status} `);
+            }
+        } catch (error) {
+            console.error("Error fetchReward data:", error);
+        }
+    };
+
+    useEffect(() => {
+        // rewardList 기준으로 그룹화
+        const groupedData = {};
+    
+        // rewardList 기준으로 그룹화
+        rewardList.forEach((item) => {
+          const rewardTitle = item.rewardTitle;
+          if (!groupedData[rewardTitle]) {
+            groupedData[rewardTitle] = {
+              rewardCounts: 0,
+              rewardSale: 0,
+              rewardLimit: item.rewardLimit ||  0,
+              data: [],
+            };
+          }
+          groupedData[rewardTitle].data.push(item);
+        });
+    
+        // rewardFundedList 데이터를 반영
+        rewardFundedList.forEach((item) => {
+          const rewardName = item.rewardName;
+          if (groupedData[rewardName]) {
+            groupedData[rewardName].rewardCounts += item.rewardCounts;
+            groupedData[rewardName].rewardSale += item.rewardSale;
+            groupedData[rewardName].rewardLimit += (item.rewardLimit || 0);
+          } else {
+            // rewardList 있지만 rewardFundedList 없는 경우
+            groupedData[rewardName] = {
+              rewardCounts: item.rewardCounts,
+              rewardSale: item.rewardSale,
+              rewardLimit: item.rewardLimit || 0,
+              data: [],
+            };
+          }
+        });
+    
+        // 그룹화된 데이터를 배열에 추가
+        const mergedDataArray = [];
+        for (const rewardName in groupedData) {
+          mergedDataArray.push({
+            rewardName: rewardName,
+            rewardCounts: groupedData[rewardName].rewardCounts,
+            rewardSale: groupedData[rewardName].rewardSale,
+            rewardLimit: groupedData[rewardName].rewardLimit,
+            data: groupedData[rewardName].data,
+          });
+        }
+    
+        // mergedData를 상태로 설정
+        setMergedData(mergedDataArray);
+      }, [rewardFundedList, rewardList]);
+    
 
     const fetchPurchase = async () => {
         try{
@@ -191,7 +263,7 @@ const CrowdManage = () => {
     }
 
     const onClickRewardAddButton = () => {
-        navigate(`/crowd/${crowdId}/reward`)
+        navigate(`/crowd/${crowdId}/reward/update`)
     }
 
     return(
@@ -217,15 +289,15 @@ const CrowdManage = () => {
                         <thead>
                             <tr>
                                 <th id="reward-th">리워드명</th>
-                                <th id="reward-th">판매량</th>
+                                <th id="reward-th">판매/전체</th>
                                 <th id="reward-th">총 금액 (₩)</th>
                             </tr>
                         </thead>
                         <tbody>
-                        {rewardFundedList.map((rewardFunded) => (
+                        {mergedData.map((rewardFunded) => (
                             <tr id="reward-tr" key={rewardFunded.rewardId}>
                                 <td id="reward-td">{rewardFunded.rewardName}</td>
-                                <td id="reward-td">{rewardFunded.rewardCounts}</td>
+                                <td id="reward-td">{rewardFunded.rewardCounts}/{rewardFunded.rewardLimit}</td>
                                 <td id="reward-td">{rewardFunded.rewardSale}</td>
                             </tr>
                         ))}
@@ -234,7 +306,7 @@ const CrowdManage = () => {
                     </div>
                 </div>
             </div>
-            <Button sx={{float:'right'}} variant='outlined' onClick={onClickRewardAddButton}>리워드 추가</Button>
+            <Button sx={{float:'right'}} variant='outlined' onClick={onClickRewardAddButton}>리워드 관리</Button>
             <br/>
 
             <div className="purchaseStatus">
