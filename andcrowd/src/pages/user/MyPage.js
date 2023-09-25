@@ -146,10 +146,10 @@ const MyPage = () => {
         }
     }
 
-    const fetchFollow = () => {
+    const fetchFollow = async () => {
         try {
             const myId = GetUserId();
-            const response = fetch(`/user/${myId}/follow/${userId}`,{
+            const response = await fetch(`/user/${myId}/follow/${userId}`,{
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
