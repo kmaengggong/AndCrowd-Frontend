@@ -5,6 +5,7 @@ import { Link} from 'react-router-dom';
 import AndApplicant from "./AndApplicant";
 import axios from "axios";
 import '../../styles/and/AndManage.css'
+import { Avatar } from '@mui/material';
 import { GetUserInfo } from '../../components/user/GetUserInfo'
 import { GetUserId } from '../../components/user/GetUserId'; 
 import { Avatar, Button } from '@mui/material';
