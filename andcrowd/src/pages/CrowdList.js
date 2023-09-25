@@ -21,6 +21,7 @@ import { GetUserId } from "../components/user/GetUserId";
 import { AiOutlineHeart  ,AiFillHeart} from "react-icons/ai";
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
+import { useIsLoginState } from "../context/isLoginContext";
 
 const MyPaginate = styled(ReactPaginate).attrs({
   activeClassName: "active",
@@ -55,6 +56,7 @@ const MyPaginate = styled(ReactPaginate).attrs({
 
 
 const CrowdList = () => {
+  const isLogin = useIsLoginState();
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [categoryId, setCategoryId] = useState(0);
@@ -215,6 +217,9 @@ const CrowdList = () => {
   }
 
   const fetchLike = async (crowdId) => {
+    if(!isLogin){
+      alert("찜하기는 로그인 후 사용 가능합니다.")
+    } else{
     const userId = GetUserId();
     console.log(`/crowd/${crowdId}/like/${userId}`);
     try {
@@ -248,6 +253,7 @@ const CrowdList = () => {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
     }
   }
 

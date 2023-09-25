@@ -10,8 +10,10 @@ import Box from '@mui/material/Box';
 import '../../styles/and/AndDetail.css';
 import AndRightBox from "../../components/and/AndRightBox"
 import { GetUserId } from "../../components/user/GetUserId";
+import { useIsLoginState } from "../../context/isLoginContext";
 
 const AndDetail = () => {
+  const isLogin = useIsLoginState();
   const params = useParams();
   const andId = params.andId;
 

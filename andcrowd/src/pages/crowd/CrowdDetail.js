@@ -8,8 +8,10 @@ import Box from '@mui/material/Box';
 import '../../styles/crowd/CrowdDetail.css';
 import CrowdRightBox from "../../components/crowd/CrowdRightBox.js"
 import { GetUserId } from "../../components/user/GetUserId";
+import { useIsLoginState } from "../../context/isLoginContext";
 
 const CrowdDetail = () => {
+  const isLogin = useIsLoginState();
   const params = useParams();
   const crowdId = params.crowdId;
 
