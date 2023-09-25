@@ -8,6 +8,7 @@ import { GetUserId } from '../user/GetUserId';
 import Chip from '@mui/joy/Chip';
 import { GetUserInfo } from '../user/GetUserInfo';
 import report from '../../siren.png';
+import share from '../../share.png';
 import CrowdReward from '../../pages/crowd/CrowdReward';
 
 const style = {
@@ -325,9 +326,18 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
     }
   };
 
+  const handleCopyClipBoard = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("클립보드에 링크가 복사되었어요.");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Box id='right-top-box'>
-      <div className='catAndReport'>
+      <div className='catAndReport' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Chip variant="outlined" sx={{ mt: "7%", ml: "15%", fontWeight: 'light', color: '#787878' }}>
           {categoryMap[crowd.crowdCategoryId]} {/* 변수 이름 변경 */}
         </Chip>
@@ -337,6 +347,13 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
         {crowd.andId === 0 && (
           <div id='and-link'></div>
         )}
+        <button
+          id="shareBtn"
+          type='button'
+          onClick={() => handleCopyClipBoard(`${window.location.origin}${window.location.pathname}`)}
+          >
+          <img id='share' src={share} alt="공유" />
+        </button>
         <button id='report-button' onClick={() => handleOpenReportModal(crowd.crowdId)}>              
           <img id='report' src={report} alt="신고" />
         </button>
