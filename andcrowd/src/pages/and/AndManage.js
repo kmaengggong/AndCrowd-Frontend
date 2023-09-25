@@ -5,7 +5,7 @@ import { Link} from 'react-router-dom';
 import AndApplicant from "./AndApplicant";
 import axios from "axios";
 import '../../styles/and/AndManage.css'
-import { Avatar } from '@mui/material';
+import { Avatar, Button } from '@mui/material';
 
 const AndManage = () => {
 
@@ -13,12 +13,14 @@ const AndManage = () => {
     const params = useParams();
     const andId = params.andId;
 
+    const [matchedApplicantList, setMatchedApplicantList] = useState([]);
     const [andRoleApplyList, setAndRoleApplyList] = useState([]);
     const [andNeedNumApply, setAndNeedNumApply] = useState({});
     const [andMemberList, setMemberList] = useState([]);
     const [andApplicantList, setAndApplicantList] = useState([]);
     const [andApplyStatus, setAndApplyStatus] = useState([]);
     const [members, setMembers] = useState([]);
+
     useEffect(() => {
         fetchRoleApplyData();
         fetchNeedNumApplyData();
@@ -51,6 +53,13 @@ const AndManage = () => {
             const data = await response.json();
             console.log("fetchRoleApplyData: ", data)
             setAndRoleApplyList(data);
+
+            const newMatchedApplicantList = data.map((item) => ({
+              andRoleId: item.andRoleId,
+              andRole: item.andRole,
+            }));
+            setMatchedApplicantList(newMatchedApplicantList);
+    
           } else {
             throw new Error(`Fetching and data failed with status ${response.status}.`);
           }
@@ -62,7 +71,7 @@ const AndManage = () => {
     
     const fetchMemberData = async () => {
         try {
-          const response = await fetch(`/and/${andId}/member/list`);
+          const response = await fetch(`/and/${andId}/member/list/popup`);
           
           if (response.ok) {
             const data = await response.json();
@@ -129,38 +138,49 @@ const AndManage = () => {
     
     const applicantDetail = (andApplyId) =>{
         navigate(`/and/${andId}/applicant/${andApplyId}`)
-    }
+    };
+
+    const getAndRoleByAndRoleId = (andRoleId) => {
+      const matchedApplicant = matchedApplicantList.find(
+        (applicant) => applicant.andRoleId === andRoleId
+      );
+      return matchedApplicant ? matchedApplicant.andRole : "";
+    };  
+
+    const onClickRoleAddButton = () => {
+      navigate(`/and/${andId}/role/update`)
+    };
 
     return (
         <div id="and-manage">
           <h2>{andId}번글 관리 페이지</h2>
           <div id='man-top'>
-          <div id='total-ap-mem'>
-            <h3 className="section-title">전체 지원 현황</h3>
-            <span id='tot-num'><p id='neednum'>{andNeedNumApply.totalApplicantNum}</p>/{andNeedNumApply.needNumMem}</span>
-          </div>
-          <hr />
-          <div id='role-ap'>
-            <h3 className="section-title">역할별 지원 현황</h3>
-            {andRoleApplyList.map((andRoleApply) => (
-                <div className="role-apply-item" key={andRoleApply.andRoleId}>
-                    <span id='role-nm' className={andRoleApply.applicantCount > andRoleApply.andRoleLimit ? 'red-text' : ''}>
-                    #{andRoleApply.andRole} ({andRoleApply.applicantCount} / {andRoleApply.andRoleLimit})
-                    </span>
-                </div>
-                ))}
-          </div>
+            <div id='total-ap-mem'>
+              <h3 className="section-title">전체 지원 현황</h3>
+              <span id='tot-num'><p id='neednum'>{andNeedNumApply.totalApplicantNum}</p>/{andNeedNumApply.needNumMem}</span>
+            </div>
+            <div id='role-ap'>
+              <h3 className="section-title">역할별 지원 현황</h3>
+              {andRoleApplyList.map((andRoleApply) => (
+                  <div className="role-apply-item" key={andRoleApply.andRoleId}>
+                      <span id='role-nm' className={andRoleApply.applicantCount > andRoleApply.andRoleLimit ? 'red-text' : ''}>
+                      #{andRoleApply.andRole} ({andRoleApply.applicantCount} / {andRoleApply.andRoleLimit})
+                      </span>
+                  </div>
+                  ))}
+                  <Button sx={{float:'center', mt: 2}} color="success" variant='outlined' onClick={onClickRoleAddButton}>역할 관리</Button>
+            </div>
           </div>
             <hr />
             <div id='man-bottom'>
             <div id='mem-manage'>
-                <h3>멤버 관리</h3>
+                <h3 className="section-title">멤버 관리</h3>
                 {andMemberList.map((andMember) => (
                     <div className="member-item" key={andMember.memberId}>
                     <div className="member-info">
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                     <Avatar sx={{ mr:1, width:35, height:36 }} alt="member_img" src={andMember.userProfileImg} />
-                    <p id='member'>{andMember.memberId}</p>
+                    <p id='member'>{andMember.userNickname} ({andMember.userKorName})</p>
                     </div>
                     </div>
                     <button id='mem-del-button' onClick={() => deleteAndMember(andId, andMember.memberId)}>삭제</button>
@@ -169,19 +189,12 @@ const AndManage = () => {
             </div>
             <hr />
             <div id='ap-manage'>
-                <h3>지원자 관리</h3>
+                <h3 className="section-title">지원자 관리</h3>
                 {andApplicantList.map((andApplicant) => (
                     <div id = 'ap-man-div'>
-                        <span id='applyTitle' onClick={() => {applicantDetail(andApplicant.andApplyId)}} style={{ cursor: "pointer" }}>
-                        [ {andApplicant.andApplyTitle} ] {andRoleApplyList.map((andRoleApply) => (
-                <div className="role-apply-item" key={andRoleApply.andRoleId}>
-                    <span id='role-nm' className={andRoleApply.applicantCount > andRoleApply.andRoleLimit ? 'red-text' : ''}>
-                    #{andRoleApply.andRole}
-                    </span>
-                </div>
-                ))}
+                        <span id='applyTitle' onClick={() => {applicantDetail(andApplicant.andApplyId)}}>
+                        [ {andApplicant.andApplyTitle} ] #{getAndRoleByAndRoleId(andApplicant.andRoleId)}
                         </span> 
-                          
                     </div>
                 ))}
             </div>

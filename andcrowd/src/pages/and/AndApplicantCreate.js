@@ -18,11 +18,11 @@ const AndApplicantCreate = () => {
     const [andApplyFile, setAndApplyFile] = useState(" ");
     const [isUploading, setIsUploading] = useState(false); // 파일 업로드 상태
     const [andRoles, setAndRoles] = useState([]);
-    const [roleId, setRoleId] = useState('');
+    const [roleId, setRoleId] = useState(0);
 
     const [formData, setFormData] = useState({
         andId: andId,
-        andRoleId: "",
+        andRoleId: 0,
         andApplyTitle:"",
         andApplyContent: "",
     });
@@ -123,7 +123,11 @@ const AndApplicantCreate = () => {
 
     const handleRoleIdChange = (event) => {
       const { name, value } = event.target;
-      setRoleId(Number(value));
+      setFormData({
+          ...formData,
+          [name]: value,
+      });
+
     }
   
 
@@ -142,6 +146,7 @@ const AndApplicantCreate = () => {
                         onChange={handleRoleIdChange}
                         required
                       >
+                      <option value={0}>[{0}] 선택해주세요</option>
                       {andRoles.map((role) => (
                         <option value={role.andRoleId}>[{role.andRoleId}] {role.andRole}</option>
                       ))}

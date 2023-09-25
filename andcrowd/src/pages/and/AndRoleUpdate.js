@@ -116,6 +116,7 @@ const AndRoleUpdate = () => {
 
       console.log("newNeedNumMem: ", newNeedNumMem);
       setNeedNumMem(newNeedNumMem);
+      updateNeedNumMem(newNeedNumMem);
 
       // 역할 목록을 다시 불러올 수 있도록 fetchAndRoles() 함수 호출
       fetchAndRoles();
@@ -177,6 +178,7 @@ const AndRoleUpdate = () => {
       const nonNegativeNeedNumMem = newNeedNumMem < 0 ? 0 : newNeedNumMem; // 음수이면 0으로 설정
       console.log("newNeedNumMem: ", nonNegativeNeedNumMem);
       setNeedNumMem(nonNegativeNeedNumMem);
+      updateNeedNumMem(nonNegativeNeedNumMem);
       fetchAndRoles();
     } else {
       console.error("Error creating AndRole");
@@ -199,19 +201,21 @@ const AndRoleUpdate = () => {
     }
   };
 
-  // 다음 버튼 클릭 시 페이지 이동
-  const handleNextClick = async () => {
+  const updateNeedNumMem = async (needNumMem) => {
     console.log(`/${andId}/update/needNumMem/${needNumMem}`);
     try {
       await fetch(`/and/${andId}/update/needNumMem/${needNumMem}`,{
         method: "PATCH",
       });
-    console.log("update and status:", andId);
     } catch (error) {
-      console.error("Error in updating and status:", error);
     }
+  };
+
+  // 다음 버튼 클릭 시 페이지 이동
+  const handleNextClick = async () => {
     navigate(`/and/${andId}`);
   };
+
 
   return (
       <div className="and-role-create-container">
