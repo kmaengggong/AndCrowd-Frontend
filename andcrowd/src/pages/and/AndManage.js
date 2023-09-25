@@ -115,7 +115,7 @@ const AndManage = () => {
         }
     };
     const applicantDetail = (andApplyId) =>{
-        navigate(`/and/${andId}/applicant/${andApplyId}`)
+        navigate(`/and/${andId}/applicant/${andApplyId}/admin`)
     };
     const getAndRoleByAndRoleId = (andRoleId) => {
       const matchedApplicant = matchedApplicantList.find(
