@@ -244,7 +244,7 @@ const CrowdQnaList = (props) => {
       try {
         const response = await fetch(`/crowd/${crowdId}/qna/list/count`);
         const data = await response.json();
-        setPageCount(Math.ceil(data / 5));
+        setPageCount(Math.ceil(data / 7));
       } catch (error) {
         console.error("Error fetching page count:", error);
       }
@@ -259,8 +259,8 @@ const CrowdQnaList = (props) => {
       if (qnaReplyResponse.ok) {
         const qnaReplyData = await qnaReplyResponse.json();
   
-        for (const qnaReplyId in qnaReplyData) {
-          const comment = qnaReplyData[qnaReplyId];
+        for (const replyId in qnaReplyData) {
+          const comment = qnaReplyData[replyId];
           const userNickname = await getUserNickname(comment.userId);
           comment.userNickname = userNickname;
         }
@@ -385,7 +385,7 @@ const CrowdQnaList = (props) => {
 
   const handleUpdateQna = async (crowdId, crowdQnaId) => {
     try {
-      const response = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}`, {
+      const response = await fetch(`/crowd/${crowdId}/qna/${crowdQnaId}/update`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

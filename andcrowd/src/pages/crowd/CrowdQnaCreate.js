@@ -84,8 +84,8 @@ const CrowdQnaCreate = () => {
                     <button id='board-save-btn' type="submit">저장</button>
                 </div>
                 <div>
-                    회원ID: <input id='qna-input' type="text" name="userId" value={userId} readOnly /><br />
-                    제목: <input id='qna-input' type="text" name="qnaTitle" value={formData.qnaTitle} onChange={handleInputChange} placeholder="제목" />
+                    {/* 회원ID: <input id='qna-input' type="text" name="userId" value={userId} readOnly /><br /> */}
+                    <input id='qna-input' type="text" name="qnaTitle" value={formData.qnaTitle} onChange={handleInputChange} placeholder="제목을 입력하세요" />
                     <Editor htmlStr={htmlStr} setHtmlStr={setHtmlStr}></Editor>
                 </div>
             </form>
