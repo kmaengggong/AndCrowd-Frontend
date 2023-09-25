@@ -74,10 +74,10 @@ const MakerPage = () => {
                 
             <Grid item xs={2} textAlign={'center'}>
                 <Grid container direction="row">
-
+          
                 <Grid item xs={12} marginLeft={0.3}>
                     <IconButton href={userInfo.userProfileImg}>
-                    <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 100, height: 100 }} />
+                    <Avatar src={userInfo.userProfileImg} loading="lazy" sx={{width: 100, height: 100}} />
                     </IconButton>
                 </Grid>
                 <Grid item xs={12}>
@@ -96,7 +96,7 @@ const MakerPage = () => {
                     </Grid>
                     {userMakerAnd.length === 0 ? <></> : 
                     <Grid item xs={2}>
-                        <Button variant="outlined" sx={{float:'right'}} href={`/user/${userId}/detail/makerAnd`}>자세히</Button>
+                        <Button variant="outlined" sx={{float:'right'}} href={`/user/${userId}/detail/makerAnd`} color="success">자세히</Button>
                     </Grid>
                     }
                 </Grid>
@@ -122,7 +122,7 @@ const MakerPage = () => {
                     </Grid>
                     {userMakerCrowd.length === 0 ? <></> : 
                     <Grid item xs={2}>
-                        <Button variant="outlined" sx={{float:'right'}}  href={`/user/${userId}/detail/makerCrowd`}>자세히</Button>
+                        <Button variant="outlined" sx={{float:'right'}}  href={`/user/${userId}/detail/makerCrowd`} color="success">자세히</Button>
                     </Grid>
                     }
                 </Grid>

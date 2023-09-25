@@ -56,7 +56,7 @@ const MyPage = () => {
         if(userAnd.length > 3) setUserAnd(userAnd.slice(0, 3));
         if(userOrder.length > 3) setUserOrder(userOrder.slice(0, 3));
         if(userLike.length > 3) setUserLike(userLike.slice(0, 3));
-        if(userFollow.length > 5) setUserFollow(userLike.slice(0, 3));
+        if(userFollow.length > 5) setUserFollow(userLike.slice(0, 5));
     }, [userAnd, userOrder, userLike, userFollow]);
 
     const onClickUserInfoButtonButton = () => {
@@ -133,6 +133,8 @@ const MyPage = () => {
             .then(res => {
                 return res.json();
             }).then(data => {
+                console.log("userId: " + userId);
+                console.log(data);
                 setUserFollow(data);
             })
         } catch(error){
@@ -164,11 +166,8 @@ const MyPage = () => {
                 'Content-Type': 'application/json',
                 },
             });
-            
             if (response.ok) {
-                setIsFollowed(true);
-            } else {
-                setIsFollowed(false);
+                setIsAdmin(!isFollowed);
             }
         } catch (error) {
         console.error("Error fetching data:", error);
@@ -201,15 +200,19 @@ const MyPage = () => {
                         </Grid>
                         {isOwner ?
                             <>
-                                <Button fullWidth variant="solid" onClick={onClickMakerPageButton}>메이커 페이지</Button>
                                 <Button fullWidth variant="solid" onClick={onClickUserInfoButtonButton}>회원 정보</Button>
                                 <Button fullWidth variant="solid" onClick={onClickOrderPageButton}>결제 내역</Button>
                             </>
                             :
                             <>
-                                <Button fullWidth variant="solid" onClick={() => fetchFollow(userId)}>{isFollowed ? <>팔로잉</>: <>팔로우</>}</Button>
+                                {isFollowed ?
+                                <Button fullWidth variant="outlined" color="success" oonClick={() => fetchFollow(userId)} sx={{mb:1}}>팔로잉</Button>
+                                :
+                                <Button fullWidth variant="contained" color="success" onClick={() => fetchFollow(userId)} sx={{mb:1}}>팔로우</Button>
+                                }
                             </>
                         }
+                        <Button fullWidth variant="solid" onClick={onClickMakerPageButton}>메이커 페이지</Button>
                         
                         </Grid>
                     </Grid>
