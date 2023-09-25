@@ -218,7 +218,6 @@ const Login = () => {
               로그인
             </Button>
           </Grid>
-          
           <Grid item xs={12}>
             <Button href="http://223.130.128.246/oauth2/authorization/naver">네이버 로그인</Button>
             <Button href="http://223.130.128.246/oauth2/authorization/google">구글 로그인</Button>
