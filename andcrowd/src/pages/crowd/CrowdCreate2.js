@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import Editor from "../../components/and/Editor";
-import '../../styles/and/AndCreatePage2.css';
+import '../../styles/crowd/CrowdCreate2.css';
 import AndCreateImg from "../../components/and/AndCreateImg";
 import { InputAdornment, TextField, Typography } from "@mui/material";
 import { GetUserId } from '../../components/user/GetUserId'; 
@@ -23,8 +23,6 @@ const CrowdCreate2 = () => {
         crowdGoal: "",
         crowdHeaderImg: ""
     });
-
-    // const yourAccessToken = Cookies.get('refresh_token');
 
     const fetchData = async () => {
         setUserId(GetUserId());
