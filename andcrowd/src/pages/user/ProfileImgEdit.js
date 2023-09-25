@@ -1,3 +1,5 @@
+// 유저 프로필 사진 변경 페이지
+
 import { Typography } from "@mui/joy";
 import { Box, Button, Grid, TextField } from "@mui/material";
 import { useState } from "react";

@@ -1,3 +1,5 @@
+// 유저 정보 불러오는 컴포넌트
+
 export const GetUserInfo = (userId, setUserInfo) => {
     try{
         fetch(`/user/${userId}`, {

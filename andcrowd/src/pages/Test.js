@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
-import { GetUserId } from "../components/user/GetUserId";
-import { GetUserInfo } from "../components/user/GetUserInfo";
-import { useNavigate } from "react-router";
-import { Alert, Snackbar } from "@mui/material";
+// 테스트 페이지
+
+// import { useEffect, useState } from "react";
+// import { GetUserId } from "../components/user/GetUserId";
+// import { GetUserInfo } from "../components/user/GetUserInfo";
+// import { useNavigate } from "react-router";
+// import { Alert, Snackbar } from "@mui/material";
 
 const Test = () => {
-  const [userId, setUserId] = useState('');
-  const [userInfo, setUserInfo] = useState([]);
-  const [userEmail, setUserEmail] = useState('');
-  const [userNickname, setUserNickname] = useState('');
-  const navigate = useNavigate();
+  // const [userId, setUserId] = useState('');
+  // const [userInfo, setUserInfo] = useState([]);
+  // const [userEmail, setUserEmail] = useState('');
+  // const [userNickname, setUserNickname] = useState('');
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    setUserId(GetUserId());
-  }, []);
+  // useEffect(() => {
+  //   setUserId(GetUserId());
+  // }, []);
 
-  useEffect(() => {
-    setUserEmail(userInfo.userEmail);
-    setUserNickname(userInfo.userNickname);
-  }, [userInfo]);
+  // useEffect(() => {
+  //   setUserEmail(userInfo.userEmail);
+  //   setUserNickname(userInfo.userNickname);
+  // }, [userInfo]);
 
-  const onClickTestButton = () => {
+  // const onClickTestButton = () => {
     // try{
     //   fetch(`/crowd/create`, {
     //     method: "POST",
@@ -40,17 +42,18 @@ const Test = () => {
     // }
     // setOpen(true);
   
-    navigate(`http://localhost:8080/oauth2/authorization/google`);
-  }
+  //   navigate(`http://localhost:8080/oauth2/authorization/google`);
+  // }
 
-  const [open, setOpen] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  }
+  // const [open, setOpen] = useState(false);
+  // const handleClose = () => {
+  //   setOpen(false);
+  // }
 
   return (
     <div>
-      <a type="button" href="http://localhost:8080/oauth2/authorization/google">테스트</a>
+      <p>테스트</p>
+      {/* <a type="button" href="http://localhost:8080/oauth2/authorization/google">테스트</a> */}
       {/* <Snackbar open={open} onClose={handleClose}>
       <Alert onClose={handleClose}>알러트</Alert>
       </Snackbar> */}

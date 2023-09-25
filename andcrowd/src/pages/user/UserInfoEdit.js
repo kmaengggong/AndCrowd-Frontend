@@ -1,13 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import { GetUserId } from "../../components/user/GetUserId";
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Input, Modal, TextField, Typography } from "@mui/material";
+// 유저 정보 변경 페이지
+
+import { useEffect, useState } from "react";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, TextField, Typography } from "@mui/material";
 import { GetUserInfo } from "../../components/user/GetUserInfo";
 import { useNavigate, useParams } from "react-router-dom";
-import { isLoginContext } from "../../context/isLoginContext";
-import Logout from "../../components/sign/Logout";
 
 const UserInfoEdit = () => {
-    const {setIsLogin} = useContext(isLoginContext);
     const params = useParams();
     const userId = params.userId;
     const [userInfo, setUserInfo] = useState([]);

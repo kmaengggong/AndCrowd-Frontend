@@ -1,4 +1,6 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+// 관리자 공지사항 수정 버튼 컴포넌트
+
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, Select, TextField } from "@mui/material";
 import { useState } from "react";
 
 export const AdminInfoEditButton = ({type, userId, rowSelectionModel}) => {

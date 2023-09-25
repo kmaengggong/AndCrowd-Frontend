@@ -1,3 +1,5 @@
+// 아이디 혹은 비밀번호 찾기 선택 페이지
+
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 

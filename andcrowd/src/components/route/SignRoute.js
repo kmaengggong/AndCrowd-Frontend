@@ -1,3 +1,5 @@
+// 비밀번호 확인 라우터
+
 import { Box, Button, Grid, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router"
@@ -5,7 +7,7 @@ import { GetUserId } from "../user/GetUserId";
 import { GetUserInfo } from "../user/GetUserInfo";
 import Loading from "../etc/Loading";
 
-const SignRoute = ({}) => {
+const SignRoute = () => {
     const [password, setPassword] = useState('');
     const [userId, setUserId] = useState(null);
     const [userInfo, setUserInfo] = useState([]);

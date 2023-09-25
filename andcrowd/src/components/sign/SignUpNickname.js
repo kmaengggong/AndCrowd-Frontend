@@ -1,3 +1,5 @@
+// 회원가입 닉네임 컴포넌트
+
 import { Button, Grid, TextField } from "@mui/material"
 
 export const SignUpNickname = ({

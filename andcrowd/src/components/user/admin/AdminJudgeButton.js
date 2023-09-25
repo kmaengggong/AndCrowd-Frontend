@@ -1,3 +1,5 @@
+// 관리자 신고사항 처리 버튼 컴포넌트
+
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { useState } from "react";
 

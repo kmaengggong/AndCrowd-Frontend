@@ -1,3 +1,5 @@
+// 소셜(네이버) 로그인 콜백 컴포넌트
+
 import { useContext, useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { isLoginContext } from "../../context/isLoginContext";

@@ -1,6 +1,7 @@
-import { Avatar, Button, Grid, IconButton, Chip} from "@mui/material";
+// 팀 소개 카드 컴포넌트
+
+import {Grid, Chip} from "@mui/material";
 import Typography from '@mui/joy/Typography';
-import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';

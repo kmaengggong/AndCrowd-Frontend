@@ -1,3 +1,5 @@
+// 마이페이지
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useIsLoginState } from "../../context/isLoginContext";
@@ -7,7 +9,6 @@ import { GetUserInfo } from "../../components/user/GetUserInfo";
 import Typography from '@mui/joy/Typography';
 import MyPageCard from "../../components/user/MyPageCard";
 import MyPageEmtpyCard from "../../components/user/MyPageEmptyCard";
-import { GetIsUserAdmin } from "../../components/user/GetIsUserAdmin";
 import MyPageAvatar from "../../components/user/MyPageAvatar";
 import MyPageEmptyAvatar from "../../components/user/MyPageEmptyAvatar";
 import Loading from "../../components/etc/Loading";

@@ -1,4 +1,7 @@
+// 마이페이지 빈 팔로우
+
 import { Avatar, IconButton } from "@mui/material";
+
 const MyPageEmptyAvatar = ({user}) => {
 
     const onClickProfileButton = () => {

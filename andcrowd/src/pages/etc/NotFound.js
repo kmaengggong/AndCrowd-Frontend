@@ -1,3 +1,5 @@
+// 404 페이지
+
 const NotFound = () => {
     return (
       <div>
