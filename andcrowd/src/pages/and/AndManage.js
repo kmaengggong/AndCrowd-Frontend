@@ -5,6 +5,9 @@ import { Link} from 'react-router-dom';
 import AndApplicant from "./AndApplicant";
 import axios from "axios";
 import '../../styles/and/AndManage.css'
+import { Avatar } from '@mui/material';
+import { GetUserInfo } from '../../components/user/GetUserInfo'
+import { GetUserId } from '../../components/user/GetUserId'; 
 import { Avatar, Button } from '@mui/material';
 
 const AndManage = () => {
@@ -12,6 +15,9 @@ const AndManage = () => {
     const navigate = useNavigate();
     const params = useParams();
     const andId = params.andId;
+    const [and, setAnd] = useState({});
+    const [andUserId, setAndUserId] = useState(null);
+    const [userInfo, setUserInfo] = useState([]);
 
     const [matchedApplicantList, setMatchedApplicantList] = useState([]);
     const [andRoleApplyList, setAndRoleApplyList] = useState([]);
@@ -27,7 +33,24 @@ const AndManage = () => {
         fetchMemberData();
         fetchApplicantData();
     }, []);
-
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`/and/${andId}`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          setAnd(data);
+          setAndUserId(data.userId);
+          GetUserInfo(data.userId, setUserInfo);
+        } else {
+          throw new Error(`Fetching and data failed with status ${response.status}.`);
+        }
+  
+      } catch (error) {
+        console.error("Error fetching And data:", error);
+      }
+    
+    };
     const fetchNeedNumApplyData = async () => {
         try {
           const response = await fetch(`/and/${andId}/applicant/neednum`);
@@ -137,7 +160,7 @@ const AndManage = () => {
     };
     
     const applicantDetail = (andApplyId) =>{
-        navigate(`/and/${andId}/applicant/${andApplyId}`)
+        navigate(`/and/${andId}/applicant/${andApplyId}/admin`)
     };
 
     const getAndRoleByAndRoleId = (andRoleId) => {

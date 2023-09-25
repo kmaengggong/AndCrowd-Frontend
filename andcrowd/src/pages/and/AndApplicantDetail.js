@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
+import '../../styles/and/AndApplicantDetail.css'
 
 const AndApplicantDetail = () => {
     const params = useParams();
@@ -29,7 +30,21 @@ const AndApplicantDetail = () => {
         console.error("Error fetching And data:", error);
       }
     };
-  
+    let statusText = '';
+    switch (andApplicant.andApplyStatus) {
+        case 1:
+            statusText = '합격';
+            break;
+        case 2:
+            statusText = '보류';
+            break;
+        case 3:
+            statusText = '탈락';
+            break;
+        default:
+            statusText = '새 글';
+            break;
+    }
 
     const deleteAndApply = async (andId, andApplyId) => {
         try {
@@ -54,24 +69,22 @@ const AndApplicantDetail = () => {
 
     return (
         <>
-            <div>
-                <h4>신청 번호: {andApplicant.andApplyId}</h4>
-                <p>회원번호: {andApplicant.userId}</p>
-                <p>역할번호: {andApplicant.andRoleId}</p>
-                <p>제목: {andApplicant.andApplyTitle}</p>
-                <p>신청서: {andApplicant.andApplyContent}</p>
+            <div id='apply-detail-con'>
+                <p id='andApplyTitle'>제목: {andApplicant.andApplyTitle}</p>
+                <p id='andApplyContent'>신청서: {andApplicant.andApplyContent}</p>
                 파일: {andApplicant.andApplyFile && (
-                  <a href={andApplicant.andApplyFile} target="_blank" rel="noopener noreferrer"
+                  <a id='open-file' href={andApplicant.andApplyFile} target="_blank" rel="noopener noreferrer"
                   style={{ backgroundColor: 'green', color: '#fff', padding: '10px 20px', border: 'none', borderRadius: '5px', fontSize: '16px', fontWeight: 'bold', cursor: 'pointer' }}                  >
                     {fileExtension} 파일 (새 탭에서 열기)
                   </a>
                 )}
-                <p>신청 현황: {andApplicant.andApplyStatus}</p>
-                <p>(0: new / 1: 합격 / 2: 보류 / 3: 탈락)</p>
+                <p id='andApplyStatus'>신청 현황:
+                     {statusText}
+                </p>
                 <br />
-                <button onClick={() => updateAndApply(andId, andApplyId)}>update</button>
-                <button onClick={() => deleteAndApply(andId, andApplyId)}>delete</button>
-                <button onClick={() => acceptAndApply(andId, andApplyId)}>모임장 관리</button>
+                <button id='updateAndApply' onClick={() => updateAndApply(andId, andApplyId)}>update</button>
+                <button id=' deleteAndApply'onClick={() => deleteAndApply(andId, andApplyId)}>delete</button>
+                <button id='acceptAndApply' onClick={() => acceptAndApply(andId, andApplyId)}>모임장 관리</button>
             </div>
         </>
     );

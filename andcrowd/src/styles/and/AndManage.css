@@ -68,9 +68,10 @@
   }
   #total-ap-mem{
     margin-right: 40%;
+    width: 20%;
   }
   #mem-manage{
-    width: 50%;
+    width: 70%;
   }
   #mem-num{
     font-family: 'Noto Sans KR', sans-serif;
