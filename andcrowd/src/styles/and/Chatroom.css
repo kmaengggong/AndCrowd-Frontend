@@ -39,7 +39,13 @@
     height: 80%;
     padding: 20px 10px 10px 10px;
     background-color: #F8FAFF;
-    overflow: scroll;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+}
+
+.chatroom-member::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
 }
 
 #online{
@@ -108,14 +114,14 @@
 .chatroom-public{
     height: 80%;
     padding: 15px;
-    overflow: scroll;
+    overflow-y: scroll;
     background-color: #F0F4FA;
 }
 
 .chatroom-private{
     height: 80%;
     padding: 15px;
-    overflow: scroll;
+    overflow-y: scroll;
     background-color: #F0F4FA;
 }
 

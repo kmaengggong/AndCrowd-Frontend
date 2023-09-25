@@ -120,7 +120,7 @@ const HelpChatbot = ( {onClose} ) => {
           <h2>챗봇</h2>
           <List ref={messageListRef}
             sx={{
-              overflow: 'scroll',
+              overflowY: 'scroll',
               mx: 'calc(-1 * var(--ModalDialog-padding))',
               px: 'var(--ModalDialog-padding)',
             }}
@@ -134,7 +134,6 @@ const HelpChatbot = ( {onClose} ) => {
                 <ListItem
                   key={index}
                   sx={{
-                    overflow: 'scroll',
                     mx: 'calc(-1 * var(--ModalDialog-padding))',
                     px: 'var(--ModalDialog-padding)',
                     display:'flex',
