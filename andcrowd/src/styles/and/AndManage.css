@@ -93,6 +93,7 @@
     font-size: 16px;
     color: black;
     font-weight: 500;
+    margin-bottom: 5px;
   }
   .red-text {
     color: red;
@@ -100,10 +101,11 @@
   #applyTitle{
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
-    color: black;
+    color: rgb(0, 0, 0);
     font-weight: 500;
     width: 60%;
     margin-bottom: 3%;
+    cursor: pointer;
   }
   #ad-man-div{
     display: flex;
@@ -113,4 +115,7 @@
     font-size: 16px;
     color: #00D337;
     margin-left: 5%;
+  }
+  #ap-man-div{
+    margin-bottom: 5px;
   }

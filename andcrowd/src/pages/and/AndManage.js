@@ -5,7 +5,7 @@ import { Link} from 'react-router-dom';
 import AndApplicant from "./AndApplicant";
 import axios from "axios";
 import '../../styles/and/AndManage.css'
-import { Avatar } from '@mui/material';
+import { Avatar, Button } from '@mui/material';
 
 const AndManage = () => {
 
@@ -147,30 +147,34 @@ const AndManage = () => {
       return matchedApplicant ? matchedApplicant.andRole : "";
     };  
 
+    const onClickRoleAddButton = () => {
+      navigate(`/and/${andId}/role/update`)
+    };
+
     return (
         <div id="and-manage">
           <h2>{andId}번글 관리 페이지</h2>
           <div id='man-top'>
-          <div id='total-ap-mem'>
-            <h3 className="section-title">전체 지원 현황</h3>
-            <span id='tot-num'><p id='neednum'>{andNeedNumApply.totalApplicantNum}</p>/{andNeedNumApply.needNumMem}</span>
-          </div>
-          <hr />
-          <div id='role-ap'>
-            <h3 className="section-title">역할별 지원 현황</h3>
-            {andRoleApplyList.map((andRoleApply) => (
-                <div className="role-apply-item" key={andRoleApply.andRoleId}>
-                    <span id='role-nm' className={andRoleApply.applicantCount > andRoleApply.andRoleLimit ? 'red-text' : ''}>
-                    #{andRoleApply.andRole} ({andRoleApply.applicantCount} / {andRoleApply.andRoleLimit})
-                    </span>
-                </div>
-                ))}
-          </div>
+            <div id='total-ap-mem'>
+              <h3 className="section-title">전체 지원 현황</h3>
+              <span id='tot-num'><p id='neednum'>{andNeedNumApply.totalApplicantNum}</p>/{andNeedNumApply.needNumMem}</span>
+            </div>
+            <div id='role-ap'>
+              <h3 className="section-title">역할별 지원 현황</h3>
+              {andRoleApplyList.map((andRoleApply) => (
+                  <div className="role-apply-item" key={andRoleApply.andRoleId}>
+                      <span id='role-nm' className={andRoleApply.applicantCount > andRoleApply.andRoleLimit ? 'red-text' : ''}>
+                      #{andRoleApply.andRole} ({andRoleApply.applicantCount} / {andRoleApply.andRoleLimit})
+                      </span>
+                  </div>
+                  ))}
+                  <Button sx={{float:'center', mt: 2}} color="success" variant='outlined' onClick={onClickRoleAddButton}>역할 관리</Button>
+            </div>
           </div>
             <hr />
             <div id='man-bottom'>
             <div id='mem-manage'>
-                <h3>멤버 관리</h3>
+                <h3 className="section-title">멤버 관리</h3>
                 {andMemberList.map((andMember) => (
                     <div className="member-item" key={andMember.memberId}>
                     <div className="member-info">
@@ -185,20 +189,12 @@ const AndManage = () => {
             </div>
             <hr />
             <div id='ap-manage'>
-                <h3>지원자 관리</h3>
+                <h3 className="section-title">지원자 관리</h3>
                 {andApplicantList.map((andApplicant) => (
                     <div id = 'ap-man-div'>
-                        <span id='applyTitle' onClick={() => {applicantDetail(andApplicant.andApplyId)}} style={{ cursor: "pointer" }}>
+                        <span id='applyTitle' onClick={() => {applicantDetail(andApplicant.andApplyId)}}>
                         [ {andApplicant.andApplyTitle} ] #{getAndRoleByAndRoleId(andApplicant.andRoleId)}
-                {/* {andRoleApplyList.map((andRoleApply) => (
-                <div className="role-apply-item" key={andRoleApply.andRoleId}>
-                    <span id='role-nm' className={andRoleApply.applicantCount > andRoleApply.andRoleLimit ? 'red-text' : ''}>
-                    #{andRoleApply.andRole}
-                    </span>
-                </div>
-                ))} */}
                         </span> 
-                          
                     </div>
                 ))}
             </div>
