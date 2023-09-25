@@ -141,6 +141,12 @@ const CrowdList = () => {
 
       setData(jsonData.content);
 
+      for (const crowd of jsonData.content) {
+        const currentAmount = await fetchTotalFunded(crowd.crowdId);
+        console.log("currentAmount: ", currentAmount)
+        crowd.currentAmount = currentAmount;
+      }
+
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -262,6 +268,20 @@ const CrowdList = () => {
     fetchDataAndSetIsLiked(); // 데이터 가져와서 업데이트하는 함수 호출
   }, [data]);
 
+  const fetchTotalFunded = async (crowdId) => {
+    console.log(`/crowd_order/${crowdId}/total`);
+    try{
+        const response = await fetch(`/crowd_order/${crowdId}/total`);
+        if(response.ok){
+            const total = await response.json();
+            return total;
+        } else {
+            throw new Error(`Error fetchTotalFunded ${response.status} `);
+        }
+    } catch (error) {
+      console.error("Error fetchTotalFunded data:", error);
+    }
+};
 
   return (
     <div>
@@ -387,7 +407,7 @@ const CrowdList = () => {
                       </Chip>
                     }
                   >
-                    {formatMoney(calculateRaisedAmount(crowd.crowdGoal, crowd.currentAmount))}원 달성!  
+                    {crowd.currentAmount}원 달성!  
                   </Typography>
                   <Typography sx={{ fontSize: '12px', color: 'gray', fontStyle: 'italic'}}>
                     모금액: {formatMoney(crowd.crowdGoal)} 원 
