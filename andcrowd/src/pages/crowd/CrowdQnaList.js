@@ -83,16 +83,16 @@ const CrowdQnaList = (props) => {
     setOpenReplyModal(true);
   };
 
-  const [formData, setFormData] = useState({ // qna + Reply
+  const [formData, setFormData] = useState({ // qnaReply
     crowdId: crowdId,
     userId: userId,
     qnaReplyContent: "",
-    crowdQnaId: "",
+    crowdQnaId: '',
   });
 
   const [qnaFormData, setQnaFormData] = useState({ // qna
     crowdId: crowdId,
-    crowdQnaId: "",
+    crowdQnaId: '',
     userId: userId,
     qnaTitle: "",
     qnaContent: "",
@@ -100,13 +100,39 @@ const CrowdQnaList = (props) => {
 
   const [replyFormData, setReplyFormData] = useState({ // qnaReply
     crowdId: crowdId,
-    crowdQnaId: "",
-    qnaReplyId: "",
+    crowdQnaId: '',
+    qnaReplyId: '',
     userId: userId,
     qnaReplyContent: "",
   });
 
-    const checkUserPermission = async () => {
+  useEffect(() => {
+    fetchData();
+    checkUserPermission();
+  }, [crowdId, currentPage]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `/crowd/${crowdId}/qna/all?page=${currentPage}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+  
+        for (const crowdQna of data) {
+          const userNickname = await getUserNickname(crowdQna.userId);
+          crowdQna.userNickname = userNickname;
+        }
+        setCrowdQnaList(data);
+      } else {
+        throw new Error(`Fetching crowd data failed with status ${response.status}.`);
+      }
+    } catch (error) {
+      console.error("Error fetching crowd data:", error);
+    }
+  };  
+
+  const checkUserPermission = async () => {
     try{
       console.log(`/crowd/${crowdId}/user-check/${userId}`);
       const response = await fetch(`/crowd/${crowdId}/user-check/${userId}`);
@@ -190,32 +216,6 @@ const CrowdQnaList = (props) => {
   };
 
   useEffect(() => {
-    fetchData();
-    checkUserPermission();
-  }, [crowdId, currentPage]);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        `/crowd/${crowdId}/qna/all?page=${currentPage}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-  
-        for (const crowdQna of data) {
-          const userNickname = await getUserNickname(crowdQna.userId);
-          crowdQna.userNickname = userNickname;
-        }
-        setCrowdQnaList(data);
-      } else {
-        throw new Error(`Fetching crowd data failed with status ${response.status}.`);
-      }
-    } catch (error) {
-      console.error("Error fetching crowd data:", error);
-    }
-  };  
-
-  useEffect(() => {
     const fetchDataCrowdReplyData = async () => {
       try {
         const response = await fetch(
@@ -242,9 +242,9 @@ const CrowdQnaList = (props) => {
   useEffect(() => { // 전체 페이지 수 카운트
     const fetchCount = async () => {
       try {
-        const response = await fetch(`/crowd/${crowdId}/qna/list/count`);
+        const response = await fetch(`/crowd/${crowdId}/qna/all/count`);
         const data = await response.json();
-        setPageCount(Math.ceil(data / 7));
+        setPageCount(Math.ceil(data / 5));
       } catch (error) {
         console.error("Error fetching page count:", error);
       }
@@ -489,7 +489,9 @@ const CrowdQnaList = (props) => {
                               {selectedQnaId === crowdQna.crowdQnaId && (
                                 <>
                                   <TableRow>
-                                    <TableCell colSpan={4} sx={{padding: 2, paddingLeft: 8, borderBottom: "none", borderTop: "none"}} dangerouslySetInnerHTML={{__html : crowdQna.qnaContent}} />
+                                    <TableCell colSpan={4} sx={{ padding: 2, paddingLeft: 8, borderBottom: 'none', borderTop: 'none' }} >
+                                      <div id='crowd-content-div' dangerouslySetInnerHTML={{ __html :  crowdQna.qnaContent  }} style={{ maxWidth: '100%', overflowX: 'auto',overflowY: 'auto' }}/>
+                                    </TableCell>
                                   </TableRow>
                                   <TableRow>
                                     <TableCell align="right" colSpan={4} sx={{ padding: 2, paddingBottom: 4, paddingRight: 5}}>
@@ -522,7 +524,7 @@ const CrowdQnaList = (props) => {
                                                 <TextField fullWidth multiline rows={3} id="outlined-basic" label="문의 내용" variant="outlined" margin="normal" size="small"
                                                   type="text" name="qnaContent" value={qnaFormData.qnaContent}
                                                   onChange={handleQnaInputChange}/>
-                                                </Typography>
+                                              </Typography>
                                               <Button onClick={() => {handleUpdateQna(crowdId, crowdQna.crowdQnaId);}}>수정</Button>
                                             </Box>
                                           </Modal>
