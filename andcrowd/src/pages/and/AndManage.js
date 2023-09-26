@@ -78,6 +78,7 @@ const AndManage = () => {
             console.log("fetchApplicantData: ",data)
             setAndApplicantList(data);
           } else {
+            navigate("/NotFound");
             throw new Error(`Fetching and data failed with status ${response.status}.`);
           }
         } catch (error) {

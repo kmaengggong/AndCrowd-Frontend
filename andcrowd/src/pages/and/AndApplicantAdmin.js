@@ -25,6 +25,7 @@ const AndApplicantAdmin = () => {
         const Data = await response.json();
         setAndApplicant(Data);
         } else {
+          navigate("/NotFound");
         throw new Error(`Fetching and data failed with status ${Response.status}.`);
         }
     } catch (error) {

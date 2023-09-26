@@ -24,6 +24,7 @@ const AndMemberDetail = () => {
         const data = await response.json();
         setAndMember(data);
       } else {
+        navigate("/NotFound");
         throw new Error(`Fetching AndMember data failed with status ${response.status}.`);
       }
 

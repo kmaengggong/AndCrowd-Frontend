@@ -23,6 +23,7 @@ const AndRoleDetail = () => {
         const data = await response.json();
         setAndRole(data);
       } else {
+        navigate("/NotFound");
         throw new Error(`Fetching and role data failed with status ${response.status}.`);
       }
     } catch (error) {

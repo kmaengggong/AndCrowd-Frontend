@@ -185,12 +185,6 @@ const CrowdOrderDetail = () => {
                 sx={{ display: 'flex', mb:2 }}
                 key={reward.rewardId}
             >
-                <CardMedia
-                    component="img"
-                    sx={{ width: 150 }}
-                    image="https://picsum.photos/id/2/600/400"
-                    alt="Live from space album cover"
-                />
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <CardContent sx={{ flex: '1 0 auto' }}>
                         <Typography sx={{fontSize:20, fontWeight:700, color:'#00D337'}}>

@@ -26,6 +26,7 @@ const AndQnaDetail = () => {
         const qnaData = await qnaResponse.json();
         setAndQna(qnaData);
       } else {
+        navigate("/NotFound");
         throw new Error(`Fetching and data failed with status ${qnaResponse.status}.`);
       }
 

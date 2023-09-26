@@ -55,24 +55,6 @@ const CrowdDetail = () => {
 
   };
 
-  const updateCrowd = (crowdId) => {
-    navigate(`/crowd/${crowdId}/update`);
-  };
-
-  const deleteCrowd = async (crowdId) => {
-    const isConfirmed = window.confirm("정말로 펀딩글을 삭제하시겠습니까?");
-
-    if(isConfirmed){
-      try {
-        await axios.delete(`/crowd/${crowdId}/delete`);
-        console.log("Deleted and with ID:", crowdId);
-        navigate(`/crowd/list`);
-      } catch (error) {
-        console.error("error in deleting crowd:", error);
-      }
-    }
-  };
-
   const manageCrowd = (crowdId) => {
     navigate(`/crowd/${crowdId}/manage`);
   };
@@ -88,18 +70,6 @@ const CrowdDetail = () => {
           {/* 모임장만 볼 수 있는 버튼 */}
           {userId === crowdUserId && (
             <>
-              <div id='crowd-detail-bottom'>
-                <Typography id='crowd-detail-upde'
-                  onClick={() => updateCrowd(crowdId, crowdId)}
-                >
-                  수정
-                </Typography>
-                <Typography id='crowd-detail-upde'
-                  onClick={() => deleteCrowd(crowdId, crowdId)}
-                >
-                  삭제
-                </Typography>
-              </div>
               <div id='crowd-detail-bottom2'>
                 {/* -- 모임 관리 안에 신청서 목록 있음 --
                 <Typography id='and-detail-2'
@@ -107,11 +77,6 @@ const CrowdDetail = () => {
                 >
                   신청서 목록
                 </Typography> */}
-                <Typography id='crowd-detail-2'
-                  onClick={() => manageCrowd(crowd.crowdId)}
-                >
-                  펀딩 관리                           
-                </Typography> 
               </div>
             </>
           )}
