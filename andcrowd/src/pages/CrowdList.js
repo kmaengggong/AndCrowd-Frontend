@@ -313,9 +313,9 @@ const CrowdList = () => {
             style={{ width: "80px", marginRight: "20px" }}
           >
             <option value="1">모집중</option>
-            <option value="2">반려</option>
+            {/* <option value="2">반려</option> */}
             <option value="3">종료</option>
-            <option value="4">작성중</option>
+            {/* <option value="4">작성중</option> */}
             <option value="0">심사중</option>
           </select>
           {/* 상태별분류 목록 */}

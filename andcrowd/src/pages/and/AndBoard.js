@@ -89,6 +89,7 @@ const AndBoard = () => {
         const data = await response.json();
         setAndBoardList(data);
       } else {
+        navigate("/NotFound");
         throw new Error(`Fetching AndBoard data failed with status ${response.status}.`);
       }
     } catch (error) {

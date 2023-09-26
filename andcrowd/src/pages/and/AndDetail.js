@@ -48,6 +48,7 @@ const AndDetail = () => {
           localStorage.setItem("viewedPosts", viewedPosts + `[${andId}]`);
         }
       } else {
+        navigate("/NotFound");
         throw new Error(`Fetching and data failed with status ${response.status}.`);
       }
 
