@@ -97,6 +97,8 @@ import HelpChatbot from './pages/etc/HelpChatbot';
 import ContactSupportRoundedIcon from '@mui/icons-material/ContactSupportRounded';
 import CrowdManage from './pages/crowd/CrowdManage';
 import MainLayout from './components/MainLayout';
+import CrowdRewardUpdate from './pages/crowd/CrowdRewardUpdate';
+import CrowdOrderDetail from './pages/payment/CrowdOrderDetail';
 
 function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -252,6 +254,8 @@ function App() {
                 <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
                 <Route path="/crowd/:crowdId/manage" element={<CrowdManage />} />
                 <Route path="/crowd/:crowdId/reward" element={<CrowdRewardCreate />} /> {/* 추가 */}
+                <Route path="/crowd/:crowdId/reward/update" element={<CrowdRewardUpdate />} />
+                <Route path="/order/:merchantUid" element={<CrowdOrderDetail />} />
                 <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
