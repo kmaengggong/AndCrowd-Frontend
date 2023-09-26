@@ -33,6 +33,9 @@ const SignRoute = () => {
             setIsValid(true);
             setIsFetch(true);
         }
+        else{
+            setIsFetch(false);
+        }
     }, [userInfo]);
 
     const onPasswordChange = (event) => {
