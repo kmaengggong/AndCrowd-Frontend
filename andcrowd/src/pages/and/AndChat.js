@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ChatRoom from '../chat/Chatroom';
 import Cookies from 'js-cookie';
 import '../../styles/and/AndChat.css';
 import Loading from '../../components/etc/Loading';
 
 const AndChat = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const andId = params.andId;
 
@@ -46,10 +48,12 @@ const AndChat = () => {
         } else {
           setJoined(false);
           alert("You are not a member of this group."); // 사용자가 멤버가 아닌 경우 경고 표시
+          navigate(`/and/${andId}`);
         }
 
       } else {
         // 오류 처리
+        navigate("/NotFound");
         console.error('Failed to fetch user nickname');
       }
     } catch (error) {
@@ -68,7 +72,7 @@ const AndChat = () => {
           {joined === null ? <Loading /> :
           <>
           {!joined ? (
-            <p>{nickname}님은 {roomData ? roomData.name : '모임'}의 멤버가 아닙니다. </p>
+            <p>{roomData ? roomData.name : '모임'}의 멤버가 아닙니다. </p>
           ) : (
             <div className='chat-box'>
                   <ChatRoom roomData={roomData} nickname={nickname} andId={andId} />
