@@ -67,11 +67,14 @@ function Footer() {
             <Typography id = 'footerSubtext'>
             ABOUT &Crowd
             </Typography>
-            <Link id = 'footerLink'>
+            <Link id = 'footerLink' href="https://www.notion.so/kmaengggong/Crowd-ba5011d9802e4dd4ae6755f25b5e1448">
             Notion
             </Link>
-            <Link id = 'footerLink'>
-            Github
+            <Link id = 'footerLink' href="https://github.com/kmaengggong/AndCrowd-Frontend" >
+            Github (Frontend)
+            </Link>
+            <Link id = 'footerLink' href="https://github.com/kmaengggong/AndCrowd-Backend">
+            Github (Backend)
             </Link>
           </Box>
 

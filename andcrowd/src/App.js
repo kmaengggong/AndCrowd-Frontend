@@ -96,6 +96,7 @@ import UserInfo from './pages/user/UserInfo';
 import HelpChatbot from './pages/etc/HelpChatbot';
 import ContactSupportRoundedIcon from '@mui/icons-material/ContactSupportRounded';
 import CrowdManage from './pages/crowd/CrowdManage';
+import MainLayout from './components/MainLayout';
 
 function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -134,9 +135,10 @@ function App() {
   return (
     <IsLoginProvider>
     <div className='App'>
-    <Header/>
     <Routes>
+        <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
+            </Route>
             </Routes>
       <div className="wrapper" style={{ maxWidth: `${maxWidth}px` }}>
         
@@ -144,10 +146,11 @@ function App() {
           <ScrollToTop></ScrollToTop>
           <Routes>
             <Route path="/logout" element={<Logout />} />
+            <Route element={<MainLayout />}>
             <Route path="/infoboard/list" element={<Infoboard />} />
             <Route path="/infoboard/:infoId" element={<InfoboardDetail />} />
             <Route path="/callback/from/:token" element={<CallBackFromOAuth />} />
-
+            </Route>
             {/* 로그인되지 않은 상태에서만 접근 가능 */}
             <Route element={<PublicRoute />}>
               <Route path="/login" element={<Login />} />
@@ -163,6 +166,7 @@ function App() {
             <Route element={<LoginRoute />}>
               {/* 누구라도 접근 가능 */}
               {/* Etc */}
+              <Route element={<MainLayout />}>
               <Route path="/team" element={<Team />} />
               <Route path="/help" element={<Help />} />
               <Route path='/chat' element={<ChatPage />} />
@@ -183,9 +187,16 @@ function App() {
               <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
               <Route path="/crowd/:crowdId/reward/all" element={<CrowdReward />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/qna/all" element={<CrowdQnaList />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply' element={<CrowdReplyCreate/>} /> {/* 추가 */}
+              
+              </Route>
 
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
+              <Route element={<MainLayout />}>
                 {/* User 관련 */}
                 <Route path="/user/:userId/maker" element={<MakerPage />} />
                 <Route path="/user/:userId/order" element={<OrderDetail />} />
@@ -257,11 +268,13 @@ function App() {
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/update' element={<CrowdQnaUpdate />} /> {/* 추가 */}
                 <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply/:qnaReplyId' element={<CrowdReplyUpdate />} /> {/* 추가 */}
               </Route>
-              
+              </Route>
             </Route>
             {/* 관리자 유저만 접근 가능 */}
             <Route element={<AdminRoute />}>
+            <Route element={<MainLayout />}>
               <Route path="/iamtheadmin" element={<AdminMain />} />
+            </Route>
             </Route>
 
             <Route path="*" element={<NotFound />} />
@@ -274,6 +287,7 @@ function App() {
           </div>
         </div>
       </div>
+      
       <Footer />
     </div>
     </IsLoginProvider>
