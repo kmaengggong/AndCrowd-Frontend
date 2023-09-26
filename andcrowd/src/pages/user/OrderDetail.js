@@ -1,3 +1,5 @@
+// 유저 결제 정보 리스트 페이지
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GetUserId } from "../../components/user/GetUserId";

@@ -1,10 +1,11 @@
+// 선택한 리워드 결제 페이지
+
 import { Box, Button, TextField } from "@mui/material";
 import { GetUserId } from "../user/GetUserId";
 import { GetUserInfo } from "../user/GetUserInfo";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Typography } from "@mui/joy";
-import { add } from "lodash";
 
 const CrowdRewardPayment = () => {
     const navigate = useNavigate();

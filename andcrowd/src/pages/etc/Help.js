@@ -1,3 +1,5 @@
+// 도움말 페이지
+
 import React, { useState, useEffect, useRef } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';

@@ -10,6 +10,9 @@ import { GetUserInfo } from '../user/GetUserInfo';
 import report from '../../siren.png';
 import share from '../../share.png';
 import CrowdReward from '../../pages/crowd/CrowdReward';
+import axios from "axios";
+import '../../styles/crowd/CrowdDetail.css';
+import { useIsLoginState } from "../../context/isLoginContext";
 
 const style = {
   position: 'absolute',
@@ -24,6 +27,7 @@ const style = {
 };
 
 const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
+  const isLogin = useIsLoginState();
   const navigate = useNavigate();
 
   const params = useParams();
@@ -212,7 +216,11 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   };
 
   const handleOpenReportModal = (itemId) => {
+    if(!isLogin){
+      alert("신고는 로그인 후 사용 가능합니다.")
+    } else{
     setOpenModalItemId(itemId);
+    }
   };
 
   const handleCloseReportModal = () => {
@@ -266,7 +274,11 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   };
 
   const handleClick = () => {
+    if(!isLogin){
+      alert("찜하기는 로그인 후 사용 가능합니다.")
+    } else{
     fetchLike();
+    }
   };
 
   const crowdChat = (crowdId) => { // 함수 이름 변경
@@ -282,6 +294,9 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   };
 
   const fetchFollow = async (userId) => {
+    if(!isLogin){
+      alert("팔로우는 로그인 후 사용 가능합니다.")
+    } else{
     try {
       const myId = GetUserId();
       const response = await fetch(`/user/${myId}/follow/${userId}`, {
@@ -292,18 +307,14 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
       });
 
       if (response.ok) {
-        const newIsFollowed = await fetchIsFollowed(userId);
-        if (newIsFollowed !== null) {
-          setIsFollowed((prevIsFollowed) => ({
-            ...prevIsFollowed,
-            [userId]: newIsFollowed,
-          }));
-        }
+        const newIsFollowed = !isFollowed; // 현재 상태를 반전시킴
+        setIsFollowed(newIsFollowed);
       } else {
         throw new Error(`Fetching crowd data failed with status ${response.status}.`);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
     }
   };
 
@@ -312,12 +323,18 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
       const myId = GetUserId();
       console.log(`/user/${myId}/follow/${userId}`);
       const response = await fetch(`/user/${myId}/follow/${userId}`); // 엔드포인트 수정
+
       if (response.ok) {
-        const data = await response.json();
-        console.log("data follow: ", data);
-        setIsFollowed(data);
-        return data;
+        const data = await response.text(); // 응답 데이터 텍스트로 읽기
+        console.log("fetchIsFollowed?? : ", data)
+
+        if (data === '팔로우 된 유저입니다.') {
+          setIsFollowed(true);
+        }
+
       } else {
+        setIsFollowed(false);
+        console.log('팔로우 안된 유저입니다');
         throw new Error(`Fetching crowd data failed with status ${response.status}.`);
       }
     } catch (error) {
@@ -335,6 +352,24 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
     }
   };
 
+  const updateCrowd = (crowdId) => {
+    navigate(`/crowd/${crowdId}/update`);
+  };
+
+  const deleteCrowd = async (crowdId) => {
+    try {
+      await axios.delete(`/crowd/${crowdId}/delete`);
+      console.log("Deleted and with ID:", crowdId);
+      navigate(`/crowd/list`);
+    } catch (error) {
+      console.error("error in deleting crowd:", error);
+    }
+  };
+
+  const manageCrowd = (crowdId) => {
+    navigate(`/crowd/${crowdId}/manage`);
+  };
+
   return (
     <Box id='right-top-box'>
       <div className='catAndReport' style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -342,10 +377,10 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
           {categoryMap[crowd.crowdCategoryId]} {/* 변수 이름 변경 */}
         </Chip>
         {crowd.andId !== 0 && (
-          <Link id='and-link' href={`/and/${crowd.andId}`} underline="none">연계 모임글</Link>
+          <Link id='crowd-link' href={`/and/${crowd.andId}`} underline="none">연계 모임글</Link>
         )}
         {crowd.andId === 0 && (
-          <div id='and-link'></div>
+          <div id='crowd-link'></div>
         )}
         <button
           id="shareBtn"
@@ -404,14 +439,40 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
         <div className='crowdUser' style={{ display: 'flex', alignItems: 'center' }}>
           <Avatar sx={{ ml: 1, width: 45, height: 45, mt: 2 }} src={userInfo.userProfileImg} ></Avatar>
           <span id='crowdUser-nickname' onClick={() => handleMemberClick(crowdUserId)}>{userInfo.userNickname}</span> {/* 변수 이름 변경 */}
-          <button id='follow' onClick={() => fetchFollow(crowd.userId)} // 변수 이름 변경
+          { userId !== crowdUserId ? (
+          <button id='follow' onClick={() => fetchFollow(crowd.userId)}
             className={isFollowed ? 'following-button' : 'follow-button'}>
             {isFollowed ? (
               <div> ✓ 팔로잉</div>
             ) : (
               <div> + 팔로우</div>
-            )}
+              )}
           </button>
+            ) : (
+              <div id='crowd-user-button'>
+                  <div id='crowd-detail-bottom'>
+                    <Typography id='crowd-detail-up'
+                      onClick={() => updateCrowd(crowdId, crowdId)}
+                    >
+                      수정
+                    </Typography>
+                    <Typography id='crowd-detail-de'
+                      onClick={() => deleteCrowd(crowdId, crowdId)}
+                    >
+                      삭제
+                    </Typography>
+                  </div>
+                  <div id='crowd-detail-bottom2'>
+                    <Typography id='crowd-detail-2'
+                      onClick={() => manageCrowd(crowd.crowdId)}
+                    >
+                      관리                           
+                    </Typography> 
+                  </div>
+    
+              </div>
+            )
+          }
         </div>
       </Box>
       <Box id='like-crowd-button'> {/* 변수 이름 변경 */}

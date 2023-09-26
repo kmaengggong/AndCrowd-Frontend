@@ -118,7 +118,7 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
   }, [messages, privateChats]);
 
   useEffect(() => {
-    const socket = new SockJS('http://localhost:8080/ws');
+    const socket = new SockJS('/ws');
     const stomp = Stomp.over(socket);
 
     const handleBeforeUnload = () => {

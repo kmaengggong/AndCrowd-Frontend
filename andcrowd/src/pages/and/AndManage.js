@@ -6,13 +6,10 @@ import AndApplicant from "./AndApplicant";
 import axios from "axios";
 import '../../styles/and/AndManage.css'
 import { Avatar, Button } from '@mui/material';
-
 const AndManage = () => {
-
     const navigate = useNavigate();
     const params = useParams();
     const andId = params.andId;
-
     const [matchedApplicantList, setMatchedApplicantList] = useState([]);
     const [andRoleApplyList, setAndRoleApplyList] = useState([]);
     const [andNeedNumApply, setAndNeedNumApply] = useState({});
@@ -20,18 +17,15 @@ const AndManage = () => {
     const [andApplicantList, setAndApplicantList] = useState([]);
     const [andApplyStatus, setAndApplyStatus] = useState([]);
     const [members, setMembers] = useState([]);
-
     useEffect(() => {
         fetchRoleApplyData();
         fetchNeedNumApplyData();
         fetchMemberData();
         fetchApplicantData();
     }, []);
-
     const fetchNeedNumApplyData = async () => {
         try {
           const response = await fetch(`/and/${andId}/applicant/neednum`);
-          
           if (response.ok) {
             const data = await response.json();
             console.log("fetchNeedNumApplyData: ",data)
@@ -39,40 +33,32 @@ const AndManage = () => {
           } else {
             throw new Error(`Fetching and data failed with status ${response.status}.`);
           }
-    
         } catch (error) {
           console.error("Error fetching And data:", error);
         }
     };
-
     const fetchRoleApplyData = async () => {
         try {
           const response = await fetch(`/and/${andId}/role/applicant/count`);
-          
           if (response.ok) {
             const data = await response.json();
             console.log("fetchRoleApplyData: ", data)
             setAndRoleApplyList(data);
-
             const newMatchedApplicantList = data.map((item) => ({
               andRoleId: item.andRoleId,
               andRole: item.andRole,
             }));
             setMatchedApplicantList(newMatchedApplicantList);
-    
           } else {
             throw new Error(`Fetching and data failed with status ${response.status}.`);
           }
-    
         } catch (error) {
           console.error("Error fetching And data:", error);
         }
     };
-    
     const fetchMemberData = async () => {
         try {
           const response = await fetch(`/and/${andId}/member/list/popup`);
-          
           if (response.ok) {
             const data = await response.json();
             console.log("fetchMemberData: ",data)
@@ -80,16 +66,13 @@ const AndManage = () => {
           } else {
             throw new Error(`Fetching and data failed with status ${response.status}.`);
           }
-    
         } catch (error) {
           console.error("Error fetching And data:", error);
         }
     };
-
     const fetchApplicantData = async () => {
         try {
           const response = await fetch(`/and/${andId}/applicant/list`);
-          
           if (response.ok) {
             const data = await response.json();
             console.log("fetchApplicantData: ",data)
@@ -97,12 +80,10 @@ const AndManage = () => {
           } else {
             throw new Error(`Fetching and data failed with status ${response.status}.`);
           }
-    
         } catch (error) {
           console.error("Error fetching And data:", error);
         }
     };
-    
     const handleApplyStatusChange = async (updatedStatus, andApplyId) => {
     const updatedStatusValue = parseInt(updatedStatus);
         try {
@@ -113,7 +94,6 @@ const AndManage = () => {
                 },
                 body: JSON.stringify(updatedStatusValue),
             });
-
             if (response.ok) {
                 await fetchApplicantData();
                 await fetchMemberData();
@@ -124,7 +104,6 @@ const AndManage = () => {
             console.error("상태 업데이트 오류:", error);
         }
     };
-      
     const deleteAndMember = async (andId, memberId) => {
         try {
           await axios.delete(`/and/${andId}/member/${memberId}/delete`);
@@ -135,29 +114,25 @@ const AndManage = () => {
           console.error("error in deleting member:", error);
         }
     };
-    
     const applicantDetail = (andApplyId) =>{
-        navigate(`/and/${andId}/applicant/${andApplyId}`)
+        navigate(`/and/${andId}/applicant/${andApplyId}/admin`)
     };
-
     const getAndRoleByAndRoleId = (andRoleId) => {
       const matchedApplicant = matchedApplicantList.find(
         (applicant) => applicant.andRoleId === andRoleId
       );
       return matchedApplicant ? matchedApplicant.andRole : "";
-    };  
-
+    };
     const onClickRoleAddButton = () => {
       navigate(`/and/${andId}/role/update`)
     };
-
     return (
         <div id="and-manage">
           <h2>{andId}번글 관리 페이지</h2>
           <div id='man-top'>
             <div id='total-ap-mem'>
               <h3 className="section-title">전체 지원 현황</h3>
-              <span id='tot-num'><p id='neednum'>{andNeedNumApply.totalApplicantNum}</p>/{andNeedNumApply.needNumMem}</span>
+              <span id='tot-num'><span id='neednum'>{andNeedNumApply.totalApplicantNum}</span>/{andNeedNumApply.needNumMem}</span>
             </div>
             <div id='role-ap'>
               <h3 className="section-title">역할별 지원 현황</h3>
@@ -194,13 +169,12 @@ const AndManage = () => {
                     <div id = 'ap-man-div'>
                         <span id='applyTitle' onClick={() => {applicantDetail(andApplicant.andApplyId)}}>
                         [ {andApplicant.andApplyTitle} ] #{getAndRoleByAndRoleId(andApplicant.andRoleId)}
-                        </span> 
+                        </span>
                     </div>
                 ))}
             </div>
             </div>
-        </div>  
+        </div>
       );
     }
-
 export default AndManage;

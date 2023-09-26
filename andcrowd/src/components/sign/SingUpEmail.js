@@ -1,3 +1,5 @@
+// 회원가입 이메일 컴포넌트
+
 import { Button } from "@mui/material";
 import { Grid, TextField } from "@mui/material";
 

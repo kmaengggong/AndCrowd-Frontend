@@ -1,14 +1,14 @@
+// 공지사항 디테일 페이지
+
 import Typography from "@mui/joy/Typography";
 import { Avatar, Box, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import logo from '../../icon.png';
 
 const InfoboardDetail = () => {
     const infoId = useParams().infoId;
     const [info, setInfo] = useState([]);
-
-    const navigate = useNavigate();
     
     useEffect(() => {
     }, [info]);

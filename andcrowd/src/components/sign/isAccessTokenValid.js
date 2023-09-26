@@ -1,3 +1,5 @@
+// 토큰 검증 컴포넌트
+
 export const isAccessTokenValid = () => {
     try{
         fetch('/api/accessTokenValid', {

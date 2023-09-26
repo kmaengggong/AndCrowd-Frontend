@@ -1,3 +1,5 @@
+// 유저 정보 페이지
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GetUserInfo } from "../../components/user/GetUserInfo";

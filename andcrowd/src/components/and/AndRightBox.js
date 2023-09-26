@@ -9,6 +9,7 @@ import Chip from '@mui/joy/Chip';
 import { GetUserInfo } from '../user/GetUserInfo';
 import report from '../../siren.png';
 import axios from "axios";
+import { useIsLoginState } from "../../context/isLoginContext";
 
 const style = {
   position: 'absolute',
@@ -24,6 +25,7 @@ const style = {
 
 
 const AndComponent = ({ }) => {
+  const isLogin = useIsLoginState();
   const navigate = useNavigate();
 
   const params = useParams();
@@ -199,7 +201,11 @@ const AndComponent = ({ }) => {
   };
 
   const handleOpenReportModal = (itemId) => {
+    if(!isLogin){
+      alert("신고는 로그인 후 사용 가능합니다.")
+    } else{
     setOpenModalItemId(itemId);
+    }
   };
 
   const handleCloseReportModal = () => {
@@ -249,18 +255,30 @@ const AndComponent = ({ }) => {
   const id = open ? 'simple-popover' : undefined;
 
   const handleMemberClick = (userId) => {
+    if(!isLogin){
+      alert("멤버 페이지 이동은 로그인 후 사용 가능합니다.")
+    } else{
     navigate(`/user/${userId}`);
+    }
   }
   
   const handleClick = () => {
+    if(!isLogin){
+      alert("찜하기는 로그인 후 사용 가능합니다.")
+    } else{
     fetchLike();
+    }
   };
   const andChat = (andId) => {
     navigate(`/and/${andId}/chat`);
   };
 
   const applyAnd = (andId) => {
+    if(!isLogin){
+      alert("모임 지원을 위해서는 먼저 로그인해주세요.")
+    } else{
     navigate(`/and/${andId}/applicant/create`);
+    }
   };
 
   const memberList = (andId) => {
@@ -268,6 +286,9 @@ const AndComponent = ({ }) => {
   };
 
   const fetchFollow = async (userId) => {
+    if(!isLogin){
+      alert("팔로우는 로그인 후 사용 가능합니다.")
+    } else{
     try {
       const myId = GetUserId();
       const response = await fetch(`/and/${myId}/follow/${userId}`,{
@@ -290,6 +311,7 @@ const AndComponent = ({ }) => {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
     }
   }
 

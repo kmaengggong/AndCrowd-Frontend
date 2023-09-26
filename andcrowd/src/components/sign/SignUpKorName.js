@@ -1,5 +1,6 @@
-import { Button, Grid, TextField } from "@mui/material"
-import { useState } from "react"
+// 회원가입 이름 컴포넌트
+
+import { Grid, TextField } from "@mui/material"
 
 export const SignUpKorName = ({
     korName,
