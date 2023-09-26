@@ -13,7 +13,6 @@ const CrowdRewardUpdate = () => {
 
   const [crowdReward, setCrowdReward] = useState({});
   const [rewards, setRewards] = useState([]);
-  // const [reward, setReward] = useState({});
   const [formData, setFormData] = useState({
     crowdId: crowdId,
     rewardId: rewardId,

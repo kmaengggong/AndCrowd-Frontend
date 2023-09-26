@@ -12,7 +12,6 @@ import share from '../../share.png';
 import CrowdReward from '../../pages/crowd/CrowdReward';
 import axios from "axios";
 import '../../styles/crowd/CrowdDetail.css';
-import { useIsLoginState } from "../../context/isLoginContext";
 
 const style = {
   position: 'absolute',
@@ -27,7 +26,6 @@ const style = {
 };
 
 const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
-  const isLogin = useIsLoginState();
   const navigate = useNavigate();
 
   const params = useParams();
@@ -216,11 +214,7 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   };
 
   const handleOpenReportModal = (itemId) => {
-    if(!isLogin){
-      alert("신고는 로그인 후 사용 가능합니다.")
-    } else{
     setOpenModalItemId(itemId);
-    }
   };
 
   const handleCloseReportModal = () => {
@@ -274,11 +268,7 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   };
 
   const handleClick = () => {
-    if(!isLogin){
-      alert("찜하기는 로그인 후 사용 가능합니다.")
-    } else{
     fetchLike();
-    }
   };
 
   const crowdChat = (crowdId) => { // 함수 이름 변경
@@ -294,9 +284,6 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   };
 
   const fetchFollow = async (userId) => {
-    if(!isLogin){
-      alert("팔로우는 로그인 후 사용 가능합니다.")
-    } else{
     try {
       const myId = GetUserId();
       const response = await fetch(`/user/${myId}/follow/${userId}`, {
@@ -307,14 +294,18 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
       });
 
       if (response.ok) {
-        const newIsFollowed = !isFollowed; // 현재 상태를 반전시킴
-        setIsFollowed(newIsFollowed);
+        const newIsFollowed = await fetchIsFollowed(userId);
+        if (newIsFollowed !== null) {
+          setIsFollowed((prevIsFollowed) => ({
+            ...prevIsFollowed,
+            [userId]: newIsFollowed,
+          }));
+        }
       } else {
         throw new Error(`Fetching crowd data failed with status ${response.status}.`);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
-    }
     }
   };
 
@@ -323,18 +314,12 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
       const myId = GetUserId();
       console.log(`/user/${myId}/follow/${userId}`);
       const response = await fetch(`/user/${myId}/follow/${userId}`); // 엔드포인트 수정
-
       if (response.ok) {
-        const data = await response.text(); // 응답 데이터 텍스트로 읽기
-        console.log("fetchIsFollowed?? : ", data)
-
-        if (data === '팔로우 된 유저입니다.') {
-          setIsFollowed(true);
-        }
-
+        const data = await response.json();
+        console.log("data follow: ", data);
+        setIsFollowed(data);
+        return data;
       } else {
-        setIsFollowed(false);
-        console.log('팔로우 안된 유저입니다');
         throw new Error(`Fetching crowd data failed with status ${response.status}.`);
       }
     } catch (error) {
