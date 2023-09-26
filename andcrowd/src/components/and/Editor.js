@@ -24,7 +24,7 @@ const Editor = ({ htmlStr, setHtmlStr }) => {
         const formData = new FormData();
         formData.append('image', file);
 
-        const response = await axios.post('http://localhost:8080/and/editer/uploadImage', formData);
+        const response = await axios.post('/and/editer/uploadImage', formData);
 
         // 응답에서 이미지 URL 받아와서 에디터에 추가
         const imageUrl = response.data.uploadFileUrl;

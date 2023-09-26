@@ -24,7 +24,7 @@ const CrowdEditor = ({ htmlStr, setHtmlStr }) => {
         const formData = new FormData();
         formData.append('image', file);
 
-        const response = await axios.post('http://localhost:8080/crowd/editor/uploadImage', formData);
+        const response = await axios.post('/crowd/editor/uploadImage', formData);
 
         // 응답에서 이미지 URL 받아와서 에디터에 추가
         const imageUrl = response.data.uploadFileUrl;
