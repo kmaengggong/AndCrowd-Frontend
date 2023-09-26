@@ -413,7 +413,7 @@ const CrowdList = () => {
                       </Chip>
                     }
                   >
-                    {crowd.currentAmount}원 달성!  
+                    {crowd.currentAmount ? crowd.currentAmount.toLocaleString() : ''}원 달성!  
                   </Typography>
                   <Typography sx={{ fontSize: '12px', color: 'gray', fontStyle: 'italic'}}>
                     모금액: {formatMoney(crowd.crowdGoal)} 원 
