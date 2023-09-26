@@ -27,6 +27,7 @@ import cat7 from '../../category/pets.png';
 import cat8 from '../../category/etc.png';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import PriorityHighRoundedIcon from '@mui/icons-material/PriorityHighRounded';
+import { useIsLoginState } from "../../context/isLoginContext";
 
 const style = {
   position: 'absolute',
@@ -57,6 +58,7 @@ const scrollToTop = () => {
 
 const 
 AndScroll = ({ onSearch }) => {
+  const isLogin = useIsLoginState();
   const [data, setData] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const pageSize = 2; // 페이지당 데이터 수
@@ -123,42 +125,49 @@ AndScroll = ({ onSearch }) => {
 
   
   const fetchLike = async (andId) => {
-    try {
-      const userId = GetUserId();
-      const response = await fetch(`/and/${andId}/like/${userId}`,{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      if (response.ok) {
-        const newIsLiked = await fetchIsLiked(andId); // fetchIsLiked 함수를 호출하여 새로운 isLiked 값을 가져옴
-        if (newIsLiked !== null) {
-          // 가져온 새로운 isLiked 값을 사용하여 해당 게시물의 좋아요 상태를 업데이트
-          setIsLiked(prevIsLiked => ({
-            ...prevIsLiked,
-            [andId]: newIsLiked,
-          }));
+    if(!isLogin){
+      alert("찜하기는 로그인 후 사용 가능합니다.")
+    } else{
+      try {
+        const userId = GetUserId();
+        const response = await fetch(`/and/${andId}/like/${userId}`,{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        
+        if (response.ok) {
+          const newIsLiked = await fetchIsLiked(andId); // fetchIsLiked 함수를 호출하여 새로운 isLiked 값을 가져옴
+          if (newIsLiked !== null) {
+            // 가져온 새로운 isLiked 값을 사용하여 해당 게시물의 좋아요 상태를 업데이트
+            setIsLiked(prevIsLiked => ({
+              ...prevIsLiked,
+              [andId]: newIsLiked,
+            }));
 
-          // andLikeCount 값을 업데이트
-          setData(prevData => prevData.map(item => {
-            if (item.andId === andId) {
-              // 해당 게시물의 andLikeCount 값을 업데이트
-              return { ...item, andLikeCount: newIsLiked ? item.andLikeCount + 1 : item.andLikeCount - 1 };
-            }
-            return item;
-          }));
+            // andLikeCount 값을 업데이트
+            setData(prevData => prevData.map(item => {
+              if (item.andId === andId) {
+                // 해당 게시물의 andLikeCount 값을 업데이트
+                return { ...item, andLikeCount: newIsLiked ? item.andLikeCount + 1 : item.andLikeCount - 1 };
+              }
+              return item;
+            }));
+          }
+        } else {
+          throw new Error(`Fetching and data failed with status ${response.status}.`);
         }
-      } else {
-        throw new Error(`Fetching and data failed with status ${response.status}.`);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
     }
   }
 
   const fetchFollow = async (userId) => {
+    if(!isLogin){
+      alert("팔로우는 로그인 후 사용 가능합니다.")
+    } else{
     try {
       const myId = GetUserId();
       const response = await fetch(`/and/${myId}/follow/${userId}`,{
@@ -182,10 +191,16 @@ AndScroll = ({ onSearch }) => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+    }
   }
 
   const handleOpenReportModal = (itemId) => {
+    if(!isLogin){
+      alert("신고는 로그인 후 사용 가능합니다.")
+    } else{
+
     setOpenModalItemId(itemId);
+    }
   };
 
   const handleCloseReportModal = () => {

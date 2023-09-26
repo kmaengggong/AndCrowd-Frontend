@@ -115,7 +115,7 @@ const AndManage = () => {
         }
     };
     const applicantDetail = (andApplyId) =>{
-        navigate(`/and/${andId}/applicant/${andApplyId}`)
+        navigate(`/and/${andId}/applicant/${andApplyId}/admin`)
     };
     const getAndRoleByAndRoleId = (andRoleId) => {
       const matchedApplicant = matchedApplicantList.find(
@@ -132,7 +132,7 @@ const AndManage = () => {
           <div id='man-top'>
             <div id='total-ap-mem'>
               <h3 className="section-title">전체 지원 현황</h3>
-              <span id='tot-num'><p id='neednum'>{andNeedNumApply.totalApplicantNum}</p>/{andNeedNumApply.needNumMem}</span>
+              <span id='tot-num'><span id='neednum'>{andNeedNumApply.totalApplicantNum}</span>/{andNeedNumApply.needNumMem}</span>
             </div>
             <div id='role-ap'>
               <h3 className="section-title">역할별 지원 현황</h3>

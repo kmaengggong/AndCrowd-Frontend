@@ -32,7 +32,7 @@ const Team = () => {
                 profileUrl={"https://avatars.githubusercontent.com/u/126438093?v=4"}
                 role={"조원"}
                 parts={["&", "채팅", "피드", "검색", "신고", "QnA", "챗봇", "관리 페이지", "페이징"]}
-                introduce={"ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹ"}
+                introduce={"안녕하세요, &(모임) 파트를 맡았습니다."}
             />
             <Teammate
                 name={"양현성"}
