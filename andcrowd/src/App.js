@@ -189,7 +189,7 @@ function App() {
               <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
               <Route path="/crowd/:crowdId/reward/all" element={<CrowdReward />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/qna/all" element={<CrowdQnaList />} /> {/* 추가 */}
-              <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
+              <Route path='/crowd/:crowdId/qna/create' element={<CrowdQnaCreate />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
               <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply' element={<CrowdReplyCreate/>} /> {/* 추가 */}
