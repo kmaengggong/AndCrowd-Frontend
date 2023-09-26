@@ -50,7 +50,7 @@ const AndCreate1 = () => {
           andTitle: "Temporary Title",
           andCategoryId: 999,
           andEndDate: "2099-12-12T12:00:00",
-          needNumMem: 999,
+          needNumMem: 0,
           andStatus: 4,
         }),
       });
