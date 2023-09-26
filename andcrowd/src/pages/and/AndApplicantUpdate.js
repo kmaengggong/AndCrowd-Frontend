@@ -35,6 +35,7 @@ const AndApplicantUpdate = () => {
             setFormData(data);
             setAndApplyFile(data.andApplyFile);
           } else {
+            navigate("/NotFound");
             throw new Error(`Fetching and data failed with status ${response.status}.`);
           }
     

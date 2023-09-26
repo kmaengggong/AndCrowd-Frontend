@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate  } from "react-router-dom";
 
 
 const AndApplicant = () => {
-
+  const navigate = useNavigate();
     const params = useParams();
     const andId = params.andId;
   
@@ -23,6 +22,7 @@ const AndApplicant = () => {
           setAndApplicantList(data);
           console.log(data)
         } else {
+          navigate("/NotFound");
           throw new Error(`Fetching and data failed with status ${response.status}.`);
         }
   

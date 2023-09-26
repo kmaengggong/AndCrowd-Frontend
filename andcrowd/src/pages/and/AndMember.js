@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 const AndMember = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const andId = params.andId;
   const [andMemberList, setAndMemberList] = useState([]);
   useEffect(() => {
@@ -18,6 +19,7 @@ const AndMember = () => {
         const data = await response.json();
         setAndMemberList(data);
       } else {
+        navigate("/NotFound");
         throw new Error(`Fetching AndMember data failed with status ${response.status}.`);
       }
     } catch (error) {
