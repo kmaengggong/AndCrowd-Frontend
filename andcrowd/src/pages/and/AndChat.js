@@ -31,11 +31,11 @@ const AndChat = () => {
         const data = await response.json();
         const nickname = data.nickname; // API에서 반환한 닉네임 가져오기
 
-        const memberResponse = await fetch(`http://223.130.128.246/and/${andId}/check-member?nickname=${nickname}`);
+        const memberResponse = await fetch(`/and/${andId}/check-member?nickname=${nickname}`);
         const memberData = await memberResponse.json();
     
         if (memberData.isMember) {
-          const roomResponse = await fetch(`http://223.130.128.246/and/${andId}/chat`);
+          const roomResponse = await fetch(`/and/${andId}/chat`);
           const roomData = await roomResponse.json();
       
           setRoomData(roomData);
