@@ -35,6 +35,7 @@ const CrowdBoardDetail = () => {
             }
         } catch (error){
             console.error("Error fetching Crowd data:", error);
+            navigate("/NotFound");
         }
     }
 

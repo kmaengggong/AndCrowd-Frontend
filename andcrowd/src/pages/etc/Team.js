@@ -39,8 +39,8 @@ const Team = () => {
                 githubUrl={"https://github.com/Void-OvO"}
                 profileUrl={"https://avatars.githubusercontent.com/u/125037243?v=4"}
                 role={"조원"}
-                parts={["&", "디자인"]}
-                introduce={"ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹ"}
+                parts={["&", "디자인","피드","메인 페이지","글쓰기 에디터"]}
+                introduce={"안녕하세요,&(모임) 파트와 전체적인 디자인을 맡았습니다."}
             />
         </Grid>
 

@@ -50,6 +50,7 @@ const CrowdDetail = () => {
 
     } catch (error) {
       console.error("Error fetching And data:", error);
+      navigate("/NotFound");
     }
 
   };

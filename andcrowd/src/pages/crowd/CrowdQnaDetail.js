@@ -35,6 +35,7 @@ const CrowdQnaDetail = () => {
             }
         } catch (error) {
             console.error(error);
+            navigate("/NotFound");
         }
     };
 
