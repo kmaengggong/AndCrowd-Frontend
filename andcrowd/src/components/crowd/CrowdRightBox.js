@@ -12,6 +12,7 @@ import share from '../../share.png';
 import CrowdReward from '../../pages/crowd/CrowdReward';
 import axios from "axios";
 import '../../styles/crowd/CrowdDetail.css';
+import { useIsLoginState } from "../../context/isLoginContext";
 
 const style = {
   position: 'absolute',
@@ -26,6 +27,7 @@ const style = {
 };
 
 const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
+  const isLogin = useIsLoginState();
   const navigate = useNavigate();
 
   const params = useParams();
@@ -214,7 +216,11 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   };
 
   const handleOpenReportModal = (itemId) => {
+    if(!isLogin){
+      alert("신고는 로그인 후 사용 가능합니다.")
+    } else{
     setOpenModalItemId(itemId);
+    }
   };
 
   const handleCloseReportModal = () => {
@@ -268,7 +274,11 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   };
 
   const handleClick = () => {
+    if(!isLogin){
+      alert("찜하기는 로그인 후 사용 가능합니다.")
+    } else{
     fetchLike();
+    }
   };
 
   const crowdChat = (crowdId) => { // 함수 이름 변경
@@ -284,6 +294,9 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
   };
 
   const fetchFollow = async (userId) => {
+    if(!isLogin){
+      alert("팔로우는 로그인 후 사용 가능합니다.")
+    } else{
     try {
       const myId = GetUserId();
       const response = await fetch(`/user/${myId}/follow/${userId}`, {
@@ -301,6 +314,7 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
     }
   };
 

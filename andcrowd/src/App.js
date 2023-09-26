@@ -1,7 +1,7 @@
 import './App.css';
 import {React, useState, useEffect } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import { IsLoginProvider } from './context/isLoginContext';
+import { IsLoginProvider, useIsLoginState } from './context/isLoginContext';
 import PublicRoute from './components/route/PublicRoute';
 import PrivateRoute from './components/route/PrivateRoute';
 import SignRoute from './components/route/SignRoute';
@@ -115,9 +115,14 @@ function App() {
 
   // 챗봇 모달창 관리
   const [isChatbotModalOpen, setIsChatbotModalOpen] = useState(false);
+  const isLogin = useIsLoginState();
 
   const openChatbotModal = () => {
+    if(!isLogin){
+      alert("챗봇은 로그인 후 사용 가능합니다.")
+    } else{
     setIsChatbotModalOpen(true);
+    }
   };
 
   const closeChatbotModal = () => {
@@ -162,65 +167,22 @@ function App() {
               <Route path="/help" element={<Help />} />
               <Route path='/chat' element={<ChatPage />} />
               {/* <Route path='/chat' element={<ChatPage />} /> */}
-              <Route path='/chatbot' element={<Chatbot />} />
               <Route path="/test" element={<Test />} />
-
-              {/* User 관련 */}
-              <Route path="/user/:userId" element={<MyPage />} />
-              <Route path="/user/:userId/detail/:type" element={<MyPageCardsDetailPage />} />
 
               {/* And 관련 */}
               <Route path="/and/list" element={<AndList />} />
               <Route path="/and/scroll" element={<AndScroll />} />
               <Route path="/and/:andId" element={<AndDetail />} />
               <Route path="/and/:andId/qna/list" element={<AndQna />} />
-              <Route path="/and/:andId/qna/:andQnaId" element={<AndQnaDetail />} />
-              <Route path="/and/:andId/qna/:andQnaId/update" element={<AndQnaUpdate />} />
-              <Route path="/and/:andId/qna/reply/:andQnaId/:andQnaReplyId/update" element={<AndReplyUpdate />} />
-              <Route path="/and/:andId/applicant/list" element={<AndApplicant />} />
-              <Route path="/and/:andId/applicant/:andApplyId/update" element={<AndApplicantUpdate />} />
-              <Route path="/and/:andId/applicant/:andApplyId" element={<AndApplicantDetail />} />
-              <Route path="/and/:andId/applicant/:andApplyId/admin" element={<AndApplicantAdmin />} />
               <Route path="/and/:andId/board/list" element={<AndBoard />} />
-              <Route path="/and/:andId/board/:andBoardId" element={<AndBoardDetail />} />
-              <Route path="/and/:andId/role/list" element={<AndRole />} />
-              <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
-              <Route path="/and/:andId/manage" element={<AndManage />} />
-              <Route path="/and/list" element={<AndList />} />
-              <Route path="/and/scroll" element={<AndScroll />} />
-              <Route path="/and/:andId" element={<AndDetail />} />
-              <Route path="/and/:andId/qna/list" element={<AndQna />} />
-              <Route path="/and/:andId/qna/:andQnaId" element={<AndQnaDetail />} />
-              <Route path="/and/:andId/qna/:andQnaId/update" element={<AndQnaUpdate />} />
-              <Route path="/and/:andId/qna/reply/:andQnaId/:andQnaReplyId/update" element={<AndReplyUpdate />} />
-              <Route path="/and/:andId/applicant/list" element={<AndApplicant />} />
-              <Route path="/and/:andId/applicant/:andApplyId/update" element={<AndApplicantUpdate />} />
-              <Route path="/and/:andId/applicant/:andApplyId" element={<AndApplicantDetail />} />
-              <Route path="/and/:andId/applicant/:andApplyId/admin" element={<AndApplicantAdmin />} />
-              <Route path="/and/:andId/board/list" element={<AndBoard />} />
-              <Route path="/and/:andId/board/:andBoardId" element={<AndBoardDetail />} />
-              <Route path="/and/:andId/role/list" element={<AndRole />} />
-              <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
-              <Route path="/and/:andId/member/list" element={<AndMember />} />
-              <Route path="/and/:andId/member/:memberId" element={<AndMemberDetail />} />
-              <Route path="/and/:andId/chat" element={<AndChat />} />
-              <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
 
               {/* Crowd 관련 */}
               <Route path="/crowd/list" element={<CrowdList />} />
               <Route path="/crowd/:crowdId/board/all" element={<CrowdBoardList />} />
-              <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
-
               <Route path="/crowd/detail/:crowdId" element={<CrowdDetail />} />
               <Route path="/crowd/:crowdId" element={<CrowdDetail />} />
-              <Route path="/crowd/:crowdId/manage" element={<CrowdManage />} />
-              <Route path="/crowd/:crowdId/reward" element={<CrowdRewardCreate />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/reward/all" element={<CrowdReward />} /> {/* 추가 */}
               <Route path="/crowd/:crowdId/qna/all" element={<CrowdQnaList />} /> {/* 추가 */}
-              <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
-              <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
-              <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
-              <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply' element={<CrowdReplyCreate/>} /> {/* 추가 */}
 
               {/* 로그인된 유저만 접근 가능 */}
               <Route element={<PrivateRoute />}>
@@ -252,8 +214,37 @@ function App() {
                 <Route path="/and/:andId/role/create" element={<AndRoleCreate />} />
                 <Route path="/and/:andId/role/update" element={<AndRoleUpdate />} />
                 <Route path='/search/:searchKeyword' element={<Search />} />
+                <Route path="/and/:andId/qna/:andQnaId" element={<AndQnaDetail />} />
+                <Route path="/and/:andId/qna/:andQnaId/update" element={<AndQnaUpdate />} />
+                <Route path="/and/:andId/qna/reply/:andQnaId/:andQnaReplyId/update" element={<AndReplyUpdate />} />
+                <Route path="/and/:andId/applicant/list" element={<AndApplicant />} />
+                <Route path="/and/:andId/applicant/:andApplyId/update" element={<AndApplicantUpdate />} />
+                <Route path="/and/:andId/applicant/:andApplyId" element={<AndApplicantDetail />} />
+                <Route path="/and/:andId/applicant/:andApplyId/admin" element={<AndApplicantAdmin />} />
+                <Route path="/and/:andId/board/:andBoardId" element={<AndBoardDetail />} />
+                <Route path="/and/:andId/role/list" element={<AndRole />} />
+                <Route path="/and/:andId/role/:andRoleId" element={<AndRoleDetail />} />
+                <Route path="/and/:andId/manage" element={<AndManage />} />
+                <Route path="/and/:andId/member/list" element={<AndMember />} />
+                <Route path="/and/:andId/member/:memberId" element={<AndMemberDetail />} />
+                <Route path="/and/:andId/chat" element={<AndChat />} />
+                <Route path="/and/:andId/chat/room/:roomId/name-update" element={<ChatroomUpdate />} />
+
+                {/* Etc */}
+                <Route path='/chatbot' element={<Chatbot />} />
+
+                {/* User 관련 */}
+                <Route path="/user/:userId" element={<MyPage />} />
+                <Route path="/user/:userId/detail/:type" element={<MyPageCardsDetailPage />} />
                 
                 {/* Crowd 관련 */}
+                <Route path="/crowd/:crowdId/board/:crowdBoardId" element={<CrowdBoardDetail />} />
+                <Route path="/crowd/:crowdId/manage" element={<CrowdManage />} />
+                <Route path="/crowd/:crowdId/reward" element={<CrowdRewardCreate />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/qna/' element={<CrowdQnaCreate />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/qna/:crowdQnaId/' element={<CrowdQnaDetail />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/board' element={<CrowdBoardInsert />} /> {/* 추가 */}
+                <Route path='/crowd/:crowdId/qna/:crowdQnaId/qnareply' element={<CrowdReplyCreate/>} /> {/* 추가 */}
                 <Route path="/crowd/create1" element={<CrowdCreate1 />} />
                 <Route path="/crowd/:crowdId/create2" element={<CrowdCreate2 />} />
                 <Route path="/crowd/:crowdId/img/create" element={<CrowdCreateImg />} /> {/* 추가 */}
