@@ -194,6 +194,7 @@ const AndQna = (props) => {
 
         setAndQnaList(data);
       } else {
+        navigate("/NotFound");
         throw new Error(`Fetching and data failed with status ${response.status}.`);
       }
 
