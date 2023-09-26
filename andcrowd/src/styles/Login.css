@@ -4,20 +4,18 @@
     font-weight: 700;
 }
 
-/* #naver-login-button{
-    margin-bottom: 3vh;
-    margin-top: 2vh;
-    width: 50vh;
-    height: 7vh;
+#naver-login-button{
+    margin-bottom: 1vh;
+    height: 6vh;
     background-image: url('../../public/naverLoginButton2.png');
     background-repeat: no-repeat;
     background-size:cover;
     background-position: center;
-} */
+}
 
 #login-button{
     font-family: 'Noto Sans KR', sans-serif;
-    font-size: 18px;
+    font-size: 22px;
     font-weight: 500;
     /* width: 100vh; */
     /* height: 7vh; */

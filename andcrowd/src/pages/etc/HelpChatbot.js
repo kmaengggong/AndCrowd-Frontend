@@ -89,6 +89,12 @@ const HelpChatbot = ( {onClose} ) => {
     connect();
   }, []);
 
+  const onKeyEnterDown = (event) => {
+    if(event.key === 'Enter'){
+      sendMessage();
+    }
+  }
+
   return (
     <>
       {/* <Button
@@ -152,7 +158,7 @@ const HelpChatbot = ( {onClose} ) => {
             })}
           </List>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            <TextField sx={{ flex: 1 }} color='success' variant="standard" placeholder="문의 내용을 입력해주세요" value={message} onChange={(e) => setMessage(e.target.value)} />
+            <TextField sx={{ flex: 1 }} color='success' variant="standard" placeholder="문의 내용을 입력해주세요" value={message} onChange={(e) => setMessage(e.target.value)} onKeyDown={onKeyEnterDown} />
             <IconButton sx={{ marginLeft: '8px' }} color='success' onClick={sendMessage} disabled={!connected && !sendOk}><SendIcon /></IconButton>
           </div>
         </ModalDialog>

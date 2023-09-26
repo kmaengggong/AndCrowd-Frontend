@@ -2,23 +2,23 @@
 
 import {React, useEffect, useState} from 'react';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { SignUpEmail } from '../../components/sign/SingUpEmail';
 import { SignUpAuthNumber } from '../../components/sign/SignUpAuthNumber';
 import { SignUpNickname } from '../../components/sign/SignUpNickname';
 import { SignUpPassword } from '../../components/sign/SignUpPassword';
 import { useNavigate } from 'react-router-dom';
 import { SignUpKorName } from '../../components/sign/SignUpKorName';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const defaultTheme = createTheme();
 
 const Signup = () => {
     const [email, setEmail] = useState('');
@@ -127,12 +127,10 @@ const Signup = () => {
     };
 
     return (
-        <ThemeProvider theme={defaultTheme}>
+        
         <Container component="main" maxWidth="md">
-          <CssBaseline />
           <Box
             sx={{
-              marginTop: 8,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -140,9 +138,7 @@ const Signup = () => {
               mr: 5
             }}
           >
-            <Typography component="h1" variant="h5">
-              Sign Up
-            </Typography>
+            <Typography sx={{fontSize:30, marginTop:9, marginBottom:3, textAlign:'center', fontWeight:700, color:'gray'}}>회원가입</Typography>
             <Box component="form" noValidate onSubmit={onFormSubmit} sx={{ mt: 3 }}>
               <Grid container spacing={2} alignItems={'center'}>
                 <SignUpEmail
@@ -170,44 +166,77 @@ const Signup = () => {
                   isPasswordEqual={isPasswordEqual}
                   setIsPasswordValid={setIsPasswordValid}
                 />
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={<Checkbox value="allowTOS" color="primary" onChange={onChangeAllowTos}/>}
-                    label="(필수) 서비스 이용약관 동의"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={<Checkbox value="allowPrivacy" color="primary" onChange={onChangeAllowPrivacy} />}
-                    label="(필수) 개인정보 동의"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={<Checkbox value="allowMarketing" color="primary" onChange={onChangeAllowMarketing} />}
-                    label="(선택) 마케팅 동의"
-                  />
+
+                <Grid item xs={12} sx={{mt:5}}>
+                  <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <FormControlLabel
+                        control={<Checkbox value="allowTOS" color="primary" onChange={onChangeAllowTos}/>}
+                        label="(필수) 서비스 이용약관 동의"
+                      />
+                      </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                      <strong>제1조(목적)</strong>
+                      <br/>
+                      이 약관은 AndCrowd (전자상거래 사업자)가 운영하는 &Crowd에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
+
+                      ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <FormControlLabel
+                        control={<Checkbox value="allowPrivacy" color="primary" onChange={onChangeAllowPrivacy} />}
+                        label="(필수) 개인정보 동의"
+                      />
+                      </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        <strong>개인정보 동의</strong>
+                        <br />
+                        &Crowd는 "개인정보 보호법"에 따라 본인의 동의를 받아 개인정보를 수집 및 이용합니다.
+                        <br />
+                        1. 개인정보 수집 목적: &Crowd 회원 관리자
+                        <br />
+                        2. 개인정보 수집 항목: 성명, 이메일, 휴대폰 번호
+                        <br />
+                        3. 보유 및 이용기간
+                        <br />
+                        - 보유기간: 회원 등록기간
+                        - 이용기간: 해당 서비스 제공 기간
+                      </Typography>
+
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                     <FormControlLabel
+                        control={<Checkbox value="allowMarketing" color="primary" onChange={onChangeAllowMarketing} />}
+                        label="(선택) 마케팅 동의"
+                      />
+                      </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography>
+                        본 마케팅 정보 수신에 대한 동의를 거부하실 수 있으며, 이 경우 회원가입은 가능하나 일부 서비스 이용 및 각종 광고, 할인, 이벤트 및 이용자 맞춤형 상품 추천 등의 서비스 제공이 제한될 수 있습니다. 
+                      </Typography>
+                    </AccordionDetails>
+                  </Accordion>
                 </Grid>
               </Grid>
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ height: '6vh', mt: 9, mb: 2, fontSize:'22px',
+                fontWeight:500 }}
               >
                 가입하기
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="/login" variant="body2">
-                    로그인
-                  </Link>
-                </Grid>
-              </Grid>
             </Box>
           </Box>
         </Container>
-      </ThemeProvider>
     );
 };
 
