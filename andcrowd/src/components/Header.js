@@ -50,7 +50,7 @@ const Header = () => {
   };
 
   const onClickUserInfoButton = () => {
-    navigate("/user/update");
+    navigate("/user/${userId}/info");
     handleClose();
   };
 
@@ -113,7 +113,7 @@ const Header = () => {
             TransitionComponent={Fade}
           >
             <MenuItem onClick={onClickProfileViewButton}><AccountCircleIcon sx={{mr:1}} />마이페이지</MenuItem>
-            <MenuItem onClick={onClickUserInfoButton}><EditIcon sx={{mr:1}} />정보 수정</MenuItem>
+            <MenuItem onClick={onClickUserInfoButton}><EditIcon sx={{mr:1}} />회원 정보</MenuItem>
             <MenuItem onClick={onClickLooutbutton}><LogoutIcon sx={{mr:1}} />로그아웃</MenuItem>
           </Menu>
         </>
