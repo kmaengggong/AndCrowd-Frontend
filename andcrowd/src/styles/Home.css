@@ -121,5 +121,4 @@
     object-fit: none;
   }
   
-  
-
+  .scrolling-div::-webkit-scrollbar {display: none !important; }
