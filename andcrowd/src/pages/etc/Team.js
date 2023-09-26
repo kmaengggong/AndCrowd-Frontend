@@ -24,7 +24,7 @@ const Team = () => {
                 profileUrl={"https://avatars.githubusercontent.com/u/129033321?v=4"}
                 role={"조원"}
                 parts={["Crowd", "펀딩 리스트"]}
-                introduce={"ㅁㄴㅇㄻㄴㅇㄻㄴㅇㄻㄴㅇㄹ"}
+                introduce={"안녕하세요, Crowd(펀딩) 파트를 맡았습니다."}
             />
             <Teammate
                 name={"임규빈"}
