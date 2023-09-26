@@ -305,11 +305,12 @@ const AndRoleUpdate = () => {
             <button id='role-submit-btn' type="submit">
               추가
             </button>
+            <button id='role-next-btn' onClick={handleNextClick}>
+            저장
+            </button>
           </div>
         </form>
-        <button id='role-next-btn' onClick={handleNextClick}>
-          저장
-        </button>
+        
       </div>
     );  
 };
