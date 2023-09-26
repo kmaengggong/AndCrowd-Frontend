@@ -133,7 +133,7 @@ const CrowdCreate2 = () => {
         <form  id='crowd-create-form' onSubmit={handleNextButtonClick}>
             <div id='crowd-create2-box'>
                 <br />
-                <Typography id='crowd-kind-text'>어떤 종류의 모임인가요?</Typography>
+                <Typography id='crowd-kind-text'>어떤 종류의 펀딩인가요?</Typography>
                     <CrowdCategoryCreate
                     value={formData.crowdCategoryId}
                     onChange={handleCategoryChange} 
