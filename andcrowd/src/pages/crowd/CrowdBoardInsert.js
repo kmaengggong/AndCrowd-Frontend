@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CrowdToolBar from "../../components/crowd/CrowdToolBar";
 import { GetUserId } from "../../components/user/GetUserId";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import Editor from "../../components/and/Editor";
+import '../../styles/crowd/CrowdBoardInsert.css';
 
 const CrowdBoardInsert = () => {
     const navigate = useNavigate();
@@ -55,15 +56,14 @@ const CrowdBoardInsert = () => {
     };
 
     return (
-        <div>
+        <>
             <CrowdToolBar crowdId={crowdId}/>
-            <form onSubmit={handleSubmit}>
-                <div id="board-submit-btn">
-                    <Button id="board-can-btn" type="button" onClick={() => navigate(`/crowd/${crowdId}/board/all`)}>취소</Button>
-                    <Button id="board-save-btn" type="submit">저장</Button>
-                </div>
+            <form id="crowdBoard-form" onSubmit={handleSubmit} >
+                <div id="crowdboard-submit_btn"> 
+                    <button id="board-can-btn" type="button" onClick={() => navigate(`/crowd/${crowdId}/board/all`)}>취소</button>
+                    <button id="board-save-btn" type="submit">저장</button>
+                </div> <br />
                 <div>
-                    회원ID: <input id="crowdBoard-input" type="text" name="userId" value={userId} readOnly />
                     <select
                         name="crowdBoardTag"
                         value={formData.crowdBoardTag}
@@ -81,7 +81,7 @@ const CrowdBoardInsert = () => {
                     </div>
                 </div>
             </form>
-        </div>
+        </>
     );
 }
 
