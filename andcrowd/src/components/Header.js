@@ -120,10 +120,10 @@ const Header = () => {
         :
         <>
           <IconButton href="/login" sx={{ml:1}}>
-            <LoginIcon />
+            <LoginIcon sx={{color:'#00D337'}} />
           </IconButton>
           <IconButton href="/signup">
-            <AssignmentIndIcon />
+            <AssignmentIndIcon sx={{color:'#00D337'}} />
           </IconButton>
         </>
         }
