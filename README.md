@@ -3,7 +3,7 @@
 
 <!-- Contacts: Shields.io -->
 <p>
-  <a href="localhost:3000">
+  <a href="http://www.andcrowd.site">
     <img src="https://img.shields.io/badge/%26Crowd-03C75A?style=for-the-badge&logo=naver&logoColor=white" />
   </a>
   <a href="https://github.com/kmaengggong/AndCrowd-Frontend/">
