@@ -432,7 +432,7 @@ const CrowdComponent = ({ }) => { // 컴포넌트 이름 변경
       <CountdownTimer publishedAt={crowd.publishedAt} crowdEndDate={crowd.crowdEndDate} /> {/* 변수 이름 변경 */}
       <div className='applyBox'>
         <p id='apply-title'>모인 금액</p>
-        <p id='apply-number'>{`${totalSold} 원 (${(totalSold / parseFloat(crowd.crowdGoal) * 100).toFixed(1)}%)`}</p> {/* 변수 이름 변경 */}
+        <p id='apply-number'>{`${totalSold.toLocaleString()} 원 (${(totalSold / parseFloat(crowd.crowdGoal) * 100).toFixed(1)}%)`}</p> {/* 변수 이름 변경 */}
       </div>
       <hr style={{ margin: '20px auto', width: '70%' }}></hr>
       <Box>
