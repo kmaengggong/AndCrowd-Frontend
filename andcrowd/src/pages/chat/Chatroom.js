@@ -373,7 +373,6 @@ const ChatRoom = ({ roomData, nickname, andId }) => {
     setTab('CHATROOM');
   };
 
-
   useEffect(() => {
     loadPreviousPrivateMessages(roomData.roomId, nickname, tab);
     
