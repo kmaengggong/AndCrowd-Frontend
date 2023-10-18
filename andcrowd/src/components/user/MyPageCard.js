@@ -66,6 +66,16 @@ const MyPageCard = ({project, type}) => {
       };
 
     const navigate = useNavigate();
+
+    function calculateRemainingDays(projectEndDate) {
+        const now = new Date();
+        const end = new Date(projectEndDate);
+        const diffInMs = end - now;
+
+        const diffInDays = Math.ceil(diffInMs / (24 * 60 * 60 * 1000)) + 1;
+
+        return diffInDays >= 0 ? 'D - '+ diffInDays : '모집마감';
+    }
     
     return (
         <Card sx={{ maxWidth: '100%', boxShadow: 'lg' }}>
@@ -81,11 +91,14 @@ const MyPageCard = ({project, type}) => {
             <Grid container>
             <Grid item xs={10}>
             <CardContent>
-                <Chip component="span" size="sm" variant="soft" color="success">
-                    {/* (마감일자 - 현재일자)자료 불러오기 */}
+                {/* (마감일자 - 현재일자)자료 불러오기 */}
+                {/* <Chip component="span" size="sm" variant="soft" color="success">
                     <b>{Math.ceil((new Date(projectEndDate[type]) - new Date()) / (1000 * 60 * 60 *24))}</b> 일 남음
+                </Chip> */}
+                <Chip component="span" size="md" variant="soft" color="success"
+                sx={{ position: 'absolute', top: '0.875rem', right: '0.7rem' }}>
+                    <b>{calculateRemainingDays(projectEndDate[type])}</b>
                 </Chip>
-                
                 <Link
                     href={`/${types[type]}/` + projectId[type]}
                     fontWeight="md"
@@ -96,13 +109,17 @@ const MyPageCard = ({project, type}) => {
                 >
                     {projectTitle[type]}
                 </Link>
-                <Typography
+                {/* <Typography
                     level="title-md"
                     sx={{ mt: 1, fontWeight: 'xl', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', display:'inline-block'}}
                     // sx={{ mt: 1, fontWeight: 'xl', overflow:'hidden', textOverflow:'ellipsis', display:'-webkit-box', WebkitLineClamp:2, WebkitBoxOrient:'vertical' }}
                 >
                     {categoryMap[projectCategory[type]]}
-                </Typography>
+                </Typography> 수정 */} 
+                <Chip variant="outlined"
+                    sx={{ mt: 1, fontWeight: 'light', color: '#787878' }}>
+                        # {categoryMap[projectCategory[type]]}
+                </Chip>
             </CardContent>
             </Grid>
             {(type === 'and' || type ==='makerAnd') &&
