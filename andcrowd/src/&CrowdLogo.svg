@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_레이어_1" data-name="레이어 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.46 58.99">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: 0em;
+      }
+
+      .cls-2, .cls-3 {
+        fill: #4ab242;
+      }
+
+      .cls-4 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-5 {
+        letter-spacing: 0em;
+      }
+
+      .cls-6 {
+        fill: #fff;
+        letter-spacing: -.09em;
+      }
+
+      .cls-6, .cls-3 {
+        font-family: NotoSansKR-Bold-KSCpc-EUC-H, 'Noto Sans KR';
+        font-size: 55.45px;
+        font-weight: 700;
+      }
+    </style>
+  </defs>
+  <rect class="cls-2" x="23.34" width="58.99" height="58.99"/>
+  <text class="cls-6" transform="translate(26.08 49.89)"><tspan x="0" y="0">＆</tspan></text>
+  <text class="cls-3" transform="translate(93.4 51.21)"><tspan x="0" y="0">c</tspan><tspan class="cls-4" x="29.22" y="0">r</tspan><tspan class="cls-5" x="52.73" y="0">ow</tspan><tspan class="cls-1" x="134.4" y="0">d</tspan></text>
+</svg>

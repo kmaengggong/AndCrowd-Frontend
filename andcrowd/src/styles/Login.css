@@ -1,0 +1,61 @@
+#login-text{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+}
+
+#naver-login-button{
+    margin-bottom: 1vh;
+    height: 6vh;
+    background-image: url('../../public/naverLoginButton2.png');
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: center;
+}
+
+#login-button{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    /* width: 100vh; */
+    /* height: 7vh; */
+    /* background-color: #0D6EFD; */
+    color: #FFFFFF;
+}
+
+/* #form-box{
+    width: 50vh;
+}
+
+.login .MuiInputBase-input::placeholder {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+*/
+.login .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #00D337;
+}
+
+#find-login-info{
+    font-family: 'Noto Sans KR', sans-serif;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    color: #AAAAAA;
+}
+
+#signup-text{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #000000;
+}
+
+#to-signup{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #00D337;
+}

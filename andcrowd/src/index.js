@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import { CookiesProvider } from 'react-cookie';
+import { IsLoginProvider } from './context/isLoginContext';
+
+export const AppContext = createContext();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <BrowserRouter>
+    {/* <IsLoginProvider> */}
+      <CookiesProvider>
+        <App />
+      </CookiesProvider>
+    {/* </IsLoginProvider> */}
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

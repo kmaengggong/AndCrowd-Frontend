@@ -1,0 +1,279 @@
+.crowdTitle {
+    padding-left: 15%;
+    padding-right: 20%;
+}
+#crowd-title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 170%;
+    font-weight: 700;
+    color: #000000;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 10px;
+    height: 100%;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    word-wrap:break-word; 
+    line-height: 1.2em;
+    height: 4.9em;
+}
+#crowd-detail-container{
+    display: flex;
+}
+#right-top-box{
+    min-width: 35%;
+    height: 70vh;
+}
+#end-date{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #00D337;
+    padding-top: 10vh;
+    padding-left: 6.5vw;
+}
+#left-main-box{
+    height: auto;
+    width: 65%;
+}
+#go-crowd{
+    float: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #00D337;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 50%;
+    margin-top: 5%;
+    height: 7vh;
+    border-radius: 7px;
+    margin-left: 5%;
+}
+#go-crowd:hover{
+    background-color: #24c44f;
+}
+#crowd-content{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+}
+#heart-icon{
+    color: #00D337;
+    cursor: pointer;
+}
+#linear-div{
+    display: flex;
+}
+#crowd-remain-day{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 10%;
+    margin-left: 3%;
+
+}
+#go-member{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: white;
+    border: none;
+    color: #00D337;
+    cursor: pointer;
+    margin-left: 30%;
+    margin-top: 5%;
+    height: 7vh;
+    border-radius: 7px;
+}
+#crowd-detail-bottom{
+    display: flex;
+    /* margin-left: 80%; */
+    margin-left: 15%;
+    margin-right: 15%;
+    justify-content: center;
+}
+
+#crowd-detail-up{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    background-color: #d7e4ff;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    min-width: fit-content;
+    padding: 2px 8px;
+    padding-bottom: 3px;
+    margin-top: 16px;
+    margin-right: 3px;
+}
+#crowd-detail-de{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    background-color: #ffd7d7;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    /* margin: 0px 5px; */
+    padding: 2px 8px;
+    min-width: fit-content;
+    margin-top: 16px;
+    padding-bottom: 3px;
+    margin-left: 3px;
+}
+#crowd-detail-2{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    background-color: #fff9d7;
+    border-radius: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    min-width: fit-content;
+    padding: 2px 16px;
+    padding-bottom: 3px;
+    margin-top: 8px;
+}
+#crowd-detail-bottom2{
+    display: flex;
+    margin-left: 15%;
+    margin-right: 15%;
+    justify-content: center;
+}
+#crowd-user-button{
+    min-width: fit-content;
+}
+#crowd-header-img{
+    width: 50%;
+    margin-top: 10%;
+    margin-left: 10%;
+    border-radius: 5px;
+    margin-bottom: 10%;
+}
+#members{
+    margin-left: 10px;
+    margin-right: 13px;
+    cursor: pointer;
+}
+.box{
+    padding: 5px;
+    overflow: scroll;
+}
+#crowdUser-nickname{
+    margin-left: 10px;
+    margin-right: 10%;
+    margin-top: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    color: #3c403b;
+}
+.crowdUser{
+    margin: 20px;
+    margin-left: 16%;
+    margin-right: 16%;
+}
+#follow{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    height: 5vh;
+    border:1px solid #00D337;
+    border-radius: 10px;
+    flex-wrap: wrap; 
+    margin-right: 10px;
+}
+.follow-button {
+    background-color: white;
+    color: #00D337;
+}
+  
+.following-button {
+    background-color: #00D337;
+    color: white;
+}
+#report-button{
+    background-color: white;
+    border: none;
+    margin-top: 7%;
+    float: right;
+}
+#report{
+    width: 20px;
+    border: none;
+    cursor: pointer;
+}
+.catCrowdReport{
+    align-items: center;
+    display: flex;
+}
+#crowd-link{
+    margin-left: 3%;
+    color: #0d7d2bd7;
+    margin-top: 7%;
+    min-width: 50%;
+}
+#roles{
+    margin-right: 7px;
+    margin-top: 0px;
+    margin-bottom: 6px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 90%;
+    border: 1px rgb(60, 135, 67) solid;
+    border-radius: 15px;
+    padding: 3px 6px 3px;
+    color: rgb(34, 77, 38);
+    overflow-wrap: break-word;
+    min-width: fit-content;
+}
+.roleBox{
+    margin-left: 15%;
+    margin-right: 15%;
+    white-space: normal;
+    display: flex;
+    flex-wrap: wrap;
+}
+#shareBtn {
+    background-color: white;
+    border: none;
+    margin-top: 7%;
+    float: right;
+}
+#share {
+    width: 20px;
+    border: none;
+    cursor: pointer;
+}
+.applyBox{
+    margin-left: 15%;
+    margin-right: 15%;
+}
+#apply-number{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 140%;
+    margin-top: 5px;
+}
+#apply-title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 90%;
+    margin-bottom: 0px;
+}
+#go-payment{
+    float: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: #00D337;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 50%;
+    margin-top: 5%;
+    height: 7vh;
+    border-radius: 7px;
+    margin-left: 5%;
+}

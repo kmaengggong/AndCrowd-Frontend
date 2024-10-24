@@ -1,0 +1,42 @@
+/* 
+.feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .feed-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feed-card-header {
+    margin-bottom: 10px;
+  }
+  
+  .feed-card-header h2 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .feed-card-content {
+    margin-bottom: 10px;
+  }
+  
+  .feed-card-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #888;
+  }
+  
+  .feed-card-footer span {
+    flex: 1;
+  }
+  
+  .feed-card-footer span:last-child {
+    text-align: right;
+  }
+   */

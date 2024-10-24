@@ -1,0 +1,13 @@
+#crowd-navText{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    margin: 0 1.5vw;
+    text-decoration: none;
+}
+#crowd-tool{
+    padding-left: 39%;
+    cursor: pointer;
+    min-height: 38px;
+    background-color: white;
+}

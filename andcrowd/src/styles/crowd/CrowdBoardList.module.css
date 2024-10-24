@@ -1,0 +1,62 @@
+#board-container{
+    display: flex;
+}
+#board-box{
+    display: flex;
+}
+#board-content{
+    min-width: 55%;
+}
+#crowd-board-tag{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #555555;
+    font-weight: 700;
+    margin-bottom: 1%;
+    padding-top: 1%;
+}
+#crowd-board-title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    color: #000000;
+    font-weight: 700;
+}
+#time-text{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    color: #000000;
+    font-weight: 400;
+}
+.notice{
+    background-color: #EEEEEE;
+}
+#board-write{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #000000;
+    font-weight: 400;
+    float: right;
+    margin-bottom: 5%;
+    margin-top: 2%;
+    margin-right: 2%;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  .pagination li {
+    list-style: none;
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+
+  .pagination .active {
+    font-weight: bold;
+  }
+  #crowd-board-line{
+    width: 70vw;
+    margin:0;
+  }

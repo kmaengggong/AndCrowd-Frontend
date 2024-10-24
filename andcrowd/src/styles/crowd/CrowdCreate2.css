@@ -1,0 +1,174 @@
+#crowd-create2-box{
+    margin-left: 10%;
+    margin-top: 3%;
+}
+#crowd-create-category{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    width: auto;
+    height: auto;
+    margin-right: 30%;
+}
+#crowd-create-date {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    padding: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 300px; 
+  }
+#crowd-create-date:focus {
+    font-weight: 400;
+    border: 1px solid #00D337;
+}
+#crowd-create-need-num{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding:0.5%;
+    outline: none;
+}
+#crowd-create-need-num:focus {
+    font-weight: 400;
+    border: 1px solid #00D337;
+}
+#crowd-kind-text{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 1%;
+}
+#crowd-date-text{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 8%;
+    margin-bottom: 1%;
+}
+#crowd-num-text{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 8%;
+    margin-bottom: 1%;
+}
+#crowd-create2-right-box{
+    width: 45%;
+    height: 15vh;
+    margin-left: 15%;
+}
+#crowd-create2-mid{
+    display: flex;
+}
+
+#submit-btn{
+    margin-left: 10%;
+    color: white;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    width: 10%;
+    min-height: 5vh;
+    border-radius: 10px;
+    border:none;
+    background-color: #00D337;
+    cursor: pointer;
+    margin-top: 6%;
+    margin-bottom: 6%;
+}
+#header-img-prv{
+    width: 70%;
+}
+#header-img-next-btn{
+    margin-left: 10%;
+    color: white;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    width: 10%;
+    min-height: 5vh;
+    border-radius: 10px;
+    border:none;
+    background-color: #00D337;
+    cursor: pointer;
+    margin-bottom: 6%;
+}
+#header-img-input{
+    margin-left: 10%;
+    color: white;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 10px;
+    border:none;
+    background-color: #00D337;
+    cursor: pointer;
+    margin-bottom: 6%;
+}
+.filebox .upload-name {
+    font-family: 'Noto Sans KR', sans-serif;
+    border-radius: 5px;
+    border:none;
+    display: inline-block;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+    width: 35%;
+    height: 5vh;
+    color: #999999;
+}
+.filebox label {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #00D337;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 20px;
+    margin-left: 2%;
+}
+.filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+.filebox{
+    min-width: 65%;
+    height: 30%;
+}
+#upload-img-box{
+    display: flex;
+}
+#prv-box{
+    border: 2px solid #00D337;
+    border-radius: 5px;
+    height: 18vh;
+    width: 16%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1%;
+}
+#header-img-prv{
+    width: 90%;
+}
+#img-prv-text{
+    vertical-align: middle;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}

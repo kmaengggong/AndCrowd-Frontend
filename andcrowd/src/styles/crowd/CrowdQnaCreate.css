@@ -1,0 +1,23 @@
+
+#qna-input {
+    width: 60%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  #qna-submit_btn {
+    margin-top: 2%;
+    margin-bottom: 3%;
+  }
+  
+  #qna-sub {
+    background-color: #00D337;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  

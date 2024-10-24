@@ -1,0 +1,31 @@
+#not-found-txt{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 600;
+    font-size: 26px;
+    color: #00D337;
+    text-align: center;
+}
+#nf-div{
+    justify-content: center;
+    align-items: center;
+}
+#go-to-home{
+    float: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: white;
+    border: 1px solid #00D337;
+    color: #00D337;
+    cursor: pointer;
+    border-radius: 7px;
+    height: 7vh;
+    padding: 15px;
+    margin-left: 44%;
+    margin-top: 3%;
+}
+#not-found-img{
+    width: 30%;
+    margin-top: 5%;
+    margin-left: 35%;
+}
